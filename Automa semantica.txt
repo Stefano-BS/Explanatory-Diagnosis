@@ -1,6 +1,0 @@
-//COMPONENTI
-nstati,idcomp
-//TRANSIZIONI
-idt,idcomp,stato1,stato2,oss,ril,idevi:idlink|idevu:idlink,idevu:idlink...
-//LINK
-idcomp,idcomp,idlink

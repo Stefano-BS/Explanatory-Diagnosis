@@ -1,0 +1,23 @@
+BNF specifica sintassi per importare gli automi:
+
+programma → componenti '\n' link '\n' transizioni
+componenti → "//COMPONENTI\n" listacomp
+listacomp → int ',' int '\n' listacomp | ε
+link → "//LINK\n" listalink
+listalink → int ',' int ',' int '\n' listalink | ε
+transizioni → "//TRANSIZIONI\n" listatr
+listatr → int ',' int ',' int ',' int ',' int ',' int ','
+	(int ':' int)? '|' listauscite \n' listalink | ε
+listauscite → int ':' int ',' listauscite | ε
+
+
+Semantica:
+
+//COMPONENTI
+n° stati, id componente
+//LINK
+id componente partenza, id componente arrivo, id link
+//TRANSIZIONI
+id transizione, id componente, stato partenza, stato arrivo,
+etichetta osservabilità, etichetta rilevanza,
+id evento in ingresso:id link|id evento in uscita:id link, ...
