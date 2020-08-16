@@ -1,0 +1,7 @@
+digraph SCa {
+node [shape=doublecircle]; SR_00_SL_e ;
+node [shape=circle]; SR_10_SL_1 ;
+node [shape=doublecircle]; SR_11_SL_e ;
+SR_00_SL_e -> SR_10_SL_1 [label=t1]
+SR_10_SL_1 -> SR_11_SL_e [label=t2]
+}
