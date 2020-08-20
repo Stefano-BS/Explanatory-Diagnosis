@@ -1,4 +1,4 @@
-digraph e {
+digraph  {
 size="8,5"
 compound=true
 subgraph cluster2 {node [shape=doublecircle]; C2_0;

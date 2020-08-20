@@ -10,6 +10,7 @@ listatr → int ',' int ',' int ',' int ',' int ',' int ','
 	(int ':' int)? '|' listauscite \n' listalink | ε
 listauscite → int ':' int ',' listauscite | ε
 
+NOTA: il terminatore di linea è \n (standard LF)
 
 Semantica:
 

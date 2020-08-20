@@ -3,20 +3,20 @@ size="8,5"
 compound=true
 subgraph cluster1 {node [shape=doublecircle]; C1_0;
 node [shape=circle];
-C1_0 -> C1_1 [label="t1"];
+C1_0 -> C1_1 [label="t1R1"];
 C1_0 -> C1_1 [label="t2"];
 C1_1 -> C1_0 [label="t3"];
 }
 subgraph cluster2 {node [shape=doublecircle]; C2_0;
 node [shape=circle];
-C2_1 -> C2_0 [label="t4"];
-C2_0 -> C2_1 [label="t5"];
+C2_1 -> C2_0 [label="t4O2"];
+C2_0 -> C2_1 [label="t5O1"];
 }
 subgraph cluster3 {node [shape=doublecircle]; C3_0;
 node [shape=circle];
 C3_1 -> C3_0 [label="t6"];
 C3_0 -> C3_1 [label="t7"];
-C3_1 -> C3_1 [label="t8"];
+C3_1 -> C3_1 [label="t8R3"];
 }
 C3_0 -> C1_0 [ltail=cluster3 lhead=cluster1 label="L1{}"];
 C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L2{}"];
