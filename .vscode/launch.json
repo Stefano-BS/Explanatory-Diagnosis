@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Elaborato.exe",
+            "program": "${workspaceFolder}/ElaboratoWindows.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

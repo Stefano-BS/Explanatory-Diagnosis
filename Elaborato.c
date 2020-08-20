@@ -299,6 +299,121 @@ void parse(FILE* file){
     }
 }
 
+StatoRete * generaStato(int *contenutoLink, int *statiAttivi){
+    StatoRete *s = malloc(sizeof(StatoRete));
+    s->id = VUOTO;
+    s->statoComponenti = malloc(ncomp*sizeof(int));
+    s->contenutoLink = malloc(nlink*sizeof(int));
+    copiaArray(contenutoLink, (*s).contenutoLink, nlink);
+    copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
+    int i;
+    s->indiceOsservazione = 0;
+    s->finale = true;
+    for (i=0; i<nlink; i++)
+       s->finale &= (s->contenutoLink[i] == VUOTO);
+    return s;
+}
+
+char* nomeStato(int n){
+    int j;
+    char* nome = calloc(30, sizeof(char)), *puntatore = nome;
+    sprintf(puntatore++, "R");
+    for (j=0; j<ncomp; j++) {
+        sprintf(puntatore,"%d", statiSpazio[n]->statoComponenti[j]);
+        puntatore += strlen(puntatore);
+    }
+    sprintf(puntatore,"_L");
+    puntatore+=2;
+    for (j=0; j<nlink; j++)
+        if (statiSpazio[n]->contenutoLink[j] == VUOTO)
+            sprintf(puntatore++,"e");
+        else {
+            sprintf(puntatore, "%d", statiSpazio[n]->contenutoLink[j]);
+            puntatore += strlen(puntatore);
+        }
+    if (loss>0) {
+        sprintf(puntatore,"_O");
+        puntatore+=2;
+        sprintf(puntatore, "%d", statiSpazio[n]->indiceOsservazione);
+        puntatore += strlen(puntatore);
+    }
+    return nome;
+}
+
+void parseDot(FILE * file) {
+    int i, j=1;
+    char buffer[50], nomeStatiTrovati[1000][50];        // Attenzione, limite arbitrario
+    fgets(buffer, 50, file);   //Intestazione
+    while (true) {
+        fscanf(file, "%s", buffer);
+        if (strcmp(buffer, "node") != 0) break;
+        fscanf(file, "%s", buffer);
+        bool dbc = strcmp(buffer, "[shape=doublecircle];");
+        fscanf(file, "%s", buffer);
+        strcpy(nomeStatiTrovati[nStatiS], buffer);
+        int strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0;
+        for (i=1; i<strl; i++) {
+            if (buffer[i] == '_') {
+                sez++;
+                j=i+2;
+                continue;
+            }
+            if (buffer[i] == 'L') continue;
+            if (buffer[i] == 'O') continue;
+            if (sez==0) attivi[i-j] = buffer[i] - '0';
+            if (sez==1) clink[i-j] = buffer[i] == 'e' ? VUOTO : buffer[i] - '0';
+            if (sez==2) {
+                oss = buffer[i] - '0';
+                loss = (loss>oss? loss : oss);
+            }
+        }
+        StatoRete * nuovo = generaStato(clink, attivi);
+        nuovo->id = nStatiS;
+        nuovo->indiceOsservazione = oss;
+        alloc1('s');
+        statiSpazio[nStatiS++] = nuovo;
+        fscanf(file, "%s", buffer); // ;
+    }
+    while (true) {
+        int idDa, idA;
+        for (i=0; i<nStatiS; i++)
+            if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
+                idDa = i; 
+                break;
+            }
+        fscanf(file, "%s", buffer); // ->
+        fscanf(file, "%s", buffer);
+        for (i=0; i<nStatiS; i++)
+            if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
+                idA = i; 
+                break;
+            }
+        
+        fscanf(file, "%s", buffer); // Label
+        int idTransizione = atoi(buffer+8);
+        Transizione *t = NULL;
+        for (i=0; i<ncomp; i++) {
+            for (j=0; j<componenti[i]->nTransizioni; j++) {
+                if (componenti[i]->transizioni[j]->id == idTransizione) {
+                    t = componenti[i]->transizioni[j];
+                    break;
+                }
+            }
+            if (t != NULL) break;
+        }
+
+        alloc1('t');
+        TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
+        nuovaTransRete->a = idA;
+        nuovaTransRete->da = idDa;
+        nuovaTransRete->t = t;
+        transizioniSpazio[nTransSp++] = nuovaTransRete;
+
+        fscanf(file, "%s", buffer);
+        if (strcmp(buffer, "}") == 0) break;
+    }
+}
+
 void stampaStruttureAttuali(StatoRete * attuale, bool testuale){
     int i, j, k;
     Link *l;
@@ -354,47 +469,6 @@ void stampaStruttureAttuali(StatoRete * attuale, bool testuale){
         sprintf(comando, "dot -Tpdf -o %s %s", nomeFilePDF, nomeFileDot);
         system(comando);
     }
-}
-
-StatoRete * generaStato(int *contenutoLink, int *statiAttivi){
-    StatoRete *s = malloc(sizeof(StatoRete));
-    s->id = VUOTO;
-    s->statoComponenti = malloc(ncomp*sizeof(int));
-    s->contenutoLink = malloc(nlink*sizeof(int));
-    copiaArray(contenutoLink, (*s).contenutoLink, nlink);
-    copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
-    int i;
-    s->indiceOsservazione = 0;
-    s->finale = true;
-    for (i=0; i<nlink; i++)
-       s->finale &= (s->contenutoLink[i] == VUOTO);
-    return s;
-}
-
-char* nomeStato(int n){
-    int j;
-    char* nome = calloc(30, sizeof(char)), *puntatore = nome;
-    sprintf(puntatore++, "R");
-    for (j=0; j<ncomp; j++) {
-        sprintf(puntatore,"%d", statiSpazio[n]->statoComponenti[j]);
-        puntatore += strlen(puntatore);
-    }
-    sprintf(puntatore,"_L");
-    puntatore+=2;
-    for (j=0; j<nlink; j++)
-        if (statiSpazio[n]->contenutoLink[j] == VUOTO)
-            sprintf(puntatore++,"e");
-        else {
-            sprintf(puntatore, "%d", statiSpazio[n]->contenutoLink[j]);
-            puntatore += strlen(puntatore);
-        }
-    if (loss>0) {
-        sprintf(puntatore,"_O");
-        puntatore+=2;
-        sprintf(puntatore, "%d", statiSpazio[n]->indiceOsservazione);
-        puntatore += strlen(puntatore);
-    }
-    return nome;
 }
 
 bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Transizione * nuovaTrans){
@@ -623,9 +697,8 @@ void diagnostica(void) {
         }
         for (i=0; i<nStatiS; i++) {                                         // Semplificazione serie -> unità
             if ((1 == transizioniDa[i]) && (1 == transizioniIn[i])) {       // Elemento interno alla sequenza
-// printf("At%d aveva %s, t%d aveva %s, ", idTin[i], transizioniSpazio[idTin[i]]->regex, idTda[i], transizioniSpazio[idTda[i]]->regex);
                 strcat(transizioniSpazio[idTin[i]]->regex, transizioniSpazio[idTda[i]]->regex);
-// printf(" ora ha %s\n", transizioniSpazio[idTin[i]]->regex);
+                transizioniSpazio[idTin[i]]->concreta &= transizioniSpazio[idTda[i]]->concreta;
                 transizioniSpazio[idTin[i]]->a = transizioniSpazio[idTda[i]]->a;
                 eliminaStato(i);
                 continua = true;
@@ -637,20 +710,19 @@ void diagnostica(void) {
         for (t1=transizioniSpazio[i=0]; i<nTransSp; t1 = i<nTransSp ? transizioniSpazio[++i] : t1) {
             for (t2=transizioniSpazio[j=0]; j<nTransSp; t2 = j<nTransSp ? transizioniSpazio[++j] : t2) {
                 if ((i != j) && (t1->da == t2->da) && (t1->a == t2->a)) {   // Nota: i diverso da j
-// printf("Bt%d aveva %s, t%d aveva %s, ", i, t1->regex, j, t2->regex);
-                    if (strlen(t1->regex) > 0 && strlen(t2->regex) > 0) {
+                    int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
+                    if (strl1 > 0 && strl2 > 0) {
                         sprintf(temp, "(%s|%s)", t1->regex, t2->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta &= t2->concreta;
-                    } else if (strlen(t1->regex) > 0 && strlen(t2->regex)==0) {
+                    } else if (strl1 > 0 && strl2==0) {
                         sprintf(temp, "(%s)?", t1->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta = false;
-                    } else if (strlen(t2->regex) > 0) {
+                    } else if (strl2 > 0) {
                         sprintf(t1->regex, "(%s)?", t2->regex);
                         t1->concreta = false;
                     }
-// printf(" ora ha %s\n", t1->regex);
                     eliminaTransizione(j);
                     continua = true;
                     if (j>=i) i--;
@@ -674,16 +746,17 @@ void diagnostica(void) {
                                     nt->da = t1->da;
                                     nt->a = t2->a;
                                     nt->t = tvuota;
-// printf("Ct%d aveva %s, t%d aveva %s, t%d aveva %s, ", i, t1->regex, j, t1->regex, h, transizioniSpazio[h]->regex) ;
+                                    int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
                                     if (strlen(transizioniSpazio[h]->regex) == 0 ) {
-                                        if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
-                                        else if (strlen(t1->regex) + strlen(t2->regex) >0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                        //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
+                                        if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                        else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
+                                        else if (strl2 == 0 & strl1>0) strcpy(nt->regex, t1->regex);
                                     } else {
-                                        if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s(%s)*%s", t1->regex, transizioniSpazio[h]->regex, t2->regex);
-                                        else if (strlen(t1->regex) + strlen(t2->regex) >0) sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                        //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s(%s)*%s", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                        if (strl1 + strl2 >0) sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
                                         else sprintf(nt->regex, "(%s)*", transizioniSpazio[h]->regex);
                                     }
-// printf(" ora ha %s\n", nt->regex);
                                     alloc1('t');
                                     transizioniSpazio[nTransSp] = nt;
                                     nTransSp++;
@@ -696,12 +769,10 @@ void diagnostica(void) {
                                 nt->da = t1->da;
                                 nt->a = t2->a;
                                 nt->t = tvuota;
-// printf("Dt%d aveva %s, t%d aveva %s, ", i, t1->regex, j, t2->regex);
-                                if (strlen(t1->regex) + strlen(t2->regex) > 0) {
-                                    if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
-                                    else sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
-                                }
-// printf(" ora ha %s\n", nt->regex);
+                                int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
+                                if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
+                                else if (strl2 == 0 & strl1>0) strcpy(nt->regex, t1->regex);
                                 alloc1('t');
                                 transizioniSpazio[nTransSp] = nt;
                                 nTransSp++;
@@ -719,9 +790,26 @@ void diagnostica(void) {
     printf("REGEX: %s\n", transizioniSpazio[0]->regex);
 }
 
+void impostaDatiOsservazione(void) {
+    int oss, sizeofBuf = 10;
+    osservazione = calloc(10, sizeof(int));
+    printf("Fornire la sequenza di etichette. Ogni numero, a capo, per terminare usa un carattere non numerico\n");
+    while (true) {
+        char digitazione[10];
+        scanf("%9s", digitazione);
+        oss = atoi(digitazione);
+        if (oss <= 0) break;
+        if (loss+1 > sizeofBuf) {
+            sizeofBuf += 10;
+            osservazione = realloc(osservazione, sizeofBuf*sizeof(int));
+        }
+        osservazione[loss++] = oss;
+    }
+}
+
 int main(void) {
-    char sceltaDot[100], sceltaOperazione[100], pota[100];
-    printf("Benvenuto!\nIndicare il file da analizzare: ");
+    char sceltaDot[100], sceltaOperazione[100], pota[100], importaSC[100], nomeFileSC[100], sceltaOss[100];
+    printf("Benvenuto!\nIndicare il file che contiene la definizione dell'automa: ");
     fflush(stdout);
 	scanf("%99s", nomeFile);
 	FILE* file = fopen(nomeFile, "rb+");
@@ -742,35 +830,35 @@ int main(void) {
 
     printf("Salvare i grafi come .dot (s/n)? ");
     scanf("%99s", sceltaDot);
-    printf("Effettuare potatura (s/n)? ");
-    scanf("%99s", pota);
     if (sceltaDot[0]=='s') stampaStruttureAttuali(iniziale, false);
     else stampaStruttureAttuali(iniziale, true);
-    printf("Generare spazio comportamentale (c) o fornire un'osservazione lineare (o)? ");
+    printf("Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f)? ");
     scanf("%99s", sceltaOperazione);
     if (sceltaOperazione[0]=='o') {
-        int oss, sizeofBuf = 10;
-        osservazione = calloc(10, sizeof(int));
-        printf("Fornire la sequenza di etichette. Ogni numero, a capo, per terminare usa un carattere non numerico\n");
-        while (true) {
-            char digitazione[10];
-            scanf("%9s", digitazione);
-            oss = atoi(digitazione);
-            if (oss <= 0) break;
-            if (loss+1 > sizeofBuf) {
-                sizeofBuf += 10;
-                osservazione = realloc(osservazione, sizeofBuf*sizeof(int));
-            }
-            osservazione[loss++] = oss;
-        }
+        impostaDatiOsservazione();
         iniziale->finale = false;
+    } else if (sceltaOperazione[0]=='f') {
+        printf("Indicare il file dot generato contenete lo spazio comportamentale: ");
+        scanf("%99s", nomeFileSC);
+        FILE* fileSC = fopen(nomeFileSC, "rb+");
+        if (fileSC == NULL) {
+            printf("File \"%s\" inesistente!\n", nomeFile);
+            return -1;
+        }
+        parseDot(fileSC);
+        fclose(fileSC);
+        if (loss==0) printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non è possibile un suo utilizzo per diagnosi\n");
     }
-    printf("Generazione spazio comportamentale...\n");
-    ampliaSpazioComportamentale(NULL, iniziale, NULL);
-    generaSpazioComportamentale(iniziale);
-    if (pota[0]=='s' && nTransSp>0) potatura();
-    if (sceltaDot[0]=='s') stampaSpazioComportamentale();
-    if (sceltaOperazione[0]=='o' & pota[0]=='s') {
+    if (sceltaOperazione[0] != 'f') {
+        printf("Generazione spazio comportamentale...\n");
+        ampliaSpazioComportamentale(NULL, iniziale, NULL);
+        generaSpazioComportamentale(iniziale);
+        printf("Effettuare potatura (s/n)? ");
+        scanf("%99s", pota);
+        if (pota[0]=='s' && nTransSp>0) potatura();
+        if (sceltaDot[0]=='s') stampaSpazioComportamentale();
+    }
+    if ((sceltaOperazione[0]=='f' & loss>0) || (sceltaOperazione[0]=='o' & pota[0]=='s')) {
         printf("Eseguo diagnostica... \n");
         diagnostica();
     }
