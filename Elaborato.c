@@ -7,6 +7,7 @@
 
 #define VUOTO -1
 #define ACAPO -10
+#define REGEX 10
 
 char nomeFile[100];
 
@@ -39,7 +40,7 @@ typedef struct statorete {
 } StatoRete;
 
 typedef struct {
-    int da, a;
+    int da, a, dimRegex;
     struct transizione * t;
     char *regex;
     bool concreta;
@@ -101,7 +102,7 @@ Link* linkDaId(int id){
 
 // Rendo bufferizzata la gestione della memoria heap per (tutte) le struttre dati (strutture di puntatori e strutture a contatori)
 int *sizeofTrComp;
-int sizeofSR=5, sizeofTR=20, sizeofCOMP=2, sizeofLINK=2;
+int sizeofSR=5, sizeofTR=20, sizeofCOMP=2, sizeofLINK=2;                    // Dimensioni di partenza
 
 void allocamentoIniziale(void){
     componenti = malloc(sizeofCOMP* sizeof(Componente*));                   // Puntatori ai componenti
@@ -232,7 +233,7 @@ void parse(FILE* file){
                 if (isdigit(c = fgetc(file))) {                     // Se dopo la virgola c'è un numero, allora c'è un evento in ingresso
                     ungetc(c, file);
                     fscanf(file, "%d", &(nuovo->idEventoIn));
-                    match(':', file);                               //idEvento:idLink
+                    match(':', file);                               // idEvento:idLink
                     fscanf(file, "%d", &temp);
                     nuovo->linkIn = linkDaId(temp);
                 } else {
@@ -242,12 +243,12 @@ void parse(FILE* file){
                 }
                 match('|', file);                                   // Altrimenti se c'è | allora l'evento in ingresso è nullo
                 
-                while (!feof(file) && (c=fgetc(file)) != '\n') {    //Creazione lista di eventi in uscita
+                while (!feof(file) && (c=fgetc(file)) != '\n') {    // Creazione lista di eventi in uscita
                     if (feof(file)) break;
                     ungetc(c, file);
                     
                     fscanf(file, "%d", &temp);
-                    if (nuovo->nEventiU +1 > nuovo->sizeofEvU) {
+                    if (nuovo->nEventiU +1 > nuovo->sizeofEvU) {    // Allocazione bufferizzata della memoria anche in questo caso
                         nuovo->sizeofEvU += 5;
                         nuovo->idEventiU = realloc(nuovo->idEventiU, nuovo->sizeofEvU*sizeof(int));
                         nuovo->idEventiU = realloc(nuovo->idEventiU, nuovo->sizeofEvU*sizeof(int));
@@ -300,27 +301,34 @@ void parse(FILE* file){
 }
 
 StatoRete * generaStato(int *contenutoLink, int *statiAttivi){
-    StatoRete *s = malloc(sizeof(StatoRete));
+    StatoRete *s = calloc(1, sizeof(StatoRete));
     s->id = VUOTO;
-    s->statoComponenti = malloc(ncomp*sizeof(int));
-    s->contenutoLink = malloc(nlink*sizeof(int));
-    copiaArray(contenutoLink, (*s).contenutoLink, nlink);
-    copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
-    int i;
+    if (contenutoLink != NULL) {
+        s->contenutoLink = malloc(nlink*sizeof(int));
+        copiaArray(contenutoLink, (*s).contenutoLink, nlink);
+    } else s->contenutoLink = NULL;
+    if (statiAttivi != NULL) {
+        s->statoComponenti = malloc(ncomp*sizeof(int));
+        copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
+    } else s->statoComponenti = NULL;
     s->indiceOsservazione = 0;
     s->finale = true;
-    for (i=0; i<nlink; i++)
-       s->finale &= (s->contenutoLink[i] == VUOTO);
+    if (contenutoLink != NULL) {
+        int i;
+        for (i=0; i<nlink; i++)
+            s->finale &= (s->contenutoLink[i] == VUOTO);
+    }
     return s;
 }
 
 char* nomeStato(int n){
-    int j;
+    int j, v;
     char* nome = calloc(30, sizeof(char)), *puntatore = nome;
     sprintf(puntatore++, "R");
     for (j=0; j<ncomp; j++) {
-        sprintf(puntatore,"%d", statiSpazio[n]->statoComponenti[j]);
-        puntatore += strlen(puntatore);
+        v = statiSpazio[n]->statoComponenti[j];
+        sprintf(puntatore,"%d", v);
+        puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
     sprintf(puntatore,"_L");
     puntatore+=2;
@@ -328,89 +336,143 @@ char* nomeStato(int n){
         if (statiSpazio[n]->contenutoLink[j] == VUOTO)
             sprintf(puntatore++,"e");
         else {
-            sprintf(puntatore, "%d", statiSpazio[n]->contenutoLink[j]);
-            puntatore += strlen(puntatore);
+            v = statiSpazio[n]->contenutoLink[j];
+            sprintf(puntatore, "%d", v);
+            puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
         }
     if (loss>0) {
         sprintf(puntatore,"_O");
         puntatore+=2;
-        sprintf(puntatore, "%d", statiSpazio[n]->indiceOsservazione);
-        puntatore += strlen(puntatore);
+        v = statiSpazio[n]->indiceOsservazione;
+        sprintf(puntatore, "%d", v);
+        puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
     return nome;
 }
 
-void parseDot(FILE * file) {
-    int i, j=1;
-    char buffer[50], nomeStatiTrovati[1000][50];        // Attenzione, limite arbitrario
-    fgets(buffer, 50, file);   //Intestazione
-    while (true) {
-        fscanf(file, "%s", buffer);
-        if (strcmp(buffer, "node") != 0) break;
-        fscanf(file, "%s", buffer);
-        bool dbc = strcmp(buffer, "[shape=doublecircle];");
-        fscanf(file, "%s", buffer);
-        strcpy(nomeStatiTrovati[nStatiS], buffer);
-        int strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0;
-        for (i=1; i<strl; i++) {
-            if (buffer[i] == '_') {
-                sez++;
-                j=i+2;
-                continue;
-            }
-            if (buffer[i] == 'L') continue;
-            if (buffer[i] == 'O') continue;
-            if (sez==0) attivi[i-j] = buffer[i] - '0';
-            if (sez==1) clink[i-j] = buffer[i] == 'e' ? VUOTO : buffer[i] - '0';
-            if (sez==2) {
-                oss = buffer[i] - '0';
-                loss = (loss>oss? loss : oss);
-            }
-        }
-        StatoRete * nuovo = generaStato(clink, attivi);
-        nuovo->id = nStatiS;
-        nuovo->indiceOsservazione = oss;
-        alloc1('s');
-        statiSpazio[nStatiS++] = nuovo;
-        fscanf(file, "%s", buffer); // ;
-    }
-    while (true) {
-        int idDa, idA;
-        for (i=0; i<nStatiS; i++)
-            if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                idDa = i; 
-                break;
-            }
-        fscanf(file, "%s", buffer); // ->
-        fscanf(file, "%s", buffer);
-        for (i=0; i<nStatiS; i++)
-            if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                idA = i; 
-                break;
-            }
-        
-        fscanf(file, "%s", buffer); // Label
-        int idTransizione = atoi(buffer+8);
-        Transizione *t = NULL;
-        for (i=0; i<ncomp; i++) {
-            for (j=0; j<componenti[i]->nTransizioni; j++) {
-                if (componenti[i]->transizioni[j]->id == idTransizione) {
-                    t = componenti[i]->transizioni[j];
-                    break;
+void parseDot(FILE * file, bool semplificata) {
+    int i;
+    char buffer[50];
+    fgets(buffer, 49, file);   // Intestazione
+    if (!semplificata) {
+        char nomeStatiTrovati[1000][50];        // Attenzione, limite arbitrario
+        while (true) {
+            fscanf(file, "%s", buffer);
+            if (strcmp(buffer, "node") != 0) break;
+            fscanf(file, "%s", buffer);
+            bool dbc = strcmp(buffer, "[shape=doublecircle];")==0;
+            fscanf(file, "%s", buffer);
+            strcpy(nomeStatiTrovati[nStatiS], buffer);
+            int strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0, j=1;
+            for (i=1; i<strl; i++) {
+                if (buffer[i] == '_') {
+                    sez++;
+                    j=i+2;
+                    continue;
+                }
+                if (buffer[i] == 'L') continue;
+                if (buffer[i] == 'O') continue;
+                if (sez==0) attivi[i-j] = buffer[i] - '0';
+                if (sez==1) clink[i-j] = buffer[i] == 'e' ? VUOTO : buffer[i] - '0';
+                if (sez==2) {
+                    oss = buffer[i] - '0';
+                    loss = (loss>oss? loss : oss);
                 }
             }
-            if (t != NULL) break;
+            StatoRete * nuovo = generaStato(clink, attivi);
+            nuovo->id = nStatiS;
+            nuovo->finale = dbc;
+            nuovo->indiceOsservazione = oss;
+            alloc1('s');
+            statiSpazio[nStatiS++] = nuovo;
+            fscanf(file, "%s", buffer); // Simbolo ;
         }
+        while (true) {
+            int idDa, idA, j;
+            for (i=0; i<nStatiS; i++)
+                if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
+                    idDa = i; 
+                    break;
+                }
+            fscanf(file, "%s", buffer); // Simbolo ->
+            fscanf(file, "%s", buffer);
+            for (i=0; i<nStatiS; i++)
+                if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
+                    idA = i; 
+                    break;
+                }
+            
+            fscanf(file, "%s", buffer); // Label
+            int idTransizione = atoi(buffer+8);
+            Transizione *t = NULL;
+            for (i=0; i<ncomp; i++) {
+                for (j=0; j<componenti[i]->nTransizioni; j++) {
+                    if (componenti[i]->transizioni[j]->id == idTransizione) {
+                        t = componenti[i]->transizioni[j];
+                        break;
+                    }
+                }
+                if (t != NULL) break;
+            }
 
-        alloc1('t');
-        TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
-        nuovaTransRete->a = idA;
-        nuovaTransRete->da = idDa;
-        nuovaTransRete->t = t;
-        transizioniSpazio[nTransSp++] = nuovaTransRete;
+            alloc1('t');
+            TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
+            nuovaTransRete->a = idA;
+            nuovaTransRete->da = idDa;
+            nuovaTransRete->t = t;
+            nuovaTransRete->regex = NULL;
+            nuovaTransRete->dimRegex = REGEX;
+            transizioniSpazio[nTransSp++] = nuovaTransRete;
 
-        fscanf(file, "%s", buffer);
-        if (strcmp(buffer, "}") == 0) break;
+            fscanf(file, "%s", buffer);
+            if (strcmp(buffer, "}") == 0) break;
+        }
+    } else {
+        while (true) {
+            fscanf(file, "%s", buffer);
+            if (strcmp(buffer, "node") != 0) break;
+            fscanf(file, "%s", buffer);
+            bool dbc = strcmp(buffer, "[shape=doublecircle];")==0;
+            fscanf(file, "%s", buffer); // Trattandosi di una sequenza S0 S1 ... Sn il contenuto è prevedibile
+            
+            StatoRete * nuovo = generaStato(NULL, NULL);
+            nuovo->id = nStatiS;
+            nuovo->finale = dbc;
+            alloc1('s');
+            statiSpazio[nStatiS++] = nuovo;
+            fscanf(file, "%s", buffer); // Simbolo ;
+        }
+        while (true) {
+            int idDa = atoi(buffer+1), j;
+            fscanf(file, "%s", buffer); // Simbolo ->
+            fscanf(file, "%s", buffer);
+            int idA = atoi(buffer+1);
+            fscanf(file, "%s", buffer); // Label
+            int idTransizione = atoi(buffer+8);
+            Transizione *t = NULL;
+            for (i=0; i<ncomp; i++) {
+                for (j=0; j<componenti[i]->nTransizioni; j++) {
+                    if (componenti[i]->transizioni[j]->id == idTransizione) {
+                        t = componenti[i]->transizioni[j];
+                        break;
+                    }
+                }
+                if (t != NULL) break;
+            }
+            if (t==NULL) printf("Errore: transizione %d non trovata\n", idTransizione);
+            
+            alloc1('t');
+            TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
+            nuovaTransRete->regex = NULL;
+            nuovaTransRete->dimRegex = REGEX;
+            nuovaTransRete->a = idA;
+            nuovaTransRete->da = idDa;
+            nuovaTransRete->t = t;
+            transizioniSpazio[nTransSp++] = nuovaTransRete;
+
+            fscanf(file, "%s", buffer);
+            if (strcmp(buffer, "}") == 0) break;
+        }
     }
 }
 
@@ -471,7 +533,7 @@ void stampaStruttureAttuali(StatoRete * attuale, bool testuale){
     }
 }
 
-bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Transizione * nuovaTrans){
+bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Transizione * mezzo){
     int i, j;
     bool giaPresente = false;
     StatoRete *s;
@@ -496,7 +558,7 @@ bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Tran
             nuovo->id = s->id;
             TransizioneRete * trans;
             for (trans=transizioniSpazio[i=0]; i<nTransSp; trans=(i<nTransSp ? transizioniSpazio[++i] : trans)) { // Controllare se la transizione già esisteva
-                if ((trans->da == precedente->id) && (trans->a == s->id) && (trans->t->id == nuovaTrans->id)) 
+                if ((trans->da == precedente->id) && (trans->a == s->id) && (trans->t->id == mezzo->id)) 
                     return false;
             }
         }
@@ -505,12 +567,14 @@ bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Tran
         nuovo->id = nStatiS;
         statiSpazio[nStatiS++] = nuovo;
     }
-    if (nuovaTrans != NULL){
+    if (mezzo != NULL){
         alloc1('t');
-        TransizioneRete * nuovaTransRete = malloc(sizeof(TransizioneRete));
+        TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
         nuovaTransRete->a = nuovo->id;
         nuovaTransRete->da = precedente->id;
-        nuovaTransRete->t = nuovaTrans;
+        nuovaTransRete->t = mezzo;
+        nuovaTransRete->regex = NULL;
+        nuovaTransRete->dimRegex = REGEX;
         transizioniSpazio[nTransSp++] = nuovaTransRete;
     }
     return !giaPresente;
@@ -524,7 +588,7 @@ void generaSpazioComportamentale(StatoRete * attuale) {
         int nT = c->nTransizioni;
         if (nT == 0) continue;
         for (t=c->transizioni[j=0]; j<nT; t=(j<nT ? c->transizioni[++j] : t)) {
-            if (attuale->statoComponenti[c->intId] == t->da &&                          // Transizione abilitata se stato attuale = da
+            if ((attuale->statoComponenti[c->intId] == t->da) &&                          // Transizione abilitata se stato attuale = da
             (t->idEventoIn == VUOTO || t->idEventoIn == attuale->contenutoLink[t->linkIn->intId])) { // Ok eventi in ingresso
                 if (loss>0 && ((attuale->indiceOsservazione>=loss && t->oss > 0) ||    // Osservate tutte, non se ne possono più vedere
                 (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss != osservazione[attuale->indiceOsservazione])))
@@ -539,7 +603,7 @@ void generaSpazioComportamentale(StatoRete * attuale) {
                 if (ok) { // La transizione è abilitata: esecuzione
                     int nuoviStatiAttivi[ncomp], nuovoStatoLink[nlink];
                     copiaArray(attuale->contenutoLink, nuovoStatoLink, nlink);
-                    copiaArray(attuale->statoComponenti, nuoviStatiAttivi, nlink);
+                    copiaArray(attuale->statoComponenti, nuoviStatiAttivi, ncomp);
                     if (t->idEventoIn != VUOTO) // Consumo link in ingresso
                         nuovoStatoLink[t->linkIn->intId] = VUOTO;
                     nuoviStatiAttivi[c->intId] = t->a; // Nuovo stato attivo
@@ -562,7 +626,7 @@ void generaSpazioComportamentale(StatoRete * attuale) {
     } //printf("Attenzione! Superato il tetto al numero di iterazioni per il calcolo dello spazio comportamentale. Terminazione.\n");
 }
 
-void stampaSpazioComportamentale(void) {
+void stampaSpazioComportamentale(bool rinomina) {
     int i, j;
     char* nomeSpazi[nStatiS], nomeFileDot[strlen(nomeFile)+7], nomeFilePDF[strlen(nomeFile)+7], comando[30+strlen(nomeFile)*2];
     sprintf(nomeFileDot, "SC%s.dot", nomeFile);
@@ -571,10 +635,13 @@ void stampaSpazioComportamentale(void) {
     for (i=0; i<nStatiS; i++) {
         if (statiSpazio[i]->finale) fprintf(file, "node [shape=doublecircle]; ");
         else fprintf(file, "node [shape=circle]; ");
-        fprintf(file, "%s ;\n", nomeSpazi[i] = nomeStato(i));
+        nomeSpazi[i] = nomeStato(i);
+        if (rinomina) fprintf(file, "S%d ;\n", i);
+        else fprintf(file, "%s ;\n", nomeSpazi[i]);
     }
     for (i=0; i<nTransSp; i++) {
-        fprintf(file, "%s -> %s [label=t%d", nomeSpazi[transizioniSpazio[i]->da], nomeSpazi[transizioniSpazio[i]->a], transizioniSpazio[i]->t->id);
+        if (rinomina) fprintf(file, "S%d -> S%d [label=t%d", transizioniSpazio[i]->da, transizioniSpazio[i]->a, transizioniSpazio[i]->t->id);
+        else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[transizioniSpazio[i]->da], nomeSpazi[transizioniSpazio[i]->a], transizioniSpazio[i]->t->id);
         if (transizioniSpazio[i]->t->oss>0) fprintf(file, "O%d", transizioniSpazio[i]->t->oss);
         if (transizioniSpazio[i]->t->ril>0) fprintf(file, "R%d", transizioniSpazio[i]->t->ril);
         fprintf(file, "]\n");
@@ -584,6 +651,13 @@ void stampaSpazioComportamentale(void) {
     sprintf(nomeFilePDF, "SC%s.pdf", nomeFile);
     sprintf(comando, "dot -Tpdf -o %s %s", nomeFilePDF, nomeFileDot);
     system(comando);
+    if (rinomina) {
+        printf("Elenco sostituzioni nomi degli stati:\n");
+        for (i=0; i<nStatiS; i++)
+            printf("%d: %s\n", i, nomeSpazi[i]);
+    }
+    // for (i=0; i<nStatiS; i++)
+    //     free(nomeSpazi[i]); Errore sia win che linux
 }
 
 void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati finali
@@ -597,6 +671,7 @@ void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati 
 }
 
 void eliminaTransizione(int j) {
+    free(transizioniSpazio[j]);     // Free di Regex per qualche ragione non va
     copiaArrayTR(transizioniSpazio+j+1, transizioniSpazio+j, (--nTransSp)-j);
 }
 
@@ -612,6 +687,9 @@ void eliminaStato(int i) {
         if (transizioniSpazio[j]->da>i) transizioniSpazio[j]->da--;
         if (transizioniSpazio[j]->a>i) transizioniSpazio[j]->a--;
     }
+    if (statiSpazio[i]->contenutoLink != NULL) free(statiSpazio[i]->contenutoLink);
+    if (statiSpazio[i]->statoComponenti != NULL) free(statiSpazio[i]->statoComponenti);
+    free(statiSpazio[i]);
     copiaArraySR(statiSpazio+i+1, statiSpazio+i, (--nStatiS)-i, false);  // Elimino dal contenitore globale
     for (j=0; j<nStatiS; j++) {                                         //  Abbasso l'id degli stati successivi
         if (statiSpazio[j]->id>=i) statiSpazio[j]->id--;
@@ -620,7 +698,6 @@ void eliminaStato(int i) {
 
 void potatura(void) {
     StatoRete *s;
-    TransizioneRete *tr;
     int i;
     ok = calloc(nStatiS, sizeof(int));
     ok[0] = 1;
@@ -635,11 +712,12 @@ void potatura(void) {
             i--;
         }
     }
+    free(ok);
 }
 
 void diagnostica(void) {
     int i=0, j=0, k=0, h=0;
-    char *temp = malloc(1000);
+    char *temp = malloc(REGEX*100);
     Transizione *tvuota = calloc(1, sizeof(Transizione));
     alloc1('s');                                                        // Generazione nuovo stato iniziale
     for (i=0; i<nStatiS; i++)
@@ -678,7 +756,8 @@ void diagnostica(void) {
     statiSpazio[nStatiS] = fine;
     nStatiS++;
     for (i=0; i<nTransSp; i++) {                                            // Generazione Regex iniziali (etichette ril)
-        transizioniSpazio[i]->regex = calloc(1000, 1);
+        transizioniSpazio[i]->regex = calloc(REGEX, 1);
+        transizioniSpazio[i]->dimRegex = REGEX;
         if (transizioniSpazio[i]->t->ril >0)
             sprintf(transizioniSpazio[i]->regex, "r%d", transizioniSpazio[i]->t->ril);
     }
@@ -697,6 +776,12 @@ void diagnostica(void) {
         }
         for (i=0; i<nStatiS; i++) {                                         // Semplificazione serie -> unità
             if ((1 == transizioniDa[i]) && (1 == transizioniIn[i])) {       // Elemento interno alla sequenza
+                int strl1 =strlen(transizioniSpazio[idTin[i]]->regex), strl2 = strlen(transizioniSpazio[idTda[i]]->regex);
+                if (transizioniSpazio[idTin[i]]->dimRegex < strl1 + strl2 + 1) {
+                    char * nuovaReg = realloc(transizioniSpazio[idTin[i]]->regex, (strl1+strl2+1)*2);
+                    transizioniSpazio[idTin[i]]->dimRegex = (strl1+strl2+1)*2;
+                    transizioniSpazio[idTin[i]]->regex = nuovaReg;
+                }
                 strcat(transizioniSpazio[idTin[i]]->regex, transizioniSpazio[idTda[i]]->regex);
                 transizioniSpazio[idTin[i]]->concreta &= transizioniSpazio[idTda[i]]->concreta;
                 transizioniSpazio[idTin[i]]->a = transizioniSpazio[idTda[i]]->a;
@@ -712,14 +797,29 @@ void diagnostica(void) {
                 if ((i != j) && (t1->da == t2->da) && (t1->a == t2->a)) {   // Nota: i diverso da j
                     int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
                     if (strl1 > 0 && strl2 > 0) {
+                        if (t1->dimRegex < strl1 + strl2 + 4) {
+                            char * nuovaReg = realloc(t1->regex, (strl1+strl2)*2+4);
+                            t1->dimRegex = (strl1+strl2)*2+4;
+                            t1->regex = nuovaReg;
+                        }
                         sprintf(temp, "(%s|%s)", t1->regex, t2->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta &= t2->concreta;
                     } else if (strl1 > 0 && strl2==0) {
+                        if (t1->dimRegex < strl1 + 4) {
+                            char * nuovaReg = realloc(t1->regex, strl1*2+4);
+                            t1->dimRegex = strl1*2+4;
+                            t1->regex = nuovaReg;
+                        }
                         sprintf(temp, "(%s)?", t1->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta = false;
                     } else if (strl2 > 0) {
+                        if (t1->dimRegex < strl2 + 4) {
+                            char * nuovaReg = realloc(t1->regex, (strl2)*2+4);
+                            t1->dimRegex = strl2*2+4;
+                            t1->regex = nuovaReg;
+                        }
                         sprintf(t1->regex, "(%s)?", t2->regex);
                         t1->concreta = false;
                     }
@@ -741,13 +841,15 @@ void diagnostica(void) {
                             for (h=0; h<nTransSp; h++) {                                      // Per ogni transizione (controllo auto-trans.)
                                 if ((transizioniSpazio[h]->a == transizioniSpazio[h]->da) && (transizioniSpazio[h]->da == i)) {
                                     azioneEffettuataSuQuestoStato = esisteAutoTransizioneN = true;
+                                    int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex), strl3 = strlen(transizioniSpazio[h]->regex),
+                                    dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
                                     TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                    nt->regex = calloc(1000, 1);
                                     nt->da = t1->da;
                                     nt->a = t2->a;
                                     nt->t = tvuota;
-                                    int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
-                                    if (strlen(transizioniSpazio[h]->regex) == 0 ) {
+                                    nt->regex = calloc(dimNt, 1);
+                                    nt->dimRegex = dimNt;
+                                    if (strl3 == 0 ) {
                                         //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
                                         if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
                                         else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
@@ -765,11 +867,13 @@ void diagnostica(void) {
                             if (!esisteAutoTransizioneN) {
                                 azioneEffettuataSuQuestoStato = true;
                                 TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                nt->regex = calloc(1000, 1);
                                 nt->da = t1->da;
                                 nt->a = t2->a;
                                 nt->t = tvuota;
-                                int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
+                                int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex),
+                                dimNt = strl1+strl2+20 < REGEX ? REGEX : strl1+strl2+20;
+                                nt->regex = calloc(dimNt, 1);
+                                nt->dimRegex = dimNt;
                                 if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
                                 else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
                                 else if (strl2 == 0 & strl1>0) strcpy(nt->regex, t1->regex);
@@ -787,6 +891,7 @@ void diagnostica(void) {
             }
         }
     }
+    //free(temp);  Errore su Windows
     printf("REGEX: %s\n", transizioniSpazio[0]->regex);
 }
 
@@ -808,7 +913,7 @@ void impostaDatiOsservazione(void) {
 }
 
 int main(void) {
-    char sceltaDot[100], sceltaOperazione[100], pota[100], importaSC[100], nomeFileSC[100], sceltaOss[100];
+    char sceltaDot[100], sceltaOperazione[20], pota[20], nomeFileSC[100], sceltaDiag[20], sceltaRinomina[20];
     printf("Benvenuto!\nIndicare il file che contiene la definizione dell'automa: ");
     fflush(stdout);
 	scanf("%99s", nomeFile);
@@ -829,38 +934,51 @@ int main(void) {
     iniziale->indiceOsservazione = 0;
 
     printf("Salvare i grafi come .dot (s/n)? ");
-    scanf("%99s", sceltaDot);
-    if (sceltaDot[0]=='s') stampaStruttureAttuali(iniziale, false);
-    else stampaStruttureAttuali(iniziale, true);
-    printf("Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f)? ");
-    scanf("%99s", sceltaOperazione);
+    scanf("%19s", sceltaDot);
+    stampaStruttureAttuali(iniziale, sceltaDot[0] != 's');
+    printf("Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? ");
+    scanf("%19s", sceltaOperazione);
     if (sceltaOperazione[0]=='o') {
         impostaDatiOsservazione();
         iniziale->finale = false;
-    } else if (sceltaOperazione[0]=='f') {
+    } else if (sceltaOperazione[0]=='f' || sceltaOperazione[0]=='g') {
         printf("Indicare il file dot generato contenete lo spazio comportamentale: ");
+        fflush(stdout);
+        fflush(stdin);
         scanf("%99s", nomeFileSC);
+        fflush(stdin);
         FILE* fileSC = fopen(nomeFileSC, "rb+");
         if (fileSC == NULL) {
             printf("File \"%s\" inesistente!\n", nomeFile);
             return -1;
         }
-        parseDot(fileSC);
+        parseDot(fileSC, sceltaOperazione[0]=='g');
         fclose(fileSC);
-        if (loss==0) printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non è possibile un suo utilizzo per diagnosi\n");
+        if (loss==0 & sceltaOperazione[0]=='f') printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n");
+        if (sceltaOperazione[0]=='g') printf("Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n");
     }
-    if (sceltaOperazione[0] != 'f') {
+    if (sceltaOperazione[0] != 'f' && sceltaOperazione[0]!='g') {
         printf("Generazione spazio comportamentale...\n");
         ampliaSpazioComportamentale(NULL, iniziale, NULL);
         generaSpazioComportamentale(iniziale);
         printf("Effettuare potatura (s/n)? ");
-        scanf("%99s", pota);
+        scanf("%19s", pota);
         if (pota[0]=='s' && nTransSp>0) potatura();
-        if (sceltaDot[0]=='s') stampaSpazioComportamentale();
+        printf("Generato lo spazio: conta %d stati e %d transizioni\n", nStatiS, nTransSp);
+        if (sceltaDot[0]=='s') {
+            printf("Rinominare gli spazi col loro id (s/n)? ");
+            scanf("%19s", sceltaRinomina);
+            stampaSpazioComportamentale(sceltaRinomina[0]=='s');
+        }
     }
-    if ((sceltaOperazione[0]=='f' & loss>0) || (sceltaOperazione[0]=='o' & pota[0]=='s')) {
-        printf("Eseguo diagnostica... \n");
-        diagnostica();
+    if (sceltaOperazione[0]=='f' || sceltaOperazione[0]=='g' || (sceltaOperazione[0]=='o' & pota[0]=='s')) {
+        printf("Eseguire una diagnosi su questa osservazione (s/n)? ");
+        fflush(stdout);
+        scanf("%19s", sceltaDiag);
+        if (sceltaDiag[0]=='s') {
+            printf("Eseguo diagnostica... \n");
+            diagnostica();
+        }
     }
 	return(0);
 }
