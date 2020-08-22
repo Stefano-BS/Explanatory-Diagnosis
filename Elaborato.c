@@ -43,7 +43,7 @@ typedef struct {
     int da, a, dimRegex;
     struct transizione * t;
     char *regex;
-    bool concreta;
+    bool concreta, parentesizzata;
 } TransizioneRete;
 
 StatoRete ** statiSpazio;
@@ -171,7 +171,6 @@ int linea = 0;
 void match(int c, FILE* input) {
     if (c==ACAPO) {
         char c1 = fgetc(input);
-        //if (c1 == '\r') printf("trovato\\r "); else if (c1 == '\n') printf("trovato\\n "); else printf("trovato%c ", c1);
         if (c1 == '\n') return;
         else if (c1 == '\r') 
             if (fgetc(input) != '\n') printf("Linea %d - Atteso fine linea\n", linea);
@@ -717,7 +716,7 @@ void potatura(void) {
 
 void diagnostica(void) {
     int i=0, j=0, k=0, h=0;
-    char *temp = malloc(REGEX*100);
+    char *temp = malloc(REGEX*50*nTransSp); // Sfondare il buffer implica probabile crash del programma. N transizioni -> buffer di N/2 KB
     Transizione *tvuota = calloc(1, sizeof(Transizione));
     alloc1('s');                                                        // Generazione nuovo stato iniziale
     for (i=0; i<nStatiS; i++)
@@ -758,8 +757,8 @@ void diagnostica(void) {
     for (i=0; i<nTransSp; i++) {                                            // Generazione Regex iniziali (etichette ril)
         transizioniSpazio[i]->regex = calloc(REGEX, 1);
         transizioniSpazio[i]->dimRegex = REGEX;
-        if (transizioniSpazio[i]->t->ril >0)
-            sprintf(transizioniSpazio[i]->regex, "r%d", transizioniSpazio[i]->t->ril);
+        transizioniSpazio[i]->parentesizzata = true;
+        if (transizioniSpazio[i]->t->ril >0) sprintf(transizioniSpazio[i]->regex, "r%d", transizioniSpazio[i]->t->ril);
     }
     
     int transizioniDa [nStatiS], idTda[nStatiS], idTin[nStatiS], transizioniIn [nStatiS];
@@ -783,7 +782,9 @@ void diagnostica(void) {
                     transizioniSpazio[idTin[i]]->regex = nuovaReg;
                 }
                 strcat(transizioniSpazio[idTin[i]]->regex, transizioniSpazio[idTda[i]]->regex);
+                free(transizioniSpazio[idTda[i]]->regex);
                 transizioniSpazio[idTin[i]]->concreta &= transizioniSpazio[idTda[i]]->concreta;
+                if (strl1>0 & strl2>0) transizioniSpazio[idTin[i]]->parentesizzata = false;
                 transizioniSpazio[idTin[i]]->a = transizioniSpazio[idTda[i]]->a;
                 eliminaStato(i);
                 continua = true;
@@ -796,7 +797,8 @@ void diagnostica(void) {
             for (t2=transizioniSpazio[j=0]; j<nTransSp; t2 = j<nTransSp ? transizioniSpazio[++j] : t2) {
                 if ((i != j) && (t1->da == t2->da) && (t1->a == t2->a)) {   // Nota: i diverso da j
                     int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex);
-                    if (strl1 > 0 && strl2 > 0) {
+                    if (strl1 > 0 && strl1==strl2 && strcmp(t1->regex, t2->regex)==0);
+                    else if (strl1 > 0 && strl2 > 0) {
                         if (t1->dimRegex < strl1 + strl2 + 4) {
                             char * nuovaReg = realloc(t1->regex, (strl1+strl2)*2+4);
                             t1->dimRegex = (strl1+strl2)*2+4;
@@ -805,24 +807,35 @@ void diagnostica(void) {
                         sprintf(temp, "(%s|%s)", t1->regex, t2->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta &= t2->concreta;
+                        t1->parentesizzata = true;
                     } else if (strl1 > 0 && strl2==0) {
-                        if (t1->dimRegex < strl1 + 4) {
-                            char * nuovaReg = realloc(t1->regex, strl1*2+4);
-                            t1->dimRegex = strl1*2+4;
+                        int deltaCaratteri;
+                        deltaCaratteri = t1->parentesizzata? 1 : 3;
+                        if (t1->dimRegex < strl1 + deltaCaratteri) {
+                            char * nuovaReg = realloc(t1->regex, strl1*2+deltaCaratteri);
+                            t1->dimRegex = strl1*2+deltaCaratteri;
                             t1->regex = nuovaReg;
+                            t1->parentesizzata = true;
                         }
-                        sprintf(temp, "(%s)?", t1->regex);
+                        if (t1->parentesizzata) sprintf(temp, "%s?", t1->regex);
+                        else sprintf(temp, "(%s)?", t1->regex);
                         strcpy(t1->regex, temp);
                         t1->concreta = false;
+                        t1->parentesizzata = true;  // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
                     } else if (strl2 > 0) {
-                        if (t1->dimRegex < strl2 + 4) {
-                            char * nuovaReg = realloc(t1->regex, (strl2)*2+4);
-                            t1->dimRegex = strl2*2+4;
+                        int deltaCaratteri;
+                        deltaCaratteri = t2->parentesizzata? 1 : 3;
+                        if (t1->dimRegex < strl2 + deltaCaratteri) {
+                            char * nuovaReg = realloc(t1->regex, (strl2)*2+deltaCaratteri);
+                            t1->dimRegex = strl2*2+deltaCaratteri;
                             t1->regex = nuovaReg;
                         }
-                        sprintf(t1->regex, "(%s)?", t2->regex);
+                        if (t2->parentesizzata) sprintf(t1->regex, "%s?", t2->regex);
+                        else sprintf(t1->regex, "(%s)?", t2->regex);
                         t1->concreta = false;
+                        t1->parentesizzata = true;  // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
                     }
+                    free(t2->regex);
                     eliminaTransizione(j);
                     continua = true;
                     if (j>=i) i--;
@@ -851,13 +864,27 @@ void diagnostica(void) {
                                     nt->dimRegex = dimNt;
                                     if (strl3 == 0 ) {
                                         //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
-                                        if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
-                                        else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
-                                        else if (strl2 == 0 & strl1>0) strcpy(nt->regex, t1->regex);
+                                        if (strl1>0 & strl2>0) {
+                                            sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                            nt->parentesizzata = true;
+                                        }
+                                        else if (strl1 == 0 & strl2>0) {
+                                            strcpy(nt->regex, t2->regex);
+                                            nt->parentesizzata = t2->parentesizzata;
+                                        }
+                                        else if (strl2 == 0 & strl1>0) {
+                                            strcpy(nt->regex, t1->regex);
+                                            nt->parentesizzata = t1->parentesizzata;
+                                        }
                                     } else {
                                         //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s(%s)*%s", t1->regex, transizioniSpazio[h]->regex, t2->regex);
-                                        if (strl1 + strl2 >0) sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                        if (strl1 + strl2 >0) {
+                                            if (transizioniSpazio[h]->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                            else sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                        }
+                                        else if (transizioniSpazio[h]->parentesizzata) sprintf(nt->regex, "%s*", transizioniSpazio[h]->regex);
                                         else sprintf(nt->regex, "(%s)*", transizioniSpazio[h]->regex);
+                                        nt->parentesizzata = true; // Se anche termina con *, non importa
                                     }
                                     alloc1('t');
                                     transizioniSpazio[nTransSp] = nt;
@@ -874,9 +901,17 @@ void diagnostica(void) {
                                 dimNt = strl1+strl2+20 < REGEX ? REGEX : strl1+strl2+20;
                                 nt->regex = calloc(dimNt, 1);
                                 nt->dimRegex = dimNt;
-                                if (strl1>0 & strl2>0) sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
-                                else if (strl1 == 0 & strl2>0) strcpy(nt->regex, t2->regex);
-                                else if (strl2 == 0 & strl1>0) strcpy(nt->regex, t1->regex);
+                                if (strl1>0 & strl2>0) {
+                                    sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                    nt->parentesizzata = true;
+                                }
+                                else if (strl1 == 0 & strl2>0) {
+                                    strcpy(nt->regex, t2->regex);
+                                    nt->parentesizzata = t2->parentesizzata;
+                                } else if (strl2 == 0 & strl1>0) {
+                                    strcpy(nt->regex, t1->regex);
+                                    nt->parentesizzata = t1->parentesizzata;
+                                }
                                 alloc1('t');
                                 transizioniSpazio[nTransSp] = nt;
                                 nTransSp++;
@@ -886,6 +921,9 @@ void diagnostica(void) {
                 }
             }
             if (azioneEffettuataSuQuestoStato) {
+                for (j=0; j<nTransSp; j++) {
+                    if (transizioniSpazio[j]->da == i || transizioniSpazio[j]->a == i) free(transizioniSpazio[j]->regex);
+                }
                 eliminaStato(i);
                 break;
             }
