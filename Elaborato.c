@@ -5,9 +5,13 @@
 #include <math.h>
 #include <ctype.h>
 
+#define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\__,_/\\__/\\____/_/   \\___/  /_/  |_\\__,_/\\__/\\____/_/ /_/ /_/_/\n"
+                                                                                        
 #define VUOTO -1
 #define ACAPO -10
 #define REGEX 10
+
+#define ottieniComando(com) while (!isalpha(*com=getchar()));
 
 char nomeFile[100];
 
@@ -52,37 +56,37 @@ int nStatiS=0, nTransSp=0;
 int * ok, *osservazione, loss=0;
 
 // UTILI
-void copiaArray(int* da, int* in, int lunghezza){
-	int i;
-	for (i=0; i<lunghezza; i++)
-		*in++ = *da++;
-}
+// void copiaArray(int* da, int* in, int lunghezza){                            // Applicazioni sostituite con memcpy e memmove
+// 	int i;
+// 	for (i=0; i<lunghezza; i++)
+// 		*in++ = *da++;
+// }
 
-void copiaArraySR(StatoRete** da, StatoRete** in, int lunghezza, bool desc) {
-	int i;
-	if (desc) {
-        StatoRete** s = &da[lunghezza-1], **d = &in[lunghezza-1];
-        for (i=lunghezza; i>0; i--)
-            *d-- = *s--;
-    } else
-        for (i=0; i<lunghezza; i++)
-            *in++ = *da++;
-}
+// void copiaArrayTR(TransizioneRete ** da, TransizioneRete ** in, int lunghezza){
+// 	int i;
+// 	for (i=0; i<lunghezza; i++)
+// 		*in++ = *da++;
+// }
 
-void copiaArrayTR(TransizioneRete ** da, TransizioneRete ** in, int lunghezza){
-	int i;
-	for (i=0; i<lunghezza; i++)
-		*in++ = *da++;
-}
+// void copiaArraySR(StatoRete** da, StatoRete** in, int lunghezza, bool desc) {
+// 	int i;
+// 	if (desc) {
+//         StatoRete** s = &da[lunghezza-1], **d = &in[lunghezza-1];
+//         for (i=lunghezza; i>0; i--)
+//             *d-- = *s--;
+//     } else
+//         for (i=0; i<lunghezza; i++)
+//             *in++ = *da++;
+// }
 
-void stampaArray(int* a, int lunghezza){
-	int i=0;
-	int* arr = a;
-	for (; i<lunghezza; i++)
-		printf("%d ", *a++);
-	printf("\n");
-	a=arr;
-}
+// void stampaArray(int* a, int lunghezza){             // Inutilizzata
+// 	int i=0;
+// 	int* arr = a;
+// 	for (; i<lunghezza; i++)
+// 		printf("%d ", *a++);
+// 	printf("\n");
+// 	a=arr;
+// }
 
 Componente* compDaId(int id){
     int i=0;
@@ -304,11 +308,13 @@ StatoRete * generaStato(int *contenutoLink, int *statiAttivi){
     s->id = VUOTO;
     if (contenutoLink != NULL) {
         s->contenutoLink = malloc(nlink*sizeof(int));
-        copiaArray(contenutoLink, (*s).contenutoLink, nlink);
+        memcpy((*s).contenutoLink, contenutoLink, nlink*sizeof(int));
+        //copiaArray(contenutoLink, (*s).contenutoLink, nlink);
     } else s->contenutoLink = NULL;
     if (statiAttivi != NULL) {
         s->statoComponenti = malloc(ncomp*sizeof(int));
-        copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
+        memcpy((*s).statoComponenti, statiAttivi, ncomp*sizeof(int));
+        //copiaArray(statiAttivi, (*s).statoComponenti, ncomp);
     } else s->statoComponenti = NULL;
     s->indiceOsservazione = 0;
     s->finale = true;
@@ -538,14 +544,14 @@ bool ampliaSpazioComportamentale(StatoRete * precedente, StatoRete * nuovo, Tran
     StatoRete *s;
     if (nStatiS>0) {
         for (s=statiSpazio[i=0]; i<nStatiS; s=(i<nStatiS ? statiSpazio[++i] : s)) { // Per ogni stato dello spazio comportamentale
-            bool stessiAttivi = true;
-            for (j=0; j<ncomp; j++)                                                 // Uguaglianza liste stati attivi
-                stessiAttivi &= (nuovo->statoComponenti[j] == s->statoComponenti[j]);
-            if (stessiAttivi) {
-                bool stessiEventi = true;
-                for (j=0; j<nlink; j++)                                             // Uguaglianza stato link
-                    stessiEventi &= (nuovo->contenutoLink[j] == s->contenutoLink[j]);
-                if (stessiEventi) {
+            // bool stessiAttivi = true;
+            // for (j=0; j<ncomp; j++)                                                 // Uguaglianza liste stati attivi
+            //     stessiAttivi &= (nuovo->statoComponenti[j] == s->statoComponenti[j]);
+            if (memcmp(nuovo->statoComponenti, s->statoComponenti, ncomp*sizeof(int)) == 0) {
+                // bool stessiEventi = true;
+                // for (j=0; j<nlink; j++)                                             // Uguaglianza stato link
+                //     stessiEventi &= (nuovo->contenutoLink[j] == s->contenutoLink[j]);
+                if (memcmp(nuovo->contenutoLink, s->contenutoLink, nlink*sizeof(int)) == 0) {
                     giaPresente = (loss>0 ? nuovo->indiceOsservazione == s->indiceOsservazione : true);
                     if (giaPresente) break;
                 }
@@ -601,8 +607,10 @@ void generaSpazioComportamentale(StatoRete * attuale) {
                 }
                 if (ok) { // La transizione è abilitata: esecuzione
                     int nuoviStatiAttivi[ncomp], nuovoStatoLink[nlink];
-                    copiaArray(attuale->contenutoLink, nuovoStatoLink, nlink);
-                    copiaArray(attuale->statoComponenti, nuoviStatiAttivi, ncomp);
+                    //copiaArray(attuale->contenutoLink, nuovoStatoLink, nlink);
+                    memcpy(nuovoStatoLink, attuale->contenutoLink, nlink*sizeof(int));
+                    //copiaArray(attuale->statoComponenti, nuoviStatiAttivi, ncomp);
+                    memcpy(nuoviStatiAttivi, attuale->statoComponenti, ncomp*sizeof(int));
                     if (t->idEventoIn != VUOTO) // Consumo link in ingresso
                         nuovoStatoLink[t->linkIn->intId] = VUOTO;
                     nuoviStatiAttivi[c->intId] = t->a; // Nuovo stato attivo
@@ -671,7 +679,9 @@ void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati 
 
 void eliminaTransizione(int j) {
     free(transizioniSpazio[j]);     // Free di Regex per qualche ragione non va
-    copiaArrayTR(transizioniSpazio+j+1, transizioniSpazio+j, (--nTransSp)-j);
+    // copiaArrayTR(transizioniSpazio+j+1, transizioniSpazio+j, (--nTransSp)-j);
+    nTransSp--;
+    memcpy(transizioniSpazio+j, transizioniSpazio+j+1, (nTransSp-j)*sizeof(TransizioneRete*));
 }
 
 void eliminaStato(int i) {
@@ -689,7 +699,9 @@ void eliminaStato(int i) {
     if (statiSpazio[i]->contenutoLink != NULL) free(statiSpazio[i]->contenutoLink);
     if (statiSpazio[i]->statoComponenti != NULL) free(statiSpazio[i]->statoComponenti);
     free(statiSpazio[i]);
-    copiaArraySR(statiSpazio+i+1, statiSpazio+i, (--nStatiS)-i, false);  // Elimino dal contenitore globale
+    //copiaArraySR(statiSpazio+i+1, statiSpazio+i, (--nStatiS)-i, false);  // Elimino dal contenitore globale
+    nStatiS--;
+    memcpy(statiSpazio+i, statiSpazio+i+1, (nStatiS-i)*sizeof(StatoRete*));
     for (j=0; j<nStatiS; j++) {                                         //  Abbasso l'id degli stati successivi
         if (statiSpazio[j]->id>=i) statiSpazio[j]->id--;
     }
@@ -707,7 +719,8 @@ void potatura(void) {
     for (i=0; i<nStatiS; i++) {
         if (!ok[i]) {
             eliminaStato(i);                                           // Elimino lo stato i
-            copiaArray(ok+i+1, ok+i, nStatiS-i);                      //  Elimino dalla lista Ok
+            //copiaArray(ok+i+1, ok+i, nStatiS-i);                      //  Elimino dalla lista Ok
+            memcpy(ok+i, ok+i+1, (nStatiS-i)*sizeof(int));
             i--;
         }
     }
@@ -721,7 +734,8 @@ void diagnostica(void) {
     alloc1('s');                                                        // Generazione nuovo stato iniziale
     for (i=0; i<nStatiS; i++)
         statiSpazio[i]->id++;
-    copiaArraySR(statiSpazio, statiSpazio+1, nStatiS, true);
+    //copiaArraySR(statiSpazio, statiSpazio+1, nStatiS, true);
+    memmove(statiSpazio+1, statiSpazio, nStatiS*sizeof(StatoRete*));
     nStatiS++;
     for (i=0; i<nTransSp; i++) {
         transizioniSpazio[i]->da++;
@@ -950,11 +964,15 @@ void impostaDatiOsservazione(void) {
     }
 }
 
-int main(void) {
-    char sceltaDot[100], sceltaOperazione[20], pota[20], nomeFileSC[100], sceltaDiag[20], sceltaRinomina[20];
-    printf("Benvenuto!\nIndicare il file che contiene la definizione dell'automa: ");
-    fflush(stdout);
-	scanf("%99s", nomeFile);
+int main(int argc, char *argv[]) {
+    printf(LOGO);
+    char sceltaDot, sceltaOperazione, pota, nomeFileSC[100], sceltaDiag, sceltaRinomina;
+    if (argc >1) strcpy(nomeFile, argv[1]);
+    else {
+        printf("Indicare il file che contiene la definizione dell'automa: ");
+        fflush(stdout);
+        scanf("%99s", nomeFile);
+    }
 	FILE* file = fopen(nomeFile, "rb+");
 	if (file == NULL) {
 		printf("File \"%s\" inesistente!\n", nomeFile);
@@ -970,16 +988,16 @@ int main(void) {
         statoLink[i] = VUOTO;
     StatoRete * iniziale = generaStato(statoLink, statiAttivi);
     iniziale->indiceOsservazione = 0;
-
+    
     printf("Salvare i grafi come .dot (s/n)? ");
-    scanf("%19s", sceltaDot);
-    stampaStruttureAttuali(iniziale, sceltaDot[0] != 's');
+    ottieniComando(&sceltaDot);
+    stampaStruttureAttuali(iniziale, sceltaDot != 's');
     printf("Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? ");
-    scanf("%19s", sceltaOperazione);
-    if (sceltaOperazione[0]=='o') {
+    ottieniComando(&sceltaOperazione);
+    if (sceltaOperazione=='o') {
         impostaDatiOsservazione();
         iniziale->finale = false;
-    } else if (sceltaOperazione[0]=='f' || sceltaOperazione[0]=='g') {
+    } else if (sceltaOperazione=='f' || sceltaOperazione=='g') {
         printf("Indicare il file dot generato contenete lo spazio comportamentale: ");
         fflush(stdout);
         fflush(stdin);
@@ -990,30 +1008,30 @@ int main(void) {
             printf("File \"%s\" inesistente!\n", nomeFile);
             return -1;
         }
-        parseDot(fileSC, sceltaOperazione[0]=='g');
+        parseDot(fileSC, sceltaOperazione=='g');
         fclose(fileSC);
-        if (loss==0 & sceltaOperazione[0]=='f') printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n");
-        if (sceltaOperazione[0]=='g') printf("Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n");
+        if (loss==0 & sceltaOperazione=='f') printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n");
+        if (sceltaOperazione=='g') printf("Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n");
     }
-    if (sceltaOperazione[0] != 'f' && sceltaOperazione[0]!='g') {
+    if (sceltaOperazione != 'f' && sceltaOperazione!='g') {
         printf("Generazione spazio comportamentale...\n");
         ampliaSpazioComportamentale(NULL, iniziale, NULL);
         generaSpazioComportamentale(iniziale);
         printf("Effettuare potatura (s/n)? ");
-        scanf("%19s", pota);
-        if (pota[0]=='s' && nTransSp>0) potatura();
+        ottieniComando(&pota);
+        if (pota=='s' && nTransSp>0) potatura();
         printf("Generato lo spazio: conta %d stati e %d transizioni\n", nStatiS, nTransSp);
-        if (sceltaDot[0]=='s') {
+        if (sceltaDot=='s') {
             printf("Rinominare gli spazi col loro id (s/n)? ");
-            scanf("%19s", sceltaRinomina);
-            stampaSpazioComportamentale(sceltaRinomina[0]=='s');
+            ottieniComando(&sceltaRinomina);
+            stampaSpazioComportamentale(sceltaRinomina=='s');
         }
     }
-    if (sceltaOperazione[0]=='f' || sceltaOperazione[0]=='g' || (sceltaOperazione[0]=='o' & pota[0]=='s')) {
+    if (sceltaOperazione=='f' || sceltaOperazione=='g' || (sceltaOperazione=='o' & pota=='s')) {
         printf("Eseguire una diagnosi su questa osservazione (s/n)? ");
         fflush(stdout);
-        scanf("%19s", sceltaDiag);
-        if (sceltaDiag[0]=='s') {
+        ottieniComando(&sceltaDiag);
+        if (sceltaDiag=='s') {
             printf("Eseguo diagnostica... \n");
             diagnostica();
         }
