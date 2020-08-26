@@ -860,57 +860,52 @@ void diagnostica(void) {
         if (continua) continue;
         bool azioneEffettuataSuQuestoStato = false;
         for (i=1; i<nStatiS-1; i++) {                           // Per ogni stato, ma l'azione viene eseguita solo al primo trovato
+            bool esisteAutoTransizioneN = false;
+            for (h=0; h<nTransSp; h++) {                                      // Per ogni transizione (controllo auto-trans.)
+                if ((transizioniSpazio[h]->a == transizioniSpazio[h]->da) && (transizioniSpazio[h]->da == i)) {
+                    esisteAutoTransizioneN = true;
+                    break;
+                }
+            }
             for (t1=transizioniSpazio[j=0]; j<nTransSp; t1 = j<nTransSp ? transizioniSpazio[++j] : t1) { // Per ogni transizione
                 if ((t1->a == i) && (t1->a != t1->da)) {                                                //  Che giunge nello stato
                     for (t2=transizioniSpazio[k=0]; k<nTransSp; t2 = k<nTransSp ? transizioniSpazio[++k] : t2) {    // Per ogni altra transizione
                         if ((t2->da == i) && (t2->a != t2->da)) {                                        // Che parte dallo stato
-                            bool esisteAutoTransizioneN = false;
-                            for (h=0; h<nTransSp; h++) {                                      // Per ogni transizione (controllo auto-trans.)
-                                if ((transizioniSpazio[h]->a == transizioniSpazio[h]->da) && (transizioniSpazio[h]->da == i)) {
-                                    azioneEffettuataSuQuestoStato = esisteAutoTransizioneN = true;
-                                    int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex), strl3 = strlen(transizioniSpazio[h]->regex),
-                                    dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
-                                    TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                    nt->da = t1->da;
-                                    nt->a = t2->a;
-                                    nt->t = tvuota;
-                                    nt->regex = calloc(dimNt, 1);
-                                    nt->dimRegex = dimNt;
-                                    if (strl3 == 0 ) {
-                                        //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
-                                        if (strl1>0 & strl2>0) {
-                                            sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
-                                            nt->parentesizzata = true;
-                                        }
-                                        else if (strl1 == 0 & strl2>0) {
-                                            strcpy(nt->regex, t2->regex);
-                                            nt->parentesizzata = t2->parentesizzata;
-                                        }
-                                        else if (strl2 == 0 & strl1>0) {
-                                            strcpy(nt->regex, t1->regex);
-                                            nt->parentesizzata = t1->parentesizzata;
-                                        }
-                                    } else {
-                                        //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s(%s)*%s", t1->regex, transizioniSpazio[h]->regex, t2->regex);
-                                        if (strl1 + strl2 >0) {
-                                            if (transizioniSpazio[h]->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
-                                            else sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
-                                        }
-                                        else if (transizioniSpazio[h]->parentesizzata) sprintf(nt->regex, "%s*", transizioniSpazio[h]->regex);
-                                        else sprintf(nt->regex, "(%s)*", transizioniSpazio[h]->regex);
-                                        nt->parentesizzata = true; // Se anche termina con *, non importa
+                            azioneEffettuataSuQuestoStato = true;
+                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                            nt->da = t1->da;
+                            nt->a = t2->a;
+                            nt->t = tvuota;
+                            if (esisteAutoTransizioneN) {
+                                int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex), strl3 = strlen(transizioniSpazio[h]->regex),
+                                dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
+                                nt->regex = calloc(dimNt, 1);
+                                nt->dimRegex = dimNt;
+                                if (strl3 == 0 ) {
+                                    //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s%s", t1->regex, t2->regex);
+                                    if (strl1>0 & strl2>0) {
+                                        sprintf(nt->regex, "(%s%s)", t1->regex, t2->regex);
+                                        nt->parentesizzata = true;
                                     }
-                                    alloc1('t');
-                                    transizioniSpazio[nTransSp] = nt;
-                                    nTransSp++;
+                                    else if (strl1 == 0 & strl2>0) {
+                                        strcpy(nt->regex, t2->regex);
+                                        nt->parentesizzata = t2->parentesizzata;
+                                    }
+                                    else if (strl2 == 0 & strl1>0) {
+                                        strcpy(nt->regex, t1->regex);
+                                        nt->parentesizzata = t1->parentesizzata;
+                                    }
+                                } else {
+                                    //if (t1->regex[0] == '(' && t2->regex[strlen(t2->regex)-1]== ')') sprintf(nt->regex, "%s(%s)*%s", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                    if (strl1 + strl2 >0) {
+                                        if (transizioniSpazio[h]->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                        else sprintf(nt->regex, "(%s(%s)*%s)", t1->regex, transizioniSpazio[h]->regex, t2->regex);
+                                    }
+                                    else if (transizioniSpazio[h]->parentesizzata) sprintf(nt->regex, "%s*", transizioniSpazio[h]->regex);
+                                    else sprintf(nt->regex, "(%s)*", transizioniSpazio[h]->regex);
+                                    nt->parentesizzata = true; // Se anche termina con *, non importa
                                 }
-                            }
-                            if (!esisteAutoTransizioneN) {
-                                azioneEffettuataSuQuestoStato = true;
-                                TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                nt->da = t1->da;
-                                nt->a = t2->a;
-                                nt->t = tvuota;
+                            } else {
                                 int strl1 = strlen(t1->regex), strl2 = strlen(t2->regex),
                                 dimNt = strl1+strl2+20 < REGEX ? REGEX : strl1+strl2+20;
                                 nt->regex = calloc(dimNt, 1);
@@ -926,10 +921,10 @@ void diagnostica(void) {
                                     strcpy(nt->regex, t1->regex);
                                     nt->parentesizzata = t1->parentesizzata;
                                 }
-                                alloc1('t');
-                                transizioniSpazio[nTransSp] = nt;
-                                nTransSp++;
                             }
+                            alloc1('t');
+                            transizioniSpazio[nTransSp] = nt;
+                            nTransSp++;
                         }
                     }
                 }
@@ -1019,7 +1014,11 @@ int main(int argc, char *argv[]) {
         generaSpazioComportamentale(iniziale);
         printf("Effettuare potatura (s/n)? ");
         ottieniComando(&pota);
-        if (pota=='s' && nTransSp>0) potatura();
+        if (pota=='s' && nTransSp>0) {
+            int statiPrima = nStatiS, transPrima = nTransSp;
+            potatura();
+            printf("Potati %d stati e %d transizioni\n", statiPrima-nStatiS, transPrima-nTransSp);
+        }
         printf("Generato lo spazio: conta %d stati e %d transizioni\n", nStatiS, nTransSp);
         if (sceltaDot=='s') {
             printf("Rinominare gli spazi col loro id (s/n)? ");

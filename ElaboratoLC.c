@@ -60,40 +60,7 @@ StatoRete ** statiSpazio;
 int nStatiS=0, nTransSp=0;
 int * ok, *osservazione, loss=0;
 
-// UTILI
-// void copiaArray(int* da, int* in, int lunghezza){                            // Applicazioni sostituite con memcpy e memmove
-// 	int i;
-// 	for (i=0; i<lunghezza; i++)
-// 		*in++ = *da++;
-// }
-
-// void copiaArrayTR(TransizioneRete ** da, TransizioneRete ** in, int lunghezza){
-// 	int i;
-// 	for (i=0; i<lunghezza; i++)
-// 		*in++ = *da++;
-// }
-
-// void copiaArraySR(StatoRete** da, StatoRete** in, int lunghezza, bool desc) {
-// 	int i;
-// 	if (desc) {
-//         StatoRete** s = &da[lunghezza-1], **d = &in[lunghezza-1];
-//         for (i=lunghezza; i>0; i--)
-//             *d-- = *s--;
-//     } else
-//         for (i=0; i<lunghezza; i++)
-//             *in++ = *da++;
-// }
-
-// void stampaArray(int* a, int lunghezza){             // Inutilizzata
-// 	int i=0;
-// 	int* arr = a;
-// 	for (; i<lunghezza; i++)
-// 		printf("%d ", *a++);
-// 	printf("\n");
-// 	a=arr;
-// }
-
-Componente* compDaId(int id){
+Componente* compDaId(int id) {
     int i=0;
     for (; i<ncomp; i++)
         if (componenti[i]->id == id) return componenti[i];
@@ -101,7 +68,7 @@ Componente* compDaId(int id){
     return NULL;
 }
 
-Link* linkDaId(int id){
+Link* linkDaId(int id) {
     int i=0;
     for (; i<nlink; i++)
         if (links[i]->id == id) return links[i];
@@ -189,7 +156,7 @@ void match(int c, FILE* input) {
     }
 }
 
-void parse(FILE* file){
+void parse(FILE* file) {
     // NOTA: prima definizione componenti
     // Segue la definizione dei link
     // Infine, la definizione delle transizioni
@@ -691,14 +658,15 @@ void stampaSpazioComportamentale(bool rinomina) {
         for (i=0; i<nStatiS; i++)
             printf("%d: %s\n", i, nomeSpazi[i]);
     }
-    // for (i=0; i<nStatiS; i++)
-    //     free(nomeSpazi[i]); Errore sia win che linux
+    for (i=0; i<nStatiS; i++)
+        free(nomeSpazi[i]);
 }
 
 void eliminaStato(int i) {
     int j;
     StatoRete *r, *s = statiSpazio[i];
-    for (; s->transizioni != NULL; s->transizioni = s->transizioni->prossima) {
+    struct ltrans * prossima, *prossima2;
+    for (; s->transizioni != NULL; s->transizioni = prossima) {
         if (s->transizioni->t->da != i && s->transizioni->t->a != i) continue;
         nTransSp--;
         int eliminaAncheDa = -1;
@@ -706,13 +674,26 @@ void eliminaStato(int i) {
         if (s->transizioni->t->a != i) eliminaAncheDa = s->transizioni->t->a;
         if (eliminaAncheDa != -1) {
             struct ltrans *trans = statiSpazio[eliminaAncheDa]->transizioni, *transPrima = NULL;
-            for (; trans != NULL; trans = trans->prossima) {
+            for (; trans != NULL; trans = prossima2) {
                 if (trans->t->da == i || trans->t->a == i) {
-                    if (transPrima == NULL) statiSpazio[eliminaAncheDa]->transizioni = trans->prossima;
-                    else transPrima->prossima = trans->prossima;
-                } else transPrima = trans;
+                    if (transPrima == NULL) {
+                        prossima2 = trans->prossima;
+                        free(statiSpazio[eliminaAncheDa]->transizioni);
+                        statiSpazio[eliminaAncheDa]->transizioni = prossima2;
+                    } else {
+                        prossima2 = trans->prossima;
+                        free(trans);
+                        transPrima->prossima = prossima2;
+                    }
+                } else {
+                    transPrima = trans;
+                    prossima2 = trans->prossima;
+                }
             }
         }
+        prossima = s->transizioni->prossima;
+        // free(s->transizioni->t); Errore
+        free(s->transizioni);
     }
     for (r=statiSpazio[j=0]; j<nStatiS; r=statiSpazio[++j]) {
         struct ltrans *trans = r->transizioni;
@@ -859,7 +840,11 @@ void diagnostica(void) {
                     statiSpazio[tesce->a]->transizioni = nuovaTr;
                     statiSpazio[tesce->a]->transizioni->prossima = templtrans;
                 }
+                free(tentra->regex);
+                free(tesce->regex);
                 eliminaStato(i);
+                free(tentra);
+                free(tesce);
                 continua = true;
             }
         }
@@ -906,7 +891,7 @@ void diagnostica(void) {
                             else sprintf(trans1->t->regex, "(%s)?", trans2->t->regex);
                             trans1->t->parentesizzata = true;  // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
                         }
-                        //free(t2->regex);
+                        free(trans2->t->regex);
                         nodoPrecedente->prossima = trans2->prossima;
                         int idnodopartenza = trans2->t->da == i? trans2->t->a : trans2->t->da;
                         struct ltrans *listaNelNodoDiPartenza = statiSpazio[idnodopartenza]->transizioni, *precedenteNelNodoDiPartenza = NULL;
@@ -919,6 +904,7 @@ void diagnostica(void) {
                             precedenteNelNodoDiPartenza = listaNelNodoDiPartenza;
                             listaNelNodoDiPartenza = listaNelNodoDiPartenza->prossima;
                         }
+                        free(trans2->t);
                         nTransSp--;
                         continua = true;
                         break;
@@ -935,66 +921,53 @@ void diagnostica(void) {
 
         bool azioneEffettuataSuQuestoStato = false;
         for (i=1; i<nStatiS-1; i++) {
+            bool esisteAutoTransizioneN = false;
+            struct ltrans *trans3 = statiSpazio[i]->transizioni;
+            for (; trans3 != NULL; trans3 = trans3->prossima) {
+                if (trans3->t->a == trans3->t->da) {
+                    esisteAutoTransizioneN = true;
+                    break;
+                }
+            }
             struct ltrans *trans1 = statiSpazio[i]->transizioni;
             while (trans1 != NULL) {
                 if (trans1->t->a == i && trans1->t->da != i) {              // Transizione entrante
                     struct ltrans *trans2 = statiSpazio[i]->transizioni;
                     while (trans2 != NULL) {
                         if (trans2->t->da == i && trans2->t->a != i) {      // Transizione uscente
-                            bool esisteAutoTransizioneN = false;
-                            struct ltrans *trans3 = statiSpazio[i]->transizioni;
-                            while (trans3 != NULL) {
-                                if (trans3->t->a == trans3->t->da) {
-                                    azioneEffettuataSuQuestoStato = esisteAutoTransizioneN = true;
-                                    int strl1 = strlen(trans1->t->regex), strl2 = strlen(trans2->t->regex), strl3 = strlen(trans3->t->regex),
-                                    dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
-                                    TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                    nt->da = trans1->t->da;
-                                    nt->a = trans2->t->a;
-                                    nt->t = tvuota;
-                                    nt->regex = calloc(dimNt, 1);
-                                    nt->dimRegex = dimNt;
-                                    if (strl3 == 0 ) {
-                                        if (strl1>0 & strl2>0) {
-                                            sprintf(nt->regex, "(%s%s)", trans1->t->regex, trans2->t->regex);
-                                            nt->parentesizzata = true;
-                                        }
-                                        else if (strl1 == 0 & strl2>0) {
-                                            strcpy(nt->regex, trans2->t->regex);
-                                            nt->parentesizzata = trans2->t->parentesizzata;
-                                        }
-                                        else if (strl2 == 0 & strl1>0) {
-                                            strcpy(nt->regex, trans1->t->regex);
-                                            nt->parentesizzata = trans1->t->parentesizzata;
-                                        }
-                                    } else {
-                                        if (strl1 + strl2 >0) {
-                                            if (trans3->t->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", trans1->t->regex, trans3->t->regex, trans2->t->regex);
-                                            else sprintf(nt->regex, "(%s(%s)*%s)", trans1->t->regex, trans3->t->regex, trans2->t->regex);
-                                        }
-                                        else if (trans3->t->parentesizzata) sprintf(nt->regex, "%s*", trans3->t->regex);
-                                        else sprintf(nt->regex, "(%s)*", trans3->t->regex);
-                                        nt->parentesizzata = true; // Se anche termina con *, non importa
+                            azioneEffettuataSuQuestoStato = true;
+                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                            nt->da = trans1->t->da;
+                            nt->a = trans2->t->a;
+                            nt->t = tvuota;
+                            if (esisteAutoTransizioneN) {
+                                int strl1 = strlen(trans1->t->regex), strl2 = strlen(trans2->t->regex), strl3 = strlen(trans3->t->regex),
+                                dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
+                                nt->regex = calloc(dimNt, 1);
+                                nt->dimRegex = dimNt;
+                                if (strl3 == 0 ) {
+                                    if (strl1>0 & strl2>0) {
+                                        sprintf(nt->regex, "(%s%s)", trans1->t->regex, trans2->t->regex);
+                                        nt->parentesizzata = true;
                                     }
-                                    struct ltrans *statoDa = statiSpazio[nt->da]->transizioni, *statoA = statiSpazio[nt->a]->transizioni;
-                                    struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
-                                    nuovaTr->t = nt;
-                                    nuovaTr->prossima = statoDa;
-                                    statiSpazio[nt->da]->transizioni = nuovaTr;
-                                    nuovaTr = calloc(1, sizeof(struct ltrans));
-                                    nuovaTr->t = nt;
-                                    nuovaTr->prossima = statoA;
-                                    statiSpazio[nt->a]->transizioni = nuovaTr;
-                                    nTransSp++;
+                                    else if (strl1 == 0 & strl2>0) {
+                                        strcpy(nt->regex, trans2->t->regex);
+                                        nt->parentesizzata = trans2->t->parentesizzata;
+                                    }
+                                    else if (strl2 == 0 & strl1>0) {
+                                        strcpy(nt->regex, trans1->t->regex);
+                                        nt->parentesizzata = trans1->t->parentesizzata;
+                                    }
+                                } else {
+                                    if (strl1 + strl2 >0) {
+                                        if (trans3->t->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", trans1->t->regex, trans3->t->regex, trans2->t->regex);
+                                        else sprintf(nt->regex, "(%s(%s)*%s)", trans1->t->regex, trans3->t->regex, trans2->t->regex);
+                                    }
+                                    else if (trans3->t->parentesizzata) sprintf(nt->regex, "%s*", trans3->t->regex);
+                                    else sprintf(nt->regex, "(%s)*", trans3->t->regex);
+                                    nt->parentesizzata = true; // Se anche termina con *, non importa
                                 }
-                                trans3 = trans3->prossima;
-                            }
-                            if (!esisteAutoTransizioneN) {
-                                azioneEffettuataSuQuestoStato = true;
-                                TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                                nt->da = trans1->t->da;
-                                nt->a = trans2->t->a;
-                                nt->t = tvuota;
+                            } else {
                                 int strl1 = strlen(trans1->t->regex), strl2 = strlen(trans2->t->regex),
                                 dimNt = strl1+strl2+20 < REGEX ? REGEX : strl1+strl2+20;
                                 nt->regex = calloc(dimNt, 1);
@@ -1010,15 +983,15 @@ void diagnostica(void) {
                                     strcpy(nt->regex, trans1->t->regex);
                                     nt->parentesizzata = trans1->t->parentesizzata;
                                 }
-                                struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans)), *nuovaTr2 = calloc(1, sizeof(struct ltrans));
-                                nuovaTr->t = nt;
-                                nuovaTr->prossima = statiSpazio[nt->da]->transizioni;
-                                statiSpazio[nt->da]->transizioni = nuovaTr;
-                                nuovaTr2->t = nt;
-                                nuovaTr2->prossima = statiSpazio[nt->a]->transizioni;
-                                statiSpazio[nt->a]->transizioni = nuovaTr2;
-                                nTransSp++;
                             }
+                            struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans)), *nuovaTr2 = calloc(1, sizeof(struct ltrans));
+                            nuovaTr->t = nt;
+                            nuovaTr->prossima = statiSpazio[nt->da]->transizioni;
+                            statiSpazio[nt->da]->transizioni = nuovaTr;
+                            nuovaTr2->t = nt;
+                            nuovaTr2->prossima = statiSpazio[nt->a]->transizioni;
+                            statiSpazio[nt->a]->transizioni = nuovaTr2;
+                            nTransSp++;
                         }
                         trans2 = trans2->prossima;
                     }
@@ -1031,8 +1004,8 @@ void diagnostica(void) {
             }
         }
     }
-    //free(temp);  Errore su Windows
     printf("REGEX: %s\n", statiSpazio[0]->transizioni->t->regex);
+    free(temp);
 }
 
 void impostaDatiOsservazione(void) {
@@ -1107,7 +1080,11 @@ int main(int argc, char *argv[]) {
         generaSpazioComportamentale(iniziale);
         printf("Effettuare potatura (s/n)? ");
         ottieniComando(&pota);
-        if (pota=='s'& nTransSp>0) potatura();
+        if (pota=='s'& nTransSp>0) {
+            int statiPrima = nStatiS, transPrima = nTransSp;
+            potatura();
+            printf("Potati %d stati e %d transizioni\n", statiPrima-nStatiS, transPrima-nTransSp);
+        }
         printf("Generato lo spazio: conta %d stati e %d transizioni\n", nStatiS, nTransSp);
         if (sceltaDot=='s') {
             printf("Rinominare gli spazi col loro id (s/n)? ");

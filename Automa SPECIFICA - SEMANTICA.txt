@@ -7,7 +7,7 @@ link → "//LINK\n" listalink
 listalink → int ',' int ',' int '\n' listalink | ε
 transizioni → "//TRANSIZIONI\n" listatr
 listatr → int ',' int ',' int ',' int ',' int ',' int ','
-	(int ':' int)? '|' listauscite \n' listalink | ε
+	(int ':' int)? '|' listauscite '\n' listatr | ε
 listauscite → int ':' int ',' listauscite | ε
 
 NOTA: il terminatore di linea è \n (standard LF)
