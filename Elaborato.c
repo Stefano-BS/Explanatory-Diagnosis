@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <time.h>
 
 #define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\__,_/\\__/\\____/_/   \\___/  /_/  |_\\__,_/\\__/\\____/_/ /_/ /_/_/\n"
                                                                                         
@@ -12,8 +13,10 @@
 #define REGEX 10
 
 #define ottieniComando(com) while (!isalpha(*com=getchar()));
+#define inizioTimer inizio = clock();
+#define fineTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 
-char nomeFile[100];
+char nomeFile[100] = "";
 
 // DEFINIZIONE STATICA DI UN MODELLO COMPORTAMENTALE
 typedef struct link {
@@ -727,9 +730,10 @@ void potatura(void) {
     free(ok);
 }
 
+char *temp;
 void diagnostica(void) {
     int i=0, j=0, k=0, h=0;
-    char *temp = malloc(REGEX*50*nTransSp); // Sfondare il buffer implica probabile crash del programma. N transizioni -> buffer di N/2 KB
+    temp = malloc(REGEX*10*nTransSp*nStatiS); // Sfondare il buffer implica probabile crash del programma. N transizioni -> buffer di N/2 KB
     Transizione *tvuota = calloc(1, sizeof(Transizione));
     alloc1('s');                                                        // Generazione nuovo stato iniziale
     for (i=0; i<nStatiS; i++)
@@ -939,7 +943,6 @@ void diagnostica(void) {
         }
     }
     //free(temp);  Errore su Windows
-    printf("REGEX: %s\n", transizioniSpazio[0]->regex);
 }
 
 void impostaDatiOsservazione(void) {
@@ -961,10 +964,25 @@ void impostaDatiOsservazione(void) {
 
 int main(int argc, char *argv[]) {
     printf(LOGO);
-    char sceltaDot, sceltaOperazione, pota, nomeFileSC[100], sceltaDiag, sceltaRinomina;
-    if (argc >1) strcpy(nomeFile, argv[1]);
-    else {
-        printf("Indicare il file che contiene la definizione dell'automa: ");
+    char sceltaDot='\0', sceltaOperazione, pota, nomeFileSC[100], sceltaDiag, sceltaRinomina;
+    bool benchmark = false;
+    clock_t inizio;
+    if (argc >1) {
+        size_t optind;
+        for (optind = 1; optind < argc; optind++) {
+            if (argv[optind][0] != '-') {
+                strcpy(nomeFile, argv[optind]);
+                continue;
+            }
+            switch (argv[optind][1]) {
+                case 'd': sceltaDot = 's'; break;
+                case 't': sceltaDot = 'n'; break;
+                case 'b': benchmark = true; break;
+            }   
+        }
+    }
+    if (nomeFile[0]=='\0') {
+        printf("\nIndicare il file che contiene la definizione dell'automa: ");
         fflush(stdout);
         scanf("%99s", nomeFile);
     }
@@ -974,8 +992,10 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
     allocamentoIniziale();
+    inizioTimer
 	parse(file);
 	fclose(file);
+    fineTimer
 	printf("Parsing effettuato...\n");
     int *statiAttivi = calloc(ncomp, sizeof(int));
     int statoLink[nlink], i;
@@ -984,8 +1004,10 @@ int main(int argc, char *argv[]) {
     StatoRete * iniziale = generaStato(statoLink, statiAttivi);
     iniziale->indiceOsservazione = 0;
     
-    printf("Salvare i grafi come .dot (s/n)? ");
-    ottieniComando(&sceltaDot);
+    if (sceltaDot == '\0') {
+        printf("Salvare i grafi come .dot (s/n)? ");
+        ottieniComando(&sceltaDot);
+    }
     stampaStruttureAttuali(iniziale, sceltaDot != 's');
     printf("Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? ");
     ottieniComando(&sceltaOperazione);
@@ -1003,27 +1025,35 @@ int main(int argc, char *argv[]) {
             printf("File \"%s\" inesistente!\n", nomeFile);
             return -1;
         }
+        inizioTimer
         parseDot(fileSC, sceltaOperazione=='g');
         fclose(fileSC);
+        fineTimer
         if (loss==0 & sceltaOperazione=='f') printf("Lo stato non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n");
         if (sceltaOperazione=='g') printf("Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n");
     }
     if (sceltaOperazione != 'f' && sceltaOperazione!='g') {
         printf("Generazione spazio comportamentale...\n");
+        inizioTimer
         ampliaSpazioComportamentale(NULL, iniziale, NULL);
         generaSpazioComportamentale(iniziale);
+        fineTimer
         printf("Effettuare potatura (s/n)? ");
         ottieniComando(&pota);
-        if (pota=='s' && nTransSp>0) {
+        if (pota=='s'& nTransSp>0) {
             int statiPrima = nStatiS, transPrima = nTransSp;
+            inizioTimer
             potatura();
+            fineTimer
             printf("Potati %d stati e %d transizioni\n", statiPrima-nStatiS, transPrima-nTransSp);
         }
         printf("Generato lo spazio: conta %d stati e %d transizioni\n", nStatiS, nTransSp);
         if (sceltaDot=='s') {
             printf("Rinominare gli spazi col loro id (s/n)? ");
             ottieniComando(&sceltaRinomina);
+            inizioTimer
             stampaSpazioComportamentale(sceltaRinomina=='s');
+            fineTimer
         }
     }
     if (sceltaOperazione=='f' || sceltaOperazione=='g' || (sceltaOperazione=='o' & pota=='s')) {
@@ -1032,7 +1062,11 @@ int main(int argc, char *argv[]) {
         ottieniComando(&sceltaDiag);
         if (sceltaDiag=='s') {
             printf("Eseguo diagnostica... \n");
+            inizioTimer
             diagnostica();
+            fineTimer
+            printf("REGEX: %s\n", transizioniSpazio[0]->regex);
+            free(temp);
         }
     }
 	return(0);

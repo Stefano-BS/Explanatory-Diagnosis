@@ -1,0 +1,21 @@
+digraph SCs2 {
+node [shape=circle]; R00_Le_O0 ;
+node [shape=circle]; R10_L1_O1 ;
+node [shape=circle]; R11_Le_O2 ;
+node [shape=circle]; R11_L1_O2 ;
+node [shape=circle]; R10_Le_O3 ;
+node [shape=circle]; R00_L2_O4 ;
+node [shape=doublecircle]; R00_Le_O5 ;
+node [shape=circle]; R10_L1_O3 ;
+node [shape=circle]; R10_Le_O1 ;
+R00_Le_O0 -> R10_L1_O1 [label=t1O1]
+R10_L1_O1 -> R10_Le_O1 [label=t7R3]
+R10_L1_O1 -> R11_Le_O2 [label=t5O3]
+R11_Le_O2 -> R11_L1_O2 [label=t4R2]
+R11_L1_O2 -> R10_Le_O3 [label=t12O4R6]
+R10_Le_O3 -> R10_L1_O3 [label=t4R2]
+R10_Le_O3 -> R00_L2_O4 [label=t2O2]
+R00_L2_O4 -> R00_Le_O5 [label=t9O5]
+R10_L1_O3 -> R10_Le_O3 [label=t7R3]
+R10_Le_O1 -> R10_L1_O1 [label=t4R2]
+}
