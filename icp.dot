@@ -1,0 +1,43 @@
+digraph icp {
+size="8,5"
+compound=true
+subgraph cluster1 {node [shape=doublecircle]; C1_0;
+node [shape=circle];
+C1_0 -> C1_1 [label="t1"];
+C1_0 -> C1_1 [label="t2"];
+C1_1 -> C1_0 [label="t3"];
+C1_0 -> C1_1 [label="t13"];
+C1_0 -> C1_1 [label="t15"];
+C1_0 -> C1_1 [label="t17"];
+}
+subgraph cluster2 {node [shape=doublecircle]; C2_0;
+node [shape=circle];
+C2_1 -> C2_0 [label="t4O1"];
+C2_0 -> C2_1 [label="t5"];
+C2_0 -> C2_1 [label="t12"];
+}
+subgraph cluster3 {node [shape=doublecircle]; C3_0;
+node [shape=circle];
+C3_1 -> C3_0 [label="t6"];
+C3_0 -> C3_1 [label="t7"];
+C3_1 -> C3_1 [label="t8"];
+C3_0 -> C3_1 [label="t11"];
+}
+subgraph cluster4 {node [shape=doublecircle]; C4_0;
+node [shape=circle];
+C4_0 -> C4_1 [label="t9"];
+C4_0 -> C4_2 [label="t10"];
+C4_1 -> C4_1 [label="t14"];
+C4_1 -> C4_0 [label="t16"];
+C4_0 -> C4_1 [label="t18"];
+}
+C3_0 -> C1_0 [ltail=cluster3 lhead=cluster1 label="L1{}"];
+C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L2{}"];
+C2_0 -> C1_0 [ltail=cluster2 lhead=cluster1 label="L3{}"];
+C4_0 -> C1_0 [ltail=cluster4 lhead=cluster1 label="L5{}"];
+C4_0 -> C2_0 [ltail=cluster4 lhead=cluster2 label="L6{}"];
+C4_0 -> C3_0 [ltail=cluster4 lhead=cluster3 label="L7{}"];
+C1_0 -> C4_0 [ltail=cluster1 lhead=cluster4 label="L8{}"];
+C2_0 -> C4_0 [ltail=cluster2 lhead=cluster4 label="L9{}"];
+C3_0 -> C4_0 [ltail=cluster3 lhead=cluster4 label="L10{}"];
+}

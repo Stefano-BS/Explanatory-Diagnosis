@@ -1,0 +1,25 @@
+digraph z {
+size="8,5"
+compound=true
+subgraph cluster1 {node [shape=doublecircle]; C1_0;
+node [shape=circle];
+C1_0 -> C1_1 [label="t1"];
+C1_1 -> C1_2 [label="t2"];
+C1_2 -> C1_2 [label="t3"];
+C1_1 -> C1_0 [label="t4"];
+C1_0 -> C1_0 [label="t10"];
+C1_0 -> C1_1 [label="t11"];
+C1_2 -> C1_1 [label="t12"];
+}
+subgraph cluster2 {node [shape=doublecircle]; C2_0;
+node [shape=circle];
+C2_0 -> C2_1 [label="t5"];
+C2_1 -> C2_2 [label="t6"];
+C2_2 -> C2_2 [label="t7"];
+C2_1 -> C2_0 [label="t8"];
+C2_0 -> C2_0 [label="t9"];
+C2_2 -> C2_1 [label="t13"];
+}
+C1_0 -> C2_0 [ltail=cluster1 lhead=cluster2 label="L1{}"];
+C2_0 -> C1_0 [ltail=cluster2 lhead=cluster1 label="L2{}"];
+}

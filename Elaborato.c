@@ -603,7 +603,8 @@ void generaSpazioComportamentale(StatoRete * attuale) {
                     continue; // Transizione non compatibile con l'osservazione lineare
                 bool ok = true;
                 for (k=0; k<t->nEventiU; k++) {                                        // I link di uscita sono vuoti
-                    if (attuale->contenutoLink[t->linkU[k]->intId] != VUOTO) {
+                    if (attuale->contenutoLink[t->linkU[k]->intId] != VUOTO
+                    && !(t->idEventoIn != VUOTO && t->linkIn->intId == t->linkU[k]->intId)) {
                         ok = false;
                         break;
                     }
