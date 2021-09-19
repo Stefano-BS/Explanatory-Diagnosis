@@ -123,7 +123,7 @@ void parse(FILE* file) {
                 nuovo->intId = nlink;
                 nuovo->da = compDaId(idComp1);
                 nuovo->a = compDaId(idComp2);
-                alloc1('l');
+                alloc1(NULL, 'l');
                 links[nlink++] = nuovo;
 
                 if (!feof(file)) match(ACAPO, file); 
@@ -133,7 +133,7 @@ void parse(FILE* file) {
     }
 }
 
-void parseDot(FILE * file, bool semplificata) {
+void parseDot(BehSpace * b, FILE * file, bool semplificata) {
     int i;
     char buffer[50];
     fgets(buffer, 49, file);   // Intestazione
@@ -145,7 +145,7 @@ void parseDot(FILE * file, bool semplificata) {
             fscanf(file, "%s", buffer);
             bool dbc = strcmp(buffer, "[shape=doublecircle];")==0;
             fscanf(file, "%s", buffer);
-            strcpy(nomeStatiTrovati[nStatiS], buffer);
+            strcpy(nomeStatiTrovati[b->nStates], buffer);
             int strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0, j=1;
             for (i=1; i<strl; i++) {
                 if (buffer[i] == '_') {
@@ -163,26 +163,26 @@ void parseDot(FILE * file, bool semplificata) {
                 }
             }
             StatoRete * nuovo = generaStato(clink, attivi);
-            nuovo->id = nStatiS;
+            nuovo->id = b->nStates;
             nuovo->finale = dbc;
             nuovo->indiceOsservazione = oss;
-            alloc1('s');
-            statiSpazio[nStatiS++] = nuovo;
+            alloc1(b, 's');
+            b->states[b->nStates++] = nuovo;
             fscanf(file, "%s", buffer); // Simbolo ;
         }
         while (true) {
             StatoRete *statoDa, *statoA;
             int j;
-            for (i=0; i<nStatiS; i++)
+            for (i=0; i<b->nStates; i++)
                 if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                    statoDa = statiSpazio[i]; 
+                    statoDa = b->states[i]; 
                     break;
                 }
             fscanf(file, "%s", buffer); // Simbolo ->
             fscanf(file, "%s", buffer);
-            for (i=0; i<nStatiS; i++)
+            for (i=0; i<b->nStates; i++)
                 if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                    statoA = statiSpazio[i]; 
+                    statoA = b->states[i]; 
                     break;
                 }
             
@@ -215,7 +215,7 @@ void parseDot(FILE * file, bool semplificata) {
                 nuovaLTr->prossima = statoA->transizioni;
                 statoA->transizioni = nuovaLTr;
             }
-            nTransSp++;
+            b->nTrans++;
 
             fscanf(file, "%s", buffer);
             if (strcmp(buffer, "}") == 0) break;
@@ -229,10 +229,10 @@ void parseDot(FILE * file, bool semplificata) {
             fscanf(file, "%s", buffer); // Trattandosi di una sequenza S0 S1 ... Sn il contenuto è prevedibile
             
             StatoRete * nuovo = generaStato(NULL, NULL);
-            nuovo->id = nStatiS;
+            nuovo->id = b->nStates;
             nuovo->finale = dbc;
-            alloc1('s');
-            statiSpazio[nStatiS++] = nuovo;
+            alloc1(b, 's');
+            b->states[b->nStates++] = nuovo;
             fscanf(file, "%s", buffer); // Simbolo ;
         }
         while (true) {
@@ -257,24 +257,24 @@ void parseDot(FILE * file, bool semplificata) {
             TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
             nuovaTransRete->regex = NULL;
             nuovaTransRete->dimRegex = 0;
-            nuovaTransRete->a = statiSpazio[idA];
-            nuovaTransRete->da = statiSpazio[idDa];
+            nuovaTransRete->a = b->states[idA];
+            nuovaTransRete->da = b->states[idDa];
             nuovaTransRete->t = t;
             struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->prossima = statiSpazio[idDa]->transizioni;
-            statiSpazio[idDa]->transizioni = nuovaLTr;
+            nuovaLTr->prossima = b->states[idDa]->transizioni;
+            b->states[idDa]->transizioni = nuovaLTr;
             if (idA != idDa) {
                 nuovaLTr = calloc(1, sizeof(struct ltrans));
                 nuovaLTr->t = nuovaTransRete;
-                nuovaLTr->prossima = statiSpazio[idA]->transizioni;
-                statiSpazio[idA]->transizioni = nuovaLTr;
+                nuovaLTr->prossima = b->states[idA]->transizioni;
+                b->states[idA]->transizioni = nuovaLTr;
             }
-            nTransSp++;
+            b->nTrans++;
 
             fscanf(file, "%s", buffer);
             if (strcmp(buffer, "}") == 0) break;
         }
     }
-    memCoherenceTest();
+    memCoherenceTest(b);
 }

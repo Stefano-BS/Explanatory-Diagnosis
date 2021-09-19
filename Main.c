@@ -22,6 +22,7 @@ void impostaDatiOsservazione(void) {
 
 int main(int argc, char *argv[]) {
     printf(LOGO);
+    BehSpace *b = calloc(1, sizeof(BehSpace));
     char sceltaDot='\0', sceltaOperazione, pota, nomeFileSC[100], sceltaDiag, sceltaRinomina;
     bool benchmark = false;
     clock_t inizio;
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]) {
 		printf(MSG_NO_FILE, nomeFile);
 		return -1;
 	}
-    allocamentoIniziale();
+    allocamentoIniziale(b);
     inizioTimer
 	parse(file);
 	fclose(file);
@@ -85,7 +86,7 @@ int main(int argc, char *argv[]) {
             return -1;
         }
         inizioTimer
-        parseDot(fileSC, sceltaOperazione=='g');
+        parseDot(b, fileSC, sceltaOperazione=='g');
         fclose(fileSC);
         fineTimer
         if (loss==0 && sceltaOperazione=='f') printf(MSG_INPUT_NOT_OBSERVATION);
@@ -94,24 +95,24 @@ int main(int argc, char *argv[]) {
     if (sceltaOperazione != 'f' && sceltaOperazione!='g') {
         printf(MSG_GEN_SC);
         inizioTimer
-        ampliaSpazioComportamentale(NULL, iniziale, NULL);
-        generaSpazioComportamentale(iniziale);
+        ampliaSpazioComportamentale(b, NULL, iniziale, NULL);
+        generaSpazioComportamentale(b, iniziale);
         fineTimer
         printf(MSG_POTA);
         ottieniComando(&pota);
-        if (pota==INPUT_Y && nTransSp>1) {
-            int statiPrima = nStatiS, transPrima = nTransSp;
+        if (pota==INPUT_Y && b->nTrans>1) {
+            int statiPrima = b->nStates, transPrima = b->nTrans;
             inizioTimer
-            potatura();
+            potatura(b);
             fineTimer
-            printf(MSG_POTA_RES, statiPrima-nStatiS, transPrima-nTransSp);
+            printf(MSG_POTA_RES, statiPrima-b->nStates, transPrima-b->nTrans);
         }
-        printf(MSG_SC_RES, nStatiS, nTransSp);
+        printf(MSG_SC_RES, b->nStates, b->nTrans);
         if (sceltaDot==INPUT_Y) {
             printf(MSG_RENAME_STATES);
             ottieniComando(&sceltaRinomina);
             inizioTimer
-            stampaSpazioComportamentale(sceltaRinomina==INPUT_Y);
+            stampaSpazioComportamentale(b, sceltaRinomina==INPUT_Y);
             fineTimer
         }
     }
@@ -122,7 +123,7 @@ int main(int argc, char *argv[]) {
         if (sceltaDiag==INPUT_Y) {
             printf(MSG_DIAG_EXEC);
             inizioTimer
-            diagnostica();
+            diagnostica(b);
             fineTimer
         }
     }

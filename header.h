@@ -14,7 +14,7 @@
 #define ottieniComando(com) while (!isalpha(*com=getchar()));
 #define inizioTimer inizio = clock();
 
-// DEFINIZIONE STATICA DI UN MODELLO COMPORTAMENTALE
+// MODEL
 typedef struct link {
     struct componente *da, *a;
     int id, intId;
@@ -31,7 +31,7 @@ typedef struct componente {
     struct transizione **transizioni;
 } Componente;
 
-// COMPORTAMENTO DINAMICO DELLA RETE
+// BEHAVIORAL SPACE
 typedef struct statorete {
     int *statoComponenti, *contenutoLink;
     int id, indiceOsservazione;
@@ -52,34 +52,41 @@ struct ltrans {
     struct ltrans * prossima;
 };
 
-extern int nlink, ncomp, nStatiS, nTransSp, *osservazione, loss;
+typedef struct behspace {
+    StatoRete ** states;
+    int nStates, nTrans, sizeofS;
+} BehSpace;
+
+
+extern int nlink, ncomp, *osservazione, loss;
 extern Componente **componenti;
 extern Link **links;
-extern StatoRete ** statiSpazio;
 extern char nomeFile[100];
 
 // DataStructures.c
-void allocamentoIniziale(void);
-void alloc1(char);
-void alloc1trC(Componente *);
 Componente * nuovoComponente(void);
 Link* linkDaId(int);
 Componente* compDaId(int);
+void alloc1trC(Componente *);
+void allocamentoIniziale(BehSpace *);
+void alloc1(BehSpace *, char);
 StatoRete * generaStato(int *, int *);
-void eliminaStato(int);
+void eliminaStato(BehSpace *, int);
 void freeStatoRete(StatoRete *);
-void memCoherenceTest(void);
+void memCoherenceTest(BehSpace *);
+BehSpace * dup(BehSpace *, bool[]);
 // Parser.c
 void parse(FILE*);
-void parseDot(FILE *, bool);
-// SpaceMaker.c
+void parseDot(BehSpace *, FILE *, bool);
+// Printer.c
 void stampaStruttureAttuali(StatoRete *, bool);
-void stampaSpazioComportamentale(bool);
-bool ampliaSpazioComportamentale(StatoRete *, StatoRete *, Transizione *);
-void potatura(void);
-void generaSpazioComportamentale(StatoRete *);
+void stampaSpazioComportamentale(BehSpace *, bool);
+// SpaceMaker.c
+bool ampliaSpazioComportamentale(BehSpace * b, StatoRete *, StatoRete *, Transizione *);
+void potatura(BehSpace *);
+void generaSpazioComportamentale(BehSpace *, StatoRete *);
 // Diagnoser.c
-void diagnostica(void);
+void diagnostica(BehSpace *);
 
 #define LANG_ENG
 

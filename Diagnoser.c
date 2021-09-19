@@ -145,39 +145,39 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
     if (solution != d->regex) strcpy(d->regex, solution);
 }
 
-void diagnostica(void) {
+void diagnostica(BehSpace *b) {
     int i=0, j=0;
     StatoRete * stemp = NULL;
-    tempRegexLen = REGEX*nStatiS*nTransSp;
+    tempRegexLen = REGEX*b->nStates*b->nTrans;
     tempRegex = malloc(tempRegexLen);
 
     //Arricchimento spazio con nuovi stati iniziale e finale
     Transizione *tvuota = calloc(1, sizeof(Transizione));
-    for (stemp=statiSpazio[j=nStatiS-1]; j>=0; stemp=statiSpazio[--j])          // Generazione nuovo stato iniziale
+    for (stemp=b->states[j=b->nStates-1]; j>=0; stemp=b->states[--j])          // Generazione nuovo stato iniziale
         stemp->id++;
-    alloc1('s');
-    memmove(statiSpazio+1, statiSpazio, nStatiS*sizeof(StatoRete*));
-    nStatiS++;
+    alloc1(b, 's');
+    memmove(b->states+1, b->states, b->nStates*sizeof(StatoRete*));
+    b->nStates++;
     stemp = calloc(1, sizeof(StatoRete));
-    statiSpazio[0] = stemp;
+    b->states[0] = stemp;
     stemp->id = 0;
     TransizioneRete * nuovaTr = calloc(1, sizeof(TransizioneRete));
     nuovaTr->da = stemp;
-    nuovaTr->a = statiSpazio[1];
+    nuovaTr->a = b->states[1];
     nuovaTr->t = tvuota;
     stemp->transizioni = calloc(1, sizeof(struct ltrans));
     stemp->transizioni->t = nuovaTr;
-    struct ltrans *vecchiaTesta = statiSpazio[1]->transizioni;
-    statiSpazio[1]->transizioni = calloc(1, sizeof(struct ltrans));
-    statiSpazio[1]->transizioni->t = nuovaTr;
-    statiSpazio[1]->transizioni->prossima = vecchiaTesta;
-    nTransSp++;
+    struct ltrans *vecchiaTesta = b->states[1]->transizioni;
+    b->states[1]->transizioni = calloc(1, sizeof(struct ltrans));
+    b->states[1]->transizioni->t = nuovaTr;
+    b->states[1]->transizioni->prossima = vecchiaTesta;
+    b->nTrans++;
 
-    alloc1('s');
+    alloc1(b, 's');
     StatoRete * fine = calloc(1, sizeof(StatoRete));                            // Generazione nuovo stato finale
-    fine->id = nStatiS;
+    fine->id = b->nStates;
     fine->finale = true;
-    for (stemp = statiSpazio[i=1]; i<nStatiS; stemp=statiSpazio[++i]) {         // Collegamento ex stati finali col nuovo
+    for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Collegamento ex stati finali col nuovo
         if (stemp->finale) {
             TransizioneRete * trFinale = calloc(1, sizeof(TransizioneRete));
             trFinale->da = stemp;
@@ -191,13 +191,13 @@ void diagnostica(void) {
             fine->transizioni = calloc(1, sizeof(struct ltrans));
             fine->transizioni->t = trFinale;
             fine->transizioni->prossima = vecchiaTesta;
-            nTransSp++;
+            b->nTrans++;
             stemp->finale = false;
         }
     }
-    statiSpazio[nStatiS++] = fine;
+    b->states[b->nStates++] = fine;
 
-    for (stemp=statiSpazio[j=0]; j<nStatiS; stemp=statiSpazio[++j]) {           // Formazione regex elementari
+    for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Formazione regex elementari
         struct ltrans *trans = stemp->transizioni;
         while (trans != NULL) {
             if (trans->t->da == stemp) {
@@ -213,9 +213,9 @@ void diagnostica(void) {
         }
     }
     
-    while (nTransSp>1) {                                                        // Ciclo di diagnostica
+    while (b->nTrans>1) {                                                        // Ciclo di diagnostica
         bool continua = false;
-        for (stemp = statiSpazio[i=0]; i<nStatiS; stemp=statiSpazio[++i]) {     // Semplificazione serie -> unità
+        for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
             TransizioneRete *tentra, *tesce;
             if (stemp->transizioni != NULL && stemp->transizioni->prossima != NULL && stemp->transizioni->prossima->prossima == NULL &&
             (((tesce = stemp->transizioni->t)->da == stemp && (tentra = stemp->transizioni->prossima->t)->a == stemp)
@@ -227,27 +227,27 @@ void diagnostica(void) {
                 nt->t = tvuota;
                 regexMake(tentra, tesce, nt, 'c', NULL);
                 
-                nTransSp++;
+                b->nTrans++;
                 struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
                 nuovaTr->t = nt;
-                struct ltrans *templtrans = statiSpazio[tentra->da->id]->transizioni;
-                statiSpazio[tentra->da->id]->transizioni = nuovaTr;
-                statiSpazio[tentra->da->id]->transizioni->prossima = templtrans;
+                struct ltrans *templtrans = b->states[tentra->da->id]->transizioni;
+                b->states[tentra->da->id]->transizioni = nuovaTr;
+                b->states[tentra->da->id]->transizioni->prossima = templtrans;
                 if (tentra->da != tesce->a) {
-                    templtrans = statiSpazio[tesce->a->id]->transizioni;
+                    templtrans = b->states[tesce->a->id]->transizioni;
                     nuovaTr = calloc(1, sizeof(struct ltrans));
                     nuovaTr->t = nt;
-                    statiSpazio[tesce->a->id]->transizioni = nuovaTr;
-                    statiSpazio[tesce->a->id]->transizioni->prossima = templtrans;
+                    b->states[tesce->a->id]->transizioni = nuovaTr;
+                    b->states[tesce->a->id]->transizioni->prossima = templtrans;
                 }
                 free(tentra->regex);
                 free(tesce->regex);
-                eliminaStato(i);
+                eliminaStato(b, i);
                 continua = true;
             }
         }
         if (continua) continue;
-        for (stemp=statiSpazio[i=0]; i<nStatiS; stemp=statiSpazio[++i]) {       // Collasso gruppi di transizioni che condividono partenze e arrivi in una
+        for (stemp=b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {       // Collasso gruppi di transizioni che condividono partenze e arrivi in una
             struct ltrans *trans1 = stemp->transizioni;
             while (trans1 != NULL) {
                 struct ltrans *trans2 = stemp->transizioni, *nodoPrecedente = NULL;
@@ -268,7 +268,7 @@ void diagnostica(void) {
                             listaNelNodoDiPartenza = listaNelNodoDiPartenza->prossima;
                         }
                         free(trans2->t);
-                        nTransSp--;
+                        b->nTrans--;
                         continua = true;
                         break;
                     }
@@ -283,7 +283,7 @@ void diagnostica(void) {
         if (continua) continue;
 
         bool azioneEffettuataSuQuestoStato = false;
-        for (stemp=statiSpazio[i=1]; i<nStatiS-1; stemp=statiSpazio[++i]) {
+        for (stemp=b->states[i=1]; i<b->nStates-1; stemp=b->states[++i]) {
             TransizioneRete * autoTransizione = NULL;
             struct ltrans *trans = stemp->transizioni;
             for (; trans != NULL; trans = trans->prossima) {
@@ -315,7 +315,7 @@ void diagnostica(void) {
                                 nuovaTr2->prossima = nt->a->transizioni;
                                 nt->a->transizioni = nuovaTr2;
                             }
-                            nTransSp++;
+                            b->nTrans++;
                             
                             if (autoTransizione) regexMake(trans1->t, trans2->t, nt, 'r', autoTransizione);
                             else regexMake(trans1->t, trans2->t, nt, 'c', NULL);
@@ -326,13 +326,13 @@ void diagnostica(void) {
                 trans1 = trans1->prossima;
             }
             if (azioneEffettuataSuQuestoStato) {
-                eliminaStato(i);
+                eliminaStato(b, i);
                 break;
             }
         }
     }
     free(tempRegex);
-    printf("%.10000s\n", statiSpazio[0]->transizioni->t->regex);
+    printf("%.10000s\n", b->states[0]->transizioni->t->regex);
 }
 
 /*int strl1 = strlen(tentra->regex), strl2 = strlen(tesce->regex);

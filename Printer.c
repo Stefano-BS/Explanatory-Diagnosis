@@ -1,28 +1,28 @@
 #include "header.h"
 
-char* nomeStato(int n){
+char* nomeStato(StatoRete *s){
     int j, v;
     char* nome = calloc(30, sizeof(char)), *puntatore = nome;
     sprintf(puntatore++, "R");
     for (j=0; j<ncomp; j++) {
-        v = statiSpazio[n]->statoComponenti[j];
+        v = s->statoComponenti[j];
         sprintf(puntatore,"%d", v);
         puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
     sprintf(puntatore,"_L");
     puntatore+=2;
     for (j=0; j<nlink; j++)
-        if (statiSpazio[n]->contenutoLink[j] == VUOTO)
+        if (s->contenutoLink[j] == VUOTO)
             sprintf(puntatore++,"e");
         else {
-            v = statiSpazio[n]->contenutoLink[j];
+            v = s->contenutoLink[j];
             sprintf(puntatore, "%d", v);
             puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
         }
     if (loss>0) {
         sprintf(puntatore,"_O");
         puntatore+=2;
-        v = statiSpazio[n]->indiceOsservazione;
+        v = s->indiceOsservazione;
         sprintf(puntatore, "%d", v);
         puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
@@ -87,21 +87,21 @@ void stampaStruttureAttuali(StatoRete * attuale, bool testuale) {
     }
 }
 
-void stampaSpazioComportamentale(bool rinomina) {
+void stampaSpazioComportamentale(BehSpace *b, bool rinomina) {
     int i, strlenNomeFile = strlen(nomeFile);
-    char* nomeSpazi[nStatiS], nomeFileDot[strlenNomeFile+7], nomeFilePDF[strlenNomeFile+7], comando[30+strlenNomeFile*2];
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+7], nomeFilePDF[strlenNomeFile+7], comando[30+strlenNomeFile*2];
     sprintf(nomeFileDot, "%s_SC.dot", nomeFile);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"SC%s\" {\n", nomeFile);
-    for (i=0; i<nStatiS; i++) {
-        if (statiSpazio[i]->finale) fprintf(file, "node [shape=doublecircle]; ");
+    for (i=0; i<b->nStates; i++) {
+        if (b->states[i]->finale) fprintf(file, "node [shape=doublecircle]; ");
         else fprintf(file, "node [shape=circle]; ");
-        nomeSpazi[i] = nomeStato(i);
+        nomeSpazi[i] = nomeStato(b->states[i]);
         if (rinomina) fprintf(file, "S%d ;\n", i);
         else fprintf(file, "%s ;\n", nomeSpazi[i]);
     }
     StatoRete *s;
-    for (s=statiSpazio[i=0]; i<nStatiS; s=statiSpazio[++i]) {
+    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         struct ltrans * trans = s->transizioni;
         while (trans != NULL) {
             if (trans->t->da == s) {
@@ -121,9 +121,9 @@ void stampaSpazioComportamentale(bool rinomina) {
     system(comando);
     if (rinomina) {
         printf(MSG_SOBSTITUTION_LIST);
-        for (i=0; i<nStatiS; i++)
+        for (i=0; i<b->nStates; i++)
             printf("%d: %s\n", i, nomeSpazi[i]);
     }
-    for (i=0; i<nStatiS; i++)
+    for (i=0; i<b->nStates; i++)
         free(nomeSpazi[i]);
 }
