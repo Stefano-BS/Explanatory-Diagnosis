@@ -19,7 +19,7 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
             solutionLen = strl1+strl2+1 < REGEX? REGEX : strl1+strl2+1;
             solution = tempRegex;
             d->parentesizzata = false;
-            d->concreta = s1->concreta && s2->concreta;
+            d->concreta = s1->concreta || s2->concreta;
             sprintf(tempRegex, "%s%s", s1->regex, s2->regex);
         }
         else if (strl1>0 && strl2==0) { // copia s1 in d
@@ -145,7 +145,7 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
     if (solution != d->regex) strcpy(d->regex, solution);
 }
 
-void diagnostica(BehSpace *b) {
+char* diagnostica(BehSpace *b) {
     int i=0, j=0;
     StatoRete * stemp = NULL;
     tempRegexLen = REGEX*b->nStates*b->nTrans;
@@ -332,77 +332,5 @@ void diagnostica(BehSpace *b) {
         }
     }
     free(tempRegex);
-    printf("%.10000s\n", b->states[0]->transizioni->t->regex);
+    return b->states[0]->transizioni->t->regex;
 }
-
-/*int strl1 = strlen(tentra->regex), strl2 = strlen(tesce->regex);
-if ((strl1>0) & (strl2>0)) nt->parentesizzata = false;
-else nt->parentesizzata = tentra->parentesizzata;
-int dimNt = strl1+strl2+20 < REGEX ? REGEX : strl1+strl2+20;
-nt->regex = calloc(dimNt, 1);
-nt->dimRegex = dimNt;
-sprintf(nt->regex, "%s%s", tentra->regex, tesce->regex);*/
-
-/*int strl1 = strlen(trans1->t->regex), strl2 = strlen(trans2->t->regex);
-if (strl1 > 0 && strl1==strl2 && strcmp(trans1->t->regex, trans2->t->regex)==0);
-else if (strl1 > 0 && strl2 > 0) {
-    if (trans1->t->dimRegex < strl1 + strl2 + 4) {
-        char * nuovaReg = realloc(trans1->t->regex, (strl1+strl2)*2+4);
-        trans1->t->dimRegex = (strl1+strl2)*2+4;
-        trans1->t->regex = nuovaReg;
-    }
-    sprintf(tempRegex, "(%s|%s)", trans1->t->regex, trans2->t->regex);
-    strcpy(trans1->t->regex, tempRegex);
-    trans1->t->parentesizzata = true;
-} else if (strl1 > 0 && strl2==0) {
-    int deltaCaratteri;
-    deltaCaratteri = trans1->t->parentesizzata? 1 : 3;
-    if (trans1->t->dimRegex < strl1 + deltaCaratteri) {
-        char * nuovaReg = realloc(trans2->t->regex, strl1*2+deltaCaratteri);
-        trans1->t->dimRegex = strl1*2+deltaCaratteri;
-        trans1->t->regex = nuovaReg;
-        trans1->t->parentesizzata = true;
-    }
-    if (trans1->t->parentesizzata) sprintf(tempRegex, "%s?", trans1->t->regex);
-    else sprintf(tempRegex, "(%s)?", trans1->t->regex);
-    strcpy(trans1->t->regex, tempRegex);
-    trans1->t->parentesizzata = true;  // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
-} else if (strl2 > 0) {
-    int deltaCaratteri;
-    deltaCaratteri = trans2->t->parentesizzata? 1 : 3;
-    if (trans1->t->dimRegex < strl2 + deltaCaratteri) {
-        char * nuovaReg = realloc(trans1->t->regex, (strl2)*2+deltaCaratteri);
-        trans1->t->dimRegex = strl2*2+deltaCaratteri;
-        trans1->t->regex = nuovaReg;
-    }
-    if (trans2->t->parentesizzata) sprintf(trans1->t->regex, "%s?", trans2->t->regex);
-    else sprintf(trans1->t->regex, "(%s)?", trans2->t->regex);
-    trans1->t->parentesizzata = true;  // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
-}*/
-
-/*int strl1 = strlen(trans1->t->regex), strl2 = strlen(trans2->t->regex), strl3 = strlen(autoTransizione->regex),
-dimNt = strl1+strl2+strl3+20 < REGEX ? REGEX : strl1+strl2+strl3+20;
-nt->regex = calloc(dimNt, 1);
-nt->dimRegex = dimNt;
-if (strl3 == 0 ) {
-    if ((strl1>0) & (strl2>0)) {
-        sprintf(nt->regex, "(%s%s)", trans1->t->regex, trans2->t->regex);
-        nt->parentesizzata = true;
-    }
-    else if ((strl1 == 0) & (strl2>0)) {
-        strcpy(nt->regex, trans2->t->regex);
-        nt->parentesizzata = trans2->t->parentesizzata;
-    }
-    else if ((strl2 == 0) & (strl1>0)) {
-        strcpy(nt->regex, trans1->t->regex);
-        nt->parentesizzata = trans1->t->parentesizzata;
-    }
-} else {
-    if (strl1 + strl2 >0) {
-        if (autoTransizione->parentesizzata)  sprintf(nt->regex, "(%s%s*%s)", trans1->t->regex, autoTransizione->regex, trans2->t->regex);
-        else sprintf(nt->regex, "(%s(%s)*%s)", trans1->t->regex, autoTransizione->regex, trans2->t->regex);
-    }
-    else if (autoTransizione->parentesizzata) sprintf(nt->regex, "%s*", autoTransizione->regex);
-    else sprintf(nt->regex, "(%s)*", autoTransizione->regex);
-    nt->parentesizzata = true; // Se anche termina con *, non importa
-}*/

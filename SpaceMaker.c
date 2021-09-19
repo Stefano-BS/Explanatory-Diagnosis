@@ -1,6 +1,6 @@
 #include "header.h"
 
-int *ok;
+bool *ok;
 
 bool ampliaSpazioComportamentale(BehSpace * b, StatoRete * precedente, StatoRete * nuovo, Transizione * mezzo) {
     int i;
@@ -103,30 +103,95 @@ void generaSpazioComportamentale(BehSpace * b, StatoRete * attuale) {
     }
 }
 
-void potsSC(BehSpace *b, StatoRete *s) { // Invocata esternamente solo a partire dagli stati finali
-    ok[s->id] = 1;
+void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati finali
+    ok[s->id] = true;
     struct ltrans * trans = s->transizioni;
     for (; trans != NULL; trans=trans->prossima) {
         if (trans->t->a == s && !ok[trans->t->da->id])
-            potsSC(b, b->states[trans->t->da->id]);
+            potsSC(trans->t->da);
     }
 }
 
 void potatura(BehSpace *b) {
     StatoRete *s;
     int i;
-    ok = calloc(b->nStates, sizeof(int));
-    ok[0] = 1;
+    ok = calloc(b->nStates, sizeof(bool));
+    ok[0] = true;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (s->finale) potsSC(b, s);
+        if (s->finale) potsSC(s);
     }
     
     for (i=0; i<b->nStates; i++) {
         if (!ok[i]) {
             eliminaStato(b, i);
-            memcpy(ok+i, ok+i+1, (b->nStates-i)*sizeof(int));
+            memcpy(ok+i, ok+i+1, (b->nStates-i)*sizeof(bool));
             i--;
         }
     }
     free(ok);
+}
+
+
+void faultSpaceExtend(StatoRete * base) {
+    ok[base->id] = true;
+    struct ltrans * lt = base->transizioni;
+    while (lt != NULL) {
+        if (lt->t->t->oss == 0 && !ok[lt->t->a->id]) faultSpaceExtend(lt->t->a);
+        lt = lt->prossima;
+    }
+}
+
+BehSpace * faultSpace(BehSpace *b, StatoRete *base) {
+    ok = calloc(b->nStates, sizeof(bool));
+    faultSpaceExtend(base);
+    // int i=0; for(;i<b->nStates;++i) if (ok[i]) printf("%d ", i); printf("\n");
+    BehSpace * ret = dup(b, ok, true);
+    free(ok);
+    int k;
+    StatoRete *r, *temp;
+    for (r=ret->states[k=0]; k<ret->nStates; r=ret->states[++k]) { // make base its inital state
+        if (//k!=0 //&& base->indiceOsservazione == r->indiceOsservazione
+        memcmp(base->contenutoLink, r->contenutoLink, nlink*sizeof(int)) == 0
+        && memcmp(base->statoComponenti, r->statoComponenti, ncomp*sizeof(int)) == 0) {
+            temp = ret->states[0];  // swap ptrs
+            ret->states[0] = r;
+            ret->states[k] = temp;
+            temp->id = k;           // update ids
+            r->id = 0;
+            return ret;
+        }
+    }
+    return ret;
+}
+
+/* Call like:
+    int nSpaces=0;
+    BehSpace ** ret = faultSpaces(b, &nSpaces);*/
+BehSpace ** faultSpaces(BehSpace * b, int *nSpaces) {
+    StatoRete * s;
+    int i, j=0;
+    nSpaces[0] = 1;
+    for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
+        struct ltrans *lt = s->transizioni;
+        while (lt != NULL) {
+            if (lt->t->a == s && lt->t->t->oss != 0) {
+                nSpaces[0]++;
+                break;
+            }
+            lt = lt->prossima;
+        }
+    }
+    BehSpace ** ret = malloc(nSpaces[0]*sizeof(BehSpace *));
+    ret[j++] = faultSpace(b, b->states[0]);
+    for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
+        struct ltrans *lt = s->transizioni;
+        while (lt != NULL) {
+            if (lt->t->a == s && lt->t->t->oss != 0) {
+                ret[j++] = faultSpace(b, s);
+                break;
+            }
+            lt = lt->prossima;
+        }
+    }
+    return ret;
 }

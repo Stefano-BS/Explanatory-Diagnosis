@@ -74,7 +74,7 @@ StatoRete * generaStato(int *, int *);
 void eliminaStato(BehSpace *, int);
 void freeStatoRete(StatoRete *);
 void memCoherenceTest(BehSpace *);
-BehSpace * dup(BehSpace *, bool[]);
+BehSpace * dup(BehSpace *, bool[], bool);
 // Parser.c
 void parse(FILE*);
 void parseDot(BehSpace *, FILE *, bool);
@@ -85,8 +85,9 @@ void stampaSpazioComportamentale(BehSpace *, bool);
 bool ampliaSpazioComportamentale(BehSpace * b, StatoRete *, StatoRete *, Transizione *);
 void potatura(BehSpace *);
 void generaSpazioComportamentale(BehSpace *, StatoRete *);
+BehSpace ** faultSpaces(BehSpace *, int *);
 // Diagnoser.c
-void diagnostica(BehSpace *);
+char* diagnostica(BehSpace *);
 
 #define LANG_ENG
 

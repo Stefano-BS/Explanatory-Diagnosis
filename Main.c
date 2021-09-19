@@ -123,7 +123,7 @@ int main(int argc, char *argv[]) {
         if (sceltaDiag==INPUT_Y) {
             printf(MSG_DIAG_EXEC);
             inizioTimer
-            diagnostica(b);
+            printf("%.10000s\n", diagnostica(b));
             fineTimer
         }
     }

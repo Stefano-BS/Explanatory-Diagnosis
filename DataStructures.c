@@ -12,14 +12,15 @@ void allocamentoIniziale(BehSpace *b){
     componenti = malloc(sizeofCOMP* sizeof(Componente*));                   // Puntatori ai componenti
     sizeofTrComp = malloc(sizeofCOMP*sizeof(int));                          // Dimensioni degli array puntatori a transizioni nei componenti
     links = malloc(sizeofLINK* sizeof(Link*));                              // Puntatori ai link
-    b->sizeofS=50;
+    b->sizeofS=5;
     b->states = malloc(b->sizeofS* sizeof(StatoRete*));                // Puntatori agli stati rete
 }
 
 void alloc1(BehSpace *b, char o) {   // Gestione strutture globali (livello zero)
     if (o=='s') {
         if (b->nStates+1 > b->sizeofS) {
-            b->sizeofS += 50;
+            b->sizeofS *= 1.25;
+            b->sizeofS += 5;
             StatoRete ** spazio = realloc(b->states, b->sizeofS*sizeof(StatoRete*));
             if (spazio == NULL) printf(MSG_MEMERR);
             else b->states = spazio;
@@ -201,8 +202,8 @@ void memCoherenceTest(BehSpace *b){
 /* Call like:
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
-    BehSpace * duplicated = dup(b, mask); */
-BehSpace * dup(BehSpace *b, bool mask[]) {
+    BehSpace * duplicated = dup(b, mask, false); */
+BehSpace * dup(BehSpace *b, bool mask[], bool silence) {
     int i, ns = 0, map[b->nStates];
     for (i=0; i<b->nStates; i++) {
         map[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
@@ -223,44 +224,47 @@ BehSpace * dup(BehSpace *b, bool mask[]) {
             new = dup->states[map[i]];  // State information copy...
             new->contenutoLink = malloc(nlink*sizeof(int));
             new->statoComponenti = malloc(ncomp*sizeof(int));
-            memccpy(new->contenutoLink, s->contenutoLink, nlink, sizeof(int));
-            memccpy(new->statoComponenti, s->statoComponenti, ncomp, sizeof(int));
+            memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
+            memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
             new->finale = s->finale;
             new->indiceOsservazione = s->indiceOsservazione;
             new->id = map[i];
-            struct ltrans *trans = s->transizioni, *temp, *trans2;
+            struct ltrans *trans = s->transizioni, *temp;
             while (trans != NULL) {     // Transition list copy...
-                int mapA = map[trans->t->a->id], mapDa = map[trans->t->da->id]; 
-                if (mapA != -1 && mapDa != -1) {
-                    struct ltrans *newList = calloc(1, sizeof(struct ltrans));
-                    temp = new->transizioni;
-                    new->transizioni = newList;
-                    newList->prossima = temp;
-                    if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
-                        TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                        dup->nTrans++;
-                        newList->t = nt;
-                        nt->a = dup->states[mapA];
-                        nt->da = dup->states[mapDa];
-                        nt->t = trans->t->t;
-                        nt->concreta = trans->t->concreta;
-                        nt->parentesizzata = trans->t->parentesizzata;
-                        nt->dimRegex = trans->t->dimRegex;
-                        if (nt->dimRegex>0) {
-                            nt->regex = malloc(nt->dimRegex);
-                            memccpy(nt->regex, trans->t->regex, nt->dimRegex, 1);
-                        }
-                    }
-                    else {  // If execution goes here, it means the TransizioneRete has alredy been created, so we search for its pointer
-                        int idSt = mapA < mapDa ? mapA : mapDa;
-                        trans2 = dup->states[idSt]->transizioni;
-                        while (trans2 != NULL) {
-                            if (trans2->t->a->id == mapA && trans2->t->da->id == mapDa
-                            && trans2->t->t == trans->t->t) {
-                                newList->t = trans2->t;
-                                break;
+                if (silence && trans->t->t->oss != 0) new->finale = true; // A fault space state is final if final or if having observale outgoings
+                else {
+                    int mapA = map[trans->t->a->id], mapDa = map[trans->t->da->id]; 
+                    if (mapA != -1 && mapDa != -1) {
+                        struct ltrans *newList = calloc(1, sizeof(struct ltrans));
+                        temp = new->transizioni;
+                        new->transizioni = newList;
+                        newList->prossima = temp;
+                        if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
+                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                            dup->nTrans++;
+                            newList->t = nt;
+                            nt->a = dup->states[mapA];
+                            nt->da = dup->states[mapDa];
+                            nt->t = trans->t->t;
+                            nt->concreta = trans->t->concreta;
+                            nt->parentesizzata = trans->t->parentesizzata;
+                            nt->dimRegex = trans->t->dimRegex;
+                            if (nt->dimRegex>0) {
+                                nt->regex = malloc(nt->dimRegex);
+                                memccpy(nt->regex, trans->t->regex, nt->dimRegex, 1);
                             }
-                            trans2 = trans2->prossima;
+                        }
+                        else {  // If execution goes here, it means the TransizioneRete has alredy been created, so we search for its pointer
+                            int idSt = mapA < mapDa ? mapA : mapDa;
+                            temp = dup->states[idSt]->transizioni;
+                            while (temp != NULL) {
+                                if (temp->t->a->id == mapA && temp->t->da->id == mapDa
+                                && temp->t->t == trans->t->t) {
+                                    newList->t = temp->t;
+                                    break;
+                                }
+                                temp = temp->prossima;
+                            }
                         }
                     }
                 }
