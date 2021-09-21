@@ -1,4 +1,5 @@
 #include "header.h"
+
 char *tempRegex;
 int tempRegexLen;
 
@@ -145,15 +146,33 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
     if (solution != d->regex) strcpy(d->regex, solution);
 }
 
-char* diagnostica(BehSpace *b) {
-    int i=0, j=0;
+inline bool exitCondition(BehSpace *__restrict, bool) __attribute__((always_inline));
+inline bool exitCondition(BehSpace *__restrict b, bool mode2) {
+    if (mode2) {
+        if (b->nStates>2) return false;
+        foreachdecl(lt, b->states[0]->transizioni) {
+            printlog("from %d to %d mark %d\n",lt->t->da->id, lt->t->a->id, lt->t->marker);
+            foreachdecl(lt2, lt->prossima) {
+                if (lt->t->marker != 0 && lt->t->marker == lt2->t->marker) return false;
+            }
+        }
+        return true;
+    }
+    else return b->nTrans<=1;
+}
+
+char** diagnostica(BehSpace *b, bool mode2) {
+    int i=0, j=0, nMarker = b->nStates+2, markerMap[nMarker];
+    for (; i<nMarker; i++) 
+        markerMap[i] = i; // Including α and ω
+    char ** ret = calloc(mode2? nMarker-2 : 1, sizeof(char*));
     StatoRete * stemp = NULL;
     tempRegexLen = REGEX*b->nStates*b->nTrans;
     tempRegex = malloc(tempRegexLen);
 
     //Arricchimento spazio con nuovi stati iniziale e finale
     Transizione *tvuota = calloc(1, sizeof(Transizione));
-    for (stemp=b->states[j=b->nStates-1]; j>=0; stemp=b->states[--j])          // Generazione nuovo stato iniziale
+    for (stemp=b->states[j=b->nStates-1]; j>=0; stemp=b->states[--j])          // New initial state α
         stemp->id++;
     alloc1(b, 's');
     memmove(b->states+1, b->states, b->nStates*sizeof(StatoRete*));
@@ -174,11 +193,11 @@ char* diagnostica(BehSpace *b) {
     b->nTrans++;
 
     alloc1(b, 's');
-    StatoRete * fine = calloc(1, sizeof(StatoRete));                            // Generazione nuovo stato finale
+    StatoRete * fine = calloc(1, sizeof(StatoRete));                            // New final state ω
     fine->id = b->nStates;
     fine->finale = true;
-    for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Collegamento ex stati finali col nuovo
-        if (stemp->finale) {
+    for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Transitions from ex final states/all states to ω
+        if (mode2 || stemp->finale) {
             TransizioneRete * trFinale = calloc(1, sizeof(TransizioneRete));
             trFinale->da = stemp;
             trFinale->a = fine;
@@ -197,9 +216,8 @@ char* diagnostica(BehSpace *b) {
     }
     b->states[b->nStates++] = fine;
 
-    for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Formazione regex elementari
-        struct ltrans *trans = stemp->transizioni;
-        while (trans != NULL) {
+    for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Singleton regex making
+        foreachdecl(trans, stemp->transizioni) {
             if (trans->t->da == stemp) {
                 trans->t->regex = calloc(REGEX, 1);
                 trans->t->dimRegex = REGEX;
@@ -209,11 +227,12 @@ char* diagnostica(BehSpace *b) {
                     trans->t->concreta = true;
                 }
             }
-            trans = trans->prossima;
         }
     }
     
-    while (b->nTrans>1) {                                                        // Ciclo di diagnostica
+    printlog("-----\n");
+    while (!exitCondition(b, mode2)) {
+        // for(i=0;i<b->nStates;i++)printlog("%d ",markerMap[i]);printlog("\n");
         bool continua = false;
         for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
             TransizioneRete *tentra, *tesce;
@@ -226,7 +245,12 @@ char* diagnostica(BehSpace *b) {
                 nt->a = tesce->a;
                 nt->t = tvuota;
                 regexMake(tentra, tesce, nt, 'c', NULL);
-                
+                if (mode2 && nt->a->id == b->nStates-1) {
+                    if (tesce->marker != 0) nt->marker = tesce->marker;
+                    else nt->marker = markerMap[stemp->id];
+                    printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->da->id], markerMap[nt->a->id], nt->marker);
+                }
+
                 b->nTrans++;
                 struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
                 nuovaTr->t = nt;
@@ -242,18 +266,20 @@ char* diagnostica(BehSpace *b) {
                 }
                 free(tentra->regex);
                 free(tesce->regex);
-                eliminaStato(b, i);
+                memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+                removeState(b, stemp);
                 continua = true;
             }
         }
         if (continua) continue;
         for (stemp=b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {       // Collasso gruppi di transizioni che condividono partenze e arrivi in una
-            struct ltrans *trans1 = stemp->transizioni;
-            while (trans1 != NULL) {
-                struct ltrans *trans2 = stemp->transizioni, *nodoPrecedente = NULL;
-                while (trans2 != NULL) {
-                    if (trans1->t != trans2->t && trans1->t->da == trans2->t->da && trans1->t->a == trans2->t->a) {
+            foreachdecl(trans1, stemp->transizioni) {
+                struct ltrans *trans2, *nodoPrecedente = NULL;
+                foreach(trans2, stemp->transizioni) {
+                    if (trans1->t != trans2->t && trans1->t->da == trans2->t->da && trans1->t->a == trans2->t->a
+                    && (!mode2 || (mode2 &&trans2->t->marker == trans1->t->marker))) {
                         regexMake(trans1->t, trans2->t, trans1->t, 'a', NULL);
+                        printlog("Removed t with mark %d\n", trans2->t->marker);
                         free(trans2->t->regex);
                         nodoPrecedente->prossima = trans2->prossima;
                         StatoRete * nodopartenza = trans2->t->da == stemp ? trans2->t->a : trans2->t->da;
@@ -273,32 +299,26 @@ char* diagnostica(BehSpace *b) {
                         break;
                     }
                     nodoPrecedente = trans2;
-                    trans2 = trans2->prossima;
                 }
                 if (continua) break;
-                trans1 = trans1->prossima;
             }
         }
-        
         if (continua) continue;
 
         bool azioneEffettuataSuQuestoStato = false;
         for (stemp=b->states[i=1]; i<b->nStates-1; stemp=b->states[++i]) {
             TransizioneRete * autoTransizione = NULL;
-            struct ltrans *trans = stemp->transizioni;
-            for (; trans != NULL; trans = trans->prossima) {
+            foreachdecl(trans, stemp->transizioni) {
                 if (trans->t->a == trans->t->da) {
                     autoTransizione = trans->t;
                     break;
                 }
             }
-            struct ltrans *trans1 = stemp->transizioni;
-            while (trans1 != NULL) {
-                if (trans1->t->a == stemp && trans1->t->da != stemp) {       // Transizione entrante
-                    struct ltrans *trans2 = stemp->transizioni;             // In trans1 c'è una entrante nel nodo
-                    while (trans2 != NULL) {
-                        if (trans2->t->da == stemp && trans2->t->a != stemp) {      // Transizione uscente
-                            azioneEffettuataSuQuestoStato = true;                  // In trans2 c'è una uscente dal nodo
+        foreachdecl(trans1, stemp->transizioni) {                                   // Transizione entrante
+                if (trans1->t->a == stemp && trans1->t->da != stemp) {             // In trans1 c'è una entrante nel nodo      
+                    foreachdecl(trans2, stemp->transizioni) {                     // Transizione uscente
+                        if (trans2->t->da == stemp && trans2->t->a != stemp) {   // In trans2 c'è una uscente dal nodo
+                            azioneEffettuataSuQuestoStato = true;                  
                             TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
                             nt->da = trans1->t->da;
                             nt->a = trans2->t->a;
@@ -319,18 +339,31 @@ char* diagnostica(BehSpace *b) {
                             
                             if (autoTransizione) regexMake(trans1->t, trans2->t, nt, 'r', autoTransizione);
                             else regexMake(trans1->t, trans2->t, nt, 'c', NULL);
+
+                            if (mode2 && nt->a->id == b->nStates-1) {
+                                if (trans2->t->marker != 0) nt->marker = trans2->t->marker;
+                                else nt->marker = markerMap[stemp->id];
+                                //nt->marker = markerMap[stemp->id];
+                                printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->da->id], markerMap[nt->a->id], nt->marker);
+                            }
                         }
-                        trans2 = trans2->prossima;
                     }
                 }
-                trans1 = trans1->prossima;
             }
             if (azioneEffettuataSuQuestoStato) {
-                eliminaStato(b, i);
+                printlog("Cut %d\n", markerMap[i]);
+                memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+                removeState(b, stemp);
                 break;
             }
         }
     }
     free(tempRegex);
-    return b->states[0]->transizioni->t->regex;
+    if (mode2) {
+        foreachdecl(lt, b->states[0]->transizioni)
+            if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
+    }
+    else ret[0] = b->states[0]->transizioni->t->regex;
+    printlog("-----\n");
+    return ret;
 }

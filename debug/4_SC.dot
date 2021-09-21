@@ -1,0 +1,6 @@
+digraph "SCdebug/4" {
+node [shape=doublecircle]; R01_Le ;
+node [shape=doublecircle]; R01_L2 ;
+R01_Le -> R01_L2 [label=t3R1]
+R01_L2 -> R01_Le [label=t8R4]
+}

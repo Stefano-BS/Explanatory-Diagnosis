@@ -11,8 +11,20 @@
 #define REGEX 10
 #define REGEXLEVER 2
 
+
 #define ottieniComando(com) while (!isalpha(*com=getchar()));
 #define inizioTimer inizio = clock();
+#define foreach(lnode, from) for(lnode=from; lnode!=NULL; lnode = lnode->prossima)
+#define foreachdecl(lnode, from) struct ltrans * lnode; foreach(lnode, from)
+
+#ifndef DEBUG_MODE
+    #define DEBUG_MODE false
+#endif
+#if DEBUG_MODE
+    #define printlog(...) printf(__VA_ARGS__)
+#else
+    #define printlog(...)
+#endif
 
 // MODEL
 typedef struct link {
@@ -41,10 +53,10 @@ typedef struct statorete {
 
 typedef struct {
     StatoRete *da, *a;
-    int dimRegex;
-    struct transizione * t;
+    int dimRegex, marker;
     char *regex;
     bool parentesizzata, concreta;
+    struct transizione * t;
 } TransizioneRete;
 
 struct ltrans {
@@ -57,27 +69,42 @@ typedef struct behspace {
     int nStates, nTrans, sizeofS;
 } BehSpace;
 
+// EXPLAINER
+typedef struct texp {
+    BehSpace * from, *to;
+    int dimRegex;
+    char * regex;
+} TransExpl;
+
+typedef struct explainer {
+    BehSpace ** faults;
+    int nFaultSpaces, nTrans;
+} Explainer;
+
 
 extern int nlink, ncomp, *osservazione, loss;
 extern Componente **componenti;
 extern Link **links;
 extern char nomeFile[100];
+extern const unsigned int eps;
 
 // DataStructures.c
 Componente * nuovoComponente(void);
 Link* linkDaId(int);
 Componente* compDaId(int);
-void alloc1trC(Componente *);
-void allocamentoIniziale(BehSpace *);
+void netAlloc(void);
 void alloc1(BehSpace *, char);
+void alloc1trC(Componente *);
+BehSpace * newBehSpace(void);
 StatoRete * generaStato(int *, int *);
-void eliminaStato(BehSpace *, int);
+void removeState(BehSpace *, StatoRete *);
 void freeStatoRete(StatoRete *);
 void memCoherenceTest(BehSpace *);
 BehSpace * dup(BehSpace *, bool[], bool);
+void freeBehSpace(BehSpace *);
 // Parser.c
 void parse(FILE*);
-void parseDot(BehSpace *, FILE *, bool);
+BehSpace * parseDot(FILE *, bool);
 // Printer.c
 void stampaStruttureAttuali(StatoRete *, bool);
 void stampaSpazioComportamentale(BehSpace *, bool);
@@ -85,13 +112,17 @@ void stampaSpazioComportamentale(BehSpace *, bool);
 bool ampliaSpazioComportamentale(BehSpace * b, StatoRete *, StatoRete *, Transizione *);
 void potatura(BehSpace *);
 void generaSpazioComportamentale(BehSpace *, StatoRete *);
-BehSpace ** faultSpaces(BehSpace *, int *);
+BehSpace ** faultSpaces(BehSpace *, int *, int **);
 // Diagnoser.c
-char* diagnostica(BehSpace *);
+char** diagnostica(BehSpace *, bool);
+// Explainer.c
+Explainer * makeExplainer(BehSpace *);
 
-#define LANG_ENG
+#ifndef LANG
+    #define LANG 'e'
+#endif
 
-#if defined LANG_ITA
+#if LANG == 'i'
     #define INPUT_Y 's'
     #define MSG_YES "si"
     #define MSG_NO "no"
@@ -140,13 +171,13 @@ char* diagnostica(BehSpace *);
     #define MSG_MEMTEST6 "\tmemcmp stato a: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp stato da: %d\n"
     #define fineTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
-#elif defined LANG_ENG
+#elif LANG=='e'
     #define INPUT_Y 'y'
     #define MSG_YES "yes"
     #define MSG_NO "no"
     #define LOGO "  ___        _                        _          _____                    _             \n / _ \\      | |                      | |        |  ___|                  | |            \n/ /_\\ \\_   _| |_ ___  _ __ ___   __ _| |_ __ _  | |____  _____  ___ _   _| |_ ___  _ __ \n|  _  | | | | __/ _ \\| '_ ` _ \\ / _` | __/ _` | |  __\\ \\/ / _ \\/ __| | | | __/ _ \\| '__|\n| | | | |_| | || (_) | | | | | | (_| | || (_| | | |___>  <  __/ (__| |_| | || (_) | |   \n\\_| |_/\\__,_|\\__\\___/|_| |_| |_|\\__,_|\\__\\__,_| \\____/_/\\_\\___|\\___|\\__,_|\\__\\___/|_|\n"
     #define MSG_OBS "Provide the observation sequence. A new line foreach number, non numeric to stop\n"
-    #define MSG_DEF_AUTOMA "\nWhere does automata'definition file locate: "
+    #define MSG_DEF_AUTOMA "\nWhere does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "

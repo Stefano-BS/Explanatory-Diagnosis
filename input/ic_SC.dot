@@ -1,5 +1,5 @@
 digraph "SCinput/ic" {
-node [shape=circle]; R0000_Leeeeeeeee ;
+node [shape=doublecircle]; R0000_Leeeeeeeee ;
 node [shape=doublecircle]; R1000_Leeeeeeeee ;
 node [shape=circle]; R1100_L13eeeeeee ;
 node [shape=circle]; R1110_L132eeeeee ;

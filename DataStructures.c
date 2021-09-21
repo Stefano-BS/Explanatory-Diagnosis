@@ -4,19 +4,26 @@ int nlink=0, ncomp=0;
 Componente **componenti;
 Link **links;
 
-// Rendo bufferizzata la gestione della memoria heap per (tutte) le struttre dati (strutture di puntatori e strutture a contatori)
+// Buffered memory allocation (reduces realloc frequency)
 int *sizeofTrComp;
-int sizeofCOMP=5, sizeofLINK=5;                    // Dimensioni di partenza
+int sizeofCOMP=5, sizeofLINK=5;                                 // Initial sizes
 
-void allocamentoIniziale(BehSpace *b){
-    componenti = malloc(sizeofCOMP* sizeof(Componente*));                   // Puntatori ai componenti
-    sizeofTrComp = malloc(sizeofCOMP*sizeof(int));                          // Dimensioni degli array puntatori a transizioni nei componenti
-    links = malloc(sizeofLINK* sizeof(Link*));                              // Puntatori ai link
-    b->sizeofS=5;
-    b->states = malloc(b->sizeofS* sizeof(StatoRete*));                // Puntatori agli stati rete
+void netAlloc(void){
+    componenti = malloc(sizeofCOMP* sizeof(Componente*));
+    sizeofTrComp = malloc(sizeofCOMP*sizeof(int));              // Array of pointers to transitions inside components' sizes
+    links = malloc(sizeofLINK* sizeof(Link*));
+    if (componenti==NULL || sizeofTrComp==NULL || links==NULL) printf(MSG_MEMERR);
 }
 
-void alloc1(BehSpace *b, char o) {   // Gestione strutture globali (livello zero)
+BehSpace * newBehSpace(void) {
+    BehSpace* b = calloc(1, sizeof(BehSpace));
+    b->sizeofS=5;
+    b->states = malloc(b->sizeofS* sizeof(StatoRete*));
+    if (b->states==NULL) printf(MSG_MEMERR);
+    return b;
+}
+
+void alloc1(BehSpace *b, char o) {   // Call before inserting anything new in any of these structures
     if (o=='s') {
         if (b->nStates+1 > b->sizeofS) {
             b->sizeofS *= 1.25;
@@ -50,14 +57,6 @@ void alloc1trC(Componente * comp) {
         if (spazio == NULL) printf(MSG_MEMERR);
         else comp->transizioni = spazio;
     }
-}
-
-void aggiungiTransizioneInCoda(StatoRete *s, TransizioneRete *t) {
-    struct ltrans *ptr = s->transizioni;
-    while (ptr != NULL) ptr = ptr->prossima;
-    struct ltrans *nuovoElem = calloc(1, sizeof(struct ltrans));
-    ptr->prossima = nuovoElem;
-    nuovoElem->t = t;
 }
 
 Componente * nuovoComponente(void) {
@@ -106,11 +105,11 @@ StatoRete * generaStato(int *contenutoLink, int *statiAttivi) {
     return s;
 }
 
-void eliminaStato(BehSpace *b, int i) {
+void removeState(BehSpace *b, StatoRete * delete) {
     // Paragoni tra stati per puntatori a locazione di memoria, non per id
-    StatoRete *s = b->states[i];
+    int deleteId = delete->id, i;
     struct ltrans * temp, *trans, *transPrima, *temp2;
-    temp = s->transizioni;
+    temp = delete->transizioni;
     trans = transPrima = temp2 = NULL;
     
     while (temp != NULL) { // Ciclo di rimozione di doppioni
@@ -129,17 +128,17 @@ void eliminaStato(BehSpace *b, int i) {
         temp = temp->prossima;
     }
 
-    temp = s->transizioni;
+    temp = delete->transizioni;
     while (temp != NULL) {
         TransizioneRete * tr = temp->t;
         StatoRete  *eliminaAncheDa = NULL;
 
-        if (tr->da != s && tr->a != s)
-            printf(MSG_STATE_ANOMALY, i); // Situazione anomala, ma non importa, qui
+        if (tr->da != delete && tr->a != delete)
+            printf(MSG_STATE_ANOMALY, deleteId); // Situazione anomala, ma non importa, qui
         else {
             eliminaAncheDa = NULL;
-            if (tr->da == s && tr->a != s) eliminaAncheDa = tr->a;
-            else if (tr->da != s && tr->a == s) eliminaAncheDa = tr->da;
+            if (tr->da == delete && tr->a != delete) eliminaAncheDa = tr->a;
+            else if (tr->da != delete && tr->a == delete) eliminaAncheDa = tr->da;
 
             if (eliminaAncheDa != NULL) {
                 transPrima = temp2 = NULL;
@@ -159,16 +158,15 @@ void eliminaStato(BehSpace *b, int i) {
             temp->t = NULL;
         }
         temp = temp->prossima;
-        free(s->transizioni);
-        s->transizioni = temp;
+        free(delete->transizioni);
+        delete->transizioni = temp;
     }
-    freeStatoRete(s);
+    freeStatoRete(delete);
     
     b->nStates--;
-    memcpy(b->states+i, b->states+i+1, (b->nStates-i)*sizeof(StatoRete*));
-    int j=0;
-    for (; j<b->nStates; j++)                                         // Abbasso l'id degli stati successivi
-        if (b->states[j]->id>=i) b->states[j]->id--;
+    memcpy(b->states+deleteId, b->states+deleteId+1, (b->nStates - deleteId)*sizeof(StatoRete*));
+    for (i=0; i<b->nStates; i++)                                         // Abbasso l'id degli stati successivi
+        if (b->states[i]->id>=deleteId) b->states[i]->id--;
 }
 
 void freeStatoRete(StatoRete *s) {
@@ -176,6 +174,91 @@ void freeStatoRete(StatoRete *s) {
     if (s->statoComponenti != NULL) free(s->statoComponenti);
     if (s->transizioni != NULL) free(s->transizioni); // Struttura ricorsiva il cui contenuto deve essere già stato liberato
     free(s);
+}
+
+/* Call like:
+    bool mask[b->nStates];
+    memset(mask, true, b->nStates);
+    BehSpace * duplicated = dup(b, mask, false); */
+BehSpace * dup(BehSpace *b, bool mask[], bool silence) {
+    int i, ns = 0, map[b->nStates];
+    for (i=0; i<b->nStates; i++) {
+        map[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
+        ns = mask[i] ? ns+1 : ns;
+    }
+    
+    BehSpace *dup = calloc(1, sizeof(BehSpace));    // Not using newBehSpace since knowing in advance exact target size
+    dup->nStates = ns;                              // lets avoid realloc process and avoid wasting space
+    dup->sizeofS = ns;
+    dup->states = calloc(ns, sizeof(StatoRete *));
+
+    StatoRete * s, * new;
+    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {    // Preallocate states to have valid pointers
+        if (mask[i]) dup->states[map[i]] = calloc(1, sizeof(StatoRete));
+    }
+    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
+        if (mask[i]) {
+            new = dup->states[map[i]];  // State information copy...
+            new->contenutoLink = malloc(nlink*sizeof(int));
+            new->statoComponenti = malloc(ncomp*sizeof(int));
+            memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
+            memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
+            new->finale = s->finale;
+            new->indiceOsservazione = s->indiceOsservazione;
+            new->id = map[i];
+            struct ltrans *trans = s->transizioni, *temp;
+            while (trans != NULL) {     // Transition list copy...
+                TransizioneRete *t = trans->t;
+                if (silence && t->t->oss != 0) new->finale = true; // A fault space state is final if final or if having observale outgoings
+                else {
+                    int mapA = map[t->a->id], mapDa = map[t->da->id]; 
+                    if (mapA != -1 && mapDa != -1) {
+                        struct ltrans *newList = calloc(1, sizeof(struct ltrans));
+                        temp = new->transizioni;
+                        new->transizioni = newList;
+                        newList->prossima = temp;
+                        if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
+                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                            dup->nTrans++;
+                            newList->t = nt;
+                            nt->a = dup->states[mapA];
+                            nt->da = dup->states[mapDa];
+                            nt->t = t->t;
+                            nt->concreta = t->concreta;
+                            nt->parentesizzata = t->parentesizzata;
+                            nt->dimRegex = t->dimRegex;
+                            nt->marker = t->marker;
+                            if (nt->dimRegex>0) {
+                                nt->regex = malloc(nt->dimRegex);
+                                strcpy(nt->regex, t->regex);
+                            }
+                        }
+                        else {  // If execution goes here, it means the TransizioneRete has alredy been created, so we search for its pointer
+                            int idSt = mapA < mapDa ? mapA : mapDa;
+                            temp = dup->states[idSt]->transizioni;
+                            while (temp != NULL) {
+                                if (temp->t->a->id == mapA && temp->t->da->id == mapDa
+                                && temp->t->t == t->t) {
+                                    newList->t = temp->t;
+                                    break;
+                                }
+                                temp = temp->prossima;
+                            }
+                        }
+                    }
+                }
+                trans = trans->prossima;
+            }
+        }
+    }
+    return dup;
+}
+
+void freeBehSpace(BehSpace *b) {
+    int i;
+    for (i=0; i<b->nStates; i++)
+        removeState(b, b->states[i]);
+    free(b);
 }
 
 void memCoherenceTest(BehSpace *b){
@@ -197,80 +280,4 @@ void memCoherenceTest(BehSpace *b){
             lt = lt->prossima;
         }
     }
-}
-
-/* Call like:
-    bool mask[b->nStates];
-    memset(mask, true, b->nStates);
-    BehSpace * duplicated = dup(b, mask, false); */
-BehSpace * dup(BehSpace *b, bool mask[], bool silence) {
-    int i, ns = 0, map[b->nStates];
-    for (i=0; i<b->nStates; i++) {
-        map[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
-        ns = mask[i] ? ns+1 : ns;
-    }
-    
-    BehSpace *dup = calloc(1, sizeof(BehSpace));
-    dup->nStates = ns;
-    dup->sizeofS = ns;
-    dup->states = calloc(ns, sizeof(StatoRete *));
-
-    StatoRete * s, * new;
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {    // Preallocate states to have valid pointers
-        if (mask[i]) dup->states[map[i]] = calloc(1, sizeof(StatoRete));
-    }
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (mask[i]) {
-            new = dup->states[map[i]];  // State information copy...
-            new->contenutoLink = malloc(nlink*sizeof(int));
-            new->statoComponenti = malloc(ncomp*sizeof(int));
-            memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
-            memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
-            new->finale = s->finale;
-            new->indiceOsservazione = s->indiceOsservazione;
-            new->id = map[i];
-            struct ltrans *trans = s->transizioni, *temp;
-            while (trans != NULL) {     // Transition list copy...
-                if (silence && trans->t->t->oss != 0) new->finale = true; // A fault space state is final if final or if having observale outgoings
-                else {
-                    int mapA = map[trans->t->a->id], mapDa = map[trans->t->da->id]; 
-                    if (mapA != -1 && mapDa != -1) {
-                        struct ltrans *newList = calloc(1, sizeof(struct ltrans));
-                        temp = new->transizioni;
-                        new->transizioni = newList;
-                        newList->prossima = temp;
-                        if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
-                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
-                            dup->nTrans++;
-                            newList->t = nt;
-                            nt->a = dup->states[mapA];
-                            nt->da = dup->states[mapDa];
-                            nt->t = trans->t->t;
-                            nt->concreta = trans->t->concreta;
-                            nt->parentesizzata = trans->t->parentesizzata;
-                            nt->dimRegex = trans->t->dimRegex;
-                            if (nt->dimRegex>0) {
-                                nt->regex = malloc(nt->dimRegex);
-                                memccpy(nt->regex, trans->t->regex, nt->dimRegex, 1);
-                            }
-                        }
-                        else {  // If execution goes here, it means the TransizioneRete has alredy been created, so we search for its pointer
-                            int idSt = mapA < mapDa ? mapA : mapDa;
-                            temp = dup->states[idSt]->transizioni;
-                            while (temp != NULL) {
-                                if (temp->t->a->id == mapA && temp->t->da->id == mapDa
-                                && temp->t->t == trans->t->t) {
-                                    newList->t = temp->t;
-                                    break;
-                                }
-                                temp = temp->prossima;
-                            }
-                        }
-                    }
-                }
-                trans = trans->prossima;
-            }
-        }
-    }
-    return dup;
 }

@@ -133,7 +133,8 @@ void parse(FILE* file) {
     }
 }
 
-void parseDot(BehSpace * b, FILE * file, bool semplificata) {
+BehSpace * parseDot(FILE * file, bool semplificata) {
+    BehSpace * b = newBehSpace();
     int i;
     char buffer[50];
     fgets(buffer, 49, file);   // Intestazione
@@ -204,7 +205,6 @@ void parseDot(BehSpace * b, FILE * file, bool semplificata) {
             nuovaTransRete->da = statoDa;
             nuovaTransRete->t = t;
             nuovaTransRete->regex = NULL;
-            nuovaTransRete->dimRegex = 0;
             struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
             nuovaLTr->prossima = statoDa->transizioni;
@@ -256,7 +256,6 @@ void parseDot(BehSpace * b, FILE * file, bool semplificata) {
             
             TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
             nuovaTransRete->regex = NULL;
-            nuovaTransRete->dimRegex = 0;
             nuovaTransRete->a = b->states[idA];
             nuovaTransRete->da = b->states[idDa];
             nuovaTransRete->t = t;
@@ -276,5 +275,6 @@ void parseDot(BehSpace * b, FILE * file, bool semplificata) {
             if (strcmp(buffer, "}") == 0) break;
         }
     }
-    memCoherenceTest(b);
+    if (DEBUG_MODE) memCoherenceTest(b);
+    return b;
 }

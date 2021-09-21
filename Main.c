@@ -1,7 +1,9 @@
 #include "header.h"
+#include <locale.h>
 
 char nomeFile[100] = "";
 int *osservazione, loss=0;
+const unsigned int eps = L'ε';
 
 void impostaDatiOsservazione(void) {
     int oss, sizeofBuf = 10;
@@ -21,8 +23,9 @@ void impostaDatiOsservazione(void) {
 }
 
 int main(int argc, char *argv[]) {
+    setlocale(LC_ALL, "");
     printf(LOGO);
-    BehSpace *b = calloc(1, sizeof(BehSpace));
+    BehSpace *b;
     char sceltaDot='\0', sceltaOperazione, pota, nomeFileSC[100], sceltaDiag, sceltaRinomina;
     bool benchmark = false;
     clock_t inizio;
@@ -51,7 +54,7 @@ int main(int argc, char *argv[]) {
 		printf(MSG_NO_FILE, nomeFile);
 		return -1;
 	}
-    allocamentoIniziale(b);
+    netAlloc();
     inizioTimer
 	parse(file);
 	fclose(file);
@@ -86,7 +89,7 @@ int main(int argc, char *argv[]) {
             return -1;
         }
         inizioTimer
-        parseDot(b, fileSC, sceltaOperazione=='g');
+        b = parseDot(fileSC, sceltaOperazione=='g');
         fclose(fileSC);
         fineTimer
         if (loss==0 && sceltaOperazione=='f') printf(MSG_INPUT_NOT_OBSERVATION);
@@ -95,6 +98,7 @@ int main(int argc, char *argv[]) {
     if (sceltaOperazione != 'f' && sceltaOperazione!='g') {
         printf(MSG_GEN_SC);
         inizioTimer
+        b = newBehSpace();
         ampliaSpazioComportamentale(b, NULL, iniziale, NULL);
         generaSpazioComportamentale(b, iniziale);
         fineTimer
@@ -123,9 +127,16 @@ int main(int argc, char *argv[]) {
         if (sceltaDiag==INPUT_Y) {
             printf(MSG_DIAG_EXEC);
             inizioTimer
-            printf("%.10000s\n", diagnostica(b));
+            char * diagnosis = diagnostica(b, false)[0];
+            if (diagnosis[0] == '\0') printf("%lc\n", eps);
+            else printf("%.10000s\n", diagnosis);
+            freeBehSpace(b);
             fineTimer
         }
+    }
+    else {
+        makeExplainer(b);
+        freeBehSpace(b);
     }
 	return(0);
 }
