@@ -1,6 +1,9 @@
 digraph "SCdebug/6" {
-node [shape=doublecircle]; R10_Le ;
-node [shape=doublecircle]; R10_L1 ;
-R10_Le -> R10_L1 [label=t4R2]
-R10_L1 -> R10_Le [label=t7R3]
+node [shape=doublecircle]; R100_L1ee ;
+node [shape=doublecircle]; R101_L1e2 ;
+node [shape=doublecircle]; R001_L1ee ;
+node [shape=doublecircle]; R101_Leee ;
+R100_L1ee -> R101_L1e2 [label=t7]
+R101_L1e2 -> R001_L1ee [label=t3]
+R001_L1ee -> R101_Leee [label=t2]
 }

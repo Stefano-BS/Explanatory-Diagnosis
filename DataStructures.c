@@ -59,6 +59,15 @@ void alloc1trC(Componente * comp) {
     }
 }
 
+void alloc1trExp(Explainer * exp) {
+    if (exp->nTrans+1 > exp->sizeofTrans) {
+        exp->sizeofTrans += 10;
+        TransExpl ** array = realloc(exp->trans, exp->sizeofTrans*sizeof(TransExpl*));
+        if (array == NULL) printf(MSG_MEMERR);
+        else exp->trans = array;
+    }
+}
+
 Componente * nuovoComponente(void) {
     alloc1(NULL, 'c');
     Componente *nuovo = calloc(1, sizeof(Componente));
@@ -180,10 +189,15 @@ void freeStatoRete(StatoRete *s) {
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false); */
-BehSpace * dup(BehSpace *b, bool mask[], bool silence) {
-    int i, ns = 0, map[b->nStates];
+BehSpace * dup(BehSpace *b, bool mask[], bool silence, int** map) {
+    int i, ns = 0;
+    if (map == NULL) {
+        int *temp = malloc(b->nStates*sizeof(int));
+        map = &temp;
+    }
+    //else *map = malloc(b->nStates*sizeof(int));
     for (i=0; i<b->nStates; i++) {
-        map[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
+        (*map)[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
         ns = mask[i] ? ns+1 : ns;
     }
     
@@ -194,24 +208,24 @@ BehSpace * dup(BehSpace *b, bool mask[], bool silence) {
 
     StatoRete * s, * new;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {    // Preallocate states to have valid pointers
-        if (mask[i]) dup->states[map[i]] = calloc(1, sizeof(StatoRete));
+        if (mask[i]) dup->states[(*map)[i]] = calloc(1, sizeof(StatoRete));
     }
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (mask[i]) {
-            new = dup->states[map[i]];  // State information copy...
+            new = dup->states[(*map)[i]];  // State information copy...
             new->contenutoLink = malloc(nlink*sizeof(int));
             new->statoComponenti = malloc(ncomp*sizeof(int));
             memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
             memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
             new->finale = s->finale;
             new->indiceOsservazione = s->indiceOsservazione;
-            new->id = map[i];
+            new->id = (*map)[i];
             struct ltrans *trans = s->transizioni, *temp;
             while (trans != NULL) {     // Transition list copy...
                 TransizioneRete *t = trans->t;
                 if (silence && t->t->oss != 0) new->finale = true; // A fault space state is final if final or if having observale outgoings
                 else {
-                    int mapA = map[t->a->id], mapDa = map[t->da->id]; 
+                    int mapA = (*map)[t->a->id], mapDa = (*map)[t->da->id]; 
                     if (mapA != -1 && mapDa != -1) {
                         struct ltrans *newList = calloc(1, sizeof(struct ltrans));
                         temp = new->transizioni;
@@ -261,14 +275,13 @@ void freeBehSpace(BehSpace *b) {
     free(b);
 }
 
-void memCoherenceTest(BehSpace *b){
+void behCoherenceTest(BehSpace *b){
     int i;
     StatoRete *s;
     printf(MSG_MEMTEST1, b->nStates, b->nTrans);
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (s->id != i) printf(MSG_MEMTEST2, i, s->id);
-        struct ltrans * lt = s->transizioni;
-        while (lt != NULL) {
+        foreachdecl(lt, s->transizioni) {
             if (lt->t->a->id != i && lt->t->da->id != i)
                 printf(MSG_MEMTEST3, i, lt->t->da->id, lt->t->a->id);
             if (lt->t->a != s && lt->t->da != s) {
@@ -277,7 +290,31 @@ void memCoherenceTest(BehSpace *b){
                 printf(MSG_MEMTEST6, memcmp(lt->t->a, s, sizeof(StatoRete))==0);
                 printf(MSG_MEMTEST7, memcmp(lt->t->da, s, sizeof(StatoRete))==0);
             }
-            lt = lt->prossima;
         }
+    }
+}
+
+void expCoherenceTest(Explainer *exp){
+    int i, j;
+    FaultSpace * s;
+    printf(MSG_MEMTEST9, exp->nFaultSpaces, exp->nTrans);
+    for (s=exp->faults[i=0]; i<exp->nFaultSpaces; s=exp->faults[++i]) {
+        behCoherenceTest(s->b);
+        for (j=0; j<s->b->nStates; j++) {
+            if (s->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
+            if (s->idMapFromOrigin[s->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
+        }
+        //int z;for(z=0;z<s->b->nStates;z++)printf("%d ",s->idMapToOrigin[z]);printf("\n");for(z=0;z<12;z++)printf("%d ",s->idMapFromOrigin[z]);printf("\n");
+    }
+    
+    TransExpl * tr;
+    for (tr=exp->trans[i=0]; i<exp->nTrans; tr=exp->trans[++i]) {
+        if (tr->obs == 0) printf(MSG_MEMTEST10, i);
+        bool okFrom=false, okTo=false;
+        for (s=exp->faults[j=0]; j<exp->nFaultSpaces; s=exp->faults[++j]) {
+            okFrom |= tr->from == s;
+            okTo |= tr->to == s;
+        }
+        if (!okFrom || !okTo) printf(MSG_MEMTEST8);
     }
 }

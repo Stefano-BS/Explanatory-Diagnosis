@@ -275,6 +275,6 @@ BehSpace * parseDot(FILE * file, bool semplificata) {
             if (strcmp(buffer, "}") == 0) break;
         }
     }
-    if (DEBUG_MODE) memCoherenceTest(b);
+    if (DEBUG_MODE) behCoherenceTest(b);
     return b;
 }

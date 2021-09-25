@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
             printf(MSG_RENAME_STATES);
             ottieniComando(&sceltaRinomina);
             inizioTimer
-            stampaSpazioComportamentale(b, sceltaRinomina==INPUT_Y);
+            stampaSpazioComportamentale(b, sceltaRinomina==INPUT_Y, false);
             fineTimer
         }
     }
@@ -135,8 +135,9 @@ int main(int argc, char *argv[]) {
         }
     }
     else {
-        makeExplainer(b);
+        Explainer * exp = makeExplainer(b);
         freeBehSpace(b);
+        if (sceltaDot==INPUT_Y) printExplainer(exp);
     }
 	return(0);
 }

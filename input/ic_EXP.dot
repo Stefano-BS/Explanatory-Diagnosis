@@ -1,0 +1,5190 @@
+digraph "EXPinput/ic" {
+node [style=filled fillcolor=white]
+subgraph cluster1 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C1S0 ;
+C1S1 ;
+C1S26 ;
+C1S27 ;
+C1S28 ;
+C1S32 ;
+C1S78 ;
+C1S79 ;
+C1S80 ;
+C1S81 ;
+C1S82 ;
+C1S83 ;
+C1S84 ;
+C1S85 ;
+C1S86 ;
+C1S100 ;
+C1S106 ;
+C1S156 ;
+C1S157 ;
+C1S158 ;
+C1S159 ;
+C1S160 ;
+C1S161 ;
+C1S162 ;
+C1S0 -> C1S1 [label=t1R1]
+C1S0 -> C1S156 [label=t7]
+C1S0 -> C1S160 [label=t9]
+C1S1 -> C1S78 [label=t7]
+C1S1 -> C1S85 [label=t9]
+C1S26 -> C1S27 [label=t9]
+C1S27 -> C1S28 [label=t11R7]
+C1S78 -> C1S79 [label=t3]
+C1S78 -> C1S83 [label=t9]
+C1S79 -> C1S26 [label=t1R1]
+C1S79 -> C1S80 [label=t9]
+C1S80 -> C1S27 [label=t1R1]
+C1S80 -> C1S81 [label=t11R7]
+C1S81 -> C1S28 [label=t1R1]
+C1S81 -> C1S82 [label=t15R5]
+C1S82 -> C1S32 [label=t1R1]
+C1S83 -> C1S80 [label=t3]
+C1S83 -> C1S84 [label=t11R7]
+C1S84 -> C1S81 [label=t3]
+C1S85 -> C1S83 [label=t7]
+C1S85 -> C1S86 [label=t11R7]
+C1S86 -> C1S84 [label=t7]
+C1S100 -> C1S82 [label=t3]
+C1S106 -> C1S100 [label=t7]
+C1S156 -> C1S78 [label=t1R1]
+C1S156 -> C1S157 [label=t9]
+C1S157 -> C1S83 [label=t1R1]
+C1S157 -> C1S158 [label=t11R7]
+C1S158 -> C1S84 [label=t1R1]
+C1S158 -> C1S159 [label=t15R5]
+C1S159 -> C1S100 [label=t1R1]
+C1S160 -> C1S85 [label=t1R1]
+C1S160 -> C1S157 [label=t7]
+C1S160 -> C1S161 [label=t11R7]
+C1S161 -> C1S86 [label=t1R1]
+C1S161 -> C1S162 [label=t15R5]
+C1S161 -> C1S158 [label=t7]
+C1S162 -> C1S106 [label=t1R1]
+C1S162 -> C1S159 [label=t7]
+}
+subgraph cluster2 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C2S2 ;
+C2S3 ;
+C2S4 ;
+C2S5 ;
+C2S6 ;
+C2S7 ;
+C2S8 ;
+C2S9 ;
+C2S10 ;
+C2S11 ;
+C2S12 ;
+C2S13 ;
+C2S14 ;
+C2S15 ;
+C2S16 ;
+C2S17 ;
+C2S18 ;
+C2S19 ;
+C2S20 ;
+C2S21 ;
+C2S33 ;
+C2S34 ;
+C2S35 ;
+C2S42 ;
+C2S43 ;
+C2S44 ;
+C2S45 ;
+C2S46 ;
+C2S47 ;
+C2S48 ;
+C2S49 ;
+C2S50 ;
+C2S51 ;
+C2S52 ;
+C2S53 ;
+C2S54 ;
+C2S55 ;
+C2S56 ;
+C2S57 ;
+C2S58 ;
+C2S59 ;
+C2S61 ;
+C2S62 ;
+C2S63 ;
+C2S64 ;
+C2S66 ;
+C2S67 ;
+C2S68 ;
+C2S69 ;
+C2S71 ;
+C2S72 ;
+C2S73 ;
+C2S74 ;
+C2S75 ;
+C2S76 ;
+C2S77 ;
+C2S2 -> C2S3 [label=t7]
+C2S2 -> C2S76 [label=t9]
+C2S3 -> C2S4 [label=t3]
+C2S3 -> C2S71 [label=t6]
+C2S3 -> C2S7 [label=t8R3]
+C2S3 -> C2S74 [label=t9]
+C2S4 -> C2S5 [label=t1R1]
+C2S4 -> C2S21 [label=t2]
+C2S4 -> C2S54 [label=t6]
+C2S4 -> C2S8 [label=t8R3]
+C2S4 -> C2S66 [label=t9]
+C2S5 -> C2S6 [label=t6]
+C2S5 -> C2S19 [label=t9]
+C2S6 -> C2S7 [label=t7]
+C2S6 -> C2S17 [label=t9]
+C2S7 -> C2S8 [label=t3]
+C2S7 -> C2S15 [label=t9]
+C2S8 -> C2S9 [label=t2]
+C2S8 -> C2S11 [label=t9]
+C2S9 -> C2S10 [label=t9]
+C2S11 -> C2S10 [label=t2]
+C2S11 -> C2S12 [label=t11R7]
+C2S12 -> C2S13 [label=t15R5]
+C2S13 -> C2S14 [label=t2]
+C2S15 -> C2S11 [label=t3]
+C2S15 -> C2S16 [label=t11R7]
+C2S16 -> C2S12 [label=t3]
+C2S17 -> C2S15 [label=t7]
+C2S17 -> C2S18 [label=t11R7]
+C2S18 -> C2S16 [label=t7]
+C2S19 -> C2S17 [label=t6]
+C2S19 -> C2S20 [label=t11R7]
+C2S20 -> C2S18 [label=t6]
+C2S21 -> C2S42 [label=t6]
+C2S21 -> C2S9 [label=t8R3]
+C2S21 -> C2S52 [label=t9]
+C2S33 -> C2S34 [label=t6]
+C2S34 -> C2S35 [label=t7]
+C2S35 -> C2S13 [label=t3]
+C2S42 -> C2S43 [label=t7]
+C2S42 -> C2S50 [label=t9]
+C2S43 -> C2S44 [label=t3]
+C2S43 -> C2S48 [label=t9]
+C2S44 -> C2S9 [label=t1R1]
+C2S44 -> C2S45 [label=t9]
+C2S45 -> C2S10 [label=t1R1]
+C2S45 -> C2S46 [label=t11R7]
+C2S46 -> C2S47 [label=t15R5]
+C2S47 -> C2S14 [label=t1R1]
+C2S48 -> C2S45 [label=t3]
+C2S48 -> C2S49 [label=t11R7]
+C2S49 -> C2S46 [label=t3]
+C2S50 -> C2S48 [label=t7]
+C2S50 -> C2S51 [label=t11R7]
+C2S51 -> C2S49 [label=t7]
+C2S52 -> C2S50 [label=t6]
+C2S52 -> C2S10 [label=t8R3]
+C2S52 -> C2S53 [label=t11R7]
+C2S53 -> C2S51 [label=t6]
+C2S54 -> C2S6 [label=t1R1]
+C2S54 -> C2S42 [label=t2]
+C2S54 -> C2S55 [label=t7]
+C2S54 -> C2S61 [label=t9]
+C2S55 -> C2S7 [label=t1R1]
+C2S55 -> C2S43 [label=t2]
+C2S55 -> C2S56 [label=t9]
+C2S56 -> C2S15 [label=t1R1]
+C2S56 -> C2S48 [label=t2]
+C2S56 -> C2S57 [label=t11R7]
+C2S57 -> C2S16 [label=t1R1]
+C2S57 -> C2S49 [label=t2]
+C2S57 -> C2S58 [label=t15R5]
+C2S58 -> C2S35 [label=t1R1]
+C2S58 -> C2S59 [label=t2]
+C2S59 -> C2S47 [label=t3]
+C2S61 -> C2S17 [label=t1R1]
+C2S61 -> C2S50 [label=t2]
+C2S61 -> C2S56 [label=t7]
+C2S61 -> C2S62 [label=t11R7]
+C2S62 -> C2S18 [label=t1R1]
+C2S62 -> C2S51 [label=t2]
+C2S62 -> C2S63 [label=t15R5]
+C2S62 -> C2S57 [label=t7]
+C2S63 -> C2S34 [label=t1R1]
+C2S63 -> C2S64 [label=t2]
+C2S63 -> C2S58 [label=t7]
+C2S64 -> C2S59 [label=t7]
+C2S66 -> C2S19 [label=t1R1]
+C2S66 -> C2S52 [label=t2]
+C2S66 -> C2S61 [label=t6]
+C2S66 -> C2S11 [label=t8R3]
+C2S66 -> C2S67 [label=t11R7]
+C2S67 -> C2S20 [label=t1R1]
+C2S67 -> C2S53 [label=t2]
+C2S67 -> C2S68 [label=t15R5]
+C2S67 -> C2S62 [label=t6]
+C2S67 -> C2S12 [label=t8R3]
+C2S68 -> C2S33 [label=t1R1]
+C2S68 -> C2S69 [label=t2]
+C2S68 -> C2S63 [label=t6]
+C2S68 -> C2S13 [label=t8R3]
+C2S69 -> C2S64 [label=t6]
+C2S69 -> C2S14 [label=t8R3]
+C2S71 -> C2S54 [label=t3]
+C2S71 -> C2S72 [label=t9]
+C2S72 -> C2S61 [label=t3]
+C2S72 -> C2S73 [label=t11R7]
+C2S73 -> C2S62 [label=t3]
+C2S74 -> C2S66 [label=t3]
+C2S74 -> C2S72 [label=t6]
+C2S74 -> C2S15 [label=t8R3]
+C2S74 -> C2S75 [label=t11R7]
+C2S75 -> C2S67 [label=t3]
+C2S75 -> C2S73 [label=t6]
+C2S75 -> C2S16 [label=t8R3]
+C2S76 -> C2S74 [label=t7]
+C2S76 -> C2S77 [label=t11R7]
+C2S77 -> C2S75 [label=t7]
+}
+subgraph cluster3 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C3S3 ;
+C3S4 ;
+C3S5 ;
+C3S6 ;
+C3S7 ;
+C3S8 ;
+C3S9 ;
+C3S10 ;
+C3S11 ;
+C3S12 ;
+C3S13 ;
+C3S14 ;
+C3S15 ;
+C3S16 ;
+C3S17 ;
+C3S18 ;
+C3S19 ;
+C3S20 ;
+C3S21 ;
+C3S33 ;
+C3S34 ;
+C3S35 ;
+C3S42 ;
+C3S43 ;
+C3S44 ;
+C3S45 ;
+C3S46 ;
+C3S47 ;
+C3S48 ;
+C3S49 ;
+C3S50 ;
+C3S51 ;
+C3S52 ;
+C3S53 ;
+C3S54 ;
+C3S55 ;
+C3S56 ;
+C3S57 ;
+C3S58 ;
+C3S59 ;
+C3S61 ;
+C3S62 ;
+C3S63 ;
+C3S64 ;
+C3S66 ;
+C3S67 ;
+C3S68 ;
+C3S69 ;
+C3S71 ;
+C3S72 ;
+C3S73 ;
+C3S74 ;
+C3S75 ;
+C3S3 -> C3S4 [label=t3]
+C3S3 -> C3S71 [label=t6]
+C3S3 -> C3S7 [label=t8R3]
+C3S3 -> C3S74 [label=t9]
+C3S4 -> C3S5 [label=t1R1]
+C3S4 -> C3S21 [label=t2]
+C3S4 -> C3S54 [label=t6]
+C3S4 -> C3S8 [label=t8R3]
+C3S4 -> C3S66 [label=t9]
+C3S5 -> C3S6 [label=t6]
+C3S5 -> C3S19 [label=t9]
+C3S6 -> C3S7 [label=t7]
+C3S6 -> C3S17 [label=t9]
+C3S7 -> C3S8 [label=t3]
+C3S7 -> C3S15 [label=t9]
+C3S8 -> C3S9 [label=t2]
+C3S8 -> C3S11 [label=t9]
+C3S9 -> C3S10 [label=t9]
+C3S11 -> C3S10 [label=t2]
+C3S11 -> C3S12 [label=t11R7]
+C3S12 -> C3S13 [label=t15R5]
+C3S13 -> C3S14 [label=t2]
+C3S15 -> C3S11 [label=t3]
+C3S15 -> C3S16 [label=t11R7]
+C3S16 -> C3S12 [label=t3]
+C3S17 -> C3S15 [label=t7]
+C3S17 -> C3S18 [label=t11R7]
+C3S18 -> C3S16 [label=t7]
+C3S19 -> C3S17 [label=t6]
+C3S19 -> C3S20 [label=t11R7]
+C3S20 -> C3S18 [label=t6]
+C3S21 -> C3S42 [label=t6]
+C3S21 -> C3S9 [label=t8R3]
+C3S21 -> C3S52 [label=t9]
+C3S33 -> C3S34 [label=t6]
+C3S34 -> C3S35 [label=t7]
+C3S35 -> C3S13 [label=t3]
+C3S42 -> C3S43 [label=t7]
+C3S42 -> C3S50 [label=t9]
+C3S43 -> C3S44 [label=t3]
+C3S43 -> C3S48 [label=t9]
+C3S44 -> C3S9 [label=t1R1]
+C3S44 -> C3S45 [label=t9]
+C3S45 -> C3S10 [label=t1R1]
+C3S45 -> C3S46 [label=t11R7]
+C3S46 -> C3S47 [label=t15R5]
+C3S47 -> C3S14 [label=t1R1]
+C3S48 -> C3S45 [label=t3]
+C3S48 -> C3S49 [label=t11R7]
+C3S49 -> C3S46 [label=t3]
+C3S50 -> C3S48 [label=t7]
+C3S50 -> C3S51 [label=t11R7]
+C3S51 -> C3S49 [label=t7]
+C3S52 -> C3S50 [label=t6]
+C3S52 -> C3S10 [label=t8R3]
+C3S52 -> C3S53 [label=t11R7]
+C3S53 -> C3S51 [label=t6]
+C3S54 -> C3S6 [label=t1R1]
+C3S54 -> C3S42 [label=t2]
+C3S54 -> C3S55 [label=t7]
+C3S54 -> C3S61 [label=t9]
+C3S55 -> C3S7 [label=t1R1]
+C3S55 -> C3S43 [label=t2]
+C3S55 -> C3S56 [label=t9]
+C3S56 -> C3S15 [label=t1R1]
+C3S56 -> C3S48 [label=t2]
+C3S56 -> C3S57 [label=t11R7]
+C3S57 -> C3S16 [label=t1R1]
+C3S57 -> C3S49 [label=t2]
+C3S57 -> C3S58 [label=t15R5]
+C3S58 -> C3S35 [label=t1R1]
+C3S58 -> C3S59 [label=t2]
+C3S59 -> C3S47 [label=t3]
+C3S61 -> C3S17 [label=t1R1]
+C3S61 -> C3S50 [label=t2]
+C3S61 -> C3S56 [label=t7]
+C3S61 -> C3S62 [label=t11R7]
+C3S62 -> C3S18 [label=t1R1]
+C3S62 -> C3S51 [label=t2]
+C3S62 -> C3S63 [label=t15R5]
+C3S62 -> C3S57 [label=t7]
+C3S63 -> C3S34 [label=t1R1]
+C3S63 -> C3S64 [label=t2]
+C3S63 -> C3S58 [label=t7]
+C3S64 -> C3S59 [label=t7]
+C3S66 -> C3S19 [label=t1R1]
+C3S66 -> C3S52 [label=t2]
+C3S66 -> C3S61 [label=t6]
+C3S66 -> C3S11 [label=t8R3]
+C3S66 -> C3S67 [label=t11R7]
+C3S67 -> C3S20 [label=t1R1]
+C3S67 -> C3S53 [label=t2]
+C3S67 -> C3S68 [label=t15R5]
+C3S67 -> C3S62 [label=t6]
+C3S67 -> C3S12 [label=t8R3]
+C3S68 -> C3S33 [label=t1R1]
+C3S68 -> C3S69 [label=t2]
+C3S68 -> C3S63 [label=t6]
+C3S68 -> C3S13 [label=t8R3]
+C3S69 -> C3S64 [label=t6]
+C3S69 -> C3S14 [label=t8R3]
+C3S71 -> C3S54 [label=t3]
+C3S71 -> C3S72 [label=t9]
+C3S72 -> C3S61 [label=t3]
+C3S72 -> C3S73 [label=t11R7]
+C3S73 -> C3S62 [label=t3]
+C3S74 -> C3S66 [label=t3]
+C3S74 -> C3S72 [label=t6]
+C3S74 -> C3S15 [label=t8R3]
+C3S74 -> C3S75 [label=t11R7]
+C3S75 -> C3S67 [label=t3]
+C3S75 -> C3S73 [label=t6]
+C3S75 -> C3S16 [label=t8R3]
+}
+subgraph cluster4 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C4S4 ;
+C4S5 ;
+C4S6 ;
+C4S7 ;
+C4S8 ;
+C4S9 ;
+C4S10 ;
+C4S11 ;
+C4S12 ;
+C4S13 ;
+C4S14 ;
+C4S15 ;
+C4S16 ;
+C4S17 ;
+C4S18 ;
+C4S19 ;
+C4S20 ;
+C4S21 ;
+C4S33 ;
+C4S34 ;
+C4S35 ;
+C4S42 ;
+C4S43 ;
+C4S44 ;
+C4S45 ;
+C4S46 ;
+C4S47 ;
+C4S48 ;
+C4S49 ;
+C4S50 ;
+C4S51 ;
+C4S52 ;
+C4S53 ;
+C4S54 ;
+C4S55 ;
+C4S56 ;
+C4S57 ;
+C4S58 ;
+C4S59 ;
+C4S61 ;
+C4S62 ;
+C4S63 ;
+C4S64 ;
+C4S66 ;
+C4S67 ;
+C4S68 ;
+C4S69 ;
+C4S4 -> C4S5 [label=t1R1]
+C4S4 -> C4S21 [label=t2]
+C4S4 -> C4S54 [label=t6]
+C4S4 -> C4S8 [label=t8R3]
+C4S4 -> C4S66 [label=t9]
+C4S5 -> C4S6 [label=t6]
+C4S5 -> C4S19 [label=t9]
+C4S6 -> C4S7 [label=t7]
+C4S6 -> C4S17 [label=t9]
+C4S7 -> C4S8 [label=t3]
+C4S7 -> C4S15 [label=t9]
+C4S8 -> C4S9 [label=t2]
+C4S8 -> C4S11 [label=t9]
+C4S9 -> C4S10 [label=t9]
+C4S11 -> C4S10 [label=t2]
+C4S11 -> C4S12 [label=t11R7]
+C4S12 -> C4S13 [label=t15R5]
+C4S13 -> C4S14 [label=t2]
+C4S15 -> C4S11 [label=t3]
+C4S15 -> C4S16 [label=t11R7]
+C4S16 -> C4S12 [label=t3]
+C4S17 -> C4S15 [label=t7]
+C4S17 -> C4S18 [label=t11R7]
+C4S18 -> C4S16 [label=t7]
+C4S19 -> C4S17 [label=t6]
+C4S19 -> C4S20 [label=t11R7]
+C4S20 -> C4S18 [label=t6]
+C4S21 -> C4S42 [label=t6]
+C4S21 -> C4S9 [label=t8R3]
+C4S21 -> C4S52 [label=t9]
+C4S33 -> C4S34 [label=t6]
+C4S34 -> C4S35 [label=t7]
+C4S35 -> C4S13 [label=t3]
+C4S42 -> C4S43 [label=t7]
+C4S42 -> C4S50 [label=t9]
+C4S43 -> C4S44 [label=t3]
+C4S43 -> C4S48 [label=t9]
+C4S44 -> C4S9 [label=t1R1]
+C4S44 -> C4S45 [label=t9]
+C4S45 -> C4S10 [label=t1R1]
+C4S45 -> C4S46 [label=t11R7]
+C4S46 -> C4S47 [label=t15R5]
+C4S47 -> C4S14 [label=t1R1]
+C4S48 -> C4S45 [label=t3]
+C4S48 -> C4S49 [label=t11R7]
+C4S49 -> C4S46 [label=t3]
+C4S50 -> C4S48 [label=t7]
+C4S50 -> C4S51 [label=t11R7]
+C4S51 -> C4S49 [label=t7]
+C4S52 -> C4S50 [label=t6]
+C4S52 -> C4S10 [label=t8R3]
+C4S52 -> C4S53 [label=t11R7]
+C4S53 -> C4S51 [label=t6]
+C4S54 -> C4S6 [label=t1R1]
+C4S54 -> C4S42 [label=t2]
+C4S54 -> C4S55 [label=t7]
+C4S54 -> C4S61 [label=t9]
+C4S55 -> C4S7 [label=t1R1]
+C4S55 -> C4S43 [label=t2]
+C4S55 -> C4S56 [label=t9]
+C4S56 -> C4S15 [label=t1R1]
+C4S56 -> C4S48 [label=t2]
+C4S56 -> C4S57 [label=t11R7]
+C4S57 -> C4S16 [label=t1R1]
+C4S57 -> C4S49 [label=t2]
+C4S57 -> C4S58 [label=t15R5]
+C4S58 -> C4S35 [label=t1R1]
+C4S58 -> C4S59 [label=t2]
+C4S59 -> C4S47 [label=t3]
+C4S61 -> C4S17 [label=t1R1]
+C4S61 -> C4S50 [label=t2]
+C4S61 -> C4S56 [label=t7]
+C4S61 -> C4S62 [label=t11R7]
+C4S62 -> C4S18 [label=t1R1]
+C4S62 -> C4S51 [label=t2]
+C4S62 -> C4S63 [label=t15R5]
+C4S62 -> C4S57 [label=t7]
+C4S63 -> C4S34 [label=t1R1]
+C4S63 -> C4S64 [label=t2]
+C4S63 -> C4S58 [label=t7]
+C4S64 -> C4S59 [label=t7]
+C4S66 -> C4S19 [label=t1R1]
+C4S66 -> C4S52 [label=t2]
+C4S66 -> C4S61 [label=t6]
+C4S66 -> C4S11 [label=t8R3]
+C4S66 -> C4S67 [label=t11R7]
+C4S67 -> C4S20 [label=t1R1]
+C4S67 -> C4S53 [label=t2]
+C4S67 -> C4S68 [label=t15R5]
+C4S67 -> C4S62 [label=t6]
+C4S67 -> C4S12 [label=t8R3]
+C4S68 -> C4S33 [label=t1R1]
+C4S68 -> C4S69 [label=t2]
+C4S68 -> C4S63 [label=t6]
+C4S68 -> C4S13 [label=t8R3]
+C4S69 -> C4S64 [label=t6]
+C4S69 -> C4S14 [label=t8R3]
+}
+subgraph cluster5 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C5S5 ;
+C5S6 ;
+C5S7 ;
+C5S8 ;
+C5S9 ;
+C5S10 ;
+C5S11 ;
+C5S12 ;
+C5S13 ;
+C5S14 ;
+C5S15 ;
+C5S16 ;
+C5S17 ;
+C5S18 ;
+C5S19 ;
+C5S20 ;
+C5S5 -> C5S6 [label=t6]
+C5S5 -> C5S19 [label=t9]
+C5S6 -> C5S7 [label=t7]
+C5S6 -> C5S17 [label=t9]
+C5S7 -> C5S8 [label=t3]
+C5S7 -> C5S15 [label=t9]
+C5S8 -> C5S9 [label=t2]
+C5S8 -> C5S11 [label=t9]
+C5S9 -> C5S10 [label=t9]
+C5S11 -> C5S10 [label=t2]
+C5S11 -> C5S12 [label=t11R7]
+C5S12 -> C5S13 [label=t15R5]
+C5S13 -> C5S14 [label=t2]
+C5S15 -> C5S11 [label=t3]
+C5S15 -> C5S16 [label=t11R7]
+C5S16 -> C5S12 [label=t3]
+C5S17 -> C5S15 [label=t7]
+C5S17 -> C5S18 [label=t11R7]
+C5S18 -> C5S16 [label=t7]
+C5S19 -> C5S17 [label=t6]
+C5S19 -> C5S20 [label=t11R7]
+C5S20 -> C5S18 [label=t6]
+}
+subgraph cluster6 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C6S19 ;
+C6S11 ;
+C6S12 ;
+C6S13 ;
+C6S14 ;
+C6S15 ;
+C6S16 ;
+C6S17 ;
+C6S18 ;
+C6S10 ;
+C6S20 ;
+C6S19 -> C6S17 [label=t6]
+C6S19 -> C6S20 [label=t11R7]
+C6S11 -> C6S10 [label=t2]
+C6S11 -> C6S12 [label=t11R7]
+C6S12 -> C6S13 [label=t15R5]
+C6S13 -> C6S14 [label=t2]
+C6S15 -> C6S11 [label=t3]
+C6S15 -> C6S16 [label=t11R7]
+C6S16 -> C6S12 [label=t3]
+C6S17 -> C6S15 [label=t7]
+C6S17 -> C6S18 [label=t11R7]
+C6S18 -> C6S16 [label=t7]
+C6S20 -> C6S18 [label=t6]
+}
+subgraph cluster7 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C7S20 ;
+C7S13 ;
+C7S14 ;
+C7S16 ;
+C7S18 ;
+C7S12 ;
+C7S20 -> C7S18 [label=t6]
+C7S13 -> C7S14 [label=t2]
+C7S16 -> C7S12 [label=t3]
+C7S18 -> C7S16 [label=t7]
+C7S12 -> C7S13 [label=t15R5]
+}
+subgraph cluster8 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C8S22 ;
+C8S23 ;
+C8S24 ;
+C8S25 ;
+C8S26 ;
+C8S27 ;
+C8S28 ;
+C8S29 ;
+C8S30 ;
+C8S31 ;
+C8S32 ;
+C8S36 ;
+C8S37 ;
+C8S38 ;
+C8S39 ;
+C8S40 ;
+C8S41 ;
+C8S22 -> C8S23 [label=t6]
+C8S22 -> C8S40 [label=t9]
+C8S23 -> C8S24 [label=t7]
+C8S23 -> C8S38 [label=t9]
+C8S24 -> C8S25 [label=t3]
+C8S24 -> C8S36 [label=t9]
+C8S25 -> C8S26 [label=t2]
+C8S25 -> C8S29 [label=t9]
+C8S26 -> C8S27 [label=t9]
+C8S27 -> C8S28 [label=t11R7]
+C8S29 -> C8S27 [label=t2]
+C8S29 -> C8S30 [label=t11R7]
+C8S30 -> C8S28 [label=t2]
+C8S30 -> C8S31 [label=t15R5]
+C8S31 -> C8S32 [label=t2]
+C8S36 -> C8S29 [label=t3]
+C8S36 -> C8S37 [label=t11R7]
+C8S37 -> C8S30 [label=t3]
+C8S38 -> C8S36 [label=t7]
+C8S38 -> C8S39 [label=t11R7]
+C8S39 -> C8S37 [label=t7]
+C8S40 -> C8S38 [label=t6]
+C8S40 -> C8S41 [label=t11R7]
+C8S41 -> C8S39 [label=t6]
+}
+subgraph cluster9 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C9S23 ;
+C9S24 ;
+C9S25 ;
+C9S26 ;
+C9S27 ;
+C9S28 ;
+C9S29 ;
+C9S30 ;
+C9S31 ;
+C9S32 ;
+C9S36 ;
+C9S37 ;
+C9S38 ;
+C9S39 ;
+C9S23 -> C9S24 [label=t7]
+C9S23 -> C9S38 [label=t9]
+C9S24 -> C9S25 [label=t3]
+C9S24 -> C9S36 [label=t9]
+C9S25 -> C9S26 [label=t2]
+C9S25 -> C9S29 [label=t9]
+C9S26 -> C9S27 [label=t9]
+C9S27 -> C9S28 [label=t11R7]
+C9S29 -> C9S27 [label=t2]
+C9S29 -> C9S30 [label=t11R7]
+C9S30 -> C9S28 [label=t2]
+C9S30 -> C9S31 [label=t15R5]
+C9S31 -> C9S32 [label=t2]
+C9S36 -> C9S29 [label=t3]
+C9S36 -> C9S37 [label=t11R7]
+C9S37 -> C9S30 [label=t3]
+C9S38 -> C9S36 [label=t7]
+C9S38 -> C9S39 [label=t11R7]
+C9S39 -> C9S37 [label=t7]
+}
+subgraph cluster10 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C10S24 ;
+C10S25 ;
+C10S26 ;
+C10S27 ;
+C10S28 ;
+C10S29 ;
+C10S30 ;
+C10S31 ;
+C10S32 ;
+C10S36 ;
+C10S37 ;
+C10S24 -> C10S25 [label=t3]
+C10S24 -> C10S36 [label=t9]
+C10S25 -> C10S26 [label=t2]
+C10S25 -> C10S29 [label=t9]
+C10S26 -> C10S27 [label=t9]
+C10S27 -> C10S28 [label=t11R7]
+C10S29 -> C10S27 [label=t2]
+C10S29 -> C10S30 [label=t11R7]
+C10S30 -> C10S28 [label=t2]
+C10S30 -> C10S31 [label=t15R5]
+C10S31 -> C10S32 [label=t2]
+C10S36 -> C10S29 [label=t3]
+C10S36 -> C10S37 [label=t11R7]
+C10S37 -> C10S30 [label=t3]
+}
+subgraph cluster11 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C11S25 ;
+C11S26 ;
+C11S27 ;
+C11S28 ;
+C11S29 ;
+C11S30 ;
+C11S31 ;
+C11S32 ;
+C11S25 -> C11S26 [label=t2]
+C11S25 -> C11S29 [label=t9]
+C11S26 -> C11S27 [label=t9]
+C11S27 -> C11S28 [label=t11R7]
+C11S29 -> C11S27 [label=t2]
+C11S29 -> C11S30 [label=t11R7]
+C11S30 -> C11S28 [label=t2]
+C11S30 -> C11S31 [label=t15R5]
+C11S31 -> C11S32 [label=t2]
+}
+subgraph cluster12 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C12S29 ;
+C12S28 ;
+C12S27 ;
+C12S30 ;
+C12S31 ;
+C12S32 ;
+C12S29 -> C12S27 [label=t2]
+C12S29 -> C12S30 [label=t11R7]
+C12S27 -> C12S28 [label=t11R7]
+C12S30 -> C12S28 [label=t2]
+C12S30 -> C12S31 [label=t15R5]
+C12S31 -> C12S32 [label=t2]
+}
+subgraph cluster13 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C13S30 ;
+C13S28 ;
+C13S31 ;
+C13S32 ;
+C13S30 -> C13S28 [label=t2]
+C13S30 -> C13S31 [label=t15R5]
+C13S31 -> C13S32 [label=t2]
+}
+subgraph cluster14 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C14S31 ;
+C14S32 ;
+C14S31 -> C14S32 [label=t2]
+}
+subgraph cluster15 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C15S33 ;
+C15S14 ;
+C15S13 ;
+C15S34 ;
+C15S35 ;
+C15S33 -> C15S34 [label=t6]
+C15S13 -> C15S14 [label=t2]
+C15S34 -> C15S35 [label=t7]
+C15S35 -> C15S13 [label=t3]
+}
+subgraph cluster16 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C16S36 ;
+C16S28 ;
+C16S29 ;
+C16S30 ;
+C16S31 ;
+C16S32 ;
+C16S27 ;
+C16S37 ;
+C16S36 -> C16S29 [label=t3]
+C16S36 -> C16S37 [label=t11R7]
+C16S29 -> C16S27 [label=t2]
+C16S29 -> C16S30 [label=t11R7]
+C16S30 -> C16S28 [label=t2]
+C16S30 -> C16S31 [label=t15R5]
+C16S31 -> C16S32 [label=t2]
+C16S27 -> C16S28 [label=t11R7]
+C16S37 -> C16S30 [label=t3]
+}
+subgraph cluster17 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C17S37 ;
+C17S30 ;
+C17S31 ;
+C17S32 ;
+C17S28 ;
+C17S37 -> C17S30 [label=t3]
+C17S30 -> C17S28 [label=t2]
+C17S30 -> C17S31 [label=t15R5]
+C17S31 -> C17S32 [label=t2]
+}
+subgraph cluster18 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C18S38 ;
+C18S28 ;
+C18S29 ;
+C18S30 ;
+C18S31 ;
+C18S32 ;
+C18S36 ;
+C18S37 ;
+C18S27 ;
+C18S39 ;
+C18S38 -> C18S36 [label=t7]
+C18S38 -> C18S39 [label=t11R7]
+C18S29 -> C18S27 [label=t2]
+C18S29 -> C18S30 [label=t11R7]
+C18S30 -> C18S28 [label=t2]
+C18S30 -> C18S31 [label=t15R5]
+C18S31 -> C18S32 [label=t2]
+C18S36 -> C18S29 [label=t3]
+C18S36 -> C18S37 [label=t11R7]
+C18S37 -> C18S30 [label=t3]
+C18S27 -> C18S28 [label=t11R7]
+C18S39 -> C18S37 [label=t7]
+}
+subgraph cluster19 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C19S39 ;
+C19S30 ;
+C19S31 ;
+C19S32 ;
+C19S37 ;
+C19S28 ;
+C19S39 -> C19S37 [label=t7]
+C19S30 -> C19S28 [label=t2]
+C19S30 -> C19S31 [label=t15R5]
+C19S31 -> C19S32 [label=t2]
+C19S37 -> C19S30 [label=t3]
+}
+subgraph cluster20 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C20S40 ;
+C20S28 ;
+C20S29 ;
+C20S30 ;
+C20S31 ;
+C20S32 ;
+C20S36 ;
+C20S37 ;
+C20S38 ;
+C20S39 ;
+C20S27 ;
+C20S41 ;
+C20S40 -> C20S38 [label=t6]
+C20S40 -> C20S41 [label=t11R7]
+C20S29 -> C20S27 [label=t2]
+C20S29 -> C20S30 [label=t11R7]
+C20S30 -> C20S28 [label=t2]
+C20S30 -> C20S31 [label=t15R5]
+C20S31 -> C20S32 [label=t2]
+C20S36 -> C20S29 [label=t3]
+C20S36 -> C20S37 [label=t11R7]
+C20S37 -> C20S30 [label=t3]
+C20S38 -> C20S36 [label=t7]
+C20S38 -> C20S39 [label=t11R7]
+C20S39 -> C20S37 [label=t7]
+C20S27 -> C20S28 [label=t11R7]
+C20S41 -> C20S39 [label=t6]
+}
+subgraph cluster21 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C21S41 ;
+C21S30 ;
+C21S31 ;
+C21S32 ;
+C21S37 ;
+C21S39 ;
+C21S28 ;
+C21S41 -> C21S39 [label=t6]
+C21S30 -> C21S28 [label=t2]
+C21S30 -> C21S31 [label=t15R5]
+C21S31 -> C21S32 [label=t2]
+C21S37 -> C21S30 [label=t3]
+C21S39 -> C21S37 [label=t7]
+}
+subgraph cluster22 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C22S60 ;
+C22S32 ;
+C22S31 ;
+C22S60 -> C22S31 [label=t3]
+C22S31 -> C22S32 [label=t2]
+}
+subgraph cluster23 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C23S65 ;
+C23S32 ;
+C23S60 ;
+C23S31 ;
+C23S65 -> C23S60 [label=t7]
+C23S60 -> C23S31 [label=t3]
+C23S31 -> C23S32 [label=t2]
+}
+subgraph cluster24 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C24S66 ;
+C24S11 ;
+C24S12 ;
+C24S13 ;
+C24S14 ;
+C24S15 ;
+C24S16 ;
+C24S17 ;
+C24S18 ;
+C24S19 ;
+C24S20 ;
+C24S33 ;
+C24S34 ;
+C24S35 ;
+C24S45 ;
+C24S46 ;
+C24S47 ;
+C24S48 ;
+C24S49 ;
+C24S50 ;
+C24S51 ;
+C24S52 ;
+C24S53 ;
+C24S56 ;
+C24S57 ;
+C24S58 ;
+C24S59 ;
+C24S61 ;
+C24S62 ;
+C24S63 ;
+C24S64 ;
+C24S10 ;
+C24S67 ;
+C24S68 ;
+C24S69 ;
+C24S66 -> C24S19 [label=t1R1]
+C24S66 -> C24S52 [label=t2]
+C24S66 -> C24S61 [label=t6]
+C24S66 -> C24S11 [label=t8R3]
+C24S66 -> C24S67 [label=t11R7]
+C24S11 -> C24S10 [label=t2]
+C24S11 -> C24S12 [label=t11R7]
+C24S12 -> C24S13 [label=t15R5]
+C24S13 -> C24S14 [label=t2]
+C24S15 -> C24S11 [label=t3]
+C24S15 -> C24S16 [label=t11R7]
+C24S16 -> C24S12 [label=t3]
+C24S17 -> C24S15 [label=t7]
+C24S17 -> C24S18 [label=t11R7]
+C24S18 -> C24S16 [label=t7]
+C24S19 -> C24S17 [label=t6]
+C24S19 -> C24S20 [label=t11R7]
+C24S20 -> C24S18 [label=t6]
+C24S33 -> C24S34 [label=t6]
+C24S34 -> C24S35 [label=t7]
+C24S35 -> C24S13 [label=t3]
+C24S45 -> C24S10 [label=t1R1]
+C24S45 -> C24S46 [label=t11R7]
+C24S46 -> C24S47 [label=t15R5]
+C24S47 -> C24S14 [label=t1R1]
+C24S48 -> C24S45 [label=t3]
+C24S48 -> C24S49 [label=t11R7]
+C24S49 -> C24S46 [label=t3]
+C24S50 -> C24S48 [label=t7]
+C24S50 -> C24S51 [label=t11R7]
+C24S51 -> C24S49 [label=t7]
+C24S52 -> C24S50 [label=t6]
+C24S52 -> C24S10 [label=t8R3]
+C24S52 -> C24S53 [label=t11R7]
+C24S53 -> C24S51 [label=t6]
+C24S56 -> C24S15 [label=t1R1]
+C24S56 -> C24S48 [label=t2]
+C24S56 -> C24S57 [label=t11R7]
+C24S57 -> C24S16 [label=t1R1]
+C24S57 -> C24S49 [label=t2]
+C24S57 -> C24S58 [label=t15R5]
+C24S58 -> C24S35 [label=t1R1]
+C24S58 -> C24S59 [label=t2]
+C24S59 -> C24S47 [label=t3]
+C24S61 -> C24S17 [label=t1R1]
+C24S61 -> C24S50 [label=t2]
+C24S61 -> C24S56 [label=t7]
+C24S61 -> C24S62 [label=t11R7]
+C24S62 -> C24S18 [label=t1R1]
+C24S62 -> C24S51 [label=t2]
+C24S62 -> C24S63 [label=t15R5]
+C24S62 -> C24S57 [label=t7]
+C24S63 -> C24S34 [label=t1R1]
+C24S63 -> C24S64 [label=t2]
+C24S63 -> C24S58 [label=t7]
+C24S64 -> C24S59 [label=t7]
+C24S67 -> C24S20 [label=t1R1]
+C24S67 -> C24S53 [label=t2]
+C24S67 -> C24S68 [label=t15R5]
+C24S67 -> C24S62 [label=t6]
+C24S67 -> C24S12 [label=t8R3]
+C24S68 -> C24S33 [label=t1R1]
+C24S68 -> C24S69 [label=t2]
+C24S68 -> C24S63 [label=t6]
+C24S68 -> C24S13 [label=t8R3]
+C24S69 -> C24S64 [label=t6]
+C24S69 -> C24S14 [label=t8R3]
+}
+subgraph cluster25 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C25S67 ;
+C25S13 ;
+C25S14 ;
+C25S16 ;
+C25S18 ;
+C25S20 ;
+C25S33 ;
+C25S34 ;
+C25S35 ;
+C25S46 ;
+C25S47 ;
+C25S49 ;
+C25S51 ;
+C25S53 ;
+C25S57 ;
+C25S58 ;
+C25S59 ;
+C25S62 ;
+C25S63 ;
+C25S64 ;
+C25S12 ;
+C25S68 ;
+C25S69 ;
+C25S67 -> C25S20 [label=t1R1]
+C25S67 -> C25S53 [label=t2]
+C25S67 -> C25S68 [label=t15R5]
+C25S67 -> C25S62 [label=t6]
+C25S67 -> C25S12 [label=t8R3]
+C25S13 -> C25S14 [label=t2]
+C25S16 -> C25S12 [label=t3]
+C25S18 -> C25S16 [label=t7]
+C25S20 -> C25S18 [label=t6]
+C25S33 -> C25S34 [label=t6]
+C25S34 -> C25S35 [label=t7]
+C25S35 -> C25S13 [label=t3]
+C25S46 -> C25S47 [label=t15R5]
+C25S47 -> C25S14 [label=t1R1]
+C25S49 -> C25S46 [label=t3]
+C25S51 -> C25S49 [label=t7]
+C25S53 -> C25S51 [label=t6]
+C25S57 -> C25S16 [label=t1R1]
+C25S57 -> C25S49 [label=t2]
+C25S57 -> C25S58 [label=t15R5]
+C25S58 -> C25S35 [label=t1R1]
+C25S58 -> C25S59 [label=t2]
+C25S59 -> C25S47 [label=t3]
+C25S62 -> C25S18 [label=t1R1]
+C25S62 -> C25S51 [label=t2]
+C25S62 -> C25S63 [label=t15R5]
+C25S62 -> C25S57 [label=t7]
+C25S63 -> C25S34 [label=t1R1]
+C25S63 -> C25S64 [label=t2]
+C25S63 -> C25S58 [label=t7]
+C25S64 -> C25S59 [label=t7]
+C25S12 -> C25S13 [label=t15R5]
+C25S68 -> C25S33 [label=t1R1]
+C25S68 -> C25S69 [label=t2]
+C25S68 -> C25S63 [label=t6]
+C25S68 -> C25S13 [label=t8R3]
+C25S69 -> C25S64 [label=t6]
+C25S69 -> C25S14 [label=t8R3]
+}
+subgraph cluster26 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C26S68 ;
+C26S14 ;
+C26S33 ;
+C26S34 ;
+C26S35 ;
+C26S47 ;
+C26S58 ;
+C26S59 ;
+C26S63 ;
+C26S64 ;
+C26S13 ;
+C26S69 ;
+C26S68 -> C26S33 [label=t1R1]
+C26S68 -> C26S69 [label=t2]
+C26S68 -> C26S63 [label=t6]
+C26S68 -> C26S13 [label=t8R3]
+C26S33 -> C26S34 [label=t6]
+C26S34 -> C26S35 [label=t7]
+C26S35 -> C26S13 [label=t3]
+C26S47 -> C26S14 [label=t1R1]
+C26S58 -> C26S35 [label=t1R1]
+C26S58 -> C26S59 [label=t2]
+C26S59 -> C26S47 [label=t3]
+C26S63 -> C26S34 [label=t1R1]
+C26S63 -> C26S64 [label=t2]
+C26S63 -> C26S58 [label=t7]
+C26S64 -> C26S59 [label=t7]
+C26S13 -> C26S14 [label=t2]
+C26S69 -> C26S64 [label=t6]
+C26S69 -> C26S14 [label=t8R3]
+}
+subgraph cluster27 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C27S70 ;
+C27S32 ;
+C27S60 ;
+C27S65 ;
+C27S31 ;
+C27S70 -> C27S65 [label=t6]
+C27S60 -> C27S31 [label=t3]
+C27S65 -> C27S60 [label=t7]
+C27S31 -> C27S32 [label=t2]
+}
+subgraph cluster28 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C28S74 ;
+C28S11 ;
+C28S12 ;
+C28S13 ;
+C28S14 ;
+C28S15 ;
+C28S16 ;
+C28S17 ;
+C28S18 ;
+C28S19 ;
+C28S20 ;
+C28S33 ;
+C28S34 ;
+C28S35 ;
+C28S45 ;
+C28S46 ;
+C28S47 ;
+C28S48 ;
+C28S49 ;
+C28S50 ;
+C28S51 ;
+C28S52 ;
+C28S53 ;
+C28S56 ;
+C28S57 ;
+C28S58 ;
+C28S59 ;
+C28S61 ;
+C28S62 ;
+C28S63 ;
+C28S64 ;
+C28S66 ;
+C28S67 ;
+C28S68 ;
+C28S69 ;
+C28S72 ;
+C28S73 ;
+C28S10 ;
+C28S75 ;
+C28S74 -> C28S66 [label=t3]
+C28S74 -> C28S72 [label=t6]
+C28S74 -> C28S15 [label=t8R3]
+C28S74 -> C28S75 [label=t11R7]
+C28S11 -> C28S10 [label=t2]
+C28S11 -> C28S12 [label=t11R7]
+C28S12 -> C28S13 [label=t15R5]
+C28S13 -> C28S14 [label=t2]
+C28S15 -> C28S11 [label=t3]
+C28S15 -> C28S16 [label=t11R7]
+C28S16 -> C28S12 [label=t3]
+C28S17 -> C28S15 [label=t7]
+C28S17 -> C28S18 [label=t11R7]
+C28S18 -> C28S16 [label=t7]
+C28S19 -> C28S17 [label=t6]
+C28S19 -> C28S20 [label=t11R7]
+C28S20 -> C28S18 [label=t6]
+C28S33 -> C28S34 [label=t6]
+C28S34 -> C28S35 [label=t7]
+C28S35 -> C28S13 [label=t3]
+C28S45 -> C28S10 [label=t1R1]
+C28S45 -> C28S46 [label=t11R7]
+C28S46 -> C28S47 [label=t15R5]
+C28S47 -> C28S14 [label=t1R1]
+C28S48 -> C28S45 [label=t3]
+C28S48 -> C28S49 [label=t11R7]
+C28S49 -> C28S46 [label=t3]
+C28S50 -> C28S48 [label=t7]
+C28S50 -> C28S51 [label=t11R7]
+C28S51 -> C28S49 [label=t7]
+C28S52 -> C28S50 [label=t6]
+C28S52 -> C28S10 [label=t8R3]
+C28S52 -> C28S53 [label=t11R7]
+C28S53 -> C28S51 [label=t6]
+C28S56 -> C28S15 [label=t1R1]
+C28S56 -> C28S48 [label=t2]
+C28S56 -> C28S57 [label=t11R7]
+C28S57 -> C28S16 [label=t1R1]
+C28S57 -> C28S49 [label=t2]
+C28S57 -> C28S58 [label=t15R5]
+C28S58 -> C28S35 [label=t1R1]
+C28S58 -> C28S59 [label=t2]
+C28S59 -> C28S47 [label=t3]
+C28S61 -> C28S17 [label=t1R1]
+C28S61 -> C28S50 [label=t2]
+C28S61 -> C28S56 [label=t7]
+C28S61 -> C28S62 [label=t11R7]
+C28S62 -> C28S18 [label=t1R1]
+C28S62 -> C28S51 [label=t2]
+C28S62 -> C28S63 [label=t15R5]
+C28S62 -> C28S57 [label=t7]
+C28S63 -> C28S34 [label=t1R1]
+C28S63 -> C28S64 [label=t2]
+C28S63 -> C28S58 [label=t7]
+C28S64 -> C28S59 [label=t7]
+C28S66 -> C28S19 [label=t1R1]
+C28S66 -> C28S52 [label=t2]
+C28S66 -> C28S61 [label=t6]
+C28S66 -> C28S11 [label=t8R3]
+C28S66 -> C28S67 [label=t11R7]
+C28S67 -> C28S20 [label=t1R1]
+C28S67 -> C28S53 [label=t2]
+C28S67 -> C28S68 [label=t15R5]
+C28S67 -> C28S62 [label=t6]
+C28S67 -> C28S12 [label=t8R3]
+C28S68 -> C28S33 [label=t1R1]
+C28S68 -> C28S69 [label=t2]
+C28S68 -> C28S63 [label=t6]
+C28S68 -> C28S13 [label=t8R3]
+C28S69 -> C28S64 [label=t6]
+C28S69 -> C28S14 [label=t8R3]
+C28S72 -> C28S61 [label=t3]
+C28S72 -> C28S73 [label=t11R7]
+C28S73 -> C28S62 [label=t3]
+C28S75 -> C28S67 [label=t3]
+C28S75 -> C28S73 [label=t6]
+C28S75 -> C28S16 [label=t8R3]
+}
+subgraph cluster29 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C29S75 ;
+C29S13 ;
+C29S14 ;
+C29S16 ;
+C29S18 ;
+C29S20 ;
+C29S33 ;
+C29S34 ;
+C29S35 ;
+C29S46 ;
+C29S47 ;
+C29S49 ;
+C29S51 ;
+C29S53 ;
+C29S57 ;
+C29S58 ;
+C29S59 ;
+C29S62 ;
+C29S63 ;
+C29S64 ;
+C29S67 ;
+C29S68 ;
+C29S69 ;
+C29S73 ;
+C29S12 ;
+C29S75 -> C29S67 [label=t3]
+C29S75 -> C29S73 [label=t6]
+C29S75 -> C29S16 [label=t8R3]
+C29S13 -> C29S14 [label=t2]
+C29S16 -> C29S12 [label=t3]
+C29S18 -> C29S16 [label=t7]
+C29S20 -> C29S18 [label=t6]
+C29S33 -> C29S34 [label=t6]
+C29S34 -> C29S35 [label=t7]
+C29S35 -> C29S13 [label=t3]
+C29S46 -> C29S47 [label=t15R5]
+C29S47 -> C29S14 [label=t1R1]
+C29S49 -> C29S46 [label=t3]
+C29S51 -> C29S49 [label=t7]
+C29S53 -> C29S51 [label=t6]
+C29S57 -> C29S16 [label=t1R1]
+C29S57 -> C29S49 [label=t2]
+C29S57 -> C29S58 [label=t15R5]
+C29S58 -> C29S35 [label=t1R1]
+C29S58 -> C29S59 [label=t2]
+C29S59 -> C29S47 [label=t3]
+C29S62 -> C29S18 [label=t1R1]
+C29S62 -> C29S51 [label=t2]
+C29S62 -> C29S63 [label=t15R5]
+C29S62 -> C29S57 [label=t7]
+C29S63 -> C29S34 [label=t1R1]
+C29S63 -> C29S64 [label=t2]
+C29S63 -> C29S58 [label=t7]
+C29S64 -> C29S59 [label=t7]
+C29S67 -> C29S20 [label=t1R1]
+C29S67 -> C29S53 [label=t2]
+C29S67 -> C29S68 [label=t15R5]
+C29S67 -> C29S62 [label=t6]
+C29S67 -> C29S12 [label=t8R3]
+C29S68 -> C29S33 [label=t1R1]
+C29S68 -> C29S69 [label=t2]
+C29S68 -> C29S63 [label=t6]
+C29S68 -> C29S13 [label=t8R3]
+C29S69 -> C29S64 [label=t6]
+C29S69 -> C29S14 [label=t8R3]
+C29S73 -> C29S62 [label=t3]
+C29S12 -> C29S13 [label=t15R5]
+}
+subgraph cluster30 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C30S76 ;
+C30S11 ;
+C30S12 ;
+C30S13 ;
+C30S14 ;
+C30S15 ;
+C30S16 ;
+C30S17 ;
+C30S18 ;
+C30S19 ;
+C30S20 ;
+C30S33 ;
+C30S34 ;
+C30S35 ;
+C30S45 ;
+C30S46 ;
+C30S47 ;
+C30S48 ;
+C30S49 ;
+C30S50 ;
+C30S51 ;
+C30S52 ;
+C30S53 ;
+C30S56 ;
+C30S57 ;
+C30S58 ;
+C30S59 ;
+C30S61 ;
+C30S62 ;
+C30S63 ;
+C30S64 ;
+C30S66 ;
+C30S67 ;
+C30S68 ;
+C30S69 ;
+C30S72 ;
+C30S73 ;
+C30S74 ;
+C30S75 ;
+C30S10 ;
+C30S77 ;
+C30S76 -> C30S74 [label=t7]
+C30S76 -> C30S77 [label=t11R7]
+C30S11 -> C30S10 [label=t2]
+C30S11 -> C30S12 [label=t11R7]
+C30S12 -> C30S13 [label=t15R5]
+C30S13 -> C30S14 [label=t2]
+C30S15 -> C30S11 [label=t3]
+C30S15 -> C30S16 [label=t11R7]
+C30S16 -> C30S12 [label=t3]
+C30S17 -> C30S15 [label=t7]
+C30S17 -> C30S18 [label=t11R7]
+C30S18 -> C30S16 [label=t7]
+C30S19 -> C30S17 [label=t6]
+C30S19 -> C30S20 [label=t11R7]
+C30S20 -> C30S18 [label=t6]
+C30S33 -> C30S34 [label=t6]
+C30S34 -> C30S35 [label=t7]
+C30S35 -> C30S13 [label=t3]
+C30S45 -> C30S10 [label=t1R1]
+C30S45 -> C30S46 [label=t11R7]
+C30S46 -> C30S47 [label=t15R5]
+C30S47 -> C30S14 [label=t1R1]
+C30S48 -> C30S45 [label=t3]
+C30S48 -> C30S49 [label=t11R7]
+C30S49 -> C30S46 [label=t3]
+C30S50 -> C30S48 [label=t7]
+C30S50 -> C30S51 [label=t11R7]
+C30S51 -> C30S49 [label=t7]
+C30S52 -> C30S50 [label=t6]
+C30S52 -> C30S10 [label=t8R3]
+C30S52 -> C30S53 [label=t11R7]
+C30S53 -> C30S51 [label=t6]
+C30S56 -> C30S15 [label=t1R1]
+C30S56 -> C30S48 [label=t2]
+C30S56 -> C30S57 [label=t11R7]
+C30S57 -> C30S16 [label=t1R1]
+C30S57 -> C30S49 [label=t2]
+C30S57 -> C30S58 [label=t15R5]
+C30S58 -> C30S35 [label=t1R1]
+C30S58 -> C30S59 [label=t2]
+C30S59 -> C30S47 [label=t3]
+C30S61 -> C30S17 [label=t1R1]
+C30S61 -> C30S50 [label=t2]
+C30S61 -> C30S56 [label=t7]
+C30S61 -> C30S62 [label=t11R7]
+C30S62 -> C30S18 [label=t1R1]
+C30S62 -> C30S51 [label=t2]
+C30S62 -> C30S63 [label=t15R5]
+C30S62 -> C30S57 [label=t7]
+C30S63 -> C30S34 [label=t1R1]
+C30S63 -> C30S64 [label=t2]
+C30S63 -> C30S58 [label=t7]
+C30S64 -> C30S59 [label=t7]
+C30S66 -> C30S19 [label=t1R1]
+C30S66 -> C30S52 [label=t2]
+C30S66 -> C30S61 [label=t6]
+C30S66 -> C30S11 [label=t8R3]
+C30S66 -> C30S67 [label=t11R7]
+C30S67 -> C30S20 [label=t1R1]
+C30S67 -> C30S53 [label=t2]
+C30S67 -> C30S68 [label=t15R5]
+C30S67 -> C30S62 [label=t6]
+C30S67 -> C30S12 [label=t8R3]
+C30S68 -> C30S33 [label=t1R1]
+C30S68 -> C30S69 [label=t2]
+C30S68 -> C30S63 [label=t6]
+C30S68 -> C30S13 [label=t8R3]
+C30S69 -> C30S64 [label=t6]
+C30S69 -> C30S14 [label=t8R3]
+C30S72 -> C30S61 [label=t3]
+C30S72 -> C30S73 [label=t11R7]
+C30S73 -> C30S62 [label=t3]
+C30S74 -> C30S66 [label=t3]
+C30S74 -> C30S72 [label=t6]
+C30S74 -> C30S15 [label=t8R3]
+C30S74 -> C30S75 [label=t11R7]
+C30S75 -> C30S67 [label=t3]
+C30S75 -> C30S73 [label=t6]
+C30S75 -> C30S16 [label=t8R3]
+C30S77 -> C30S75 [label=t7]
+}
+subgraph cluster31 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C31S77 ;
+C31S13 ;
+C31S14 ;
+C31S16 ;
+C31S18 ;
+C31S20 ;
+C31S33 ;
+C31S34 ;
+C31S35 ;
+C31S46 ;
+C31S47 ;
+C31S49 ;
+C31S51 ;
+C31S53 ;
+C31S57 ;
+C31S58 ;
+C31S59 ;
+C31S62 ;
+C31S63 ;
+C31S64 ;
+C31S67 ;
+C31S68 ;
+C31S69 ;
+C31S73 ;
+C31S75 ;
+C31S12 ;
+C31S77 -> C31S75 [label=t7]
+C31S13 -> C31S14 [label=t2]
+C31S16 -> C31S12 [label=t3]
+C31S18 -> C31S16 [label=t7]
+C31S20 -> C31S18 [label=t6]
+C31S33 -> C31S34 [label=t6]
+C31S34 -> C31S35 [label=t7]
+C31S35 -> C31S13 [label=t3]
+C31S46 -> C31S47 [label=t15R5]
+C31S47 -> C31S14 [label=t1R1]
+C31S49 -> C31S46 [label=t3]
+C31S51 -> C31S49 [label=t7]
+C31S53 -> C31S51 [label=t6]
+C31S57 -> C31S16 [label=t1R1]
+C31S57 -> C31S49 [label=t2]
+C31S57 -> C31S58 [label=t15R5]
+C31S58 -> C31S35 [label=t1R1]
+C31S58 -> C31S59 [label=t2]
+C31S59 -> C31S47 [label=t3]
+C31S62 -> C31S18 [label=t1R1]
+C31S62 -> C31S51 [label=t2]
+C31S62 -> C31S63 [label=t15R5]
+C31S62 -> C31S57 [label=t7]
+C31S63 -> C31S34 [label=t1R1]
+C31S63 -> C31S64 [label=t2]
+C31S63 -> C31S58 [label=t7]
+C31S64 -> C31S59 [label=t7]
+C31S67 -> C31S20 [label=t1R1]
+C31S67 -> C31S53 [label=t2]
+C31S67 -> C31S68 [label=t15R5]
+C31S67 -> C31S62 [label=t6]
+C31S67 -> C31S12 [label=t8R3]
+C31S68 -> C31S33 [label=t1R1]
+C31S68 -> C31S69 [label=t2]
+C31S68 -> C31S63 [label=t6]
+C31S68 -> C31S13 [label=t8R3]
+C31S69 -> C31S64 [label=t6]
+C31S69 -> C31S14 [label=t8R3]
+C31S73 -> C31S62 [label=t3]
+C31S75 -> C31S67 [label=t3]
+C31S75 -> C31S73 [label=t6]
+C31S75 -> C31S16 [label=t8R3]
+C31S12 -> C31S13 [label=t15R5]
+}
+subgraph cluster32 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C32S87 ;
+C32S3 ;
+C32S4 ;
+C32S5 ;
+C32S6 ;
+C32S7 ;
+C32S8 ;
+C32S9 ;
+C32S10 ;
+C32S11 ;
+C32S12 ;
+C32S13 ;
+C32S14 ;
+C32S15 ;
+C32S16 ;
+C32S17 ;
+C32S18 ;
+C32S19 ;
+C32S20 ;
+C32S21 ;
+C32S33 ;
+C32S34 ;
+C32S35 ;
+C32S42 ;
+C32S43 ;
+C32S44 ;
+C32S45 ;
+C32S46 ;
+C32S47 ;
+C32S48 ;
+C32S49 ;
+C32S50 ;
+C32S51 ;
+C32S52 ;
+C32S53 ;
+C32S54 ;
+C32S55 ;
+C32S56 ;
+C32S57 ;
+C32S58 ;
+C32S59 ;
+C32S61 ;
+C32S62 ;
+C32S63 ;
+C32S64 ;
+C32S66 ;
+C32S67 ;
+C32S68 ;
+C32S69 ;
+C32S71 ;
+C32S72 ;
+C32S73 ;
+C32S74 ;
+C32S75 ;
+C32S76 ;
+C32S77 ;
+C32S2 ;
+C32S88 ;
+C32S101 ;
+C32S102 ;
+C32S107 ;
+C32S119 ;
+C32S120 ;
+C32S121 ;
+C32S122 ;
+C32S123 ;
+C32S124 ;
+C32S125 ;
+C32S126 ;
+C32S127 ;
+C32S128 ;
+C32S129 ;
+C32S130 ;
+C32S131 ;
+C32S132 ;
+C32S133 ;
+C32S134 ;
+C32S135 ;
+C32S136 ;
+C32S137 ;
+C32S138 ;
+C32S139 ;
+C32S140 ;
+C32S141 ;
+C32S142 ;
+C32S143 ;
+C32S144 ;
+C32S146 ;
+C32S147 ;
+C32S148 ;
+C32S149 ;
+C32S151 ;
+C32S152 ;
+C32S153 ;
+C32S154 ;
+C32S87 -> C32S2 [label=t1R1]
+C32S87 -> C32S88 [label=t2]
+C32S87 -> C32S139 [label=t7]
+C32S87 -> C32S151 [label=t9]
+C32S3 -> C32S4 [label=t3]
+C32S3 -> C32S71 [label=t6]
+C32S3 -> C32S7 [label=t8R3]
+C32S3 -> C32S74 [label=t9]
+C32S4 -> C32S5 [label=t1R1]
+C32S4 -> C32S21 [label=t2]
+C32S4 -> C32S54 [label=t6]
+C32S4 -> C32S8 [label=t8R3]
+C32S4 -> C32S66 [label=t9]
+C32S5 -> C32S6 [label=t6]
+C32S5 -> C32S19 [label=t9]
+C32S6 -> C32S7 [label=t7]
+C32S6 -> C32S17 [label=t9]
+C32S7 -> C32S8 [label=t3]
+C32S7 -> C32S15 [label=t9]
+C32S8 -> C32S9 [label=t2]
+C32S8 -> C32S11 [label=t9]
+C32S9 -> C32S10 [label=t9]
+C32S11 -> C32S10 [label=t2]
+C32S11 -> C32S12 [label=t11R7]
+C32S12 -> C32S13 [label=t15R5]
+C32S13 -> C32S14 [label=t2]
+C32S15 -> C32S11 [label=t3]
+C32S15 -> C32S16 [label=t11R7]
+C32S16 -> C32S12 [label=t3]
+C32S17 -> C32S15 [label=t7]
+C32S17 -> C32S18 [label=t11R7]
+C32S18 -> C32S16 [label=t7]
+C32S19 -> C32S17 [label=t6]
+C32S19 -> C32S20 [label=t11R7]
+C32S20 -> C32S18 [label=t6]
+C32S21 -> C32S42 [label=t6]
+C32S21 -> C32S9 [label=t8R3]
+C32S21 -> C32S52 [label=t9]
+C32S33 -> C32S34 [label=t6]
+C32S34 -> C32S35 [label=t7]
+C32S35 -> C32S13 [label=t3]
+C32S42 -> C32S43 [label=t7]
+C32S42 -> C32S50 [label=t9]
+C32S43 -> C32S44 [label=t3]
+C32S43 -> C32S48 [label=t9]
+C32S44 -> C32S9 [label=t1R1]
+C32S44 -> C32S45 [label=t9]
+C32S45 -> C32S10 [label=t1R1]
+C32S45 -> C32S46 [label=t11R7]
+C32S46 -> C32S47 [label=t15R5]
+C32S47 -> C32S14 [label=t1R1]
+C32S48 -> C32S45 [label=t3]
+C32S48 -> C32S49 [label=t11R7]
+C32S49 -> C32S46 [label=t3]
+C32S50 -> C32S48 [label=t7]
+C32S50 -> C32S51 [label=t11R7]
+C32S51 -> C32S49 [label=t7]
+C32S52 -> C32S50 [label=t6]
+C32S52 -> C32S10 [label=t8R3]
+C32S52 -> C32S53 [label=t11R7]
+C32S53 -> C32S51 [label=t6]
+C32S54 -> C32S6 [label=t1R1]
+C32S54 -> C32S42 [label=t2]
+C32S54 -> C32S55 [label=t7]
+C32S54 -> C32S61 [label=t9]
+C32S55 -> C32S7 [label=t1R1]
+C32S55 -> C32S43 [label=t2]
+C32S55 -> C32S56 [label=t9]
+C32S56 -> C32S15 [label=t1R1]
+C32S56 -> C32S48 [label=t2]
+C32S56 -> C32S57 [label=t11R7]
+C32S57 -> C32S16 [label=t1R1]
+C32S57 -> C32S49 [label=t2]
+C32S57 -> C32S58 [label=t15R5]
+C32S58 -> C32S35 [label=t1R1]
+C32S58 -> C32S59 [label=t2]
+C32S59 -> C32S47 [label=t3]
+C32S61 -> C32S17 [label=t1R1]
+C32S61 -> C32S50 [label=t2]
+C32S61 -> C32S56 [label=t7]
+C32S61 -> C32S62 [label=t11R7]
+C32S62 -> C32S18 [label=t1R1]
+C32S62 -> C32S51 [label=t2]
+C32S62 -> C32S63 [label=t15R5]
+C32S62 -> C32S57 [label=t7]
+C32S63 -> C32S34 [label=t1R1]
+C32S63 -> C32S64 [label=t2]
+C32S63 -> C32S58 [label=t7]
+C32S64 -> C32S59 [label=t7]
+C32S66 -> C32S19 [label=t1R1]
+C32S66 -> C32S52 [label=t2]
+C32S66 -> C32S61 [label=t6]
+C32S66 -> C32S11 [label=t8R3]
+C32S66 -> C32S67 [label=t11R7]
+C32S67 -> C32S20 [label=t1R1]
+C32S67 -> C32S53 [label=t2]
+C32S67 -> C32S68 [label=t15R5]
+C32S67 -> C32S62 [label=t6]
+C32S67 -> C32S12 [label=t8R3]
+C32S68 -> C32S33 [label=t1R1]
+C32S68 -> C32S69 [label=t2]
+C32S68 -> C32S63 [label=t6]
+C32S68 -> C32S13 [label=t8R3]
+C32S69 -> C32S64 [label=t6]
+C32S69 -> C32S14 [label=t8R3]
+C32S71 -> C32S54 [label=t3]
+C32S71 -> C32S72 [label=t9]
+C32S72 -> C32S61 [label=t3]
+C32S72 -> C32S73 [label=t11R7]
+C32S73 -> C32S62 [label=t3]
+C32S74 -> C32S66 [label=t3]
+C32S74 -> C32S72 [label=t6]
+C32S74 -> C32S15 [label=t8R3]
+C32S74 -> C32S75 [label=t11R7]
+C32S75 -> C32S67 [label=t3]
+C32S75 -> C32S73 [label=t6]
+C32S75 -> C32S16 [label=t8R3]
+C32S76 -> C32S74 [label=t7]
+C32S76 -> C32S77 [label=t11R7]
+C32S77 -> C32S75 [label=t7]
+C32S2 -> C32S3 [label=t7]
+C32S2 -> C32S76 [label=t9]
+C32S88 -> C32S119 [label=t7]
+C32S88 -> C32S137 [label=t9]
+C32S101 -> C32S68 [label=t3]
+C32S101 -> C32S102 [label=t6]
+C32S101 -> C32S35 [label=t8R3]
+C32S102 -> C32S63 [label=t3]
+C32S107 -> C32S101 [label=t7]
+C32S119 -> C32S120 [label=t3]
+C32S119 -> C32S132 [label=t6]
+C32S119 -> C32S43 [label=t8R3]
+C32S119 -> C32S135 [label=t9]
+C32S120 -> C32S21 [label=t1R1]
+C32S120 -> C32S121 [label=t6]
+C32S120 -> C32S44 [label=t8R3]
+C32S120 -> C32S129 [label=t9]
+C32S121 -> C32S42 [label=t1R1]
+C32S121 -> C32S122 [label=t7]
+C32S121 -> C32S126 [label=t9]
+C32S122 -> C32S43 [label=t1R1]
+C32S122 -> C32S123 [label=t9]
+C32S123 -> C32S48 [label=t1R1]
+C32S123 -> C32S124 [label=t11R7]
+C32S124 -> C32S49 [label=t1R1]
+C32S124 -> C32S125 [label=t15R5]
+C32S125 -> C32S59 [label=t1R1]
+C32S126 -> C32S50 [label=t1R1]
+C32S126 -> C32S123 [label=t7]
+C32S126 -> C32S127 [label=t11R7]
+C32S127 -> C32S51 [label=t1R1]
+C32S127 -> C32S128 [label=t15R5]
+C32S127 -> C32S124 [label=t7]
+C32S128 -> C32S64 [label=t1R1]
+C32S128 -> C32S125 [label=t7]
+C32S129 -> C32S52 [label=t1R1]
+C32S129 -> C32S126 [label=t6]
+C32S129 -> C32S45 [label=t8R3]
+C32S129 -> C32S130 [label=t11R7]
+C32S130 -> C32S53 [label=t1R1]
+C32S130 -> C32S131 [label=t15R5]
+C32S130 -> C32S127 [label=t6]
+C32S130 -> C32S46 [label=t8R3]
+C32S131 -> C32S69 [label=t1R1]
+C32S131 -> C32S128 [label=t6]
+C32S131 -> C32S47 [label=t8R3]
+C32S132 -> C32S121 [label=t3]
+C32S132 -> C32S133 [label=t9]
+C32S133 -> C32S126 [label=t3]
+C32S133 -> C32S134 [label=t11R7]
+C32S134 -> C32S127 [label=t3]
+C32S135 -> C32S129 [label=t3]
+C32S135 -> C32S133 [label=t6]
+C32S135 -> C32S48 [label=t8R3]
+C32S135 -> C32S136 [label=t11R7]
+C32S136 -> C32S130 [label=t3]
+C32S136 -> C32S134 [label=t6]
+C32S136 -> C32S49 [label=t8R3]
+C32S137 -> C32S135 [label=t7]
+C32S137 -> C32S138 [label=t11R7]
+C32S138 -> C32S136 [label=t7]
+C32S139 -> C32S3 [label=t1R1]
+C32S139 -> C32S119 [label=t2]
+C32S139 -> C32S140 [label=t6]
+C32S139 -> C32S55 [label=t8R3]
+C32S139 -> C32S146 [label=t9]
+C32S140 -> C32S71 [label=t1R1]
+C32S140 -> C32S132 [label=t2]
+C32S140 -> C32S141 [label=t9]
+C32S141 -> C32S72 [label=t1R1]
+C32S141 -> C32S133 [label=t2]
+C32S141 -> C32S142 [label=t11R7]
+C32S142 -> C32S73 [label=t1R1]
+C32S142 -> C32S134 [label=t2]
+C32S142 -> C32S143 [label=t15R5]
+C32S143 -> C32S102 [label=t1R1]
+C32S143 -> C32S144 [label=t2]
+C32S144 -> C32S128 [label=t3]
+C32S146 -> C32S74 [label=t1R1]
+C32S146 -> C32S135 [label=t2]
+C32S146 -> C32S141 [label=t6]
+C32S146 -> C32S56 [label=t8R3]
+C32S146 -> C32S147 [label=t11R7]
+C32S147 -> C32S75 [label=t1R1]
+C32S147 -> C32S136 [label=t2]
+C32S147 -> C32S148 [label=t15R5]
+C32S147 -> C32S142 [label=t6]
+C32S147 -> C32S57 [label=t8R3]
+C32S148 -> C32S101 [label=t1R1]
+C32S148 -> C32S149 [label=t2]
+C32S148 -> C32S143 [label=t6]
+C32S148 -> C32S58 [label=t8R3]
+C32S149 -> C32S131 [label=t3]
+C32S149 -> C32S144 [label=t6]
+C32S149 -> C32S59 [label=t8R3]
+C32S151 -> C32S76 [label=t1R1]
+C32S151 -> C32S137 [label=t2]
+C32S151 -> C32S146 [label=t7]
+C32S151 -> C32S152 [label=t11R7]
+C32S152 -> C32S77 [label=t1R1]
+C32S152 -> C32S138 [label=t2]
+C32S152 -> C32S153 [label=t15R5]
+C32S152 -> C32S147 [label=t7]
+C32S153 -> C32S107 [label=t1R1]
+C32S153 -> C32S154 [label=t2]
+C32S153 -> C32S148 [label=t7]
+C32S154 -> C32S149 [label=t7]
+}
+subgraph cluster33 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C33S89 ;
+C33S22 ;
+C33S23 ;
+C33S24 ;
+C33S25 ;
+C33S26 ;
+C33S27 ;
+C33S28 ;
+C33S29 ;
+C33S30 ;
+C33S31 ;
+C33S32 ;
+C33S36 ;
+C33S37 ;
+C33S38 ;
+C33S39 ;
+C33S40 ;
+C33S41 ;
+C33S60 ;
+C33S65 ;
+C33S70 ;
+C33S78 ;
+C33S79 ;
+C33S80 ;
+C33S81 ;
+C33S82 ;
+C33S83 ;
+C33S84 ;
+C33S85 ;
+C33S86 ;
+C33S1 ;
+C33S90 ;
+C33S91 ;
+C33S92 ;
+C33S93 ;
+C33S94 ;
+C33S95 ;
+C33S96 ;
+C33S97 ;
+C33S98 ;
+C33S99 ;
+C33S100 ;
+C33S103 ;
+C33S104 ;
+C33S105 ;
+C33S106 ;
+C33S108 ;
+C33S109 ;
+C33S110 ;
+C33S111 ;
+C33S112 ;
+C33S113 ;
+C33S114 ;
+C33S115 ;
+C33S116 ;
+C33S117 ;
+C33S118 ;
+C33S89 -> C33S90 [label=t7]
+C33S89 -> C33S117 [label=t9]
+C33S22 -> C33S23 [label=t6]
+C33S22 -> C33S40 [label=t9]
+C33S23 -> C33S24 [label=t7]
+C33S23 -> C33S38 [label=t9]
+C33S24 -> C33S25 [label=t3]
+C33S24 -> C33S36 [label=t9]
+C33S25 -> C33S26 [label=t2]
+C33S25 -> C33S29 [label=t9]
+C33S26 -> C33S27 [label=t9]
+C33S27 -> C33S28 [label=t11R7]
+C33S29 -> C33S27 [label=t2]
+C33S29 -> C33S30 [label=t11R7]
+C33S30 -> C33S28 [label=t2]
+C33S30 -> C33S31 [label=t15R5]
+C33S31 -> C33S32 [label=t2]
+C33S36 -> C33S29 [label=t3]
+C33S36 -> C33S37 [label=t11R7]
+C33S37 -> C33S30 [label=t3]
+C33S38 -> C33S36 [label=t7]
+C33S38 -> C33S39 [label=t11R7]
+C33S39 -> C33S37 [label=t7]
+C33S40 -> C33S38 [label=t6]
+C33S40 -> C33S41 [label=t11R7]
+C33S41 -> C33S39 [label=t6]
+C33S60 -> C33S31 [label=t3]
+C33S65 -> C33S60 [label=t7]
+C33S70 -> C33S65 [label=t6]
+C33S78 -> C33S79 [label=t3]
+C33S78 -> C33S83 [label=t9]
+C33S79 -> C33S26 [label=t1R1]
+C33S79 -> C33S80 [label=t9]
+C33S80 -> C33S27 [label=t1R1]
+C33S80 -> C33S81 [label=t11R7]
+C33S81 -> C33S28 [label=t1R1]
+C33S81 -> C33S82 [label=t15R5]
+C33S82 -> C33S32 [label=t1R1]
+C33S83 -> C33S80 [label=t3]
+C33S83 -> C33S84 [label=t11R7]
+C33S84 -> C33S81 [label=t3]
+C33S85 -> C33S83 [label=t7]
+C33S85 -> C33S86 [label=t11R7]
+C33S86 -> C33S84 [label=t7]
+C33S1 -> C33S78 [label=t7]
+C33S1 -> C33S85 [label=t9]
+C33S90 -> C33S91 [label=t3]
+C33S90 -> C33S112 [label=t6]
+C33S90 -> C33S24 [label=t8R3]
+C33S90 -> C33S115 [label=t9]
+C33S91 -> C33S22 [label=t1R1]
+C33S91 -> C33S92 [label=t2]
+C33S91 -> C33S95 [label=t6]
+C33S91 -> C33S25 [label=t8R3]
+C33S91 -> C33S108 [label=t9]
+C33S92 -> C33S1 [label=t6]
+C33S92 -> C33S26 [label=t8R3]
+C33S92 -> C33S93 [label=t9]
+C33S93 -> C33S85 [label=t6]
+C33S93 -> C33S27 [label=t8R3]
+C33S93 -> C33S94 [label=t11R7]
+C33S94 -> C33S86 [label=t6]
+C33S94 -> C33S28 [label=t8R3]
+C33S95 -> C33S23 [label=t1R1]
+C33S95 -> C33S1 [label=t2]
+C33S95 -> C33S96 [label=t7]
+C33S95 -> C33S103 [label=t9]
+C33S96 -> C33S24 [label=t1R1]
+C33S96 -> C33S78 [label=t2]
+C33S96 -> C33S97 [label=t9]
+C33S97 -> C33S36 [label=t1R1]
+C33S97 -> C33S83 [label=t2]
+C33S97 -> C33S98 [label=t11R7]
+C33S98 -> C33S37 [label=t1R1]
+C33S98 -> C33S84 [label=t2]
+C33S98 -> C33S99 [label=t15R5]
+C33S99 -> C33S60 [label=t1R1]
+C33S99 -> C33S100 [label=t2]
+C33S100 -> C33S82 [label=t3]
+C33S103 -> C33S38 [label=t1R1]
+C33S103 -> C33S85 [label=t2]
+C33S103 -> C33S97 [label=t7]
+C33S103 -> C33S104 [label=t11R7]
+C33S104 -> C33S39 [label=t1R1]
+C33S104 -> C33S86 [label=t2]
+C33S104 -> C33S105 [label=t15R5]
+C33S104 -> C33S98 [label=t7]
+C33S105 -> C33S65 [label=t1R1]
+C33S105 -> C33S106 [label=t2]
+C33S105 -> C33S99 [label=t7]
+C33S106 -> C33S100 [label=t7]
+C33S108 -> C33S40 [label=t1R1]
+C33S108 -> C33S93 [label=t2]
+C33S108 -> C33S103 [label=t6]
+C33S108 -> C33S29 [label=t8R3]
+C33S108 -> C33S109 [label=t11R7]
+C33S109 -> C33S41 [label=t1R1]
+C33S109 -> C33S94 [label=t2]
+C33S109 -> C33S110 [label=t15R5]
+C33S109 -> C33S104 [label=t6]
+C33S109 -> C33S30 [label=t8R3]
+C33S110 -> C33S70 [label=t1R1]
+C33S110 -> C33S111 [label=t2]
+C33S110 -> C33S105 [label=t6]
+C33S110 -> C33S31 [label=t8R3]
+C33S111 -> C33S106 [label=t6]
+C33S111 -> C33S32 [label=t8R3]
+C33S112 -> C33S95 [label=t3]
+C33S112 -> C33S113 [label=t9]
+C33S113 -> C33S103 [label=t3]
+C33S113 -> C33S114 [label=t11R7]
+C33S114 -> C33S104 [label=t3]
+C33S115 -> C33S108 [label=t3]
+C33S115 -> C33S113 [label=t6]
+C33S115 -> C33S36 [label=t8R3]
+C33S115 -> C33S116 [label=t11R7]
+C33S116 -> C33S109 [label=t3]
+C33S116 -> C33S114 [label=t6]
+C33S116 -> C33S37 [label=t8R3]
+C33S117 -> C33S115 [label=t7]
+C33S117 -> C33S118 [label=t11R7]
+C33S118 -> C33S116 [label=t7]
+}
+subgraph cluster34 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C34S90 ;
+C34S22 ;
+C34S23 ;
+C34S24 ;
+C34S25 ;
+C34S26 ;
+C34S27 ;
+C34S28 ;
+C34S29 ;
+C34S30 ;
+C34S31 ;
+C34S32 ;
+C34S36 ;
+C34S37 ;
+C34S38 ;
+C34S39 ;
+C34S40 ;
+C34S41 ;
+C34S60 ;
+C34S65 ;
+C34S70 ;
+C34S78 ;
+C34S79 ;
+C34S80 ;
+C34S81 ;
+C34S82 ;
+C34S83 ;
+C34S84 ;
+C34S85 ;
+C34S86 ;
+C34S1 ;
+C34S91 ;
+C34S92 ;
+C34S93 ;
+C34S94 ;
+C34S95 ;
+C34S96 ;
+C34S97 ;
+C34S98 ;
+C34S99 ;
+C34S100 ;
+C34S103 ;
+C34S104 ;
+C34S105 ;
+C34S106 ;
+C34S108 ;
+C34S109 ;
+C34S110 ;
+C34S111 ;
+C34S112 ;
+C34S113 ;
+C34S114 ;
+C34S115 ;
+C34S116 ;
+C34S90 -> C34S91 [label=t3]
+C34S90 -> C34S112 [label=t6]
+C34S90 -> C34S24 [label=t8R3]
+C34S90 -> C34S115 [label=t9]
+C34S22 -> C34S23 [label=t6]
+C34S22 -> C34S40 [label=t9]
+C34S23 -> C34S24 [label=t7]
+C34S23 -> C34S38 [label=t9]
+C34S24 -> C34S25 [label=t3]
+C34S24 -> C34S36 [label=t9]
+C34S25 -> C34S26 [label=t2]
+C34S25 -> C34S29 [label=t9]
+C34S26 -> C34S27 [label=t9]
+C34S27 -> C34S28 [label=t11R7]
+C34S29 -> C34S27 [label=t2]
+C34S29 -> C34S30 [label=t11R7]
+C34S30 -> C34S28 [label=t2]
+C34S30 -> C34S31 [label=t15R5]
+C34S31 -> C34S32 [label=t2]
+C34S36 -> C34S29 [label=t3]
+C34S36 -> C34S37 [label=t11R7]
+C34S37 -> C34S30 [label=t3]
+C34S38 -> C34S36 [label=t7]
+C34S38 -> C34S39 [label=t11R7]
+C34S39 -> C34S37 [label=t7]
+C34S40 -> C34S38 [label=t6]
+C34S40 -> C34S41 [label=t11R7]
+C34S41 -> C34S39 [label=t6]
+C34S60 -> C34S31 [label=t3]
+C34S65 -> C34S60 [label=t7]
+C34S70 -> C34S65 [label=t6]
+C34S78 -> C34S79 [label=t3]
+C34S78 -> C34S83 [label=t9]
+C34S79 -> C34S26 [label=t1R1]
+C34S79 -> C34S80 [label=t9]
+C34S80 -> C34S27 [label=t1R1]
+C34S80 -> C34S81 [label=t11R7]
+C34S81 -> C34S28 [label=t1R1]
+C34S81 -> C34S82 [label=t15R5]
+C34S82 -> C34S32 [label=t1R1]
+C34S83 -> C34S80 [label=t3]
+C34S83 -> C34S84 [label=t11R7]
+C34S84 -> C34S81 [label=t3]
+C34S85 -> C34S83 [label=t7]
+C34S85 -> C34S86 [label=t11R7]
+C34S86 -> C34S84 [label=t7]
+C34S1 -> C34S78 [label=t7]
+C34S1 -> C34S85 [label=t9]
+C34S91 -> C34S22 [label=t1R1]
+C34S91 -> C34S92 [label=t2]
+C34S91 -> C34S95 [label=t6]
+C34S91 -> C34S25 [label=t8R3]
+C34S91 -> C34S108 [label=t9]
+C34S92 -> C34S1 [label=t6]
+C34S92 -> C34S26 [label=t8R3]
+C34S92 -> C34S93 [label=t9]
+C34S93 -> C34S85 [label=t6]
+C34S93 -> C34S27 [label=t8R3]
+C34S93 -> C34S94 [label=t11R7]
+C34S94 -> C34S86 [label=t6]
+C34S94 -> C34S28 [label=t8R3]
+C34S95 -> C34S23 [label=t1R1]
+C34S95 -> C34S1 [label=t2]
+C34S95 -> C34S96 [label=t7]
+C34S95 -> C34S103 [label=t9]
+C34S96 -> C34S24 [label=t1R1]
+C34S96 -> C34S78 [label=t2]
+C34S96 -> C34S97 [label=t9]
+C34S97 -> C34S36 [label=t1R1]
+C34S97 -> C34S83 [label=t2]
+C34S97 -> C34S98 [label=t11R7]
+C34S98 -> C34S37 [label=t1R1]
+C34S98 -> C34S84 [label=t2]
+C34S98 -> C34S99 [label=t15R5]
+C34S99 -> C34S60 [label=t1R1]
+C34S99 -> C34S100 [label=t2]
+C34S100 -> C34S82 [label=t3]
+C34S103 -> C34S38 [label=t1R1]
+C34S103 -> C34S85 [label=t2]
+C34S103 -> C34S97 [label=t7]
+C34S103 -> C34S104 [label=t11R7]
+C34S104 -> C34S39 [label=t1R1]
+C34S104 -> C34S86 [label=t2]
+C34S104 -> C34S105 [label=t15R5]
+C34S104 -> C34S98 [label=t7]
+C34S105 -> C34S65 [label=t1R1]
+C34S105 -> C34S106 [label=t2]
+C34S105 -> C34S99 [label=t7]
+C34S106 -> C34S100 [label=t7]
+C34S108 -> C34S40 [label=t1R1]
+C34S108 -> C34S93 [label=t2]
+C34S108 -> C34S103 [label=t6]
+C34S108 -> C34S29 [label=t8R3]
+C34S108 -> C34S109 [label=t11R7]
+C34S109 -> C34S41 [label=t1R1]
+C34S109 -> C34S94 [label=t2]
+C34S109 -> C34S110 [label=t15R5]
+C34S109 -> C34S104 [label=t6]
+C34S109 -> C34S30 [label=t8R3]
+C34S110 -> C34S70 [label=t1R1]
+C34S110 -> C34S111 [label=t2]
+C34S110 -> C34S105 [label=t6]
+C34S110 -> C34S31 [label=t8R3]
+C34S111 -> C34S106 [label=t6]
+C34S111 -> C34S32 [label=t8R3]
+C34S112 -> C34S95 [label=t3]
+C34S112 -> C34S113 [label=t9]
+C34S113 -> C34S103 [label=t3]
+C34S113 -> C34S114 [label=t11R7]
+C34S114 -> C34S104 [label=t3]
+C34S115 -> C34S108 [label=t3]
+C34S115 -> C34S113 [label=t6]
+C34S115 -> C34S36 [label=t8R3]
+C34S115 -> C34S116 [label=t11R7]
+C34S116 -> C34S109 [label=t3]
+C34S116 -> C34S114 [label=t6]
+C34S116 -> C34S37 [label=t8R3]
+}
+subgraph cluster35 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C35S91 ;
+C35S22 ;
+C35S23 ;
+C35S24 ;
+C35S25 ;
+C35S26 ;
+C35S27 ;
+C35S28 ;
+C35S29 ;
+C35S30 ;
+C35S31 ;
+C35S32 ;
+C35S36 ;
+C35S37 ;
+C35S38 ;
+C35S39 ;
+C35S40 ;
+C35S41 ;
+C35S60 ;
+C35S65 ;
+C35S70 ;
+C35S78 ;
+C35S79 ;
+C35S80 ;
+C35S81 ;
+C35S82 ;
+C35S83 ;
+C35S84 ;
+C35S85 ;
+C35S86 ;
+C35S1 ;
+C35S92 ;
+C35S93 ;
+C35S94 ;
+C35S95 ;
+C35S96 ;
+C35S97 ;
+C35S98 ;
+C35S99 ;
+C35S100 ;
+C35S103 ;
+C35S104 ;
+C35S105 ;
+C35S106 ;
+C35S108 ;
+C35S109 ;
+C35S110 ;
+C35S111 ;
+C35S91 -> C35S22 [label=t1R1]
+C35S91 -> C35S92 [label=t2]
+C35S91 -> C35S95 [label=t6]
+C35S91 -> C35S25 [label=t8R3]
+C35S91 -> C35S108 [label=t9]
+C35S22 -> C35S23 [label=t6]
+C35S22 -> C35S40 [label=t9]
+C35S23 -> C35S24 [label=t7]
+C35S23 -> C35S38 [label=t9]
+C35S24 -> C35S25 [label=t3]
+C35S24 -> C35S36 [label=t9]
+C35S25 -> C35S26 [label=t2]
+C35S25 -> C35S29 [label=t9]
+C35S26 -> C35S27 [label=t9]
+C35S27 -> C35S28 [label=t11R7]
+C35S29 -> C35S27 [label=t2]
+C35S29 -> C35S30 [label=t11R7]
+C35S30 -> C35S28 [label=t2]
+C35S30 -> C35S31 [label=t15R5]
+C35S31 -> C35S32 [label=t2]
+C35S36 -> C35S29 [label=t3]
+C35S36 -> C35S37 [label=t11R7]
+C35S37 -> C35S30 [label=t3]
+C35S38 -> C35S36 [label=t7]
+C35S38 -> C35S39 [label=t11R7]
+C35S39 -> C35S37 [label=t7]
+C35S40 -> C35S38 [label=t6]
+C35S40 -> C35S41 [label=t11R7]
+C35S41 -> C35S39 [label=t6]
+C35S60 -> C35S31 [label=t3]
+C35S65 -> C35S60 [label=t7]
+C35S70 -> C35S65 [label=t6]
+C35S78 -> C35S79 [label=t3]
+C35S78 -> C35S83 [label=t9]
+C35S79 -> C35S26 [label=t1R1]
+C35S79 -> C35S80 [label=t9]
+C35S80 -> C35S27 [label=t1R1]
+C35S80 -> C35S81 [label=t11R7]
+C35S81 -> C35S28 [label=t1R1]
+C35S81 -> C35S82 [label=t15R5]
+C35S82 -> C35S32 [label=t1R1]
+C35S83 -> C35S80 [label=t3]
+C35S83 -> C35S84 [label=t11R7]
+C35S84 -> C35S81 [label=t3]
+C35S85 -> C35S83 [label=t7]
+C35S85 -> C35S86 [label=t11R7]
+C35S86 -> C35S84 [label=t7]
+C35S1 -> C35S78 [label=t7]
+C35S1 -> C35S85 [label=t9]
+C35S92 -> C35S1 [label=t6]
+C35S92 -> C35S26 [label=t8R3]
+C35S92 -> C35S93 [label=t9]
+C35S93 -> C35S85 [label=t6]
+C35S93 -> C35S27 [label=t8R3]
+C35S93 -> C35S94 [label=t11R7]
+C35S94 -> C35S86 [label=t6]
+C35S94 -> C35S28 [label=t8R3]
+C35S95 -> C35S23 [label=t1R1]
+C35S95 -> C35S1 [label=t2]
+C35S95 -> C35S96 [label=t7]
+C35S95 -> C35S103 [label=t9]
+C35S96 -> C35S24 [label=t1R1]
+C35S96 -> C35S78 [label=t2]
+C35S96 -> C35S97 [label=t9]
+C35S97 -> C35S36 [label=t1R1]
+C35S97 -> C35S83 [label=t2]
+C35S97 -> C35S98 [label=t11R7]
+C35S98 -> C35S37 [label=t1R1]
+C35S98 -> C35S84 [label=t2]
+C35S98 -> C35S99 [label=t15R5]
+C35S99 -> C35S60 [label=t1R1]
+C35S99 -> C35S100 [label=t2]
+C35S100 -> C35S82 [label=t3]
+C35S103 -> C35S38 [label=t1R1]
+C35S103 -> C35S85 [label=t2]
+C35S103 -> C35S97 [label=t7]
+C35S103 -> C35S104 [label=t11R7]
+C35S104 -> C35S39 [label=t1R1]
+C35S104 -> C35S86 [label=t2]
+C35S104 -> C35S105 [label=t15R5]
+C35S104 -> C35S98 [label=t7]
+C35S105 -> C35S65 [label=t1R1]
+C35S105 -> C35S106 [label=t2]
+C35S105 -> C35S99 [label=t7]
+C35S106 -> C35S100 [label=t7]
+C35S108 -> C35S40 [label=t1R1]
+C35S108 -> C35S93 [label=t2]
+C35S108 -> C35S103 [label=t6]
+C35S108 -> C35S29 [label=t8R3]
+C35S108 -> C35S109 [label=t11R7]
+C35S109 -> C35S41 [label=t1R1]
+C35S109 -> C35S94 [label=t2]
+C35S109 -> C35S110 [label=t15R5]
+C35S109 -> C35S104 [label=t6]
+C35S109 -> C35S30 [label=t8R3]
+C35S110 -> C35S70 [label=t1R1]
+C35S110 -> C35S111 [label=t2]
+C35S110 -> C35S105 [label=t6]
+C35S110 -> C35S31 [label=t8R3]
+C35S111 -> C35S106 [label=t6]
+C35S111 -> C35S32 [label=t8R3]
+}
+subgraph cluster36 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C36S95 ;
+C36S23 ;
+C36S24 ;
+C36S25 ;
+C36S26 ;
+C36S27 ;
+C36S28 ;
+C36S29 ;
+C36S30 ;
+C36S31 ;
+C36S32 ;
+C36S36 ;
+C36S37 ;
+C36S38 ;
+C36S39 ;
+C36S60 ;
+C36S65 ;
+C36S78 ;
+C36S79 ;
+C36S80 ;
+C36S81 ;
+C36S82 ;
+C36S83 ;
+C36S84 ;
+C36S85 ;
+C36S86 ;
+C36S1 ;
+C36S96 ;
+C36S97 ;
+C36S98 ;
+C36S99 ;
+C36S100 ;
+C36S103 ;
+C36S104 ;
+C36S105 ;
+C36S106 ;
+C36S95 -> C36S23 [label=t1R1]
+C36S95 -> C36S1 [label=t2]
+C36S95 -> C36S96 [label=t7]
+C36S95 -> C36S103 [label=t9]
+C36S23 -> C36S24 [label=t7]
+C36S23 -> C36S38 [label=t9]
+C36S24 -> C36S25 [label=t3]
+C36S24 -> C36S36 [label=t9]
+C36S25 -> C36S26 [label=t2]
+C36S25 -> C36S29 [label=t9]
+C36S26 -> C36S27 [label=t9]
+C36S27 -> C36S28 [label=t11R7]
+C36S29 -> C36S27 [label=t2]
+C36S29 -> C36S30 [label=t11R7]
+C36S30 -> C36S28 [label=t2]
+C36S30 -> C36S31 [label=t15R5]
+C36S31 -> C36S32 [label=t2]
+C36S36 -> C36S29 [label=t3]
+C36S36 -> C36S37 [label=t11R7]
+C36S37 -> C36S30 [label=t3]
+C36S38 -> C36S36 [label=t7]
+C36S38 -> C36S39 [label=t11R7]
+C36S39 -> C36S37 [label=t7]
+C36S60 -> C36S31 [label=t3]
+C36S65 -> C36S60 [label=t7]
+C36S78 -> C36S79 [label=t3]
+C36S78 -> C36S83 [label=t9]
+C36S79 -> C36S26 [label=t1R1]
+C36S79 -> C36S80 [label=t9]
+C36S80 -> C36S27 [label=t1R1]
+C36S80 -> C36S81 [label=t11R7]
+C36S81 -> C36S28 [label=t1R1]
+C36S81 -> C36S82 [label=t15R5]
+C36S82 -> C36S32 [label=t1R1]
+C36S83 -> C36S80 [label=t3]
+C36S83 -> C36S84 [label=t11R7]
+C36S84 -> C36S81 [label=t3]
+C36S85 -> C36S83 [label=t7]
+C36S85 -> C36S86 [label=t11R7]
+C36S86 -> C36S84 [label=t7]
+C36S1 -> C36S78 [label=t7]
+C36S1 -> C36S85 [label=t9]
+C36S96 -> C36S24 [label=t1R1]
+C36S96 -> C36S78 [label=t2]
+C36S96 -> C36S97 [label=t9]
+C36S97 -> C36S36 [label=t1R1]
+C36S97 -> C36S83 [label=t2]
+C36S97 -> C36S98 [label=t11R7]
+C36S98 -> C36S37 [label=t1R1]
+C36S98 -> C36S84 [label=t2]
+C36S98 -> C36S99 [label=t15R5]
+C36S99 -> C36S60 [label=t1R1]
+C36S99 -> C36S100 [label=t2]
+C36S100 -> C36S82 [label=t3]
+C36S103 -> C36S38 [label=t1R1]
+C36S103 -> C36S85 [label=t2]
+C36S103 -> C36S97 [label=t7]
+C36S103 -> C36S104 [label=t11R7]
+C36S104 -> C36S39 [label=t1R1]
+C36S104 -> C36S86 [label=t2]
+C36S104 -> C36S105 [label=t15R5]
+C36S104 -> C36S98 [label=t7]
+C36S105 -> C36S65 [label=t1R1]
+C36S105 -> C36S106 [label=t2]
+C36S105 -> C36S99 [label=t7]
+C36S106 -> C36S100 [label=t7]
+}
+subgraph cluster37 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C37S96 ;
+C37S25 ;
+C37S26 ;
+C37S27 ;
+C37S28 ;
+C37S29 ;
+C37S30 ;
+C37S31 ;
+C37S32 ;
+C37S36 ;
+C37S37 ;
+C37S60 ;
+C37S78 ;
+C37S79 ;
+C37S80 ;
+C37S81 ;
+C37S82 ;
+C37S83 ;
+C37S84 ;
+C37S24 ;
+C37S97 ;
+C37S98 ;
+C37S99 ;
+C37S100 ;
+C37S96 -> C37S24 [label=t1R1]
+C37S96 -> C37S78 [label=t2]
+C37S96 -> C37S97 [label=t9]
+C37S25 -> C37S26 [label=t2]
+C37S25 -> C37S29 [label=t9]
+C37S26 -> C37S27 [label=t9]
+C37S27 -> C37S28 [label=t11R7]
+C37S29 -> C37S27 [label=t2]
+C37S29 -> C37S30 [label=t11R7]
+C37S30 -> C37S28 [label=t2]
+C37S30 -> C37S31 [label=t15R5]
+C37S31 -> C37S32 [label=t2]
+C37S36 -> C37S29 [label=t3]
+C37S36 -> C37S37 [label=t11R7]
+C37S37 -> C37S30 [label=t3]
+C37S60 -> C37S31 [label=t3]
+C37S78 -> C37S79 [label=t3]
+C37S78 -> C37S83 [label=t9]
+C37S79 -> C37S26 [label=t1R1]
+C37S79 -> C37S80 [label=t9]
+C37S80 -> C37S27 [label=t1R1]
+C37S80 -> C37S81 [label=t11R7]
+C37S81 -> C37S28 [label=t1R1]
+C37S81 -> C37S82 [label=t15R5]
+C37S82 -> C37S32 [label=t1R1]
+C37S83 -> C37S80 [label=t3]
+C37S83 -> C37S84 [label=t11R7]
+C37S84 -> C37S81 [label=t3]
+C37S24 -> C37S25 [label=t3]
+C37S24 -> C37S36 [label=t9]
+C37S97 -> C37S36 [label=t1R1]
+C37S97 -> C37S83 [label=t2]
+C37S97 -> C37S98 [label=t11R7]
+C37S98 -> C37S37 [label=t1R1]
+C37S98 -> C37S84 [label=t2]
+C37S98 -> C37S99 [label=t15R5]
+C37S99 -> C37S60 [label=t1R1]
+C37S99 -> C37S100 [label=t2]
+C37S100 -> C37S82 [label=t3]
+}
+subgraph cluster38 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C38S97 ;
+C38S28 ;
+C38S29 ;
+C38S30 ;
+C38S31 ;
+C38S32 ;
+C38S36 ;
+C38S37 ;
+C38S60 ;
+C38S80 ;
+C38S81 ;
+C38S82 ;
+C38S83 ;
+C38S84 ;
+C38S27 ;
+C38S98 ;
+C38S99 ;
+C38S100 ;
+C38S97 -> C38S36 [label=t1R1]
+C38S97 -> C38S83 [label=t2]
+C38S97 -> C38S98 [label=t11R7]
+C38S29 -> C38S27 [label=t2]
+C38S29 -> C38S30 [label=t11R7]
+C38S30 -> C38S28 [label=t2]
+C38S30 -> C38S31 [label=t15R5]
+C38S31 -> C38S32 [label=t2]
+C38S36 -> C38S29 [label=t3]
+C38S36 -> C38S37 [label=t11R7]
+C38S37 -> C38S30 [label=t3]
+C38S60 -> C38S31 [label=t3]
+C38S80 -> C38S27 [label=t1R1]
+C38S80 -> C38S81 [label=t11R7]
+C38S81 -> C38S28 [label=t1R1]
+C38S81 -> C38S82 [label=t15R5]
+C38S82 -> C38S32 [label=t1R1]
+C38S83 -> C38S80 [label=t3]
+C38S83 -> C38S84 [label=t11R7]
+C38S84 -> C38S81 [label=t3]
+C38S27 -> C38S28 [label=t11R7]
+C38S98 -> C38S37 [label=t1R1]
+C38S98 -> C38S84 [label=t2]
+C38S98 -> C38S99 [label=t15R5]
+C38S99 -> C38S60 [label=t1R1]
+C38S99 -> C38S100 [label=t2]
+C38S100 -> C38S82 [label=t3]
+}
+subgraph cluster39 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C39S98 ;
+C39S30 ;
+C39S31 ;
+C39S32 ;
+C39S37 ;
+C39S60 ;
+C39S81 ;
+C39S82 ;
+C39S84 ;
+C39S28 ;
+C39S99 ;
+C39S100 ;
+C39S98 -> C39S37 [label=t1R1]
+C39S98 -> C39S84 [label=t2]
+C39S98 -> C39S99 [label=t15R5]
+C39S30 -> C39S28 [label=t2]
+C39S30 -> C39S31 [label=t15R5]
+C39S31 -> C39S32 [label=t2]
+C39S37 -> C39S30 [label=t3]
+C39S60 -> C39S31 [label=t3]
+C39S81 -> C39S28 [label=t1R1]
+C39S81 -> C39S82 [label=t15R5]
+C39S82 -> C39S32 [label=t1R1]
+C39S84 -> C39S81 [label=t3]
+C39S99 -> C39S60 [label=t1R1]
+C39S99 -> C39S100 [label=t2]
+C39S100 -> C39S82 [label=t3]
+}
+subgraph cluster40 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C40S99 ;
+C40S32 ;
+C40S60 ;
+C40S82 ;
+C40S31 ;
+C40S100 ;
+C40S99 -> C40S60 [label=t1R1]
+C40S99 -> C40S100 [label=t2]
+C40S60 -> C40S31 [label=t3]
+C40S82 -> C40S32 [label=t1R1]
+C40S31 -> C40S32 [label=t2]
+C40S100 -> C40S82 [label=t3]
+}
+subgraph cluster41 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C41S101 ;
+C41S14 ;
+C41S33 ;
+C41S34 ;
+C41S35 ;
+C41S47 ;
+C41S58 ;
+C41S59 ;
+C41S63 ;
+C41S64 ;
+C41S68 ;
+C41S69 ;
+C41S13 ;
+C41S102 ;
+C41S101 -> C41S68 [label=t3]
+C41S101 -> C41S102 [label=t6]
+C41S101 -> C41S35 [label=t8R3]
+C41S33 -> C41S34 [label=t6]
+C41S34 -> C41S35 [label=t7]
+C41S35 -> C41S13 [label=t3]
+C41S47 -> C41S14 [label=t1R1]
+C41S58 -> C41S35 [label=t1R1]
+C41S58 -> C41S59 [label=t2]
+C41S59 -> C41S47 [label=t3]
+C41S63 -> C41S34 [label=t1R1]
+C41S63 -> C41S64 [label=t2]
+C41S63 -> C41S58 [label=t7]
+C41S64 -> C41S59 [label=t7]
+C41S68 -> C41S33 [label=t1R1]
+C41S68 -> C41S69 [label=t2]
+C41S68 -> C41S63 [label=t6]
+C41S68 -> C41S13 [label=t8R3]
+C41S69 -> C41S64 [label=t6]
+C41S69 -> C41S14 [label=t8R3]
+C41S13 -> C41S14 [label=t2]
+C41S102 -> C41S63 [label=t3]
+}
+subgraph cluster42 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C42S103 ;
+C42S28 ;
+C42S29 ;
+C42S30 ;
+C42S31 ;
+C42S32 ;
+C42S36 ;
+C42S37 ;
+C42S38 ;
+C42S39 ;
+C42S60 ;
+C42S65 ;
+C42S80 ;
+C42S81 ;
+C42S82 ;
+C42S83 ;
+C42S84 ;
+C42S85 ;
+C42S86 ;
+C42S97 ;
+C42S98 ;
+C42S99 ;
+C42S100 ;
+C42S27 ;
+C42S104 ;
+C42S105 ;
+C42S106 ;
+C42S103 -> C42S38 [label=t1R1]
+C42S103 -> C42S85 [label=t2]
+C42S103 -> C42S97 [label=t7]
+C42S103 -> C42S104 [label=t11R7]
+C42S29 -> C42S27 [label=t2]
+C42S29 -> C42S30 [label=t11R7]
+C42S30 -> C42S28 [label=t2]
+C42S30 -> C42S31 [label=t15R5]
+C42S31 -> C42S32 [label=t2]
+C42S36 -> C42S29 [label=t3]
+C42S36 -> C42S37 [label=t11R7]
+C42S37 -> C42S30 [label=t3]
+C42S38 -> C42S36 [label=t7]
+C42S38 -> C42S39 [label=t11R7]
+C42S39 -> C42S37 [label=t7]
+C42S60 -> C42S31 [label=t3]
+C42S65 -> C42S60 [label=t7]
+C42S80 -> C42S27 [label=t1R1]
+C42S80 -> C42S81 [label=t11R7]
+C42S81 -> C42S28 [label=t1R1]
+C42S81 -> C42S82 [label=t15R5]
+C42S82 -> C42S32 [label=t1R1]
+C42S83 -> C42S80 [label=t3]
+C42S83 -> C42S84 [label=t11R7]
+C42S84 -> C42S81 [label=t3]
+C42S85 -> C42S83 [label=t7]
+C42S85 -> C42S86 [label=t11R7]
+C42S86 -> C42S84 [label=t7]
+C42S97 -> C42S36 [label=t1R1]
+C42S97 -> C42S83 [label=t2]
+C42S97 -> C42S98 [label=t11R7]
+C42S98 -> C42S37 [label=t1R1]
+C42S98 -> C42S84 [label=t2]
+C42S98 -> C42S99 [label=t15R5]
+C42S99 -> C42S60 [label=t1R1]
+C42S99 -> C42S100 [label=t2]
+C42S100 -> C42S82 [label=t3]
+C42S27 -> C42S28 [label=t11R7]
+C42S104 -> C42S39 [label=t1R1]
+C42S104 -> C42S86 [label=t2]
+C42S104 -> C42S105 [label=t15R5]
+C42S104 -> C42S98 [label=t7]
+C42S105 -> C42S65 [label=t1R1]
+C42S105 -> C42S106 [label=t2]
+C42S105 -> C42S99 [label=t7]
+C42S106 -> C42S100 [label=t7]
+}
+subgraph cluster43 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C43S104 ;
+C43S30 ;
+C43S31 ;
+C43S32 ;
+C43S37 ;
+C43S39 ;
+C43S60 ;
+C43S65 ;
+C43S81 ;
+C43S82 ;
+C43S84 ;
+C43S86 ;
+C43S98 ;
+C43S99 ;
+C43S100 ;
+C43S28 ;
+C43S105 ;
+C43S106 ;
+C43S104 -> C43S39 [label=t1R1]
+C43S104 -> C43S86 [label=t2]
+C43S104 -> C43S105 [label=t15R5]
+C43S104 -> C43S98 [label=t7]
+C43S30 -> C43S28 [label=t2]
+C43S30 -> C43S31 [label=t15R5]
+C43S31 -> C43S32 [label=t2]
+C43S37 -> C43S30 [label=t3]
+C43S39 -> C43S37 [label=t7]
+C43S60 -> C43S31 [label=t3]
+C43S65 -> C43S60 [label=t7]
+C43S81 -> C43S28 [label=t1R1]
+C43S81 -> C43S82 [label=t15R5]
+C43S82 -> C43S32 [label=t1R1]
+C43S84 -> C43S81 [label=t3]
+C43S86 -> C43S84 [label=t7]
+C43S98 -> C43S37 [label=t1R1]
+C43S98 -> C43S84 [label=t2]
+C43S98 -> C43S99 [label=t15R5]
+C43S99 -> C43S60 [label=t1R1]
+C43S99 -> C43S100 [label=t2]
+C43S100 -> C43S82 [label=t3]
+C43S105 -> C43S65 [label=t1R1]
+C43S105 -> C43S106 [label=t2]
+C43S105 -> C43S99 [label=t7]
+C43S106 -> C43S100 [label=t7]
+}
+subgraph cluster44 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C44S105 ;
+C44S32 ;
+C44S60 ;
+C44S65 ;
+C44S82 ;
+C44S99 ;
+C44S100 ;
+C44S31 ;
+C44S106 ;
+C44S105 -> C44S65 [label=t1R1]
+C44S105 -> C44S106 [label=t2]
+C44S105 -> C44S99 [label=t7]
+C44S60 -> C44S31 [label=t3]
+C44S65 -> C44S60 [label=t7]
+C44S82 -> C44S32 [label=t1R1]
+C44S99 -> C44S60 [label=t1R1]
+C44S99 -> C44S100 [label=t2]
+C44S100 -> C44S82 [label=t3]
+C44S31 -> C44S32 [label=t2]
+C44S106 -> C44S100 [label=t7]
+}
+subgraph cluster45 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C45S107 ;
+C45S14 ;
+C45S33 ;
+C45S34 ;
+C45S35 ;
+C45S47 ;
+C45S58 ;
+C45S59 ;
+C45S63 ;
+C45S64 ;
+C45S68 ;
+C45S69 ;
+C45S101 ;
+C45S102 ;
+C45S13 ;
+C45S107 -> C45S101 [label=t7]
+C45S33 -> C45S34 [label=t6]
+C45S34 -> C45S35 [label=t7]
+C45S35 -> C45S13 [label=t3]
+C45S47 -> C45S14 [label=t1R1]
+C45S58 -> C45S35 [label=t1R1]
+C45S58 -> C45S59 [label=t2]
+C45S59 -> C45S47 [label=t3]
+C45S63 -> C45S34 [label=t1R1]
+C45S63 -> C45S64 [label=t2]
+C45S63 -> C45S58 [label=t7]
+C45S64 -> C45S59 [label=t7]
+C45S68 -> C45S33 [label=t1R1]
+C45S68 -> C45S69 [label=t2]
+C45S68 -> C45S63 [label=t6]
+C45S68 -> C45S13 [label=t8R3]
+C45S69 -> C45S64 [label=t6]
+C45S69 -> C45S14 [label=t8R3]
+C45S101 -> C45S68 [label=t3]
+C45S101 -> C45S102 [label=t6]
+C45S101 -> C45S35 [label=t8R3]
+C45S102 -> C45S63 [label=t3]
+C45S13 -> C45S14 [label=t2]
+}
+subgraph cluster46 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C46S108 ;
+C46S28 ;
+C46S29 ;
+C46S30 ;
+C46S31 ;
+C46S32 ;
+C46S36 ;
+C46S37 ;
+C46S38 ;
+C46S39 ;
+C46S40 ;
+C46S41 ;
+C46S60 ;
+C46S65 ;
+C46S70 ;
+C46S80 ;
+C46S81 ;
+C46S82 ;
+C46S83 ;
+C46S84 ;
+C46S85 ;
+C46S86 ;
+C46S93 ;
+C46S94 ;
+C46S97 ;
+C46S98 ;
+C46S99 ;
+C46S100 ;
+C46S103 ;
+C46S104 ;
+C46S105 ;
+C46S106 ;
+C46S27 ;
+C46S109 ;
+C46S110 ;
+C46S111 ;
+C46S108 -> C46S40 [label=t1R1]
+C46S108 -> C46S93 [label=t2]
+C46S108 -> C46S103 [label=t6]
+C46S108 -> C46S29 [label=t8R3]
+C46S108 -> C46S109 [label=t11R7]
+C46S29 -> C46S27 [label=t2]
+C46S29 -> C46S30 [label=t11R7]
+C46S30 -> C46S28 [label=t2]
+C46S30 -> C46S31 [label=t15R5]
+C46S31 -> C46S32 [label=t2]
+C46S36 -> C46S29 [label=t3]
+C46S36 -> C46S37 [label=t11R7]
+C46S37 -> C46S30 [label=t3]
+C46S38 -> C46S36 [label=t7]
+C46S38 -> C46S39 [label=t11R7]
+C46S39 -> C46S37 [label=t7]
+C46S40 -> C46S38 [label=t6]
+C46S40 -> C46S41 [label=t11R7]
+C46S41 -> C46S39 [label=t6]
+C46S60 -> C46S31 [label=t3]
+C46S65 -> C46S60 [label=t7]
+C46S70 -> C46S65 [label=t6]
+C46S80 -> C46S27 [label=t1R1]
+C46S80 -> C46S81 [label=t11R7]
+C46S81 -> C46S28 [label=t1R1]
+C46S81 -> C46S82 [label=t15R5]
+C46S82 -> C46S32 [label=t1R1]
+C46S83 -> C46S80 [label=t3]
+C46S83 -> C46S84 [label=t11R7]
+C46S84 -> C46S81 [label=t3]
+C46S85 -> C46S83 [label=t7]
+C46S85 -> C46S86 [label=t11R7]
+C46S86 -> C46S84 [label=t7]
+C46S93 -> C46S85 [label=t6]
+C46S93 -> C46S27 [label=t8R3]
+C46S93 -> C46S94 [label=t11R7]
+C46S94 -> C46S86 [label=t6]
+C46S94 -> C46S28 [label=t8R3]
+C46S97 -> C46S36 [label=t1R1]
+C46S97 -> C46S83 [label=t2]
+C46S97 -> C46S98 [label=t11R7]
+C46S98 -> C46S37 [label=t1R1]
+C46S98 -> C46S84 [label=t2]
+C46S98 -> C46S99 [label=t15R5]
+C46S99 -> C46S60 [label=t1R1]
+C46S99 -> C46S100 [label=t2]
+C46S100 -> C46S82 [label=t3]
+C46S103 -> C46S38 [label=t1R1]
+C46S103 -> C46S85 [label=t2]
+C46S103 -> C46S97 [label=t7]
+C46S103 -> C46S104 [label=t11R7]
+C46S104 -> C46S39 [label=t1R1]
+C46S104 -> C46S86 [label=t2]
+C46S104 -> C46S105 [label=t15R5]
+C46S104 -> C46S98 [label=t7]
+C46S105 -> C46S65 [label=t1R1]
+C46S105 -> C46S106 [label=t2]
+C46S105 -> C46S99 [label=t7]
+C46S106 -> C46S100 [label=t7]
+C46S27 -> C46S28 [label=t11R7]
+C46S109 -> C46S41 [label=t1R1]
+C46S109 -> C46S94 [label=t2]
+C46S109 -> C46S110 [label=t15R5]
+C46S109 -> C46S104 [label=t6]
+C46S109 -> C46S30 [label=t8R3]
+C46S110 -> C46S70 [label=t1R1]
+C46S110 -> C46S111 [label=t2]
+C46S110 -> C46S105 [label=t6]
+C46S110 -> C46S31 [label=t8R3]
+C46S111 -> C46S106 [label=t6]
+C46S111 -> C46S32 [label=t8R3]
+}
+subgraph cluster47 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C47S109 ;
+C47S30 ;
+C47S31 ;
+C47S32 ;
+C47S37 ;
+C47S39 ;
+C47S41 ;
+C47S60 ;
+C47S65 ;
+C47S70 ;
+C47S81 ;
+C47S82 ;
+C47S84 ;
+C47S86 ;
+C47S94 ;
+C47S98 ;
+C47S99 ;
+C47S100 ;
+C47S104 ;
+C47S105 ;
+C47S106 ;
+C47S28 ;
+C47S110 ;
+C47S111 ;
+C47S109 -> C47S41 [label=t1R1]
+C47S109 -> C47S94 [label=t2]
+C47S109 -> C47S110 [label=t15R5]
+C47S109 -> C47S104 [label=t6]
+C47S109 -> C47S30 [label=t8R3]
+C47S30 -> C47S28 [label=t2]
+C47S30 -> C47S31 [label=t15R5]
+C47S31 -> C47S32 [label=t2]
+C47S37 -> C47S30 [label=t3]
+C47S39 -> C47S37 [label=t7]
+C47S41 -> C47S39 [label=t6]
+C47S60 -> C47S31 [label=t3]
+C47S65 -> C47S60 [label=t7]
+C47S70 -> C47S65 [label=t6]
+C47S81 -> C47S28 [label=t1R1]
+C47S81 -> C47S82 [label=t15R5]
+C47S82 -> C47S32 [label=t1R1]
+C47S84 -> C47S81 [label=t3]
+C47S86 -> C47S84 [label=t7]
+C47S94 -> C47S86 [label=t6]
+C47S94 -> C47S28 [label=t8R3]
+C47S98 -> C47S37 [label=t1R1]
+C47S98 -> C47S84 [label=t2]
+C47S98 -> C47S99 [label=t15R5]
+C47S99 -> C47S60 [label=t1R1]
+C47S99 -> C47S100 [label=t2]
+C47S100 -> C47S82 [label=t3]
+C47S104 -> C47S39 [label=t1R1]
+C47S104 -> C47S86 [label=t2]
+C47S104 -> C47S105 [label=t15R5]
+C47S104 -> C47S98 [label=t7]
+C47S105 -> C47S65 [label=t1R1]
+C47S105 -> C47S106 [label=t2]
+C47S105 -> C47S99 [label=t7]
+C47S106 -> C47S100 [label=t7]
+C47S110 -> C47S70 [label=t1R1]
+C47S110 -> C47S111 [label=t2]
+C47S110 -> C47S105 [label=t6]
+C47S110 -> C47S31 [label=t8R3]
+C47S111 -> C47S106 [label=t6]
+C47S111 -> C47S32 [label=t8R3]
+}
+subgraph cluster48 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C48S110 ;
+C48S32 ;
+C48S60 ;
+C48S65 ;
+C48S70 ;
+C48S82 ;
+C48S99 ;
+C48S100 ;
+C48S105 ;
+C48S106 ;
+C48S31 ;
+C48S111 ;
+C48S110 -> C48S70 [label=t1R1]
+C48S110 -> C48S111 [label=t2]
+C48S110 -> C48S105 [label=t6]
+C48S110 -> C48S31 [label=t8R3]
+C48S60 -> C48S31 [label=t3]
+C48S65 -> C48S60 [label=t7]
+C48S70 -> C48S65 [label=t6]
+C48S82 -> C48S32 [label=t1R1]
+C48S99 -> C48S60 [label=t1R1]
+C48S99 -> C48S100 [label=t2]
+C48S100 -> C48S82 [label=t3]
+C48S105 -> C48S65 [label=t1R1]
+C48S105 -> C48S106 [label=t2]
+C48S105 -> C48S99 [label=t7]
+C48S106 -> C48S100 [label=t7]
+C48S31 -> C48S32 [label=t2]
+C48S111 -> C48S106 [label=t6]
+C48S111 -> C48S32 [label=t8R3]
+}
+subgraph cluster49 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C49S112 ;
+C49S23 ;
+C49S24 ;
+C49S25 ;
+C49S26 ;
+C49S27 ;
+C49S28 ;
+C49S29 ;
+C49S30 ;
+C49S31 ;
+C49S32 ;
+C49S36 ;
+C49S37 ;
+C49S38 ;
+C49S39 ;
+C49S60 ;
+C49S65 ;
+C49S78 ;
+C49S79 ;
+C49S80 ;
+C49S81 ;
+C49S82 ;
+C49S83 ;
+C49S84 ;
+C49S85 ;
+C49S86 ;
+C49S95 ;
+C49S96 ;
+C49S97 ;
+C49S98 ;
+C49S99 ;
+C49S100 ;
+C49S103 ;
+C49S104 ;
+C49S105 ;
+C49S106 ;
+C49S1 ;
+C49S113 ;
+C49S114 ;
+C49S112 -> C49S95 [label=t3]
+C49S112 -> C49S113 [label=t9]
+C49S23 -> C49S24 [label=t7]
+C49S23 -> C49S38 [label=t9]
+C49S24 -> C49S25 [label=t3]
+C49S24 -> C49S36 [label=t9]
+C49S25 -> C49S26 [label=t2]
+C49S25 -> C49S29 [label=t9]
+C49S26 -> C49S27 [label=t9]
+C49S27 -> C49S28 [label=t11R7]
+C49S29 -> C49S27 [label=t2]
+C49S29 -> C49S30 [label=t11R7]
+C49S30 -> C49S28 [label=t2]
+C49S30 -> C49S31 [label=t15R5]
+C49S31 -> C49S32 [label=t2]
+C49S36 -> C49S29 [label=t3]
+C49S36 -> C49S37 [label=t11R7]
+C49S37 -> C49S30 [label=t3]
+C49S38 -> C49S36 [label=t7]
+C49S38 -> C49S39 [label=t11R7]
+C49S39 -> C49S37 [label=t7]
+C49S60 -> C49S31 [label=t3]
+C49S65 -> C49S60 [label=t7]
+C49S78 -> C49S79 [label=t3]
+C49S78 -> C49S83 [label=t9]
+C49S79 -> C49S26 [label=t1R1]
+C49S79 -> C49S80 [label=t9]
+C49S80 -> C49S27 [label=t1R1]
+C49S80 -> C49S81 [label=t11R7]
+C49S81 -> C49S28 [label=t1R1]
+C49S81 -> C49S82 [label=t15R5]
+C49S82 -> C49S32 [label=t1R1]
+C49S83 -> C49S80 [label=t3]
+C49S83 -> C49S84 [label=t11R7]
+C49S84 -> C49S81 [label=t3]
+C49S85 -> C49S83 [label=t7]
+C49S85 -> C49S86 [label=t11R7]
+C49S86 -> C49S84 [label=t7]
+C49S95 -> C49S23 [label=t1R1]
+C49S95 -> C49S1 [label=t2]
+C49S95 -> C49S96 [label=t7]
+C49S95 -> C49S103 [label=t9]
+C49S96 -> C49S24 [label=t1R1]
+C49S96 -> C49S78 [label=t2]
+C49S96 -> C49S97 [label=t9]
+C49S97 -> C49S36 [label=t1R1]
+C49S97 -> C49S83 [label=t2]
+C49S97 -> C49S98 [label=t11R7]
+C49S98 -> C49S37 [label=t1R1]
+C49S98 -> C49S84 [label=t2]
+C49S98 -> C49S99 [label=t15R5]
+C49S99 -> C49S60 [label=t1R1]
+C49S99 -> C49S100 [label=t2]
+C49S100 -> C49S82 [label=t3]
+C49S103 -> C49S38 [label=t1R1]
+C49S103 -> C49S85 [label=t2]
+C49S103 -> C49S97 [label=t7]
+C49S103 -> C49S104 [label=t11R7]
+C49S104 -> C49S39 [label=t1R1]
+C49S104 -> C49S86 [label=t2]
+C49S104 -> C49S105 [label=t15R5]
+C49S104 -> C49S98 [label=t7]
+C49S105 -> C49S65 [label=t1R1]
+C49S105 -> C49S106 [label=t2]
+C49S105 -> C49S99 [label=t7]
+C49S106 -> C49S100 [label=t7]
+C49S1 -> C49S78 [label=t7]
+C49S1 -> C49S85 [label=t9]
+C49S113 -> C49S103 [label=t3]
+C49S113 -> C49S114 [label=t11R7]
+C49S114 -> C49S104 [label=t3]
+}
+subgraph cluster50 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C50S113 ;
+C50S28 ;
+C50S29 ;
+C50S30 ;
+C50S31 ;
+C50S32 ;
+C50S36 ;
+C50S37 ;
+C50S38 ;
+C50S39 ;
+C50S60 ;
+C50S65 ;
+C50S80 ;
+C50S81 ;
+C50S82 ;
+C50S83 ;
+C50S84 ;
+C50S85 ;
+C50S86 ;
+C50S97 ;
+C50S98 ;
+C50S99 ;
+C50S100 ;
+C50S103 ;
+C50S104 ;
+C50S105 ;
+C50S106 ;
+C50S27 ;
+C50S114 ;
+C50S113 -> C50S103 [label=t3]
+C50S113 -> C50S114 [label=t11R7]
+C50S29 -> C50S27 [label=t2]
+C50S29 -> C50S30 [label=t11R7]
+C50S30 -> C50S28 [label=t2]
+C50S30 -> C50S31 [label=t15R5]
+C50S31 -> C50S32 [label=t2]
+C50S36 -> C50S29 [label=t3]
+C50S36 -> C50S37 [label=t11R7]
+C50S37 -> C50S30 [label=t3]
+C50S38 -> C50S36 [label=t7]
+C50S38 -> C50S39 [label=t11R7]
+C50S39 -> C50S37 [label=t7]
+C50S60 -> C50S31 [label=t3]
+C50S65 -> C50S60 [label=t7]
+C50S80 -> C50S27 [label=t1R1]
+C50S80 -> C50S81 [label=t11R7]
+C50S81 -> C50S28 [label=t1R1]
+C50S81 -> C50S82 [label=t15R5]
+C50S82 -> C50S32 [label=t1R1]
+C50S83 -> C50S80 [label=t3]
+C50S83 -> C50S84 [label=t11R7]
+C50S84 -> C50S81 [label=t3]
+C50S85 -> C50S83 [label=t7]
+C50S85 -> C50S86 [label=t11R7]
+C50S86 -> C50S84 [label=t7]
+C50S97 -> C50S36 [label=t1R1]
+C50S97 -> C50S83 [label=t2]
+C50S97 -> C50S98 [label=t11R7]
+C50S98 -> C50S37 [label=t1R1]
+C50S98 -> C50S84 [label=t2]
+C50S98 -> C50S99 [label=t15R5]
+C50S99 -> C50S60 [label=t1R1]
+C50S99 -> C50S100 [label=t2]
+C50S100 -> C50S82 [label=t3]
+C50S103 -> C50S38 [label=t1R1]
+C50S103 -> C50S85 [label=t2]
+C50S103 -> C50S97 [label=t7]
+C50S103 -> C50S104 [label=t11R7]
+C50S104 -> C50S39 [label=t1R1]
+C50S104 -> C50S86 [label=t2]
+C50S104 -> C50S105 [label=t15R5]
+C50S104 -> C50S98 [label=t7]
+C50S105 -> C50S65 [label=t1R1]
+C50S105 -> C50S106 [label=t2]
+C50S105 -> C50S99 [label=t7]
+C50S106 -> C50S100 [label=t7]
+C50S27 -> C50S28 [label=t11R7]
+C50S114 -> C50S104 [label=t3]
+}
+subgraph cluster51 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C51S114 ;
+C51S30 ;
+C51S31 ;
+C51S32 ;
+C51S37 ;
+C51S39 ;
+C51S60 ;
+C51S65 ;
+C51S81 ;
+C51S82 ;
+C51S84 ;
+C51S86 ;
+C51S98 ;
+C51S99 ;
+C51S100 ;
+C51S104 ;
+C51S105 ;
+C51S106 ;
+C51S28 ;
+C51S114 -> C51S104 [label=t3]
+C51S30 -> C51S28 [label=t2]
+C51S30 -> C51S31 [label=t15R5]
+C51S31 -> C51S32 [label=t2]
+C51S37 -> C51S30 [label=t3]
+C51S39 -> C51S37 [label=t7]
+C51S60 -> C51S31 [label=t3]
+C51S65 -> C51S60 [label=t7]
+C51S81 -> C51S28 [label=t1R1]
+C51S81 -> C51S82 [label=t15R5]
+C51S82 -> C51S32 [label=t1R1]
+C51S84 -> C51S81 [label=t3]
+C51S86 -> C51S84 [label=t7]
+C51S98 -> C51S37 [label=t1R1]
+C51S98 -> C51S84 [label=t2]
+C51S98 -> C51S99 [label=t15R5]
+C51S99 -> C51S60 [label=t1R1]
+C51S99 -> C51S100 [label=t2]
+C51S100 -> C51S82 [label=t3]
+C51S104 -> C51S39 [label=t1R1]
+C51S104 -> C51S86 [label=t2]
+C51S104 -> C51S105 [label=t15R5]
+C51S104 -> C51S98 [label=t7]
+C51S105 -> C51S65 [label=t1R1]
+C51S105 -> C51S106 [label=t2]
+C51S105 -> C51S99 [label=t7]
+C51S106 -> C51S100 [label=t7]
+}
+subgraph cluster52 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C52S115 ;
+C52S28 ;
+C52S29 ;
+C52S30 ;
+C52S31 ;
+C52S32 ;
+C52S36 ;
+C52S37 ;
+C52S38 ;
+C52S39 ;
+C52S40 ;
+C52S41 ;
+C52S60 ;
+C52S65 ;
+C52S70 ;
+C52S80 ;
+C52S81 ;
+C52S82 ;
+C52S83 ;
+C52S84 ;
+C52S85 ;
+C52S86 ;
+C52S93 ;
+C52S94 ;
+C52S97 ;
+C52S98 ;
+C52S99 ;
+C52S100 ;
+C52S103 ;
+C52S104 ;
+C52S105 ;
+C52S106 ;
+C52S108 ;
+C52S109 ;
+C52S110 ;
+C52S111 ;
+C52S113 ;
+C52S114 ;
+C52S27 ;
+C52S116 ;
+C52S115 -> C52S108 [label=t3]
+C52S115 -> C52S113 [label=t6]
+C52S115 -> C52S36 [label=t8R3]
+C52S115 -> C52S116 [label=t11R7]
+C52S29 -> C52S27 [label=t2]
+C52S29 -> C52S30 [label=t11R7]
+C52S30 -> C52S28 [label=t2]
+C52S30 -> C52S31 [label=t15R5]
+C52S31 -> C52S32 [label=t2]
+C52S36 -> C52S29 [label=t3]
+C52S36 -> C52S37 [label=t11R7]
+C52S37 -> C52S30 [label=t3]
+C52S38 -> C52S36 [label=t7]
+C52S38 -> C52S39 [label=t11R7]
+C52S39 -> C52S37 [label=t7]
+C52S40 -> C52S38 [label=t6]
+C52S40 -> C52S41 [label=t11R7]
+C52S41 -> C52S39 [label=t6]
+C52S60 -> C52S31 [label=t3]
+C52S65 -> C52S60 [label=t7]
+C52S70 -> C52S65 [label=t6]
+C52S80 -> C52S27 [label=t1R1]
+C52S80 -> C52S81 [label=t11R7]
+C52S81 -> C52S28 [label=t1R1]
+C52S81 -> C52S82 [label=t15R5]
+C52S82 -> C52S32 [label=t1R1]
+C52S83 -> C52S80 [label=t3]
+C52S83 -> C52S84 [label=t11R7]
+C52S84 -> C52S81 [label=t3]
+C52S85 -> C52S83 [label=t7]
+C52S85 -> C52S86 [label=t11R7]
+C52S86 -> C52S84 [label=t7]
+C52S93 -> C52S85 [label=t6]
+C52S93 -> C52S27 [label=t8R3]
+C52S93 -> C52S94 [label=t11R7]
+C52S94 -> C52S86 [label=t6]
+C52S94 -> C52S28 [label=t8R3]
+C52S97 -> C52S36 [label=t1R1]
+C52S97 -> C52S83 [label=t2]
+C52S97 -> C52S98 [label=t11R7]
+C52S98 -> C52S37 [label=t1R1]
+C52S98 -> C52S84 [label=t2]
+C52S98 -> C52S99 [label=t15R5]
+C52S99 -> C52S60 [label=t1R1]
+C52S99 -> C52S100 [label=t2]
+C52S100 -> C52S82 [label=t3]
+C52S103 -> C52S38 [label=t1R1]
+C52S103 -> C52S85 [label=t2]
+C52S103 -> C52S97 [label=t7]
+C52S103 -> C52S104 [label=t11R7]
+C52S104 -> C52S39 [label=t1R1]
+C52S104 -> C52S86 [label=t2]
+C52S104 -> C52S105 [label=t15R5]
+C52S104 -> C52S98 [label=t7]
+C52S105 -> C52S65 [label=t1R1]
+C52S105 -> C52S106 [label=t2]
+C52S105 -> C52S99 [label=t7]
+C52S106 -> C52S100 [label=t7]
+C52S108 -> C52S40 [label=t1R1]
+C52S108 -> C52S93 [label=t2]
+C52S108 -> C52S103 [label=t6]
+C52S108 -> C52S29 [label=t8R3]
+C52S108 -> C52S109 [label=t11R7]
+C52S109 -> C52S41 [label=t1R1]
+C52S109 -> C52S94 [label=t2]
+C52S109 -> C52S110 [label=t15R5]
+C52S109 -> C52S104 [label=t6]
+C52S109 -> C52S30 [label=t8R3]
+C52S110 -> C52S70 [label=t1R1]
+C52S110 -> C52S111 [label=t2]
+C52S110 -> C52S105 [label=t6]
+C52S110 -> C52S31 [label=t8R3]
+C52S111 -> C52S106 [label=t6]
+C52S111 -> C52S32 [label=t8R3]
+C52S113 -> C52S103 [label=t3]
+C52S113 -> C52S114 [label=t11R7]
+C52S114 -> C52S104 [label=t3]
+C52S27 -> C52S28 [label=t11R7]
+C52S116 -> C52S109 [label=t3]
+C52S116 -> C52S114 [label=t6]
+C52S116 -> C52S37 [label=t8R3]
+}
+subgraph cluster53 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C53S116 ;
+C53S30 ;
+C53S31 ;
+C53S32 ;
+C53S37 ;
+C53S39 ;
+C53S41 ;
+C53S60 ;
+C53S65 ;
+C53S70 ;
+C53S81 ;
+C53S82 ;
+C53S84 ;
+C53S86 ;
+C53S94 ;
+C53S98 ;
+C53S99 ;
+C53S100 ;
+C53S104 ;
+C53S105 ;
+C53S106 ;
+C53S109 ;
+C53S110 ;
+C53S111 ;
+C53S114 ;
+C53S28 ;
+C53S116 -> C53S109 [label=t3]
+C53S116 -> C53S114 [label=t6]
+C53S116 -> C53S37 [label=t8R3]
+C53S30 -> C53S28 [label=t2]
+C53S30 -> C53S31 [label=t15R5]
+C53S31 -> C53S32 [label=t2]
+C53S37 -> C53S30 [label=t3]
+C53S39 -> C53S37 [label=t7]
+C53S41 -> C53S39 [label=t6]
+C53S60 -> C53S31 [label=t3]
+C53S65 -> C53S60 [label=t7]
+C53S70 -> C53S65 [label=t6]
+C53S81 -> C53S28 [label=t1R1]
+C53S81 -> C53S82 [label=t15R5]
+C53S82 -> C53S32 [label=t1R1]
+C53S84 -> C53S81 [label=t3]
+C53S86 -> C53S84 [label=t7]
+C53S94 -> C53S86 [label=t6]
+C53S94 -> C53S28 [label=t8R3]
+C53S98 -> C53S37 [label=t1R1]
+C53S98 -> C53S84 [label=t2]
+C53S98 -> C53S99 [label=t15R5]
+C53S99 -> C53S60 [label=t1R1]
+C53S99 -> C53S100 [label=t2]
+C53S100 -> C53S82 [label=t3]
+C53S104 -> C53S39 [label=t1R1]
+C53S104 -> C53S86 [label=t2]
+C53S104 -> C53S105 [label=t15R5]
+C53S104 -> C53S98 [label=t7]
+C53S105 -> C53S65 [label=t1R1]
+C53S105 -> C53S106 [label=t2]
+C53S105 -> C53S99 [label=t7]
+C53S106 -> C53S100 [label=t7]
+C53S109 -> C53S41 [label=t1R1]
+C53S109 -> C53S94 [label=t2]
+C53S109 -> C53S110 [label=t15R5]
+C53S109 -> C53S104 [label=t6]
+C53S109 -> C53S30 [label=t8R3]
+C53S110 -> C53S70 [label=t1R1]
+C53S110 -> C53S111 [label=t2]
+C53S110 -> C53S105 [label=t6]
+C53S110 -> C53S31 [label=t8R3]
+C53S111 -> C53S106 [label=t6]
+C53S111 -> C53S32 [label=t8R3]
+C53S114 -> C53S104 [label=t3]
+}
+subgraph cluster54 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C54S117 ;
+C54S28 ;
+C54S29 ;
+C54S30 ;
+C54S31 ;
+C54S32 ;
+C54S36 ;
+C54S37 ;
+C54S38 ;
+C54S39 ;
+C54S40 ;
+C54S41 ;
+C54S60 ;
+C54S65 ;
+C54S70 ;
+C54S80 ;
+C54S81 ;
+C54S82 ;
+C54S83 ;
+C54S84 ;
+C54S85 ;
+C54S86 ;
+C54S93 ;
+C54S94 ;
+C54S97 ;
+C54S98 ;
+C54S99 ;
+C54S100 ;
+C54S103 ;
+C54S104 ;
+C54S105 ;
+C54S106 ;
+C54S108 ;
+C54S109 ;
+C54S110 ;
+C54S111 ;
+C54S113 ;
+C54S114 ;
+C54S115 ;
+C54S116 ;
+C54S27 ;
+C54S118 ;
+C54S117 -> C54S115 [label=t7]
+C54S117 -> C54S118 [label=t11R7]
+C54S29 -> C54S27 [label=t2]
+C54S29 -> C54S30 [label=t11R7]
+C54S30 -> C54S28 [label=t2]
+C54S30 -> C54S31 [label=t15R5]
+C54S31 -> C54S32 [label=t2]
+C54S36 -> C54S29 [label=t3]
+C54S36 -> C54S37 [label=t11R7]
+C54S37 -> C54S30 [label=t3]
+C54S38 -> C54S36 [label=t7]
+C54S38 -> C54S39 [label=t11R7]
+C54S39 -> C54S37 [label=t7]
+C54S40 -> C54S38 [label=t6]
+C54S40 -> C54S41 [label=t11R7]
+C54S41 -> C54S39 [label=t6]
+C54S60 -> C54S31 [label=t3]
+C54S65 -> C54S60 [label=t7]
+C54S70 -> C54S65 [label=t6]
+C54S80 -> C54S27 [label=t1R1]
+C54S80 -> C54S81 [label=t11R7]
+C54S81 -> C54S28 [label=t1R1]
+C54S81 -> C54S82 [label=t15R5]
+C54S82 -> C54S32 [label=t1R1]
+C54S83 -> C54S80 [label=t3]
+C54S83 -> C54S84 [label=t11R7]
+C54S84 -> C54S81 [label=t3]
+C54S85 -> C54S83 [label=t7]
+C54S85 -> C54S86 [label=t11R7]
+C54S86 -> C54S84 [label=t7]
+C54S93 -> C54S85 [label=t6]
+C54S93 -> C54S27 [label=t8R3]
+C54S93 -> C54S94 [label=t11R7]
+C54S94 -> C54S86 [label=t6]
+C54S94 -> C54S28 [label=t8R3]
+C54S97 -> C54S36 [label=t1R1]
+C54S97 -> C54S83 [label=t2]
+C54S97 -> C54S98 [label=t11R7]
+C54S98 -> C54S37 [label=t1R1]
+C54S98 -> C54S84 [label=t2]
+C54S98 -> C54S99 [label=t15R5]
+C54S99 -> C54S60 [label=t1R1]
+C54S99 -> C54S100 [label=t2]
+C54S100 -> C54S82 [label=t3]
+C54S103 -> C54S38 [label=t1R1]
+C54S103 -> C54S85 [label=t2]
+C54S103 -> C54S97 [label=t7]
+C54S103 -> C54S104 [label=t11R7]
+C54S104 -> C54S39 [label=t1R1]
+C54S104 -> C54S86 [label=t2]
+C54S104 -> C54S105 [label=t15R5]
+C54S104 -> C54S98 [label=t7]
+C54S105 -> C54S65 [label=t1R1]
+C54S105 -> C54S106 [label=t2]
+C54S105 -> C54S99 [label=t7]
+C54S106 -> C54S100 [label=t7]
+C54S108 -> C54S40 [label=t1R1]
+C54S108 -> C54S93 [label=t2]
+C54S108 -> C54S103 [label=t6]
+C54S108 -> C54S29 [label=t8R3]
+C54S108 -> C54S109 [label=t11R7]
+C54S109 -> C54S41 [label=t1R1]
+C54S109 -> C54S94 [label=t2]
+C54S109 -> C54S110 [label=t15R5]
+C54S109 -> C54S104 [label=t6]
+C54S109 -> C54S30 [label=t8R3]
+C54S110 -> C54S70 [label=t1R1]
+C54S110 -> C54S111 [label=t2]
+C54S110 -> C54S105 [label=t6]
+C54S110 -> C54S31 [label=t8R3]
+C54S111 -> C54S106 [label=t6]
+C54S111 -> C54S32 [label=t8R3]
+C54S113 -> C54S103 [label=t3]
+C54S113 -> C54S114 [label=t11R7]
+C54S114 -> C54S104 [label=t3]
+C54S115 -> C54S108 [label=t3]
+C54S115 -> C54S113 [label=t6]
+C54S115 -> C54S36 [label=t8R3]
+C54S115 -> C54S116 [label=t11R7]
+C54S116 -> C54S109 [label=t3]
+C54S116 -> C54S114 [label=t6]
+C54S116 -> C54S37 [label=t8R3]
+C54S27 -> C54S28 [label=t11R7]
+C54S118 -> C54S116 [label=t7]
+}
+subgraph cluster55 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C55S118 ;
+C55S30 ;
+C55S31 ;
+C55S32 ;
+C55S37 ;
+C55S39 ;
+C55S41 ;
+C55S60 ;
+C55S65 ;
+C55S70 ;
+C55S81 ;
+C55S82 ;
+C55S84 ;
+C55S86 ;
+C55S94 ;
+C55S98 ;
+C55S99 ;
+C55S100 ;
+C55S104 ;
+C55S105 ;
+C55S106 ;
+C55S109 ;
+C55S110 ;
+C55S111 ;
+C55S114 ;
+C55S116 ;
+C55S28 ;
+C55S118 -> C55S116 [label=t7]
+C55S30 -> C55S28 [label=t2]
+C55S30 -> C55S31 [label=t15R5]
+C55S31 -> C55S32 [label=t2]
+C55S37 -> C55S30 [label=t3]
+C55S39 -> C55S37 [label=t7]
+C55S41 -> C55S39 [label=t6]
+C55S60 -> C55S31 [label=t3]
+C55S65 -> C55S60 [label=t7]
+C55S70 -> C55S65 [label=t6]
+C55S81 -> C55S28 [label=t1R1]
+C55S81 -> C55S82 [label=t15R5]
+C55S82 -> C55S32 [label=t1R1]
+C55S84 -> C55S81 [label=t3]
+C55S86 -> C55S84 [label=t7]
+C55S94 -> C55S86 [label=t6]
+C55S94 -> C55S28 [label=t8R3]
+C55S98 -> C55S37 [label=t1R1]
+C55S98 -> C55S84 [label=t2]
+C55S98 -> C55S99 [label=t15R5]
+C55S99 -> C55S60 [label=t1R1]
+C55S99 -> C55S100 [label=t2]
+C55S100 -> C55S82 [label=t3]
+C55S104 -> C55S39 [label=t1R1]
+C55S104 -> C55S86 [label=t2]
+C55S104 -> C55S105 [label=t15R5]
+C55S104 -> C55S98 [label=t7]
+C55S105 -> C55S65 [label=t1R1]
+C55S105 -> C55S106 [label=t2]
+C55S105 -> C55S99 [label=t7]
+C55S106 -> C55S100 [label=t7]
+C55S109 -> C55S41 [label=t1R1]
+C55S109 -> C55S94 [label=t2]
+C55S109 -> C55S110 [label=t15R5]
+C55S109 -> C55S104 [label=t6]
+C55S109 -> C55S30 [label=t8R3]
+C55S110 -> C55S70 [label=t1R1]
+C55S110 -> C55S111 [label=t2]
+C55S110 -> C55S105 [label=t6]
+C55S110 -> C55S31 [label=t8R3]
+C55S111 -> C55S106 [label=t6]
+C55S111 -> C55S32 [label=t8R3]
+C55S114 -> C55S104 [label=t3]
+C55S116 -> C55S109 [label=t3]
+C55S116 -> C55S114 [label=t6]
+C55S116 -> C55S37 [label=t8R3]
+}
+subgraph cluster56 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C56S139 ;
+C56S4 ;
+C56S5 ;
+C56S6 ;
+C56S7 ;
+C56S8 ;
+C56S9 ;
+C56S10 ;
+C56S11 ;
+C56S12 ;
+C56S13 ;
+C56S14 ;
+C56S15 ;
+C56S16 ;
+C56S17 ;
+C56S18 ;
+C56S19 ;
+C56S20 ;
+C56S21 ;
+C56S33 ;
+C56S34 ;
+C56S35 ;
+C56S42 ;
+C56S43 ;
+C56S44 ;
+C56S45 ;
+C56S46 ;
+C56S47 ;
+C56S48 ;
+C56S49 ;
+C56S50 ;
+C56S51 ;
+C56S52 ;
+C56S53 ;
+C56S54 ;
+C56S55 ;
+C56S56 ;
+C56S57 ;
+C56S58 ;
+C56S59 ;
+C56S61 ;
+C56S62 ;
+C56S63 ;
+C56S64 ;
+C56S66 ;
+C56S67 ;
+C56S68 ;
+C56S69 ;
+C56S71 ;
+C56S72 ;
+C56S73 ;
+C56S74 ;
+C56S75 ;
+C56S101 ;
+C56S102 ;
+C56S119 ;
+C56S120 ;
+C56S121 ;
+C56S122 ;
+C56S123 ;
+C56S124 ;
+C56S125 ;
+C56S126 ;
+C56S127 ;
+C56S128 ;
+C56S129 ;
+C56S130 ;
+C56S131 ;
+C56S132 ;
+C56S133 ;
+C56S134 ;
+C56S135 ;
+C56S136 ;
+C56S3 ;
+C56S140 ;
+C56S141 ;
+C56S142 ;
+C56S143 ;
+C56S144 ;
+C56S146 ;
+C56S147 ;
+C56S148 ;
+C56S149 ;
+C56S139 -> C56S3 [label=t1R1]
+C56S139 -> C56S119 [label=t2]
+C56S139 -> C56S140 [label=t6]
+C56S139 -> C56S55 [label=t8R3]
+C56S139 -> C56S146 [label=t9]
+C56S4 -> C56S5 [label=t1R1]
+C56S4 -> C56S21 [label=t2]
+C56S4 -> C56S54 [label=t6]
+C56S4 -> C56S8 [label=t8R3]
+C56S4 -> C56S66 [label=t9]
+C56S5 -> C56S6 [label=t6]
+C56S5 -> C56S19 [label=t9]
+C56S6 -> C56S7 [label=t7]
+C56S6 -> C56S17 [label=t9]
+C56S7 -> C56S8 [label=t3]
+C56S7 -> C56S15 [label=t9]
+C56S8 -> C56S9 [label=t2]
+C56S8 -> C56S11 [label=t9]
+C56S9 -> C56S10 [label=t9]
+C56S11 -> C56S10 [label=t2]
+C56S11 -> C56S12 [label=t11R7]
+C56S12 -> C56S13 [label=t15R5]
+C56S13 -> C56S14 [label=t2]
+C56S15 -> C56S11 [label=t3]
+C56S15 -> C56S16 [label=t11R7]
+C56S16 -> C56S12 [label=t3]
+C56S17 -> C56S15 [label=t7]
+C56S17 -> C56S18 [label=t11R7]
+C56S18 -> C56S16 [label=t7]
+C56S19 -> C56S17 [label=t6]
+C56S19 -> C56S20 [label=t11R7]
+C56S20 -> C56S18 [label=t6]
+C56S21 -> C56S42 [label=t6]
+C56S21 -> C56S9 [label=t8R3]
+C56S21 -> C56S52 [label=t9]
+C56S33 -> C56S34 [label=t6]
+C56S34 -> C56S35 [label=t7]
+C56S35 -> C56S13 [label=t3]
+C56S42 -> C56S43 [label=t7]
+C56S42 -> C56S50 [label=t9]
+C56S43 -> C56S44 [label=t3]
+C56S43 -> C56S48 [label=t9]
+C56S44 -> C56S9 [label=t1R1]
+C56S44 -> C56S45 [label=t9]
+C56S45 -> C56S10 [label=t1R1]
+C56S45 -> C56S46 [label=t11R7]
+C56S46 -> C56S47 [label=t15R5]
+C56S47 -> C56S14 [label=t1R1]
+C56S48 -> C56S45 [label=t3]
+C56S48 -> C56S49 [label=t11R7]
+C56S49 -> C56S46 [label=t3]
+C56S50 -> C56S48 [label=t7]
+C56S50 -> C56S51 [label=t11R7]
+C56S51 -> C56S49 [label=t7]
+C56S52 -> C56S50 [label=t6]
+C56S52 -> C56S10 [label=t8R3]
+C56S52 -> C56S53 [label=t11R7]
+C56S53 -> C56S51 [label=t6]
+C56S54 -> C56S6 [label=t1R1]
+C56S54 -> C56S42 [label=t2]
+C56S54 -> C56S55 [label=t7]
+C56S54 -> C56S61 [label=t9]
+C56S55 -> C56S7 [label=t1R1]
+C56S55 -> C56S43 [label=t2]
+C56S55 -> C56S56 [label=t9]
+C56S56 -> C56S15 [label=t1R1]
+C56S56 -> C56S48 [label=t2]
+C56S56 -> C56S57 [label=t11R7]
+C56S57 -> C56S16 [label=t1R1]
+C56S57 -> C56S49 [label=t2]
+C56S57 -> C56S58 [label=t15R5]
+C56S58 -> C56S35 [label=t1R1]
+C56S58 -> C56S59 [label=t2]
+C56S59 -> C56S47 [label=t3]
+C56S61 -> C56S17 [label=t1R1]
+C56S61 -> C56S50 [label=t2]
+C56S61 -> C56S56 [label=t7]
+C56S61 -> C56S62 [label=t11R7]
+C56S62 -> C56S18 [label=t1R1]
+C56S62 -> C56S51 [label=t2]
+C56S62 -> C56S63 [label=t15R5]
+C56S62 -> C56S57 [label=t7]
+C56S63 -> C56S34 [label=t1R1]
+C56S63 -> C56S64 [label=t2]
+C56S63 -> C56S58 [label=t7]
+C56S64 -> C56S59 [label=t7]
+C56S66 -> C56S19 [label=t1R1]
+C56S66 -> C56S52 [label=t2]
+C56S66 -> C56S61 [label=t6]
+C56S66 -> C56S11 [label=t8R3]
+C56S66 -> C56S67 [label=t11R7]
+C56S67 -> C56S20 [label=t1R1]
+C56S67 -> C56S53 [label=t2]
+C56S67 -> C56S68 [label=t15R5]
+C56S67 -> C56S62 [label=t6]
+C56S67 -> C56S12 [label=t8R3]
+C56S68 -> C56S33 [label=t1R1]
+C56S68 -> C56S69 [label=t2]
+C56S68 -> C56S63 [label=t6]
+C56S68 -> C56S13 [label=t8R3]
+C56S69 -> C56S64 [label=t6]
+C56S69 -> C56S14 [label=t8R3]
+C56S71 -> C56S54 [label=t3]
+C56S71 -> C56S72 [label=t9]
+C56S72 -> C56S61 [label=t3]
+C56S72 -> C56S73 [label=t11R7]
+C56S73 -> C56S62 [label=t3]
+C56S74 -> C56S66 [label=t3]
+C56S74 -> C56S72 [label=t6]
+C56S74 -> C56S15 [label=t8R3]
+C56S74 -> C56S75 [label=t11R7]
+C56S75 -> C56S67 [label=t3]
+C56S75 -> C56S73 [label=t6]
+C56S75 -> C56S16 [label=t8R3]
+C56S101 -> C56S68 [label=t3]
+C56S101 -> C56S102 [label=t6]
+C56S101 -> C56S35 [label=t8R3]
+C56S102 -> C56S63 [label=t3]
+C56S119 -> C56S120 [label=t3]
+C56S119 -> C56S132 [label=t6]
+C56S119 -> C56S43 [label=t8R3]
+C56S119 -> C56S135 [label=t9]
+C56S120 -> C56S21 [label=t1R1]
+C56S120 -> C56S121 [label=t6]
+C56S120 -> C56S44 [label=t8R3]
+C56S120 -> C56S129 [label=t9]
+C56S121 -> C56S42 [label=t1R1]
+C56S121 -> C56S122 [label=t7]
+C56S121 -> C56S126 [label=t9]
+C56S122 -> C56S43 [label=t1R1]
+C56S122 -> C56S123 [label=t9]
+C56S123 -> C56S48 [label=t1R1]
+C56S123 -> C56S124 [label=t11R7]
+C56S124 -> C56S49 [label=t1R1]
+C56S124 -> C56S125 [label=t15R5]
+C56S125 -> C56S59 [label=t1R1]
+C56S126 -> C56S50 [label=t1R1]
+C56S126 -> C56S123 [label=t7]
+C56S126 -> C56S127 [label=t11R7]
+C56S127 -> C56S51 [label=t1R1]
+C56S127 -> C56S128 [label=t15R5]
+C56S127 -> C56S124 [label=t7]
+C56S128 -> C56S64 [label=t1R1]
+C56S128 -> C56S125 [label=t7]
+C56S129 -> C56S52 [label=t1R1]
+C56S129 -> C56S126 [label=t6]
+C56S129 -> C56S45 [label=t8R3]
+C56S129 -> C56S130 [label=t11R7]
+C56S130 -> C56S53 [label=t1R1]
+C56S130 -> C56S131 [label=t15R5]
+C56S130 -> C56S127 [label=t6]
+C56S130 -> C56S46 [label=t8R3]
+C56S131 -> C56S69 [label=t1R1]
+C56S131 -> C56S128 [label=t6]
+C56S131 -> C56S47 [label=t8R3]
+C56S132 -> C56S121 [label=t3]
+C56S132 -> C56S133 [label=t9]
+C56S133 -> C56S126 [label=t3]
+C56S133 -> C56S134 [label=t11R7]
+C56S134 -> C56S127 [label=t3]
+C56S135 -> C56S129 [label=t3]
+C56S135 -> C56S133 [label=t6]
+C56S135 -> C56S48 [label=t8R3]
+C56S135 -> C56S136 [label=t11R7]
+C56S136 -> C56S130 [label=t3]
+C56S136 -> C56S134 [label=t6]
+C56S136 -> C56S49 [label=t8R3]
+C56S3 -> C56S4 [label=t3]
+C56S3 -> C56S71 [label=t6]
+C56S3 -> C56S7 [label=t8R3]
+C56S3 -> C56S74 [label=t9]
+C56S140 -> C56S71 [label=t1R1]
+C56S140 -> C56S132 [label=t2]
+C56S140 -> C56S141 [label=t9]
+C56S141 -> C56S72 [label=t1R1]
+C56S141 -> C56S133 [label=t2]
+C56S141 -> C56S142 [label=t11R7]
+C56S142 -> C56S73 [label=t1R1]
+C56S142 -> C56S134 [label=t2]
+C56S142 -> C56S143 [label=t15R5]
+C56S143 -> C56S102 [label=t1R1]
+C56S143 -> C56S144 [label=t2]
+C56S144 -> C56S128 [label=t3]
+C56S146 -> C56S74 [label=t1R1]
+C56S146 -> C56S135 [label=t2]
+C56S146 -> C56S141 [label=t6]
+C56S146 -> C56S56 [label=t8R3]
+C56S146 -> C56S147 [label=t11R7]
+C56S147 -> C56S75 [label=t1R1]
+C56S147 -> C56S136 [label=t2]
+C56S147 -> C56S148 [label=t15R5]
+C56S147 -> C56S142 [label=t6]
+C56S147 -> C56S57 [label=t8R3]
+C56S148 -> C56S101 [label=t1R1]
+C56S148 -> C56S149 [label=t2]
+C56S148 -> C56S143 [label=t6]
+C56S148 -> C56S58 [label=t8R3]
+C56S149 -> C56S131 [label=t3]
+C56S149 -> C56S144 [label=t6]
+C56S149 -> C56S59 [label=t8R3]
+}
+subgraph cluster57 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C57S145 ;
+C57S32 ;
+C57S60 ;
+C57S65 ;
+C57S82 ;
+C57S99 ;
+C57S100 ;
+C57S105 ;
+C57S106 ;
+C57S31 ;
+C57S145 -> C57S105 [label=t3]
+C57S60 -> C57S31 [label=t3]
+C57S65 -> C57S60 [label=t7]
+C57S82 -> C57S32 [label=t1R1]
+C57S99 -> C57S60 [label=t1R1]
+C57S99 -> C57S100 [label=t2]
+C57S100 -> C57S82 [label=t3]
+C57S105 -> C57S65 [label=t1R1]
+C57S105 -> C57S106 [label=t2]
+C57S105 -> C57S99 [label=t7]
+C57S106 -> C57S100 [label=t7]
+C57S31 -> C57S32 [label=t2]
+}
+subgraph cluster58 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C58S146 ;
+C58S11 ;
+C58S12 ;
+C58S13 ;
+C58S14 ;
+C58S15 ;
+C58S16 ;
+C58S17 ;
+C58S18 ;
+C58S19 ;
+C58S20 ;
+C58S33 ;
+C58S34 ;
+C58S35 ;
+C58S45 ;
+C58S46 ;
+C58S47 ;
+C58S48 ;
+C58S49 ;
+C58S50 ;
+C58S51 ;
+C58S52 ;
+C58S53 ;
+C58S56 ;
+C58S57 ;
+C58S58 ;
+C58S59 ;
+C58S61 ;
+C58S62 ;
+C58S63 ;
+C58S64 ;
+C58S66 ;
+C58S67 ;
+C58S68 ;
+C58S69 ;
+C58S72 ;
+C58S73 ;
+C58S74 ;
+C58S75 ;
+C58S101 ;
+C58S102 ;
+C58S123 ;
+C58S124 ;
+C58S125 ;
+C58S126 ;
+C58S127 ;
+C58S128 ;
+C58S129 ;
+C58S130 ;
+C58S131 ;
+C58S133 ;
+C58S134 ;
+C58S135 ;
+C58S136 ;
+C58S141 ;
+C58S142 ;
+C58S143 ;
+C58S144 ;
+C58S10 ;
+C58S147 ;
+C58S148 ;
+C58S149 ;
+C58S146 -> C58S74 [label=t1R1]
+C58S146 -> C58S135 [label=t2]
+C58S146 -> C58S141 [label=t6]
+C58S146 -> C58S56 [label=t8R3]
+C58S146 -> C58S147 [label=t11R7]
+C58S11 -> C58S10 [label=t2]
+C58S11 -> C58S12 [label=t11R7]
+C58S12 -> C58S13 [label=t15R5]
+C58S13 -> C58S14 [label=t2]
+C58S15 -> C58S11 [label=t3]
+C58S15 -> C58S16 [label=t11R7]
+C58S16 -> C58S12 [label=t3]
+C58S17 -> C58S15 [label=t7]
+C58S17 -> C58S18 [label=t11R7]
+C58S18 -> C58S16 [label=t7]
+C58S19 -> C58S17 [label=t6]
+C58S19 -> C58S20 [label=t11R7]
+C58S20 -> C58S18 [label=t6]
+C58S33 -> C58S34 [label=t6]
+C58S34 -> C58S35 [label=t7]
+C58S35 -> C58S13 [label=t3]
+C58S45 -> C58S10 [label=t1R1]
+C58S45 -> C58S46 [label=t11R7]
+C58S46 -> C58S47 [label=t15R5]
+C58S47 -> C58S14 [label=t1R1]
+C58S48 -> C58S45 [label=t3]
+C58S48 -> C58S49 [label=t11R7]
+C58S49 -> C58S46 [label=t3]
+C58S50 -> C58S48 [label=t7]
+C58S50 -> C58S51 [label=t11R7]
+C58S51 -> C58S49 [label=t7]
+C58S52 -> C58S50 [label=t6]
+C58S52 -> C58S10 [label=t8R3]
+C58S52 -> C58S53 [label=t11R7]
+C58S53 -> C58S51 [label=t6]
+C58S56 -> C58S15 [label=t1R1]
+C58S56 -> C58S48 [label=t2]
+C58S56 -> C58S57 [label=t11R7]
+C58S57 -> C58S16 [label=t1R1]
+C58S57 -> C58S49 [label=t2]
+C58S57 -> C58S58 [label=t15R5]
+C58S58 -> C58S35 [label=t1R1]
+C58S58 -> C58S59 [label=t2]
+C58S59 -> C58S47 [label=t3]
+C58S61 -> C58S17 [label=t1R1]
+C58S61 -> C58S50 [label=t2]
+C58S61 -> C58S56 [label=t7]
+C58S61 -> C58S62 [label=t11R7]
+C58S62 -> C58S18 [label=t1R1]
+C58S62 -> C58S51 [label=t2]
+C58S62 -> C58S63 [label=t15R5]
+C58S62 -> C58S57 [label=t7]
+C58S63 -> C58S34 [label=t1R1]
+C58S63 -> C58S64 [label=t2]
+C58S63 -> C58S58 [label=t7]
+C58S64 -> C58S59 [label=t7]
+C58S66 -> C58S19 [label=t1R1]
+C58S66 -> C58S52 [label=t2]
+C58S66 -> C58S61 [label=t6]
+C58S66 -> C58S11 [label=t8R3]
+C58S66 -> C58S67 [label=t11R7]
+C58S67 -> C58S20 [label=t1R1]
+C58S67 -> C58S53 [label=t2]
+C58S67 -> C58S68 [label=t15R5]
+C58S67 -> C58S62 [label=t6]
+C58S67 -> C58S12 [label=t8R3]
+C58S68 -> C58S33 [label=t1R1]
+C58S68 -> C58S69 [label=t2]
+C58S68 -> C58S63 [label=t6]
+C58S68 -> C58S13 [label=t8R3]
+C58S69 -> C58S64 [label=t6]
+C58S69 -> C58S14 [label=t8R3]
+C58S72 -> C58S61 [label=t3]
+C58S72 -> C58S73 [label=t11R7]
+C58S73 -> C58S62 [label=t3]
+C58S74 -> C58S66 [label=t3]
+C58S74 -> C58S72 [label=t6]
+C58S74 -> C58S15 [label=t8R3]
+C58S74 -> C58S75 [label=t11R7]
+C58S75 -> C58S67 [label=t3]
+C58S75 -> C58S73 [label=t6]
+C58S75 -> C58S16 [label=t8R3]
+C58S101 -> C58S68 [label=t3]
+C58S101 -> C58S102 [label=t6]
+C58S101 -> C58S35 [label=t8R3]
+C58S102 -> C58S63 [label=t3]
+C58S123 -> C58S48 [label=t1R1]
+C58S123 -> C58S124 [label=t11R7]
+C58S124 -> C58S49 [label=t1R1]
+C58S124 -> C58S125 [label=t15R5]
+C58S125 -> C58S59 [label=t1R1]
+C58S126 -> C58S50 [label=t1R1]
+C58S126 -> C58S123 [label=t7]
+C58S126 -> C58S127 [label=t11R7]
+C58S127 -> C58S51 [label=t1R1]
+C58S127 -> C58S128 [label=t15R5]
+C58S127 -> C58S124 [label=t7]
+C58S128 -> C58S64 [label=t1R1]
+C58S128 -> C58S125 [label=t7]
+C58S129 -> C58S52 [label=t1R1]
+C58S129 -> C58S126 [label=t6]
+C58S129 -> C58S45 [label=t8R3]
+C58S129 -> C58S130 [label=t11R7]
+C58S130 -> C58S53 [label=t1R1]
+C58S130 -> C58S131 [label=t15R5]
+C58S130 -> C58S127 [label=t6]
+C58S130 -> C58S46 [label=t8R3]
+C58S131 -> C58S69 [label=t1R1]
+C58S131 -> C58S128 [label=t6]
+C58S131 -> C58S47 [label=t8R3]
+C58S133 -> C58S126 [label=t3]
+C58S133 -> C58S134 [label=t11R7]
+C58S134 -> C58S127 [label=t3]
+C58S135 -> C58S129 [label=t3]
+C58S135 -> C58S133 [label=t6]
+C58S135 -> C58S48 [label=t8R3]
+C58S135 -> C58S136 [label=t11R7]
+C58S136 -> C58S130 [label=t3]
+C58S136 -> C58S134 [label=t6]
+C58S136 -> C58S49 [label=t8R3]
+C58S141 -> C58S72 [label=t1R1]
+C58S141 -> C58S133 [label=t2]
+C58S141 -> C58S142 [label=t11R7]
+C58S142 -> C58S73 [label=t1R1]
+C58S142 -> C58S134 [label=t2]
+C58S142 -> C58S143 [label=t15R5]
+C58S143 -> C58S102 [label=t1R1]
+C58S143 -> C58S144 [label=t2]
+C58S144 -> C58S128 [label=t3]
+C58S147 -> C58S75 [label=t1R1]
+C58S147 -> C58S136 [label=t2]
+C58S147 -> C58S148 [label=t15R5]
+C58S147 -> C58S142 [label=t6]
+C58S147 -> C58S57 [label=t8R3]
+C58S148 -> C58S101 [label=t1R1]
+C58S148 -> C58S149 [label=t2]
+C58S148 -> C58S143 [label=t6]
+C58S148 -> C58S58 [label=t8R3]
+C58S149 -> C58S131 [label=t3]
+C58S149 -> C58S144 [label=t6]
+C58S149 -> C58S59 [label=t8R3]
+}
+subgraph cluster59 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C59S147 ;
+C59S13 ;
+C59S14 ;
+C59S16 ;
+C59S18 ;
+C59S20 ;
+C59S33 ;
+C59S34 ;
+C59S35 ;
+C59S46 ;
+C59S47 ;
+C59S49 ;
+C59S51 ;
+C59S53 ;
+C59S57 ;
+C59S58 ;
+C59S59 ;
+C59S62 ;
+C59S63 ;
+C59S64 ;
+C59S67 ;
+C59S68 ;
+C59S69 ;
+C59S73 ;
+C59S75 ;
+C59S101 ;
+C59S102 ;
+C59S124 ;
+C59S125 ;
+C59S127 ;
+C59S128 ;
+C59S130 ;
+C59S131 ;
+C59S134 ;
+C59S136 ;
+C59S142 ;
+C59S143 ;
+C59S144 ;
+C59S12 ;
+C59S148 ;
+C59S149 ;
+C59S147 -> C59S75 [label=t1R1]
+C59S147 -> C59S136 [label=t2]
+C59S147 -> C59S148 [label=t15R5]
+C59S147 -> C59S142 [label=t6]
+C59S147 -> C59S57 [label=t8R3]
+C59S13 -> C59S14 [label=t2]
+C59S16 -> C59S12 [label=t3]
+C59S18 -> C59S16 [label=t7]
+C59S20 -> C59S18 [label=t6]
+C59S33 -> C59S34 [label=t6]
+C59S34 -> C59S35 [label=t7]
+C59S35 -> C59S13 [label=t3]
+C59S46 -> C59S47 [label=t15R5]
+C59S47 -> C59S14 [label=t1R1]
+C59S49 -> C59S46 [label=t3]
+C59S51 -> C59S49 [label=t7]
+C59S53 -> C59S51 [label=t6]
+C59S57 -> C59S16 [label=t1R1]
+C59S57 -> C59S49 [label=t2]
+C59S57 -> C59S58 [label=t15R5]
+C59S58 -> C59S35 [label=t1R1]
+C59S58 -> C59S59 [label=t2]
+C59S59 -> C59S47 [label=t3]
+C59S62 -> C59S18 [label=t1R1]
+C59S62 -> C59S51 [label=t2]
+C59S62 -> C59S63 [label=t15R5]
+C59S62 -> C59S57 [label=t7]
+C59S63 -> C59S34 [label=t1R1]
+C59S63 -> C59S64 [label=t2]
+C59S63 -> C59S58 [label=t7]
+C59S64 -> C59S59 [label=t7]
+C59S67 -> C59S20 [label=t1R1]
+C59S67 -> C59S53 [label=t2]
+C59S67 -> C59S68 [label=t15R5]
+C59S67 -> C59S62 [label=t6]
+C59S67 -> C59S12 [label=t8R3]
+C59S68 -> C59S33 [label=t1R1]
+C59S68 -> C59S69 [label=t2]
+C59S68 -> C59S63 [label=t6]
+C59S68 -> C59S13 [label=t8R3]
+C59S69 -> C59S64 [label=t6]
+C59S69 -> C59S14 [label=t8R3]
+C59S73 -> C59S62 [label=t3]
+C59S75 -> C59S67 [label=t3]
+C59S75 -> C59S73 [label=t6]
+C59S75 -> C59S16 [label=t8R3]
+C59S101 -> C59S68 [label=t3]
+C59S101 -> C59S102 [label=t6]
+C59S101 -> C59S35 [label=t8R3]
+C59S102 -> C59S63 [label=t3]
+C59S124 -> C59S49 [label=t1R1]
+C59S124 -> C59S125 [label=t15R5]
+C59S125 -> C59S59 [label=t1R1]
+C59S127 -> C59S51 [label=t1R1]
+C59S127 -> C59S128 [label=t15R5]
+C59S127 -> C59S124 [label=t7]
+C59S128 -> C59S64 [label=t1R1]
+C59S128 -> C59S125 [label=t7]
+C59S130 -> C59S53 [label=t1R1]
+C59S130 -> C59S131 [label=t15R5]
+C59S130 -> C59S127 [label=t6]
+C59S130 -> C59S46 [label=t8R3]
+C59S131 -> C59S69 [label=t1R1]
+C59S131 -> C59S128 [label=t6]
+C59S131 -> C59S47 [label=t8R3]
+C59S134 -> C59S127 [label=t3]
+C59S136 -> C59S130 [label=t3]
+C59S136 -> C59S134 [label=t6]
+C59S136 -> C59S49 [label=t8R3]
+C59S142 -> C59S73 [label=t1R1]
+C59S142 -> C59S134 [label=t2]
+C59S142 -> C59S143 [label=t15R5]
+C59S143 -> C59S102 [label=t1R1]
+C59S143 -> C59S144 [label=t2]
+C59S144 -> C59S128 [label=t3]
+C59S12 -> C59S13 [label=t15R5]
+C59S148 -> C59S101 [label=t1R1]
+C59S148 -> C59S149 [label=t2]
+C59S148 -> C59S143 [label=t6]
+C59S148 -> C59S58 [label=t8R3]
+C59S149 -> C59S131 [label=t3]
+C59S149 -> C59S144 [label=t6]
+C59S149 -> C59S59 [label=t8R3]
+}
+subgraph cluster60 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C60S148 ;
+C60S14 ;
+C60S33 ;
+C60S34 ;
+C60S35 ;
+C60S47 ;
+C60S58 ;
+C60S59 ;
+C60S63 ;
+C60S64 ;
+C60S68 ;
+C60S69 ;
+C60S101 ;
+C60S102 ;
+C60S125 ;
+C60S128 ;
+C60S131 ;
+C60S143 ;
+C60S144 ;
+C60S13 ;
+C60S149 ;
+C60S148 -> C60S101 [label=t1R1]
+C60S148 -> C60S149 [label=t2]
+C60S148 -> C60S143 [label=t6]
+C60S148 -> C60S58 [label=t8R3]
+C60S33 -> C60S34 [label=t6]
+C60S34 -> C60S35 [label=t7]
+C60S35 -> C60S13 [label=t3]
+C60S47 -> C60S14 [label=t1R1]
+C60S58 -> C60S35 [label=t1R1]
+C60S58 -> C60S59 [label=t2]
+C60S59 -> C60S47 [label=t3]
+C60S63 -> C60S34 [label=t1R1]
+C60S63 -> C60S64 [label=t2]
+C60S63 -> C60S58 [label=t7]
+C60S64 -> C60S59 [label=t7]
+C60S68 -> C60S33 [label=t1R1]
+C60S68 -> C60S69 [label=t2]
+C60S68 -> C60S63 [label=t6]
+C60S68 -> C60S13 [label=t8R3]
+C60S69 -> C60S64 [label=t6]
+C60S69 -> C60S14 [label=t8R3]
+C60S101 -> C60S68 [label=t3]
+C60S101 -> C60S102 [label=t6]
+C60S101 -> C60S35 [label=t8R3]
+C60S102 -> C60S63 [label=t3]
+C60S125 -> C60S59 [label=t1R1]
+C60S128 -> C60S64 [label=t1R1]
+C60S128 -> C60S125 [label=t7]
+C60S131 -> C60S69 [label=t1R1]
+C60S131 -> C60S128 [label=t6]
+C60S131 -> C60S47 [label=t8R3]
+C60S143 -> C60S102 [label=t1R1]
+C60S143 -> C60S144 [label=t2]
+C60S144 -> C60S128 [label=t3]
+C60S13 -> C60S14 [label=t2]
+C60S149 -> C60S131 [label=t3]
+C60S149 -> C60S144 [label=t6]
+C60S149 -> C60S59 [label=t8R3]
+}
+subgraph cluster61 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C61S150 ;
+C61S32 ;
+C61S60 ;
+C61S65 ;
+C61S70 ;
+C61S82 ;
+C61S99 ;
+C61S100 ;
+C61S105 ;
+C61S106 ;
+C61S110 ;
+C61S111 ;
+C61S145 ;
+C61S31 ;
+C61S150 -> C61S110 [label=t3]
+C61S150 -> C61S145 [label=t6]
+C61S150 -> C61S60 [label=t8R3]
+C61S60 -> C61S31 [label=t3]
+C61S65 -> C61S60 [label=t7]
+C61S70 -> C61S65 [label=t6]
+C61S82 -> C61S32 [label=t1R1]
+C61S99 -> C61S60 [label=t1R1]
+C61S99 -> C61S100 [label=t2]
+C61S100 -> C61S82 [label=t3]
+C61S105 -> C61S65 [label=t1R1]
+C61S105 -> C61S106 [label=t2]
+C61S105 -> C61S99 [label=t7]
+C61S106 -> C61S100 [label=t7]
+C61S110 -> C61S70 [label=t1R1]
+C61S110 -> C61S111 [label=t2]
+C61S110 -> C61S105 [label=t6]
+C61S110 -> C61S31 [label=t8R3]
+C61S111 -> C61S106 [label=t6]
+C61S111 -> C61S32 [label=t8R3]
+C61S145 -> C61S105 [label=t3]
+C61S31 -> C61S32 [label=t2]
+}
+subgraph cluster62 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C62S151 ;
+C62S11 ;
+C62S12 ;
+C62S13 ;
+C62S14 ;
+C62S15 ;
+C62S16 ;
+C62S17 ;
+C62S18 ;
+C62S19 ;
+C62S20 ;
+C62S33 ;
+C62S34 ;
+C62S35 ;
+C62S45 ;
+C62S46 ;
+C62S47 ;
+C62S48 ;
+C62S49 ;
+C62S50 ;
+C62S51 ;
+C62S52 ;
+C62S53 ;
+C62S56 ;
+C62S57 ;
+C62S58 ;
+C62S59 ;
+C62S61 ;
+C62S62 ;
+C62S63 ;
+C62S64 ;
+C62S66 ;
+C62S67 ;
+C62S68 ;
+C62S69 ;
+C62S72 ;
+C62S73 ;
+C62S74 ;
+C62S75 ;
+C62S76 ;
+C62S77 ;
+C62S101 ;
+C62S102 ;
+C62S107 ;
+C62S123 ;
+C62S124 ;
+C62S125 ;
+C62S126 ;
+C62S127 ;
+C62S128 ;
+C62S129 ;
+C62S130 ;
+C62S131 ;
+C62S133 ;
+C62S134 ;
+C62S135 ;
+C62S136 ;
+C62S137 ;
+C62S138 ;
+C62S141 ;
+C62S142 ;
+C62S143 ;
+C62S144 ;
+C62S146 ;
+C62S147 ;
+C62S148 ;
+C62S149 ;
+C62S10 ;
+C62S152 ;
+C62S153 ;
+C62S154 ;
+C62S151 -> C62S76 [label=t1R1]
+C62S151 -> C62S137 [label=t2]
+C62S151 -> C62S146 [label=t7]
+C62S151 -> C62S152 [label=t11R7]
+C62S11 -> C62S10 [label=t2]
+C62S11 -> C62S12 [label=t11R7]
+C62S12 -> C62S13 [label=t15R5]
+C62S13 -> C62S14 [label=t2]
+C62S15 -> C62S11 [label=t3]
+C62S15 -> C62S16 [label=t11R7]
+C62S16 -> C62S12 [label=t3]
+C62S17 -> C62S15 [label=t7]
+C62S17 -> C62S18 [label=t11R7]
+C62S18 -> C62S16 [label=t7]
+C62S19 -> C62S17 [label=t6]
+C62S19 -> C62S20 [label=t11R7]
+C62S20 -> C62S18 [label=t6]
+C62S33 -> C62S34 [label=t6]
+C62S34 -> C62S35 [label=t7]
+C62S35 -> C62S13 [label=t3]
+C62S45 -> C62S10 [label=t1R1]
+C62S45 -> C62S46 [label=t11R7]
+C62S46 -> C62S47 [label=t15R5]
+C62S47 -> C62S14 [label=t1R1]
+C62S48 -> C62S45 [label=t3]
+C62S48 -> C62S49 [label=t11R7]
+C62S49 -> C62S46 [label=t3]
+C62S50 -> C62S48 [label=t7]
+C62S50 -> C62S51 [label=t11R7]
+C62S51 -> C62S49 [label=t7]
+C62S52 -> C62S50 [label=t6]
+C62S52 -> C62S10 [label=t8R3]
+C62S52 -> C62S53 [label=t11R7]
+C62S53 -> C62S51 [label=t6]
+C62S56 -> C62S15 [label=t1R1]
+C62S56 -> C62S48 [label=t2]
+C62S56 -> C62S57 [label=t11R7]
+C62S57 -> C62S16 [label=t1R1]
+C62S57 -> C62S49 [label=t2]
+C62S57 -> C62S58 [label=t15R5]
+C62S58 -> C62S35 [label=t1R1]
+C62S58 -> C62S59 [label=t2]
+C62S59 -> C62S47 [label=t3]
+C62S61 -> C62S17 [label=t1R1]
+C62S61 -> C62S50 [label=t2]
+C62S61 -> C62S56 [label=t7]
+C62S61 -> C62S62 [label=t11R7]
+C62S62 -> C62S18 [label=t1R1]
+C62S62 -> C62S51 [label=t2]
+C62S62 -> C62S63 [label=t15R5]
+C62S62 -> C62S57 [label=t7]
+C62S63 -> C62S34 [label=t1R1]
+C62S63 -> C62S64 [label=t2]
+C62S63 -> C62S58 [label=t7]
+C62S64 -> C62S59 [label=t7]
+C62S66 -> C62S19 [label=t1R1]
+C62S66 -> C62S52 [label=t2]
+C62S66 -> C62S61 [label=t6]
+C62S66 -> C62S11 [label=t8R3]
+C62S66 -> C62S67 [label=t11R7]
+C62S67 -> C62S20 [label=t1R1]
+C62S67 -> C62S53 [label=t2]
+C62S67 -> C62S68 [label=t15R5]
+C62S67 -> C62S62 [label=t6]
+C62S67 -> C62S12 [label=t8R3]
+C62S68 -> C62S33 [label=t1R1]
+C62S68 -> C62S69 [label=t2]
+C62S68 -> C62S63 [label=t6]
+C62S68 -> C62S13 [label=t8R3]
+C62S69 -> C62S64 [label=t6]
+C62S69 -> C62S14 [label=t8R3]
+C62S72 -> C62S61 [label=t3]
+C62S72 -> C62S73 [label=t11R7]
+C62S73 -> C62S62 [label=t3]
+C62S74 -> C62S66 [label=t3]
+C62S74 -> C62S72 [label=t6]
+C62S74 -> C62S15 [label=t8R3]
+C62S74 -> C62S75 [label=t11R7]
+C62S75 -> C62S67 [label=t3]
+C62S75 -> C62S73 [label=t6]
+C62S75 -> C62S16 [label=t8R3]
+C62S76 -> C62S74 [label=t7]
+C62S76 -> C62S77 [label=t11R7]
+C62S77 -> C62S75 [label=t7]
+C62S101 -> C62S68 [label=t3]
+C62S101 -> C62S102 [label=t6]
+C62S101 -> C62S35 [label=t8R3]
+C62S102 -> C62S63 [label=t3]
+C62S107 -> C62S101 [label=t7]
+C62S123 -> C62S48 [label=t1R1]
+C62S123 -> C62S124 [label=t11R7]
+C62S124 -> C62S49 [label=t1R1]
+C62S124 -> C62S125 [label=t15R5]
+C62S125 -> C62S59 [label=t1R1]
+C62S126 -> C62S50 [label=t1R1]
+C62S126 -> C62S123 [label=t7]
+C62S126 -> C62S127 [label=t11R7]
+C62S127 -> C62S51 [label=t1R1]
+C62S127 -> C62S128 [label=t15R5]
+C62S127 -> C62S124 [label=t7]
+C62S128 -> C62S64 [label=t1R1]
+C62S128 -> C62S125 [label=t7]
+C62S129 -> C62S52 [label=t1R1]
+C62S129 -> C62S126 [label=t6]
+C62S129 -> C62S45 [label=t8R3]
+C62S129 -> C62S130 [label=t11R7]
+C62S130 -> C62S53 [label=t1R1]
+C62S130 -> C62S131 [label=t15R5]
+C62S130 -> C62S127 [label=t6]
+C62S130 -> C62S46 [label=t8R3]
+C62S131 -> C62S69 [label=t1R1]
+C62S131 -> C62S128 [label=t6]
+C62S131 -> C62S47 [label=t8R3]
+C62S133 -> C62S126 [label=t3]
+C62S133 -> C62S134 [label=t11R7]
+C62S134 -> C62S127 [label=t3]
+C62S135 -> C62S129 [label=t3]
+C62S135 -> C62S133 [label=t6]
+C62S135 -> C62S48 [label=t8R3]
+C62S135 -> C62S136 [label=t11R7]
+C62S136 -> C62S130 [label=t3]
+C62S136 -> C62S134 [label=t6]
+C62S136 -> C62S49 [label=t8R3]
+C62S137 -> C62S135 [label=t7]
+C62S137 -> C62S138 [label=t11R7]
+C62S138 -> C62S136 [label=t7]
+C62S141 -> C62S72 [label=t1R1]
+C62S141 -> C62S133 [label=t2]
+C62S141 -> C62S142 [label=t11R7]
+C62S142 -> C62S73 [label=t1R1]
+C62S142 -> C62S134 [label=t2]
+C62S142 -> C62S143 [label=t15R5]
+C62S143 -> C62S102 [label=t1R1]
+C62S143 -> C62S144 [label=t2]
+C62S144 -> C62S128 [label=t3]
+C62S146 -> C62S74 [label=t1R1]
+C62S146 -> C62S135 [label=t2]
+C62S146 -> C62S141 [label=t6]
+C62S146 -> C62S56 [label=t8R3]
+C62S146 -> C62S147 [label=t11R7]
+C62S147 -> C62S75 [label=t1R1]
+C62S147 -> C62S136 [label=t2]
+C62S147 -> C62S148 [label=t15R5]
+C62S147 -> C62S142 [label=t6]
+C62S147 -> C62S57 [label=t8R3]
+C62S148 -> C62S101 [label=t1R1]
+C62S148 -> C62S149 [label=t2]
+C62S148 -> C62S143 [label=t6]
+C62S148 -> C62S58 [label=t8R3]
+C62S149 -> C62S131 [label=t3]
+C62S149 -> C62S144 [label=t6]
+C62S149 -> C62S59 [label=t8R3]
+C62S152 -> C62S77 [label=t1R1]
+C62S152 -> C62S138 [label=t2]
+C62S152 -> C62S153 [label=t15R5]
+C62S152 -> C62S147 [label=t7]
+C62S153 -> C62S107 [label=t1R1]
+C62S153 -> C62S154 [label=t2]
+C62S153 -> C62S148 [label=t7]
+C62S154 -> C62S149 [label=t7]
+}
+subgraph cluster63 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C63S152 ;
+C63S13 ;
+C63S14 ;
+C63S16 ;
+C63S18 ;
+C63S20 ;
+C63S33 ;
+C63S34 ;
+C63S35 ;
+C63S46 ;
+C63S47 ;
+C63S49 ;
+C63S51 ;
+C63S53 ;
+C63S57 ;
+C63S58 ;
+C63S59 ;
+C63S62 ;
+C63S63 ;
+C63S64 ;
+C63S67 ;
+C63S68 ;
+C63S69 ;
+C63S73 ;
+C63S75 ;
+C63S77 ;
+C63S101 ;
+C63S102 ;
+C63S107 ;
+C63S124 ;
+C63S125 ;
+C63S127 ;
+C63S128 ;
+C63S130 ;
+C63S131 ;
+C63S134 ;
+C63S136 ;
+C63S138 ;
+C63S142 ;
+C63S143 ;
+C63S144 ;
+C63S147 ;
+C63S148 ;
+C63S149 ;
+C63S12 ;
+C63S153 ;
+C63S154 ;
+C63S152 -> C63S77 [label=t1R1]
+C63S152 -> C63S138 [label=t2]
+C63S152 -> C63S153 [label=t15R5]
+C63S152 -> C63S147 [label=t7]
+C63S13 -> C63S14 [label=t2]
+C63S16 -> C63S12 [label=t3]
+C63S18 -> C63S16 [label=t7]
+C63S20 -> C63S18 [label=t6]
+C63S33 -> C63S34 [label=t6]
+C63S34 -> C63S35 [label=t7]
+C63S35 -> C63S13 [label=t3]
+C63S46 -> C63S47 [label=t15R5]
+C63S47 -> C63S14 [label=t1R1]
+C63S49 -> C63S46 [label=t3]
+C63S51 -> C63S49 [label=t7]
+C63S53 -> C63S51 [label=t6]
+C63S57 -> C63S16 [label=t1R1]
+C63S57 -> C63S49 [label=t2]
+C63S57 -> C63S58 [label=t15R5]
+C63S58 -> C63S35 [label=t1R1]
+C63S58 -> C63S59 [label=t2]
+C63S59 -> C63S47 [label=t3]
+C63S62 -> C63S18 [label=t1R1]
+C63S62 -> C63S51 [label=t2]
+C63S62 -> C63S63 [label=t15R5]
+C63S62 -> C63S57 [label=t7]
+C63S63 -> C63S34 [label=t1R1]
+C63S63 -> C63S64 [label=t2]
+C63S63 -> C63S58 [label=t7]
+C63S64 -> C63S59 [label=t7]
+C63S67 -> C63S20 [label=t1R1]
+C63S67 -> C63S53 [label=t2]
+C63S67 -> C63S68 [label=t15R5]
+C63S67 -> C63S62 [label=t6]
+C63S67 -> C63S12 [label=t8R3]
+C63S68 -> C63S33 [label=t1R1]
+C63S68 -> C63S69 [label=t2]
+C63S68 -> C63S63 [label=t6]
+C63S68 -> C63S13 [label=t8R3]
+C63S69 -> C63S64 [label=t6]
+C63S69 -> C63S14 [label=t8R3]
+C63S73 -> C63S62 [label=t3]
+C63S75 -> C63S67 [label=t3]
+C63S75 -> C63S73 [label=t6]
+C63S75 -> C63S16 [label=t8R3]
+C63S77 -> C63S75 [label=t7]
+C63S101 -> C63S68 [label=t3]
+C63S101 -> C63S102 [label=t6]
+C63S101 -> C63S35 [label=t8R3]
+C63S102 -> C63S63 [label=t3]
+C63S107 -> C63S101 [label=t7]
+C63S124 -> C63S49 [label=t1R1]
+C63S124 -> C63S125 [label=t15R5]
+C63S125 -> C63S59 [label=t1R1]
+C63S127 -> C63S51 [label=t1R1]
+C63S127 -> C63S128 [label=t15R5]
+C63S127 -> C63S124 [label=t7]
+C63S128 -> C63S64 [label=t1R1]
+C63S128 -> C63S125 [label=t7]
+C63S130 -> C63S53 [label=t1R1]
+C63S130 -> C63S131 [label=t15R5]
+C63S130 -> C63S127 [label=t6]
+C63S130 -> C63S46 [label=t8R3]
+C63S131 -> C63S69 [label=t1R1]
+C63S131 -> C63S128 [label=t6]
+C63S131 -> C63S47 [label=t8R3]
+C63S134 -> C63S127 [label=t3]
+C63S136 -> C63S130 [label=t3]
+C63S136 -> C63S134 [label=t6]
+C63S136 -> C63S49 [label=t8R3]
+C63S138 -> C63S136 [label=t7]
+C63S142 -> C63S73 [label=t1R1]
+C63S142 -> C63S134 [label=t2]
+C63S142 -> C63S143 [label=t15R5]
+C63S143 -> C63S102 [label=t1R1]
+C63S143 -> C63S144 [label=t2]
+C63S144 -> C63S128 [label=t3]
+C63S147 -> C63S75 [label=t1R1]
+C63S147 -> C63S136 [label=t2]
+C63S147 -> C63S148 [label=t15R5]
+C63S147 -> C63S142 [label=t6]
+C63S147 -> C63S57 [label=t8R3]
+C63S148 -> C63S101 [label=t1R1]
+C63S148 -> C63S149 [label=t2]
+C63S148 -> C63S143 [label=t6]
+C63S148 -> C63S58 [label=t8R3]
+C63S149 -> C63S131 [label=t3]
+C63S149 -> C63S144 [label=t6]
+C63S149 -> C63S59 [label=t8R3]
+C63S12 -> C63S13 [label=t15R5]
+C63S153 -> C63S107 [label=t1R1]
+C63S153 -> C63S154 [label=t2]
+C63S153 -> C63S148 [label=t7]
+C63S154 -> C63S149 [label=t7]
+}
+subgraph cluster64 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C64S153 ;
+C64S14 ;
+C64S33 ;
+C64S34 ;
+C64S35 ;
+C64S47 ;
+C64S58 ;
+C64S59 ;
+C64S63 ;
+C64S64 ;
+C64S68 ;
+C64S69 ;
+C64S101 ;
+C64S102 ;
+C64S107 ;
+C64S125 ;
+C64S128 ;
+C64S131 ;
+C64S143 ;
+C64S144 ;
+C64S148 ;
+C64S149 ;
+C64S13 ;
+C64S154 ;
+C64S153 -> C64S107 [label=t1R1]
+C64S153 -> C64S154 [label=t2]
+C64S153 -> C64S148 [label=t7]
+C64S33 -> C64S34 [label=t6]
+C64S34 -> C64S35 [label=t7]
+C64S35 -> C64S13 [label=t3]
+C64S47 -> C64S14 [label=t1R1]
+C64S58 -> C64S35 [label=t1R1]
+C64S58 -> C64S59 [label=t2]
+C64S59 -> C64S47 [label=t3]
+C64S63 -> C64S34 [label=t1R1]
+C64S63 -> C64S64 [label=t2]
+C64S63 -> C64S58 [label=t7]
+C64S64 -> C64S59 [label=t7]
+C64S68 -> C64S33 [label=t1R1]
+C64S68 -> C64S69 [label=t2]
+C64S68 -> C64S63 [label=t6]
+C64S68 -> C64S13 [label=t8R3]
+C64S69 -> C64S64 [label=t6]
+C64S69 -> C64S14 [label=t8R3]
+C64S101 -> C64S68 [label=t3]
+C64S101 -> C64S102 [label=t6]
+C64S101 -> C64S35 [label=t8R3]
+C64S102 -> C64S63 [label=t3]
+C64S107 -> C64S101 [label=t7]
+C64S125 -> C64S59 [label=t1R1]
+C64S128 -> C64S64 [label=t1R1]
+C64S128 -> C64S125 [label=t7]
+C64S131 -> C64S69 [label=t1R1]
+C64S131 -> C64S128 [label=t6]
+C64S131 -> C64S47 [label=t8R3]
+C64S143 -> C64S102 [label=t1R1]
+C64S143 -> C64S144 [label=t2]
+C64S144 -> C64S128 [label=t3]
+C64S148 -> C64S101 [label=t1R1]
+C64S148 -> C64S149 [label=t2]
+C64S148 -> C64S143 [label=t6]
+C64S148 -> C64S58 [label=t8R3]
+C64S149 -> C64S131 [label=t3]
+C64S149 -> C64S144 [label=t6]
+C64S149 -> C64S59 [label=t8R3]
+C64S13 -> C64S14 [label=t2]
+C64S154 -> C64S149 [label=t7]
+}
+subgraph cluster65 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C65S155 ;
+C65S32 ;
+C65S60 ;
+C65S65 ;
+C65S70 ;
+C65S82 ;
+C65S99 ;
+C65S100 ;
+C65S105 ;
+C65S106 ;
+C65S110 ;
+C65S111 ;
+C65S145 ;
+C65S150 ;
+C65S31 ;
+C65S155 -> C65S150 [label=t7]
+C65S60 -> C65S31 [label=t3]
+C65S65 -> C65S60 [label=t7]
+C65S70 -> C65S65 [label=t6]
+C65S82 -> C65S32 [label=t1R1]
+C65S99 -> C65S60 [label=t1R1]
+C65S99 -> C65S100 [label=t2]
+C65S100 -> C65S82 [label=t3]
+C65S105 -> C65S65 [label=t1R1]
+C65S105 -> C65S106 [label=t2]
+C65S105 -> C65S99 [label=t7]
+C65S106 -> C65S100 [label=t7]
+C65S110 -> C65S70 [label=t1R1]
+C65S110 -> C65S111 [label=t2]
+C65S110 -> C65S105 [label=t6]
+C65S110 -> C65S31 [label=t8R3]
+C65S111 -> C65S106 [label=t6]
+C65S111 -> C65S32 [label=t8R3]
+C65S145 -> C65S105 [label=t3]
+C65S150 -> C65S110 [label=t3]
+C65S150 -> C65S145 [label=t6]
+C65S150 -> C65S60 [label=t8R3]
+C65S31 -> C65S32 [label=t2]
+}
+C1S0 -> C32S87 [style=dashed arrowhead=vee ltail=cluster1 lhead=cluster32 label="O1 ε"]
+C1S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster1 lhead=cluster5 label="O1 ε"]
+C2S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster22 label="O2 r7r5"]
+C2S44 -> C11S25 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster11 label="O2 r7r5"]
+C2S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster17 label="O2 r7"]
+C3S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster22 label="O2 r7r5"]
+C3S44 -> C11S25 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster11 label="O2 r7r5"]
+C3S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster17 label="O2 r7"]
+C4S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster22 label="O2 r7r5"]
+C4S44 -> C11S25 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster11 label="O2 r7r5"]
+C4S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster17 label="O2 r7"]
+C8S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster8 lhead=cluster15 label="O1 r7r5"]
+C8S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster8 lhead=cluster7 label="O1 r7"]
+C8S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster8 lhead=cluster6 label="O1 ε"]
+C8S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster8 lhead=cluster5 label="O1 ε"]
+C9S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster9 lhead=cluster15 label="O1 r7r5"]
+C9S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster9 lhead=cluster7 label="O1 r7"]
+C9S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster9 lhead=cluster6 label="O1 ε"]
+C9S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster9 lhead=cluster5 label="O1 ε"]
+C10S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster15 label="O1 r7r5"]
+C10S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster7 label="O1 r7"]
+C10S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster6 label="O1 ε"]
+C10S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster5 label="O1 ε"]
+C11S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster15 label="O1 r7r5"]
+C11S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster7 label="O1 r7"]
+C11S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster6 label="O1 ε"]
+C11S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster5 label="O1 ε"]
+C12S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster12 lhead=cluster15 label="O1 r7r5"]
+C12S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster12 lhead=cluster7 label="O1 r7"]
+C12S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster12 lhead=cluster6 label="O1 ε"]
+C13S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster13 lhead=cluster15 label="O1 r5"]
+C13S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster13 lhead=cluster7 label="O1 ε"]
+C14S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster14 lhead=cluster15 label="O1 ε"]
+C16S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster16 lhead=cluster15 label="O1 r7r5"]
+C16S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster16 lhead=cluster7 label="O1 r7"]
+C16S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster16 lhead=cluster6 label="O1 ε"]
+C17S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster17 lhead=cluster15 label="O1 r5"]
+C17S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster17 lhead=cluster7 label="O1 ε"]
+C18S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster18 lhead=cluster15 label="O1 r7r5"]
+C18S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster18 lhead=cluster7 label="O1 r7"]
+C18S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster18 lhead=cluster6 label="O1 ε"]
+C19S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster19 lhead=cluster15 label="O1 r5"]
+C19S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster19 lhead=cluster7 label="O1 ε"]
+C20S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster20 lhead=cluster15 label="O1 r7r5"]
+C20S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster20 lhead=cluster7 label="O1 r7"]
+C20S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster20 lhead=cluster6 label="O1 ε"]
+C21S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster21 lhead=cluster15 label="O1 r5"]
+C21S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster21 lhead=cluster7 label="O1 ε"]
+C22S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster22 lhead=cluster15 label="O1 ε"]
+C23S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster23 lhead=cluster15 label="O1 ε"]
+C24S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster24 lhead=cluster22 label="O2 r7r5"]
+C24S45 -> C12S29 [style=dashed arrowhead=vee ltail=cluster24 lhead=cluster12 label="O2 r7r5"]
+C24S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster24 lhead=cluster17 label="O2 r7"]
+C25S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster25 lhead=cluster22 label="O2 r5"]
+C25S46 -> C13S30 [style=dashed arrowhead=vee ltail=cluster25 lhead=cluster13 label="O2 r5"]
+C25S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster25 lhead=cluster17 label="O2 ε"]
+C26S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster26 lhead=cluster22 label="O2 ε"]
+C26S47 -> C14S31 [style=dashed arrowhead=vee ltail=cluster26 lhead=cluster14 label="O2 ε"]
+C26S64 -> C23S65 [style=dashed arrowhead=vee ltail=cluster26 lhead=cluster23 label="O2 ε"]
+C26S69 -> C27S70 [style=dashed arrowhead=vee ltail=cluster26 lhead=cluster27 label="O2 ε"]
+C27S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster27 lhead=cluster15 label="O1 ε"]
+C28S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster28 lhead=cluster22 label="O2 r7r5"]
+C28S45 -> C12S29 [style=dashed arrowhead=vee ltail=cluster28 lhead=cluster12 label="O2 r7r5"]
+C28S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster28 lhead=cluster17 label="O2 r7"]
+C29S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster29 lhead=cluster22 label="O2 r5"]
+C29S46 -> C13S30 [style=dashed arrowhead=vee ltail=cluster29 lhead=cluster13 label="O2 r5"]
+C29S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster29 lhead=cluster17 label="O2 ε"]
+C30S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster30 lhead=cluster22 label="O2 r7r5"]
+C30S45 -> C12S29 [style=dashed arrowhead=vee ltail=cluster30 lhead=cluster12 label="O2 r7r5"]
+C30S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster30 lhead=cluster17 label="O2 r7"]
+C31S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster31 lhead=cluster22 label="O2 r5"]
+C31S46 -> C13S30 [style=dashed arrowhead=vee ltail=cluster31 lhead=cluster13 label="O2 r5"]
+C31S49 -> C17S37 [style=dashed arrowhead=vee ltail=cluster31 lhead=cluster17 label="O2 ε"]
+C32S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster32 lhead=cluster22 label="O2 (r7r5(r1)|((r1)|r3))|((r7r5((r1)|((r1)|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r7(r5(r1)|((r1)|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|((r5r1)|(r1r5)))))|(((r7r5(r1)|((r1)|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))|((r7r5(r1)|((r1)|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5))))))))))))))))))))))))))|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))))))))))))))))))))))))))"]
+C32S21 -> C8S22 [style=dashed arrowhead=vee ltail=cluster32 lhead=cluster8 label="O2 (r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5((r1)|(((r1)|((r1)|r3))|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r7(r5(r1)|(((r1)|((r1)|r3))|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(r1r5)))))|(((r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5)))))))|(r1r7r5)))))))|((r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5))))|(((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r7r5r1)|((r7r1r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|(((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))|((r3r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|(((r1)|r3r7r5)|(((r1)|r3r7r5)|(((r1)|r3r7r5)|(((r1)|r3r7r5)|(r1r7r5))))))))))))))))))))))))))))))))))))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5)))))))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r7r5r1)|((r7r1r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|(((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))|((r3r7r5)|(r1r7r5))))))))))))))))))))))))))))))))))"]
+C32S42 -> C9S23 [style=dashed arrowhead=vee ltail=cluster32 lhead=cluster9 label="O2 (r7((r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r1)|((r1)|r3))|r1))|(((r7(r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r1r7)|((r1r7)|(r3r7)))))))|((r7(r1)|((r1)|r3))|(((r7(r1)|((r1)|r3))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7))))))|(r1r7)))))|((r7(r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r1r7)|((r1r7)|(r3r7)))))))|((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))|(((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|(r1r7))|((r7r1)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r3r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|(((r1)|r3r7)|(((r1)|r3r7)|(((r1)|r3r7)|(r1r7))))))))))))))))))))))))))))|((r7(r1)|((r1)|r3))|(((r7(r1)|((r1)|r3))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|(r1r7))|((r7r1)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r3r7)|(r1r7)))))))))))))))))))))))))"]
+C33S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster33 lhead=cluster15 label="O1 (r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|(((r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|(r3r7r5))))))))|((r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|(((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|(r3r7r5)))))))|((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|((r7r5r1)|(r1r7r5)))))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|(((r7r5r1)|(r1r7r5))|((r7r5r1)|((r7r5r1)|((r7r5r1)|(((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))|(r3r7r5)))))))))))))))))))))))))"]
+C33S79 -> C4S4 [style=dashed arrowhead=vee ltail=cluster33 lhead=cluster4 label="O1 (r7(r1)|(((r1)|((r1)|r3))|r3))|(((r7(r1)|(((r1)|((r1)|r3))|r3))|((r7r1)|(((r7r1)|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|(r3r7))))))|((r7(r1)|(((r1)|((r1)|r3))|r3))|(((r7r1)|(((r7r1)|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|(r3r7)))))|((r7r1)|(((r7r1)|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r1r7)))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r1r7))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r3r7))|(((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1)|r3r7)))))))|(r3r7)))))))))))))))))))"]
+C33S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster33 lhead=cluster41 label="O1 r7r5"]
+C34S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster34 lhead=cluster15 label="O1 (r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|(((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|(r3r7r5)))))))|((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|((r7r5r1)|(r1r7r5)))))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|(((r7r5r1)|(r1r7r5))|((r7r5r1)|((r7r5r1)|((r7r5r1)|(((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))|(r3r7r5)))))))))))))))))))))))"]
+C34S79 -> C4S4 [style=dashed arrowhead=vee ltail=cluster34 lhead=cluster4 label="O1 (r7(r1)|(((r1)|((r1)|r3))|r3))|(((r7r1)|(((r7r1)|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|(r3r7)))))|((r7r1)|(((r7r1)|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r1r7)))))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r1r7))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r3r7))|(((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1)|r3r7)))))))|(r3r7)))))))))))))))))"]
+C34S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster34 lhead=cluster41 label="O1 r7r5"]
+C35S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster35 lhead=cluster15 label="O1 (r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|(((r7r5r1)|(r1r7r5))|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))))))))))))))))))"]
+C35S79 -> C4S4 [style=dashed arrowhead=vee ltail=cluster35 lhead=cluster4 label="O1 (r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((r1r7)|((r1r7)|(r3r7)))))))|((r7r1)|(((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r1r7))|((r7(r1)|r3)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r3r7)))|((((r7r1)|((r7r1)|((r7r1)|(r1r7))))|(r3r7))|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|((r1)|r3r7)))))))))))))))))"]
+C35S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster35 lhead=cluster41 label="O1 r7r5"]
+C36S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster36 lhead=cluster41 label="O1 r7r5"]
+C36S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster36 lhead=cluster5 label="O1 r7r5"]
+C37S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster37 lhead=cluster41 label="O1 r7r5"]
+C37S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster37 lhead=cluster5 label="O1 r7r5"]
+C38S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster38 lhead=cluster41 label="O1 r7r5"]
+C38S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster38 lhead=cluster6 label="O1 r7r5"]
+C39S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster39 lhead=cluster41 label="O1 r5"]
+C39S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster39 lhead=cluster7 label="O1 r5"]
+C40S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster40 lhead=cluster41 label="O1 ε"]
+C40S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster40 lhead=cluster15 label="O1 ε"]
+C41S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster41 lhead=cluster22 label="O2 ε"]
+C41S47 -> C14S31 [style=dashed arrowhead=vee ltail=cluster41 lhead=cluster14 label="O2 ε"]
+C41S64 -> C23S65 [style=dashed arrowhead=vee ltail=cluster41 lhead=cluster23 label="O2 ε"]
+C41S69 -> C27S70 [style=dashed arrowhead=vee ltail=cluster41 lhead=cluster27 label="O2 ε"]
+C42S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster42 lhead=cluster41 label="O1 r7r5"]
+C42S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster42 lhead=cluster6 label="O1 r7r5"]
+C43S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster43 lhead=cluster41 label="O1 r5"]
+C43S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster43 lhead=cluster7 label="O1 r5"]
+C44S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster44 lhead=cluster41 label="O1 ε"]
+C44S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster44 lhead=cluster15 label="O1 ε"]
+C45S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster45 lhead=cluster22 label="O2 ε"]
+C45S47 -> C14S31 [style=dashed arrowhead=vee ltail=cluster45 lhead=cluster14 label="O2 ε"]
+C45S64 -> C23S65 [style=dashed arrowhead=vee ltail=cluster45 lhead=cluster23 label="O2 ε"]
+C45S69 -> C27S70 [style=dashed arrowhead=vee ltail=cluster45 lhead=cluster27 label="O2 ε"]
+C46S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster46 lhead=cluster15 label="O1 (r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))))"]
+C46S80 -> C24S66 [style=dashed arrowhead=vee ltail=cluster46 lhead=cluster24 label="O1 (r7(r1)|((r1)|r3))|(((r1)|((r1)|r3)r7)|((r7r1)|(((r7r1)|((r7r1)|((r7r1)|(r1r7))))|((r7(r1)|r3)|((r7r1)|((r1r7)|((r1r7)|(r3r7))))))))"]
+C46S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster46 lhead=cluster41 label="O1 r7r5"]
+C47S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster47 lhead=cluster15 label="O1 (r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5)))))))"]
+C47S81 -> C25S67 [style=dashed arrowhead=vee ltail=cluster47 lhead=cluster25 label="O1 (r1)|((r1)|r3)"]
+C47S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster47 lhead=cluster41 label="O1 r5"]
+C48S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster48 lhead=cluster15 label="O1 ((r1)|r3)|(((r1)|((r1)|r3))|r1)"]
+C48S82 -> C26S68 [style=dashed arrowhead=vee ltail=cluster48 lhead=cluster26 label="O1 ε"]
+C49S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster49 lhead=cluster41 label="O1 r7r5"]
+C49S26 -> C5S5 [style=dashed arrowhead=vee ltail=cluster49 lhead=cluster5 label="O1 r7r5"]
+C50S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster50 lhead=cluster41 label="O1 r7r5"]
+C50S27 -> C6S19 [style=dashed arrowhead=vee ltail=cluster50 lhead=cluster6 label="O1 r7r5"]
+C51S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster51 lhead=cluster41 label="O1 r5"]
+C51S28 -> C7S20 [style=dashed arrowhead=vee ltail=cluster51 lhead=cluster7 label="O1 r5"]
+C52S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster52 lhead=cluster15 label="O1 (r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|(r3r7r5)))))))"]
+C52S80 -> C24S66 [style=dashed arrowhead=vee ltail=cluster52 lhead=cluster24 label="O1 (r7(r1)|(((r1)|((r1)|r3))|r3))|(((r1)|(((r1)|((r1)|r3))|r3)r7)|((r7r1)|(((r7r1)|((r7r1)|((r7r1)|((r7r1)|(r1r7)))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|((r7r1)|(r1r7))))|((r7(r1)|r3)|((r7r1)|((r1r7)|((r1r7)|(r3r7)))))))|(r3r7))))))"]
+C52S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster52 lhead=cluster41 label="O1 r7r5"]
+C53S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster53 lhead=cluster15 label="O1 ((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5))))"]
+C53S81 -> C25S67 [style=dashed arrowhead=vee ltail=cluster53 lhead=cluster25 label="O1 (r1)|(((r1)|((r1)|r3))|r3)"]
+C53S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster53 lhead=cluster41 label="O1 r5"]
+C54S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster54 lhead=cluster15 label="O1 (r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|((r7((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5)))))|((r7(r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))|((r7r5(r1)|r3)|((r7r5(r1)|((r1)|((r1)|r3)))|((r7(r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|((r5r1)|((r5r1)|(r1r5))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r5r1)|(r1r7r5))))))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|(r3r7r5))))))))"]
+C54S80 -> C24S66 [style=dashed arrowhead=vee ltail=cluster54 lhead=cluster24 label="O1 (r7(r1)|(((r1)|((r1)|r3))|r3))|(((r1)|(((r1)|((r1)|r3))|r3)r7)|((r7(r1)|(((r1)|((r1)|r3))|r3))|((r7r1)|(((r7r1)|((r7r1)|((r7r1)|((r7r1)|(r1r7)))))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|((r7r1)|(r1r7))))|((r7(r1)|r3)|((r7r1)|((r1r7)|((r1r7)|(r3r7)))))))|(r3r7)))))))"]
+C54S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster54 lhead=cluster41 label="O1 r7r5"]
+C55S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster55 lhead=cluster15 label="O1 ((r5r1)|((r5r1)|((r5r1)|((r5r1)|((r5r1)|(r1r5))))))|((r5(r1)|r3)|((r5(r1)|((r1)|((r1)|r3)))|(((r5r1)|((r5r1)|(((r5r1)|((r5r1)|((r5r1)|(r1r5))))|((r5r1)|((r1r5)|(r3r5))))))|(r3r5))))"]
+C55S81 -> C25S67 [style=dashed arrowhead=vee ltail=cluster55 lhead=cluster25 label="O1 (r1)|(((r1)|((r1)|r3))|r3)"]
+C55S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster55 lhead=cluster41 label="O1 r5"]
+C56S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster56 lhead=cluster22 label="O2 (r7r5(r1)|((r1)|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|(((r7r5r1)|((r7r5r1)|((r7r5r1)|(r1r7r5))))|((r1r7r5)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|((r7r5r1)|(r3r7r5))))))))))))))))))))))"]
+C56S21 -> C8S22 [style=dashed arrowhead=vee ltail=cluster56 lhead=cluster8 label="O2 (r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5))))|((r1r7r5)|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r7r5r1)|((r7r1r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|(((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1r7r5)|((r1)|r3r7r5)))))))|(r3r7r5)))))))))))))))))))))))))))"]
+C56S42 -> C9S23 [style=dashed arrowhead=vee ltail=cluster56 lhead=cluster9 label="O2 (r7(r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r1r7)|((r1r7)|(r3r7)))))))|((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|(r1r7))))|((r1r7)|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|((r7r1)|(((r7r1)|(r1r7))|((r7r1)|((r1r7)|((r1r7)|((r1r7)|((r1r7)|(r3r7))))))))))))))))))))"]
+C57S100 -> C41S101 [style=dashed arrowhead=vee ltail=cluster57 lhead=cluster41 label="O1 ε"]
+C57S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster57 lhead=cluster15 label="O1 ε"]
+C58S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster58 lhead=cluster22 label="O2 (r7r5(r1)|((r1)|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))))"]
+C58S52 -> C20S40 [style=dashed arrowhead=vee ltail=cluster58 lhead=cluster20 label="O2 (r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))))"]
+C58S50 -> C18S38 [style=dashed arrowhead=vee ltail=cluster58 lhead=cluster18 label="O2 (r7(r1)|(((r1)|((r1)|r3))|((r1)|r3)))|((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r1r7)|((r1r7)|(r3r7)))))))"]
+C59S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster59 lhead=cluster22 label="O2 (r5(r1)|((r1)|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|((r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5)))))))"]
+C59S53 -> C21S41 [style=dashed arrowhead=vee ltail=cluster59 lhead=cluster21 label="O2 (r5(r1)|(((r1)|((r1)|r3))|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|((r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5)))))))"]
+C59S51 -> C19S39 [style=dashed arrowhead=vee ltail=cluster59 lhead=cluster19 label="O2 (r1)|(((r1)|((r1)|r3))|((r1)|r3))"]
+C60S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster60 lhead=cluster22 label="O2 ((r1)|((r1)|r3))|((r1)|((r1)|((r1)|((r1)|r3))))"]
+C60S69 -> C27S70 [style=dashed arrowhead=vee ltail=cluster60 lhead=cluster27 label="O2 ((r1)|(((r1)|((r1)|r3))|r3))|((r1)|((r1)|((r1)|((r1)|r3))))"]
+C60S64 -> C23S65 [style=dashed arrowhead=vee ltail=cluster60 lhead=cluster23 label="O2 ε"]
+C61S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster61 lhead=cluster15 label="O1 ((r1)|(((r1)|((r1)|r3))|r3))|((r1)|(((r1)|r3)|r1))"]
+C61S82 -> C26S68 [style=dashed arrowhead=vee ltail=cluster61 lhead=cluster26 label="O1 ε"]
+C62S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster62 lhead=cluster22 label="O2 (r7r5(r1)|((r1)|r3))|((r7r5((r1)|((r1)|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r7(r5(r1)|((r1)|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|((r5r1)|(r1r5)))))|((r7r5(r1)|((r1)|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r5r1)|(r1r7r5)))|((r7r5r1)|((r7r5r1)|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7r5r1)|((r7r5r1)|(r1r7r5)))))))))"]
+C62S52 -> C20S40 [style=dashed arrowhead=vee ltail=cluster62 lhead=cluster20 label="O2 (r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5((r1)|(((r1)|((r1)|r3))|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r7(r5(r1)|(((r1)|((r1)|r3))|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(r1r5)))))|((r7r5(r1)|(((r1)|((r1)|r3))|r3))|((r7r5(r1)|((r1)|((r1)|((r1)|r3))))|((r7(r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|(((r7r5r1)|((r7r5r1)|((r7((r5r1)|((r5r1)|(r1r5)))|(r1r5))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|(r1r7r5)))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5))))))|((r1r7r5)|((r1r7r5)|(r3r7r5)))))))))|((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(((r7((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r7(r5r1)|((r5r1)|(r1r5)))|(((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5)))))|((r7r5(r1)|((r1)|r3))|((r7(r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(((r7r5r1)|((r7(r5r1)|(r1r5))|(((r7r5r1)|((r7r1r5)|(r1r7r5)))|((r1r7r5)|((r1r7r5)|(r3r7r5))))))|(r3r7r5)))))))|(r1r7r5)))))))))"]
+C62S50 -> C18S38 [style=dashed arrowhead=vee ltail=cluster62 lhead=cluster18 label="O2 (r7((r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r1)|((r1)|r3))|r1))|((r7(r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r7r1)|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|(r1r7)))|((r7(r1)|((r1)|r3))|(((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7)))))|((r1r7)|((r1r7)|(r3r7)))))))|((r7(r1)|((r1)|r3))|(((r7(r1)|((r1)|r3))|((r7r1)|(((r7r1)|((r7r1)|(r1r7)))|((r7r1)|(((r7r1)|(((r7r1)|(r1r7))|(r1r7)))|(r3r7))))))|(r1r7)))))"]
+C63S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster63 lhead=cluster22 label="O2 (r5(r1)|((r1)|r3))|((r5((r1)|((r1)|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r5(r1)|((r1)|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|(((r5r1)|(r1r5))|((r5r1)|((r1r5)|(r3r5))))))|((r5r1)|(r1r5))))))"]
+C63S53 -> C21S41 [style=dashed arrowhead=vee ltail=cluster63 lhead=cluster21 label="O2 (r5(r1)|(((r1)|((r1)|r3))|r3))|((r5((r1)|(((r1)|((r1)|r3))|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))|((r5(r1)|(((r1)|((r1)|r3))|r3))|((r5(r1)|((r1)|((r1)|((r1)|r3))))|(((r5r1)|((r5r1)|((((r5r1)|((r5r1)|(r1r5)))|(r1r5))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|((r1r5)|(r3r5))))))|((((r5r1)|((r5r1)|(r1r5)))|((r5(r1)|((r1)|r3))|(((r5r1)|(((r5r1)|(r1r5))|((r1r5)|(r3r5))))|(r3r5))))|(r1r5))))))"]
+C63S51 -> C19S39 [style=dashed arrowhead=vee ltail=cluster63 lhead=cluster19 label="O2 ((r1)|(((r1)|((r1)|r3))|((r1)|r3)))|(((r1)|((r1)|r3))|r1)"]
+C64S59 -> C22S60 [style=dashed arrowhead=vee ltail=cluster64 lhead=cluster22 label="O2 ((r1)|((r1)|r3))|(((r1)|((r1)|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))"]
+C64S69 -> C27S70 [style=dashed arrowhead=vee ltail=cluster64 lhead=cluster27 label="O2 ((r1)|(((r1)|((r1)|r3))|r3))|(((r1)|(((r1)|((r1)|r3))|r3))|(((r1)|((r1)|((r1)|((r1)|r3))))|r1))"]
+C64S64 -> C23S65 [style=dashed arrowhead=vee ltail=cluster64 lhead=cluster23 label="O2 ε"]
+C65S32 -> C15S33 [style=dashed arrowhead=vee ltail=cluster65 lhead=cluster15 label="O1 ((r1)|(((r1)|((r1)|r3))|r3))|((r1)|(((r1)|r3)|r1))"]
+C65S82 -> C26S68 [style=dashed arrowhead=vee ltail=cluster65 lhead=cluster26 label="O1 ε"]
+}

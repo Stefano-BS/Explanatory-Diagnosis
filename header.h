@@ -11,7 +11,6 @@
 #define REGEX 10
 #define REGEXLEVER 2
 
-
 #define ottieniComando(com) while (!isalpha(*com=getchar()));
 #define inizioTimer inizio = clock();
 #define foreach(lnode, from) for(lnode=from; lnode!=NULL; lnode = lnode->prossima)
@@ -70,15 +69,21 @@ typedef struct behspace {
 } BehSpace;
 
 // EXPLAINER
+typedef struct faultspace {
+    BehSpace *b;
+    int *idMapToOrigin, *idMapFromOrigin, *exitStates;
+} FaultSpace;
+
 typedef struct texp {
-    BehSpace * from, *to;
-    int dimRegex;
+    FaultSpace * from, *to;
+    int obs, ril, fromStateId, toStateId;
     char * regex;
 } TransExpl;
 
 typedef struct explainer {
-    BehSpace ** faults;
-    int nFaultSpaces, nTrans;
+    FaultSpace ** faults;
+    TransExpl ** trans;
+    int nFaultSpaces, nTrans, sizeofTrans;
 } Explainer;
 
 
@@ -95,24 +100,27 @@ Componente* compDaId(int);
 void netAlloc(void);
 void alloc1(BehSpace *, char);
 void alloc1trC(Componente *);
+void alloc1trExp(Explainer *);
 BehSpace * newBehSpace(void);
 StatoRete * generaStato(int *, int *);
 void removeState(BehSpace *, StatoRete *);
 void freeStatoRete(StatoRete *);
-void memCoherenceTest(BehSpace *);
-BehSpace * dup(BehSpace *, bool[], bool);
+BehSpace * dup(BehSpace *, bool[], bool, int **);
 void freeBehSpace(BehSpace *);
+void behCoherenceTest(BehSpace *);
+void expCoherenceTest(Explainer *);
 // Parser.c
 void parse(FILE*);
 BehSpace * parseDot(FILE *, bool);
 // Printer.c
 void stampaStruttureAttuali(StatoRete *, bool);
-void stampaSpazioComportamentale(BehSpace *, bool);
+char* stampaSpazioComportamentale(BehSpace *, bool, int);
+void printExplainer(Explainer *);
 // SpaceMaker.c
 bool ampliaSpazioComportamentale(BehSpace * b, StatoRete *, StatoRete *, Transizione *);
 void potatura(BehSpace *);
 void generaSpazioComportamentale(BehSpace *, StatoRete *);
-BehSpace ** faultSpaces(BehSpace *, int *, int **);
+FaultSpace ** faultSpaces(BehSpace *, int *, TransizioneRete ****);
 // Diagnoser.c
 char** diagnostica(BehSpace *, bool);
 // Explainer.c
@@ -163,13 +171,19 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_LINK_NOT_FOUND "Errore: link con id %d non trovato\n"
     #define MSG_MEMERR "Errore di allocazione memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalia nello stato %d\n"
-    #define MSG_MEMTEST1 "Spazio: %d stati e %d transizioni\n"
+    #define MSG_MEMTEST1 "Spazio Comportamentale: %d stati e %d transizioni\n"
     #define MSG_MEMTEST2 "Lo stato %d non è coerente col proprio id %d\n"
     #define MSG_MEMTEST3 "Lo stato %d ha tr dall'id %d all'id %d\n"
     #define MSG_MEMTEST4 "Lo stato id %d, presso %p ha transizione che non punta a sé: "
     #define MSG_MEMTEST5 "da %p (id %d) a %p (id %d)\n"
     #define MSG_MEMTEST6 "\tmemcmp stato a: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp stato da: %d\n"
+    #define MSG_MEMTEST8 "Trovata TransExpl da/per chiusura inesistente\n"
+    #define MSG_MEMTEST9 "Diagnosticatore: %d chiusure e %d transizioni\n"
+    #define MSG_MEMTEST10 "La transizione %d non è osservabile\n"
+    #define MSG_MEMTEST11 "La chiusura %d ha mapToOrigin -1 in posizione %d\n"
+    #define MSG_MEMTEST12 "Chiusura %d: trovato che mapFrom[mapTo[%d]] != %d\n"
+    #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
     #define fineTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 #elif LANG=='e'
     #define INPUT_Y 'y'
@@ -212,12 +226,18 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_LINK_NOT_FOUND "Error: link with id %d not found\n"
     #define MSG_MEMERR "Unable to alloc memory!\n"
     #define MSG_STATE_ANOMALY "Anomaly in state %d\n"
-    #define MSG_MEMTEST1 "Status: %d states and %d transizioni\n"
+    #define MSG_MEMTEST1 "Behavioral Space: %d states and %d transitions\n"
     #define MSG_MEMTEST2 "State %d is not coherent with its id %d\n"
     #define MSG_MEMTEST3 "State %d has transition from id %d to id %d\n"
     #define MSG_MEMTEST4 "State id %d, located at %p has transition not pointing to itself: "
     #define MSG_MEMTEST5 "from %p (id %d) to %p (id %d)\n"
     #define MSG_MEMTEST6 "\tmemcmp state to: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp state from: %d\n"
+    #define MSG_MEMTEST8 "Found TransExpl from/to non existent fault space\n"
+    #define MSG_MEMTEST9 "Explainer: %d fault spaces and %d transitions\n"
+    #define MSG_MEMTEST10 "Transition %d is not observable\n"
+    #define MSG_MEMTEST11 "Fault %d has mapToOrigin -1 in position %d\n"
+    #define MSG_MEMTEST12 "Fault %d: found mapFrom[mapTo[%d]] != %d\n"
+    #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define fineTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 #endif

@@ -1,0 +1,22 @@
+digraph "SCdebug/13" {
+node [shape=doublecircle]; R000_L1ee ;
+node [shape=doublecircle]; R100_L1ee ;
+node [shape=doublecircle]; R101_L1e2 ;
+node [shape=doublecircle]; R001_L1ee ;
+node [shape=doublecircle]; R101_Leee ;
+node [shape=doublecircle]; R101_Lee2 ;
+node [shape=doublecircle]; R001_Leee ;
+node [shape=doublecircle]; R100_Leee ;
+node [shape=doublecircle]; R001_L1e2 ;
+R000_L1ee -> R100_L1ee [label=t1R1]
+R000_L1ee -> R100_Leee [label=t2]
+R000_L1ee -> R001_L1e2 [label=t7]
+R100_L1ee -> R101_L1e2 [label=t7]
+R101_L1e2 -> R001_L1ee [label=t3]
+R001_L1ee -> R101_Leee [label=t2]
+R101_Lee2 -> R001_Leee [label=t3]
+R001_Leee -> R101_Leee [label=t1R1]
+R100_Leee -> R101_Lee2 [label=t7]
+R001_L1e2 -> R101_L1e2 [label=t1R1]
+R001_L1e2 -> R101_Lee2 [label=t2]
+}

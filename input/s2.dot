@@ -4,20 +4,20 @@ compound=true
 subgraph cluster1 {node [shape=doublecircle]; C1_0;
 node [shape=circle];
 C1_0 -> C1_1 [label="t1O1"];
-C1_1 -> C1_0 [label="t2O2"];
+C1_1 -> C1_0 [label="t2O1"];
 C1_0 -> C1_0 [label="t3R1"];
 C1_1 -> C1_1 [label="t4R2"];
 }
 subgraph cluster2 {node [shape=doublecircle]; C2_0;
 node [shape=circle];
-C2_0 -> C2_1 [label="t5O3"];
-C2_1 -> C2_0 [label="t6O4"];
+C2_0 -> C2_1 [label="t5O2"];
+C2_1 -> C2_0 [label="t6O2"];
 C2_0 -> C2_0 [label="t7R3"];
 C2_1 -> C2_1 [label="t8R4"];
-C2_0 -> C2_0 [label="t9O5"];
-C2_1 -> C2_1 [label="t10O5"];
-C2_0 -> C2_1 [label="t11O3R5"];
-C2_1 -> C2_0 [label="t12O4R6"];
+C2_0 -> C2_0 [label="t9O2"];
+C2_1 -> C2_1 [label="t10O2"];
+C2_0 -> C2_1 [label="t11O2R5"];
+C2_1 -> C2_0 [label="t12O2R6"];
 }
 C1_0 -> C2_0 [ltail=cluster1 lhead=cluster2 label="L1{}"];
 }

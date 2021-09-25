@@ -1,0 +1,540 @@
+digraph "EXPinput/i" {
+node [style=filled fillcolor=white]
+subgraph cluster1 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C1S0 ;
+C1S1 ;
+C1S15 ;
+C1S22 ;
+C1S23 ;
+C1S40 ;
+C1S0 -> C1S1 [label=t1R1]
+C1S0 -> C1S40 [label=t7]
+C1S1 -> C1S22 [label=t7]
+C1S22 -> C1S23 [label=t3]
+C1S23 -> C1S15 [label=t1R1]
+C1S40 -> C1S22 [label=t1R1]
+}
+subgraph cluster2 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C2S2 ;
+C2S3 ;
+C2S4 ;
+C2S5 ;
+C2S6 ;
+C2S7 ;
+C2S8 ;
+C2S9 ;
+C2S10 ;
+C2S16 ;
+C2S17 ;
+C2S18 ;
+C2S19 ;
+C2S20 ;
+C2S21 ;
+C2S2 -> C2S3 [label=t7]
+C2S3 -> C2S4 [label=t3]
+C2S3 -> C2S21 [label=t6]
+C2S3 -> C2S7 [label=t8R3]
+C2S4 -> C2S5 [label=t1R1]
+C2S4 -> C2S10 [label=t2]
+C2S4 -> C2S19 [label=t6]
+C2S4 -> C2S8 [label=t8R3]
+C2S5 -> C2S6 [label=t6]
+C2S6 -> C2S7 [label=t7]
+C2S7 -> C2S8 [label=t3]
+C2S8 -> C2S9 [label=t2]
+C2S10 -> C2S16 [label=t6]
+C2S10 -> C2S9 [label=t8R3]
+C2S16 -> C2S17 [label=t7]
+C2S17 -> C2S18 [label=t3]
+C2S18 -> C2S9 [label=t1R1]
+C2S19 -> C2S6 [label=t1R1]
+C2S19 -> C2S16 [label=t2]
+C2S19 -> C2S20 [label=t7]
+C2S20 -> C2S7 [label=t1R1]
+C2S20 -> C2S17 [label=t2]
+C2S21 -> C2S19 [label=t3]
+}
+subgraph cluster3 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C3S3 ;
+C3S4 ;
+C3S5 ;
+C3S6 ;
+C3S7 ;
+C3S8 ;
+C3S9 ;
+C3S10 ;
+C3S16 ;
+C3S17 ;
+C3S18 ;
+C3S19 ;
+C3S20 ;
+C3S21 ;
+C3S3 -> C3S4 [label=t3]
+C3S3 -> C3S21 [label=t6]
+C3S3 -> C3S7 [label=t8R3]
+C3S4 -> C3S5 [label=t1R1]
+C3S4 -> C3S10 [label=t2]
+C3S4 -> C3S19 [label=t6]
+C3S4 -> C3S8 [label=t8R3]
+C3S5 -> C3S6 [label=t6]
+C3S6 -> C3S7 [label=t7]
+C3S7 -> C3S8 [label=t3]
+C3S8 -> C3S9 [label=t2]
+C3S10 -> C3S16 [label=t6]
+C3S10 -> C3S9 [label=t8R3]
+C3S16 -> C3S17 [label=t7]
+C3S17 -> C3S18 [label=t3]
+C3S18 -> C3S9 [label=t1R1]
+C3S19 -> C3S6 [label=t1R1]
+C3S19 -> C3S16 [label=t2]
+C3S19 -> C3S20 [label=t7]
+C3S20 -> C3S7 [label=t1R1]
+C3S20 -> C3S17 [label=t2]
+C3S21 -> C3S19 [label=t3]
+}
+subgraph cluster4 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C4S4 ;
+C4S5 ;
+C4S6 ;
+C4S7 ;
+C4S8 ;
+C4S9 ;
+C4S10 ;
+C4S16 ;
+C4S17 ;
+C4S18 ;
+C4S19 ;
+C4S20 ;
+C4S4 -> C4S5 [label=t1R1]
+C4S4 -> C4S10 [label=t2]
+C4S4 -> C4S19 [label=t6]
+C4S4 -> C4S8 [label=t8R3]
+C4S5 -> C4S6 [label=t6]
+C4S6 -> C4S7 [label=t7]
+C4S7 -> C4S8 [label=t3]
+C4S8 -> C4S9 [label=t2]
+C4S10 -> C4S16 [label=t6]
+C4S10 -> C4S9 [label=t8R3]
+C4S16 -> C4S17 [label=t7]
+C4S17 -> C4S18 [label=t3]
+C4S18 -> C4S9 [label=t1R1]
+C4S19 -> C4S6 [label=t1R1]
+C4S19 -> C4S16 [label=t2]
+C4S19 -> C4S20 [label=t7]
+C4S20 -> C4S7 [label=t1R1]
+C4S20 -> C4S17 [label=t2]
+}
+subgraph cluster5 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C5S5 ;
+C5S6 ;
+C5S7 ;
+C5S8 ;
+C5S9 ;
+C5S5 -> C5S6 [label=t6]
+C5S6 -> C5S7 [label=t7]
+C5S7 -> C5S8 [label=t3]
+C5S8 -> C5S9 [label=t2]
+}
+subgraph cluster6 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C6S11 ;
+C6S12 ;
+C6S13 ;
+C6S14 ;
+C6S15 ;
+C6S11 -> C6S12 [label=t6]
+C6S12 -> C6S13 [label=t7]
+C6S13 -> C6S14 [label=t3]
+C6S14 -> C6S15 [label=t2]
+}
+subgraph cluster7 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C7S12 ;
+C7S13 ;
+C7S14 ;
+C7S15 ;
+C7S12 -> C7S13 [label=t7]
+C7S13 -> C7S14 [label=t3]
+C7S14 -> C7S15 [label=t2]
+}
+subgraph cluster8 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C8S13 ;
+C8S14 ;
+C8S15 ;
+C8S13 -> C8S14 [label=t3]
+C8S14 -> C8S15 [label=t2]
+}
+subgraph cluster9 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C9S14 ;
+C9S15 ;
+C9S14 -> C9S15 [label=t2]
+}
+subgraph cluster10 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C10S24 ;
+C10S3 ;
+C10S4 ;
+C10S5 ;
+C10S6 ;
+C10S7 ;
+C10S8 ;
+C10S9 ;
+C10S10 ;
+C10S16 ;
+C10S17 ;
+C10S18 ;
+C10S19 ;
+C10S20 ;
+C10S21 ;
+C10S2 ;
+C10S25 ;
+C10S33 ;
+C10S34 ;
+C10S35 ;
+C10S36 ;
+C10S37 ;
+C10S38 ;
+C10S39 ;
+C10S24 -> C10S2 [label=t1R1]
+C10S24 -> C10S25 [label=t2]
+C10S24 -> C10S38 [label=t7]
+C10S3 -> C10S4 [label=t3]
+C10S3 -> C10S21 [label=t6]
+C10S3 -> C10S7 [label=t8R3]
+C10S4 -> C10S5 [label=t1R1]
+C10S4 -> C10S10 [label=t2]
+C10S4 -> C10S19 [label=t6]
+C10S4 -> C10S8 [label=t8R3]
+C10S5 -> C10S6 [label=t6]
+C10S6 -> C10S7 [label=t7]
+C10S7 -> C10S8 [label=t3]
+C10S8 -> C10S9 [label=t2]
+C10S10 -> C10S16 [label=t6]
+C10S10 -> C10S9 [label=t8R3]
+C10S16 -> C10S17 [label=t7]
+C10S17 -> C10S18 [label=t3]
+C10S18 -> C10S9 [label=t1R1]
+C10S19 -> C10S6 [label=t1R1]
+C10S19 -> C10S16 [label=t2]
+C10S19 -> C10S20 [label=t7]
+C10S20 -> C10S7 [label=t1R1]
+C10S20 -> C10S17 [label=t2]
+C10S21 -> C10S19 [label=t3]
+C10S2 -> C10S3 [label=t7]
+C10S25 -> C10S33 [label=t7]
+C10S33 -> C10S34 [label=t3]
+C10S33 -> C10S37 [label=t6]
+C10S33 -> C10S17 [label=t8R3]
+C10S34 -> C10S10 [label=t1R1]
+C10S34 -> C10S35 [label=t6]
+C10S34 -> C10S18 [label=t8R3]
+C10S35 -> C10S16 [label=t1R1]
+C10S35 -> C10S36 [label=t7]
+C10S36 -> C10S17 [label=t1R1]
+C10S37 -> C10S35 [label=t3]
+C10S38 -> C10S3 [label=t1R1]
+C10S38 -> C10S33 [label=t2]
+C10S38 -> C10S39 [label=t6]
+C10S38 -> C10S20 [label=t8R3]
+C10S39 -> C10S21 [label=t1R1]
+C10S39 -> C10S37 [label=t2]
+}
+subgraph cluster11 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C11S26 ;
+C11S11 ;
+C11S12 ;
+C11S13 ;
+C11S14 ;
+C11S15 ;
+C11S22 ;
+C11S23 ;
+C11S1 ;
+C11S27 ;
+C11S28 ;
+C11S29 ;
+C11S30 ;
+C11S31 ;
+C11S32 ;
+C11S26 -> C11S27 [label=t7]
+C11S11 -> C11S12 [label=t6]
+C11S12 -> C11S13 [label=t7]
+C11S13 -> C11S14 [label=t3]
+C11S14 -> C11S15 [label=t2]
+C11S22 -> C11S23 [label=t3]
+C11S23 -> C11S15 [label=t1R1]
+C11S1 -> C11S22 [label=t7]
+C11S27 -> C11S28 [label=t3]
+C11S27 -> C11S32 [label=t6]
+C11S27 -> C11S13 [label=t8R3]
+C11S28 -> C11S11 [label=t1R1]
+C11S28 -> C11S29 [label=t2]
+C11S28 -> C11S30 [label=t6]
+C11S28 -> C11S14 [label=t8R3]
+C11S29 -> C11S1 [label=t6]
+C11S29 -> C11S15 [label=t8R3]
+C11S30 -> C11S12 [label=t1R1]
+C11S30 -> C11S1 [label=t2]
+C11S30 -> C11S31 [label=t7]
+C11S31 -> C11S13 [label=t1R1]
+C11S31 -> C11S22 [label=t2]
+C11S32 -> C11S30 [label=t3]
+}
+subgraph cluster12 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C12S27 ;
+C12S11 ;
+C12S12 ;
+C12S13 ;
+C12S14 ;
+C12S15 ;
+C12S22 ;
+C12S23 ;
+C12S1 ;
+C12S28 ;
+C12S29 ;
+C12S30 ;
+C12S31 ;
+C12S32 ;
+C12S27 -> C12S28 [label=t3]
+C12S27 -> C12S32 [label=t6]
+C12S27 -> C12S13 [label=t8R3]
+C12S11 -> C12S12 [label=t6]
+C12S12 -> C12S13 [label=t7]
+C12S13 -> C12S14 [label=t3]
+C12S14 -> C12S15 [label=t2]
+C12S22 -> C12S23 [label=t3]
+C12S23 -> C12S15 [label=t1R1]
+C12S1 -> C12S22 [label=t7]
+C12S28 -> C12S11 [label=t1R1]
+C12S28 -> C12S29 [label=t2]
+C12S28 -> C12S30 [label=t6]
+C12S28 -> C12S14 [label=t8R3]
+C12S29 -> C12S1 [label=t6]
+C12S29 -> C12S15 [label=t8R3]
+C12S30 -> C12S12 [label=t1R1]
+C12S30 -> C12S1 [label=t2]
+C12S30 -> C12S31 [label=t7]
+C12S31 -> C12S13 [label=t1R1]
+C12S31 -> C12S22 [label=t2]
+C12S32 -> C12S30 [label=t3]
+}
+subgraph cluster13 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C13S28 ;
+C13S11 ;
+C13S12 ;
+C13S13 ;
+C13S14 ;
+C13S15 ;
+C13S22 ;
+C13S23 ;
+C13S1 ;
+C13S29 ;
+C13S30 ;
+C13S31 ;
+C13S28 -> C13S11 [label=t1R1]
+C13S28 -> C13S29 [label=t2]
+C13S28 -> C13S30 [label=t6]
+C13S28 -> C13S14 [label=t8R3]
+C13S11 -> C13S12 [label=t6]
+C13S12 -> C13S13 [label=t7]
+C13S13 -> C13S14 [label=t3]
+C13S14 -> C13S15 [label=t2]
+C13S22 -> C13S23 [label=t3]
+C13S23 -> C13S15 [label=t1R1]
+C13S1 -> C13S22 [label=t7]
+C13S29 -> C13S1 [label=t6]
+C13S29 -> C13S15 [label=t8R3]
+C13S30 -> C13S12 [label=t1R1]
+C13S30 -> C13S1 [label=t2]
+C13S30 -> C13S31 [label=t7]
+C13S31 -> C13S13 [label=t1R1]
+C13S31 -> C13S22 [label=t2]
+}
+subgraph cluster14 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C14S30 ;
+C14S12 ;
+C14S13 ;
+C14S14 ;
+C14S15 ;
+C14S22 ;
+C14S23 ;
+C14S1 ;
+C14S31 ;
+C14S30 -> C14S12 [label=t1R1]
+C14S30 -> C14S1 [label=t2]
+C14S30 -> C14S31 [label=t7]
+C14S12 -> C14S13 [label=t7]
+C14S13 -> C14S14 [label=t3]
+C14S14 -> C14S15 [label=t2]
+C14S22 -> C14S23 [label=t3]
+C14S23 -> C14S15 [label=t1R1]
+C14S1 -> C14S22 [label=t7]
+C14S31 -> C14S13 [label=t1R1]
+C14S31 -> C14S22 [label=t2]
+}
+subgraph cluster15 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C15S31 ;
+C15S14 ;
+C15S15 ;
+C15S22 ;
+C15S23 ;
+C15S13 ;
+C15S31 -> C15S13 [label=t1R1]
+C15S31 -> C15S22 [label=t2]
+C15S14 -> C15S15 [label=t2]
+C15S22 -> C15S23 [label=t3]
+C15S23 -> C15S15 [label=t1R1]
+C15S13 -> C15S14 [label=t3]
+}
+subgraph cluster16 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C16S32 ;
+C16S12 ;
+C16S13 ;
+C16S14 ;
+C16S15 ;
+C16S22 ;
+C16S23 ;
+C16S30 ;
+C16S31 ;
+C16S1 ;
+C16S32 -> C16S30 [label=t3]
+C16S12 -> C16S13 [label=t7]
+C16S13 -> C16S14 [label=t3]
+C16S14 -> C16S15 [label=t2]
+C16S22 -> C16S23 [label=t3]
+C16S23 -> C16S15 [label=t1R1]
+C16S30 -> C16S12 [label=t1R1]
+C16S30 -> C16S1 [label=t2]
+C16S30 -> C16S31 [label=t7]
+C16S31 -> C16S13 [label=t1R1]
+C16S31 -> C16S22 [label=t2]
+C16S1 -> C16S22 [label=t7]
+}
+subgraph cluster17 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+C17S38 ;
+C17S4 ;
+C17S5 ;
+C17S6 ;
+C17S7 ;
+C17S8 ;
+C17S9 ;
+C17S10 ;
+C17S16 ;
+C17S17 ;
+C17S18 ;
+C17S19 ;
+C17S20 ;
+C17S21 ;
+C17S33 ;
+C17S34 ;
+C17S35 ;
+C17S36 ;
+C17S37 ;
+C17S3 ;
+C17S39 ;
+C17S38 -> C17S3 [label=t1R1]
+C17S38 -> C17S33 [label=t2]
+C17S38 -> C17S39 [label=t6]
+C17S38 -> C17S20 [label=t8R3]
+C17S4 -> C17S5 [label=t1R1]
+C17S4 -> C17S10 [label=t2]
+C17S4 -> C17S19 [label=t6]
+C17S4 -> C17S8 [label=t8R3]
+C17S5 -> C17S6 [label=t6]
+C17S6 -> C17S7 [label=t7]
+C17S7 -> C17S8 [label=t3]
+C17S8 -> C17S9 [label=t2]
+C17S10 -> C17S16 [label=t6]
+C17S10 -> C17S9 [label=t8R3]
+C17S16 -> C17S17 [label=t7]
+C17S17 -> C17S18 [label=t3]
+C17S18 -> C17S9 [label=t1R1]
+C17S19 -> C17S6 [label=t1R1]
+C17S19 -> C17S16 [label=t2]
+C17S19 -> C17S20 [label=t7]
+C17S20 -> C17S7 [label=t1R1]
+C17S20 -> C17S17 [label=t2]
+C17S21 -> C17S19 [label=t3]
+C17S33 -> C17S34 [label=t3]
+C17S33 -> C17S37 [label=t6]
+C17S33 -> C17S17 [label=t8R3]
+C17S34 -> C17S10 [label=t1R1]
+C17S34 -> C17S35 [label=t6]
+C17S34 -> C17S18 [label=t8R3]
+C17S35 -> C17S16 [label=t1R1]
+C17S35 -> C17S36 [label=t7]
+C17S36 -> C17S17 [label=t1R1]
+C17S37 -> C17S35 [label=t3]
+C17S3 -> C17S4 [label=t3]
+C17S3 -> C17S21 [label=t6]
+C17S3 -> C17S7 [label=t8R3]
+C17S39 -> C17S21 [label=t1R1]
+C17S39 -> C17S37 [label=t2]
+}
+C1S0 -> C10S24 [style=dashed arrowhead=vee ltail=cluster1 lhead=cluster10 label="O1 ε"]
+C1S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster1 lhead=cluster5 label="O1 ε"]
+C2S17 -> C8S13 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster8 label="O2 ε"]
+C2S18 -> C9S14 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster9 label="O2 ε"]
+C2S16 -> C7S12 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster7 label="O2 ε"]
+C2S10 -> C6S11 [style=dashed arrowhead=vee ltail=cluster2 lhead=cluster6 label="O2 ε"]
+C3S17 -> C8S13 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster8 label="O2 ε"]
+C3S18 -> C9S14 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster9 label="O2 ε"]
+C3S16 -> C7S12 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster7 label="O2 ε"]
+C3S10 -> C6S11 [style=dashed arrowhead=vee ltail=cluster3 lhead=cluster6 label="O2 ε"]
+C4S17 -> C8S13 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster8 label="O2 ε"]
+C4S18 -> C9S14 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster9 label="O2 ε"]
+C4S16 -> C7S12 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster7 label="O2 ε"]
+C4S10 -> C6S11 [style=dashed arrowhead=vee ltail=cluster4 lhead=cluster6 label="O2 ε"]
+C6S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster6 lhead=cluster5 label="O1 ε"]
+C7S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster7 lhead=cluster5 label="O1 ε"]
+C8S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster8 lhead=cluster5 label="O1 ε"]
+C9S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster9 lhead=cluster5 label="O1 ε"]
+C10S17 -> C8S13 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster8 label="O2 (r1)|(((r1)|((r1)|((r1)|((r1)|((r3)|((r1)|(((r1)|r3)|r1)))))))|((r1)|((r1)|((r1)|((r1)|((r3)|r1))))))"]
+C10S10 -> C6S11 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster6 label="O2 (r1)|(((r1)|((r1)|((r1)|(((r1)|r3)|((r3)|((r1)|(((r1)|r3)|r1)))))))|((r1)|((r1)|((r1)|(((r1)|r3)|((r3)|r1))))))"]
+C10S16 -> C7S12 [style=dashed arrowhead=vee ltail=cluster10 lhead=cluster7 label="O2 ε"]
+C11S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster5 label="O1 (r1)|((r1)|((r1)|(((r1)|r3)|(((r1)|r3)|r3))))"]
+C11S23 -> C4S4 [style=dashed arrowhead=vee ltail=cluster11 lhead=cluster4 label="O1 ε"]
+C12S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster12 lhead=cluster5 label="O1 (r1)|((r1)|((r1)|(((r1)|r3)|(((r1)|r3)|r3))))"]
+C12S23 -> C4S4 [style=dashed arrowhead=vee ltail=cluster12 lhead=cluster4 label="O1 ε"]
+C13S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster13 lhead=cluster5 label="O1 (r1)|((r1)|((r1)|r3))"]
+C13S23 -> C4S4 [style=dashed arrowhead=vee ltail=cluster13 lhead=cluster4 label="O1 ε"]
+C14S22 -> C3S3 [style=dashed arrowhead=vee ltail=cluster14 lhead=cluster3 label="O1 ε"]
+C14S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster14 lhead=cluster5 label="O1 ε"]
+C15S22 -> C3S3 [style=dashed arrowhead=vee ltail=cluster15 lhead=cluster3 label="O1 ε"]
+C15S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster15 lhead=cluster5 label="O1 ε"]
+C16S22 -> C3S3 [style=dashed arrowhead=vee ltail=cluster16 lhead=cluster3 label="O1 ε"]
+C16S15 -> C5S5 [style=dashed arrowhead=vee ltail=cluster16 lhead=cluster5 label="O1 ε"]
+C17S17 -> C8S13 [style=dashed arrowhead=vee ltail=cluster17 lhead=cluster8 label="O2 (r1)|((r1)|((r1)|((r1)|((r1)|((r1)|r3)))))"]
+C17S10 -> C6S11 [style=dashed arrowhead=vee ltail=cluster17 lhead=cluster6 label="O2 (r1)|((r1)|((r1)|((r1)|((r1)|(((r1)|r3)|r3)))))"]
+C17S16 -> C7S12 [style=dashed arrowhead=vee ltail=cluster17 lhead=cluster7 label="O2 ε"]
+}

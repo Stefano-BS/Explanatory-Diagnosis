@@ -146,8 +146,8 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
     if (solution != d->regex) strcpy(d->regex, solution);
 }
 
-inline bool exitCondition(BehSpace *__restrict, bool) __attribute__((always_inline));
-inline bool exitCondition(BehSpace *__restrict b, bool mode2) {
+inline bool exitCondition(BehSpace *__restrict__, bool) __attribute__((always_inline));
+inline bool exitCondition(BehSpace *__restrict__ b, bool mode2) {
     if (mode2) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transizioni) {

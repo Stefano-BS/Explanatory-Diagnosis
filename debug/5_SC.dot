@@ -1,3 +1,11 @@
 digraph "SCdebug/5" {
-node [shape=doublecircle]; R11_L1 ;
+node [shape=doublecircle]; R101_L13e ;
+node [shape=doublecircle]; R100_L1ee ;
+node [shape=doublecircle]; R101_L1e2 ;
+node [shape=doublecircle]; R001_L1ee ;
+node [shape=doublecircle]; R101_Leee ;
+R101_L13e -> R100_L1ee [label=t6]
+R100_L1ee -> R101_L1e2 [label=t7]
+R101_L1e2 -> R001_L1ee [label=t3]
+R001_L1ee -> R101_Leee [label=t2]
 }

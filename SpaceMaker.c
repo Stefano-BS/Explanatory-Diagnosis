@@ -104,8 +104,7 @@ void generaSpazioComportamentale(BehSpace * b, StatoRete * attuale) {
 
 void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati finali
     ok[s->id] = true;
-    struct ltrans * trans = s->transizioni;
-    for (; trans != NULL; trans=trans->prossima) {
+    foreachdecl(trans, s->transizioni) {
         if (trans->t->a == s && !ok[trans->t->da->id])
             potsSC(trans->t->da);
     }
@@ -131,67 +130,94 @@ void potatura(BehSpace *b) {
 }
 
 
-void faultSpaceExtend(StatoRete * base) {
+void faultSpaceExtend(StatoRete * base, int *obsStates, TransizioneRete **obsTrs) {
     ok[base->id] = true;
-    struct ltrans * lt = base->transizioni;
-    while (lt != NULL) {
-        if (lt->t->t->oss == 0 && !ok[lt->t->a->id]) faultSpaceExtend(lt->t->a);
-        lt = lt->prossima;
+    int i=0;
+    foreachdecl(lt, base->transizioni) {
+        if (lt->t->da == base && lt->t->t->oss != 0) {
+            while (obsStates[i] != -1) i++;
+            obsStates[i] = base->id;
+            obsTrs[i] = lt->t;
+        }
     }
+    foreach(lt, base->transizioni)
+        if (lt->t->t->oss == 0 && !ok[lt->t->a->id])
+            faultSpaceExtend(lt->t->a, obsStates+i, obsTrs);
 }
 
-BehSpace * faultSpace(BehSpace * b, StatoRete * base, int *swapId) {
+FaultSpace * faultSpace(BehSpace * b, StatoRete * base, TransizioneRete **obsTrs) {
+    int k, index=0;
+    FaultSpace * ret = calloc(1, sizeof(FaultSpace));
+    ret->idMapFromOrigin = calloc(b->nStates, sizeof(int));
+    ret->exitStates = malloc(b->nTrans*sizeof(int));
+    memset(ret->exitStates, -1, b->nTrans*sizeof(int));
+
     ok = calloc(b->nStates, sizeof(bool));
-    faultSpaceExtend(base);
-    // int i=0; for(;i<b->nStates;++i) if (ok[i]) printf("%d ", i); printf("\n");
-    BehSpace * ret = dup(b, ok, true);
+    faultSpaceExtend(base, ret->exitStates, obsTrs); // state ids and transitions refer to the original space, not a dup copy
+    ret->b = dup(b, ok, true, &ret->idMapFromOrigin);
     free(ok);
-    int k;
+
     StatoRete *r, *temp;
-    for (r=ret->states[k=0]; k<ret->nStates; r=ret->states[++k]) { // make base its inital state
+    for (r=ret->b->states[k=0]; k<ret->b->nStates; r=ret->b->states[++k]) { // make base its inital state
         if (//k!=0 //&& base->indiceOsservazione == r->indiceOsservazione
         memcmp(base->contenutoLink, r->contenutoLink, nlink*sizeof(int)) == 0
         && memcmp(base->statoComponenti, r->statoComponenti, ncomp*sizeof(int)) == 0) {
-            temp = ret->states[0];  // swap ptrs
-            ret->states[0] = r;
-            ret->states[k] = temp;
-            temp->id = k;           // update ids
+            temp = ret->b->states[0];           // swap ptrs
+            ret->b->states[0] = r;
+            ret->b->states[k] = temp;
+            temp->id = k;                       // update ids
             r->id = 0;
-            *swapId = k;
-            return ret;
+            int tempId, swap1, swap2;           // swap id map
+            for (index=0; index<b->nStates; index++) {
+                if (ret->idMapFromOrigin[index]==0) swap1=index;
+                if (ret->idMapFromOrigin[index]==k) swap2=index;
+            }
+            tempId = ret->idMapFromOrigin[swap1];
+            ret->idMapFromOrigin[swap1] = ret->idMapFromOrigin[swap2];
+            ret->idMapFromOrigin[swap2] = tempId;
+            break;
         }
     }
+    for (k=0; k<b->nTrans; k++) {
+        if (ret->exitStates[k] == -1) break;
+        ret->exitStates[k] = ret->idMapFromOrigin[ret->exitStates[k]];
+    }
+    ret->exitStates = realloc(ret->exitStates, k*sizeof(int));
+    ret->idMapToOrigin = calloc(ret->b->nStates, sizeof(int));
+    for (k=0; k<b->nStates; k++)
+        if (ret->idMapFromOrigin[k] != -1) ret->idMapToOrigin[ret->idMapFromOrigin[k]] = k;
     return ret;
 }
 
 /* Call like:
-    int nSpaces=0, *swapIds;
-    BehSpace ** ret = faultSpaces(b, &nSpaces, &swapIds);*/
-BehSpace ** faultSpaces(BehSpace * b, int *nSpaces, int ** swapIds) {
+    int nSpaces=0;
+    TransizioneRete *** obsTrs;
+    FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
+FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, TransizioneRete ****obsTrs) {
     StatoRete * s;
     int i, j=0;
     *nSpaces = 1;
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
-        struct ltrans *lt = s->transizioni;
-        while (lt != NULL) {
+        foreachdecl(lt, s->transizioni) {
             if (lt->t->a == s && lt->t->t->oss != 0) {
                 (*nSpaces)++;
                 break;
             }
-            lt = lt->prossima;
         }
     }
-    BehSpace ** ret = malloc(*nSpaces*sizeof(BehSpace *));
-    *swapIds = calloc(*nSpaces, sizeof(int));
-    ret[j++] = faultSpace(b, b->states[0], swapIds[0]);
+    FaultSpace ** ret = malloc(*nSpaces*sizeof(BehSpace *));
+    *obsTrs = (TransizioneRete***)calloc(*nSpaces, sizeof(TransizioneRete**));
+    for (i=0; i<*nSpaces; i++) {
+        (*obsTrs)[i] = calloc(b->nTrans, sizeof(TransizioneRete**));
+    }
+    ret[0] = faultSpace(b, b->states[0], (*obsTrs)[0]);
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
-        struct ltrans *lt = s->transizioni;
-        while (lt != NULL) {
+        foreachdecl(lt, s->transizioni) {
             if (lt->t->a == s && lt->t->t->oss != 0) {
-                ret[j++] = faultSpace(b, s, *swapIds+i);
+                j++;
+                ret[j] = faultSpace(b, s, (*obsTrs)[j]);
                 break;
             }
-            lt = lt->prossima;
         }
     }
     return ret;
