@@ -1,5 +1,0 @@
-digraph "SCdebug/8" {
-node [shape=doublecircle]; R001_L1ee ;
-node [shape=doublecircle]; R101_Leee ;
-R001_L1ee -> R101_Leee [label=t2]
-}

@@ -11,6 +11,9 @@
 #define REGEX 10
 #define REGEXLEVER 2
 
+#define FLAG_FINAL 1
+#define FLAG_SILENT_FINAL 1 << 1
+
 #define ottieniComando(com) while (!isalpha(*com=getchar()));
 #define inizioTimer inizio = clock();
 #define foreach(lnode, from) for(lnode=from; lnode!=NULL; lnode = lnode->prossima)
@@ -46,7 +49,7 @@ typedef struct componente {
 typedef struct statorete {
     int *statoComponenti, *contenutoLink;
     int id, indiceOsservazione;
-    bool finale;
+    char flags;
     struct ltrans *transizioni;
 } StatoRete;
 
@@ -86,7 +89,6 @@ typedef struct explainer {
     int nFaultSpaces, nTrans, sizeofTrans;
 } Explainer;
 
-
 extern int nlink, ncomp, *osservazione, loss;
 extern Componente **componenti;
 extern Link **links;
@@ -122,6 +124,7 @@ void potatura(BehSpace *);
 void generaSpazioComportamentale(BehSpace *, StatoRete *);
 FaultSpace ** faultSpaces(BehSpace *, int *, TransizioneRete ****);
 // Diagnoser.c
+void regexMake(TransizioneRete*, TransizioneRete*, TransizioneRete*, char, TransizioneRete *);
 char** diagnostica(BehSpace *, bool);
 // Explainer.c
 Explainer * makeExplainer(BehSpace *);
@@ -135,12 +138,18 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_YES "si"
     #define MSG_NO "no"
     #define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\____/\\__/\\____/_/   \\___/  /_/  |_\\____/\\__/\\____/_/ /_/ /_/_/\n"
+    #define MSG_MENU_INTRO "\nMenu\tx: Esci\n"
+    #define MSG_MENU_C "\tc: Genera Spazio Comportamentale\n"
+    #define MSG_MENU_O "\to: Genera Spazio Comportamentale relativo ad osservazione completa\n"
+    #define MSG_MENU_D "\td: Calcola una diagnosi su questa osservazione completa\n"
+    #define MSG_MENU_E "\te: Genera un Diagnosticatore\n"
+    #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
+    #define MSG_MENU_END "Scelta: "
     #define MSG_OBS "Fornire la sequenza di etichette. Ogni numero, a capo, per terminare usa un carattere non numerico\n"
     #define MSG_DEF_AUTOMA "\nIndicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
     #define MSG_PARS_DONE "Parsing effettuato...\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
-    #define MSG_CHOOSE_OP "Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? "
     #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo spazio comportamentale: "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
     #define MSG_INPUT_UNKNOWN_TYPE "Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n"
@@ -149,7 +158,6 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_POTA_RES "Potati %d stati e %d transizioni\n"
     #define MSG_SC_RES "Generato lo spazio: conta %d stati e %d transizioni\n"
     #define MSG_RENAME_STATES "Rinominare gli stati col loro id (s/n)? "
-    #define MSG_DIAG "Eseguire una diagnosi su questa osservazione (s/n)? "
     #define MSG_DIAG_EXEC "Eseguo diagnostica... \n"
     #define MSG_ACTUAL_STRUCTURES "\nStrutture dati attuali:\n"
     #define MSG_COMP_DESCRIPTION "Componente id:%d, ha %d stati (attivo: %d) e %d transizioni:\n"
@@ -190,12 +198,18 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_YES "yes"
     #define MSG_NO "no"
     #define LOGO "  ___        _                        _          _____                    _             \n / _ \\      | |                      | |        |  ___|                  | |            \n/ /_\\ \\_   _| |_ ___  _ __ ___   __ _| |_ __ _  | |____  _____  ___ _   _| |_ ___  _ __ \n|  _  | | | | __/ _ \\| '_ ` _ \\ / _` | __/ _` | |  __\\ \\/ / _ \\/ __| | | | __/ _ \\| '__|\n| | | | |_| | || (_) | | | | | | (_| | || (_| | | |___>  <  __/ (__| |_| | || (_) | |   \n\\_| |_/\\__,_|\\__\\___/|_| |_| |_|\\__,_|\\__\\__,_| \\____/_/\\_\\___|\\___|\\__,_|\\__\\___/|_|\n"
+    #define MSG_MENU_INTRO "\nMenu\tx: Exit\n"
+    #define MSG_MENU_C "\tc: Generate Behavioral Space\n"
+    #define MSG_MENU_O "\to: Generate Behavioral Space relative to a full observation\n"
+    #define MSG_MENU_D "\td: Calculate diagnosis over this full observation\n"
+    #define MSG_MENU_E "\te: Generate Explainer\n"
+    #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral space from file (states renamed)\n"
+    #define MSG_MENU_END "Your choice: "
     #define MSG_OBS "Provide the observation sequence. A new line foreach number, non numeric to stop\n"
     #define MSG_DEF_AUTOMA "\nWhere does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
-    #define MSG_CHOOSE_OP "Generate behavioral space (c), input a linear observation (o), or load a space from file (f, if states have been renamed: g)? "
     #define MSG_DOT_INPUT "Input .dot file describing the behavioral space: "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
     #define MSG_INPUT_UNKNOWN_TYPE "It is not possible to establish if this space is the result of linear observation: execute a diagnosis just in that case\n"
@@ -204,7 +218,6 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_POTA_RES "%d states and %d transitions pruned\n"
     #define MSG_SC_RES "Space generated: total %d states, %d transitions\n"
     #define MSG_RENAME_STATES "Rename states with their id (y/n)? "
-    #define MSG_DIAG "Calculate a diagnosis upon this observation (y/n)? "
     #define MSG_DIAG_EXEC "Calculating diagnosis... \n"
     #define MSG_ACTUAL_STRUCTURES "\nData structures:\n"
     #define MSG_COMP_DESCRIPTION "Component id:%d, has %d states (active: %d) and %d transitions:\n"
@@ -241,3 +254,10 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define fineTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 #endif
+
+/*
+#define MSG_CHOOSE_OP "Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? "
+#define MSG_DIAG "Eseguire una diagnosi su questa osservazione (s/n)? "
+#define MSG_CHOOSE_OP "Generate behavioral space (c), input a linear observation (o), or load a space from file (f, if states have been renamed: g)? "
+#define MSG_DIAG "Calculate a diagnosis upon this observation (y/n)? "
+*/

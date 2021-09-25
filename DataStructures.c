@@ -100,10 +100,10 @@ StatoRete * generaStato(int *contenutoLink, int *statiAttivi) {
     if (contenutoLink != NULL) {
         s->contenutoLink = malloc(nlink*sizeof(int));
         memcpy(s->contenutoLink, contenutoLink, nlink*sizeof(int));
-        s->finale = true;
+        s->flags = FLAG_FINAL;
         int i;
         for (i=0; i<nlink; i++)
-            s->finale &= (s->contenutoLink[i] == VUOTO);
+            s->flags &= (s->contenutoLink[i] == VUOTO); // Works because there are no other flags set
     }
     else s->contenutoLink = NULL;
     if (statiAttivi != NULL) {
@@ -217,14 +217,13 @@ BehSpace * dup(BehSpace *b, bool mask[], bool silence, int** map) {
             new->statoComponenti = malloc(ncomp*sizeof(int));
             memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
             memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
-            new->finale = s->finale;
+            new->flags = s->flags;
             new->indiceOsservazione = s->indiceOsservazione;
             new->id = (*map)[i];
             struct ltrans *trans = s->transizioni, *temp;
             while (trans != NULL) {     // Transition list copy...
                 TransizioneRete *t = trans->t;
-                if (silence && t->t->oss != 0) new->finale = true; // A fault space state is final if final or if having observale outgoings
-                else {
+                if (!silence || t->t->oss == 0) {
                     int mapA = (*map)[t->a->id], mapDa = (*map)[t->da->id]; 
                     if (mapA != -1 && mapDa != -1) {
                         struct ltrans *newList = calloc(1, sizeof(struct ltrans));

@@ -1,6 +1,7 @@
 #include "header.h"
 
-char* nomeStato(StatoRete *s){
+inline char* nomeStato(StatoRete *) __attribute__((always_inline));
+inline char* nomeStato(StatoRete *s) {
     int j, v;
     char* nome = calloc(30, sizeof(char)), *puntatore = nome;
     sprintf(puntatore++, "R");
@@ -77,7 +78,8 @@ void stampaStruttureAttuali(StatoRete * attuale, bool testuale) {
         else
             if (attuale->contenutoLink[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{}\"];\n", l->da->id, l->a->id, l->da->id, l->a->id, l->id);
             else if (attuale->contenutoLink[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{e%d}\"];\n", l->da->id, l->a->id, l->da->id, l->a->id, l->id, attuale->contenutoLink[l->intId]);
-    if (testuale) printf(MSG_END_STATE_DESC, attuale->finale == true ? MSG_YES : MSG_NO);
+    if (testuale)
+        printf(MSG_END_STATE_DESC, (attuale->flags & FLAG_FINAL) == FLAG_FINAL ? MSG_YES : MSG_NO);
     else {
         fprintf(file, "}\n");
         fclose(file);
@@ -104,7 +106,7 @@ char* stampaSpazioComportamentale(BehSpace *b, bool rename, int toString) {
             else sprintf(ret+position, "%s ;\n", nomeSpazi[i]);
             position += strlen(ret+position);
         } else {
-            if (b->states[i]->finale) fprintf(file, "node [shape=doublecircle]; ");
+            if (b->states[i]->flags & FLAG_FINAL) fprintf(file, "node [shape=doublecircle]; ");
             else fprintf(file, "node [shape=circle]; ");
             if (rename) fprintf(file, "S%d ;\n", i);
             else fprintf(file, "%s ;\n", nomeSpazi[i]);
@@ -167,7 +169,10 @@ void printExplainer(Explainer * exp) {
         //char * descBehSpace = stampaSpazioComportamentale(exp->faults[i]->b, true, i+1);
         //fprintf(file, "%s", descBehSpace);
         for (j=0; j<fault->b->nStates; j++) {
-            fprintf(file, "C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
+            char flags = fault->b->states[j]->flags;
+            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
+            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
+            else fprintf(file, "node [shape=oval]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
         }
         StatoRete *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
@@ -190,8 +195,8 @@ void printExplainer(Explainer * exp) {
             if (t->from == exp->faults[j]) fromId=j;
             if (t->to == exp->faults[j]) toId=j;
         }
-        fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee ltail=cluster%d lhead=cluster%d label=\"O%d",
-            fromId+1, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId+1, t->toStateId, fromId+1, toId+1, t->obs);
+        fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
+            fromId+1, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId+1, t->toStateId, t->obs);
         if (t->ril>0) fprintf(file, "R%d", t->ril);
         fprintf(file, " %s\"]\n", t->regex);
     }

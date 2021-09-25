@@ -18,11 +18,12 @@ Explainer * makeExplainer(BehSpace *b) {
             TransExpl *nt = calloc(1, sizeof(TransExpl));
             nt->from = currentFault;
             nt->fromStateId = currentFault->idMapFromOrigin[currentTr->da->id];
+            currentFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
             nt->toStateId = currentTr->a->id;
 
             FaultSpace * f;                                                     // Finding reference to destination fault space,
-            for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one
-                if (f->idMapToOrigin[0] == nt->toStateId) {                     // that was initialized with the meant destination
+            for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
+                if (f->idMapToOrigin[0] == nt->toStateId) {                     // was initialized with the meant destination
                     nt->to = f;
                     break;
                 }

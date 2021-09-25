@@ -1,0 +1,51 @@
+digraph "EXPinput/r" {
+node [style=filled fillcolor=white]
+subgraph cluster1 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon]; C1S0 ;
+node [shape=doubleoctagon]; C1S1 ;
+C1S0 -> C1S1 [label=t1R1]
+C1S0 -> C1S0 [label=t4]
+C1S1 -> C1S0 [label=t2]
+C1S1 -> C1S1 [label=t4]
+}
+subgraph cluster2 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon]; C2S2 ;
+node [shape=doubleoctagon]; C2S1 ;
+node [shape=doubleoctagon]; C2S0 ;
+node [shape=doubleoctagon]; C2S3 ;
+C2S2 -> C2S3 [label=t2]
+C2S2 -> C2S1 [label=t3R2]
+C2S1 -> C2S0 [label=t2]
+C2S1 -> C2S1 [label=t4]
+C2S0 -> C2S1 [label=t1R1]
+C2S0 -> C2S0 [label=t4]
+C2S3 -> C2S2 [label=t1R1]
+C2S3 -> C2S0 [label=t3R2]
+}
+subgraph cluster3 {
+style="rounded,filled" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon]; C3S3 ;
+node [shape=doubleoctagon]; C3S1 ;
+node [shape=doubleoctagon]; C3S2 ;
+node [shape=doubleoctagon]; C3S0 ;
+C3S3 -> C3S2 [label=t1R1]
+C3S3 -> C3S0 [label=t3R2]
+C3S1 -> C3S0 [label=t2]
+C3S1 -> C3S1 [label=t4]
+C3S2 -> C3S3 [label=t2]
+C3S2 -> C3S1 [label=t3R2]
+C3S0 -> C3S1 [label=t1R1]
+C3S0 -> C3S0 [label=t4]
+}
+C1S0 -> C3S3 [style=dashed arrowhead=vee label="O1R3 r1r1?*"]
+C1S1 -> C2S2 [style=dashed arrowhead=vee label="O1R3 r1r1?*"]
+C2S1 -> C2S2 [style=dashed arrowhead=vee label="O1R3 (r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2)"]
+C2S0 -> C3S3 [style=dashed arrowhead=vee label="O1R3 (r1*(r1r2)|r2r1?*)|(r2r1?*)"]
+C3S0 -> C3S3 [style=dashed arrowhead=vee label="O1R3 (r1r1*r2)|r2r1?*"]
+C3S1 -> C2S2 [style=dashed arrowhead=vee label="O1R3 ((r1r1*r2)|r2r1?*r1)|(r1r1*r2)"]
+}

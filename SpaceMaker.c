@@ -90,7 +90,7 @@ void generaSpazioComportamentale(BehSpace * b, StatoRete * attuale) {
                     if (loss>0) {
                         if (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss == osservazione[attuale->indiceOsservazione])
                             nuovoStato->indiceOsservazione = attuale->indiceOsservazione+1;
-                        nuovoStato->finale &= nuovoStato->indiceOsservazione == loss;
+                        nuovoStato->flags &= !FLAG_FINAL | (nuovoStato->indiceOsservazione == loss);
                     }
                     // Ora bisogna inserire il nuovo stato e la nuova transizione nello spazio
                     bool avanzamento = ampliaSpazioComportamentale(b, attuale, nuovoStato, t);
@@ -116,7 +116,7 @@ void potatura(BehSpace *b) {
     ok = calloc(b->nStates, sizeof(bool));
     ok[0] = true;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (s->finale) potsSC(s);
+        if (s->flags & FLAG_FINAL) potsSC(s);
     }
     
     for (i=0; i<b->nStates; i++) {
@@ -128,7 +128,6 @@ void potatura(BehSpace *b) {
     }
     free(ok);
 }
-
 
 void faultSpaceExtend(StatoRete * base, int *obsStates, TransizioneRete **obsTrs) {
     ok[base->id] = true;

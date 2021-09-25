@@ -165,7 +165,7 @@ BehSpace * parseDot(FILE * file, bool semplificata) {
             }
             StatoRete * nuovo = generaStato(clink, attivi);
             nuovo->id = b->nStates;
-            nuovo->finale = dbc;
+            nuovo->flags = dbc;
             nuovo->indiceOsservazione = oss;
             alloc1(b, 's');
             b->states[b->nStates++] = nuovo;
@@ -230,7 +230,7 @@ BehSpace * parseDot(FILE * file, bool semplificata) {
             
             StatoRete * nuovo = generaStato(NULL, NULL);
             nuovo->id = b->nStates;
-            nuovo->finale = dbc;
+            nuovo->flags = dbc;
             alloc1(b, 's');
             b->states[b->nStates++] = nuovo;
             fscanf(file, "%s", buffer); // Simbolo ;

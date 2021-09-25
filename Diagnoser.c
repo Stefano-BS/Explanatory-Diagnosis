@@ -1,7 +1,7 @@
 #include "header.h"
 
-char *tempRegex;
-int tempRegexLen;
+char *tempRegex = NULL;
+int tempRegexLen = 0;
 
 void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, char op, TransizioneRete *autoTransizione) {
     int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
@@ -146,8 +146,8 @@ void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, cha
     if (solution != d->regex) strcpy(d->regex, solution);
 }
 
-inline bool exitCondition(BehSpace *__restrict__, bool) __attribute__((always_inline));
-inline bool exitCondition(BehSpace *__restrict__ b, bool mode2) {
+inline bool exitCondition(BehSpace *, bool) __attribute__((always_inline));
+inline bool exitCondition(BehSpace * b, bool mode2) {
     if (mode2) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transizioni) {
@@ -195,9 +195,9 @@ char** diagnostica(BehSpace *b, bool mode2) {
     alloc1(b, 's');
     StatoRete * fine = calloc(1, sizeof(StatoRete));                            // New final state ω
     fine->id = b->nStates;
-    fine->finale = true;
+    fine->flags = FLAG_FINAL;
     for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Transitions from ex final states/all states to ω
-        if (mode2 || stemp->finale) {
+        if (mode2 || (stemp->flags & FLAG_FINAL)) {
             TransizioneRete * trFinale = calloc(1, sizeof(TransizioneRete));
             trFinale->da = stemp;
             trFinale->a = fine;
@@ -211,7 +211,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
             fine->transizioni->t = trFinale;
             fine->transizioni->prossima = vecchiaTesta;
             b->nTrans++;
-            stemp->finale = false;
+            stemp->flags &= !FLAG_FINAL;
         }
     }
     b->states[b->nStates++] = fine;
@@ -359,6 +359,8 @@ char** diagnostica(BehSpace *b, bool mode2) {
         }
     }
     free(tempRegex);
+    tempRegex = NULL;
+    tempRegexLen = 0;
     if (mode2) {
         foreachdecl(lt, b->states[0]->transizioni)
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
