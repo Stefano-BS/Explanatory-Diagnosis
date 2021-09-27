@@ -6,24 +6,24 @@ inline char* stateName(BehState *s, bool showObs) {
     char* nome = calloc(30, sizeof(char)), *puntatore = nome;
     sprintf(puntatore++, "R");
     for (j=0; j<ncomp; j++) {
-        v = s->statoComponenti[j];
+        v = s->componentStatus[j];
         sprintf(puntatore,"%d", v);
         puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
     sprintf(puntatore,"_L");
     puntatore+=2;
     for (j=0; j<nlink; j++)
-        if (s->contenutoLink[j] == VUOTO)
+        if (s->linkContent[j] == VUOTO)
             sprintf(puntatore++,"e");
         else {
-            v = s->contenutoLink[j];
+            v = s->linkContent[j];
             sprintf(puntatore, "%d", v);
             puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
         }
     if (showObs) {
         sprintf(puntatore,"_O");
         puntatore+=2;
-        v = s->indiceOsservazione;
+        v = s->obsIndex;
         sprintf(puntatore, "%d", v);
         puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
     }
@@ -44,40 +44,40 @@ void printDES(BehState * attuale, bool testuale) {
         fprintf(file, "digraph \"%s\" {\nsize=\"8,5\"\ncompound=true\n", inputDES);
     }
     for (c=components[i=0]; i<ncomp; c=(i<ncomp ? components[++i] : c)){
-        int nT = c->nTransizioni;
-        if (testuale) printf(MSG_COMP_DESCRIPTION, c->id, c->nStati, attuale->statoComponenti[c->intId], nT);
-        else fprintf(file, "subgraph cluster%d {node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->statoComponenti[c->intId]);
+        int nT = c->nTrans;
+        if (testuale) printf(MSG_COMP_DESCRIPTION, c->id, c->nStates, attuale->componentStatus[c->intId], nT);
+        else fprintf(file, "subgraph cluster%d {node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->componentStatus[c->intId]);
         Trans *t;
         if (nT == 0) continue;
-        for (t=c->transizioni[j=0]; j<nT; t=(j<nT ? c->transizioni[++j] : t)) {
-            if (testuale) printf(MSG_TRANS_DESCRIPTION, t->id, t->da, t->a, t->oss, t->ril);
+        for (t=c->transitions[j=0]; j<nT; t=(j<nT ? c->transitions[++j] : t)) {
+            if (testuale) printf(MSG_TRANS_DESCRIPTION, t->id, t->from, t->to, t->obs, t->fault);
             else {
-                fprintf(file, "C%d_%d -> C%d_%d [label=\"t%d", c->id, t->da, c->id, t->a, t->id);
-                if (t->oss>0) fprintf(file, "O%d", t->oss);
-                if (t->ril>0) fprintf(file, "R%d", t->ril);
+                fprintf(file, "C%d_%d -> C%d_%d [label=\"t%d", c->id, t->from, c->id, t->to, t->id);
+                if (t->obs>0) fprintf(file, "O%d", t->obs);
+                if (t->fault>0) fprintf(file, "R%d", t->fault);
                 fprintf(file, "\"];\n");
             }
-            if (testuale & (t->idEventoIn == VUOTO)) printf(MSG_TRANS_DESCRIPTION2);
-            else if (testuale) printf(MSG_TRANS_DESCRIPTION3, t->idEventoIn, t->linkIn->id);
+            if (testuale & (t->idIncomingEvent == VUOTO)) printf(MSG_TRANS_DESCRIPTION2);
+            else if (testuale) printf(MSG_TRANS_DESCRIPTION3, t->idIncomingEvent, t->linkIn->id);
             Link *uscita;
-            int nUscite = t->nEventiU;
+            int nUscite = t->nOutgoingEvents;
             if (nUscite == 0) {
                 if (testuale) printf(MSG_TRANS_DESCRIPTION4);
                 continue;
             } else
                 if (testuale) printf(MSG_TRANS_DESCRIPTION5);
-            for (uscita=t->linkU[k=0]; k<nUscite; uscita=(k<nUscite ? t->linkU[++k] : uscita))
-                if (testuale) printf(MSG_TRANS_DESCRIPTION6, t->idEventiU[k], uscita->id);
+            for (uscita=t->linkOut[k=0]; k<nUscite; uscita=(k<nUscite ? t->linkOut[++k] : uscita))
+                if (testuale) printf(MSG_TRANS_DESCRIPTION6, t->idOutgoingEvents[k], uscita->id);
         }
         if (!testuale) fprintf(file, "}\n");
     }
     for (l=links[i=0]; i<nlink; l=(i<nlink ? links[++i] : l))
         if (testuale)
-            if (attuale->contenutoLink[l->intId] == VUOTO) printf(MSG_LINK_DESCRIPTION1, l->id, l->da->id, l->a->id);
-            else printf(MSG_LINK_DESCRIPTION2, l->id, attuale->contenutoLink[l->intId], l->da->id, l->a->id);
+            if (attuale->linkContent[l->intId] == VUOTO) printf(MSG_LINK_DESCRIPTION1, l->id, l->from->id, l->to->id);
+            else printf(MSG_LINK_DESCRIPTION2, l->id, attuale->linkContent[l->intId], l->from->id, l->to->id);
         else
-            if (attuale->contenutoLink[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{}\"];\n", l->da->id, l->a->id, l->da->id, l->a->id, l->id);
-            else if (attuale->contenutoLink[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{e%d}\"];\n", l->da->id, l->a->id, l->da->id, l->a->id, l->id, attuale->contenutoLink[l->intId]);
+            if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{}\"];\n", l->from->id, l->to->id, l->from->id, l->to->id, l->id);
+            else if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{e%d}\"];\n", l->from->id, l->to->id, l->from->id, l->to->id, l->id, attuale->linkContent[l->intId]);
     if (testuale)
         printf(MSG_END_STATE_DESC, (attuale->flags & FLAG_FINAL) == FLAG_FINAL ? MSG_YES : MSG_NO);
     else {
@@ -114,23 +114,23 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     }
     BehState *s;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        foreachdecl(trans, s->transizioni) {
-            if (trans->t->da == s) {
+        foreachdecl(trans, s->transitions) {
+            if (trans->t->from == s) {
                 if (toString) {
-                    if (rename) sprintf(ret+position, "C%dS%d -> C%dS%d [label=t%d", toString, i, toString, trans->t->a->id, trans->t->t->id);
-                    else sprintf(ret+position, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->a->id], trans->t->t->id);
+                    if (rename) sprintf(ret+position, "C%dS%d -> C%dS%d [label=t%d", toString, i, toString, trans->t->to->id, trans->t->t->id);
+                    else sprintf(ret+position, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
                     position += strlen(ret+position);
-                    if (trans->t->t->oss>0) sprintf(ret+position, "O%d", trans->t->t->oss);
+                    if (trans->t->t->obs>0) sprintf(ret+position, "O%d", trans->t->t->obs);
                     position += strlen(ret+position);
-                    if (trans->t->t->ril>0) sprintf(ret+position, "R%d", trans->t->t->ril);
+                    if (trans->t->t->fault>0) sprintf(ret+position, "R%d", trans->t->t->fault);
                     position += strlen(ret+position);
                     sprintf(ret+position, "]\n");
                     position += strlen(ret+position);
                 } else {
-                    if (rename) fprintf(file, "S%d -> S%d [label=t%d", i, trans->t->a->id, trans->t->t->id);
-                    else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->a->id], trans->t->t->id);
-                    if (trans->t->t->oss>0) fprintf(file, "O%d", trans->t->t->oss);
-                    if (trans->t->t->ril>0) fprintf(file, "R%d", trans->t->t->ril);
+                    if (rename) fprintf(file, "S%d -> S%d [label=t%d", i, trans->t->to->id, trans->t->t->id);
+                    else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
+                    if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
+                    if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
                     fprintf(file, "]\n");
                 }
             }
@@ -176,11 +176,11 @@ void printExplainer(Explainer * exp) {
         }
         BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
-            foreachdecl(trans, s->transizioni) {
-                if (trans->t->da == s) {
-                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i+1, fault->idMapToOrigin[j], i+1, fault->idMapToOrigin[trans->t->a->id], trans->t->t->id);
-                    if (trans->t->t->oss>0) fprintf(file, "O%d", trans->t->t->oss);
-                    if (trans->t->t->ril>0) fprintf(file, "R%d", trans->t->t->ril);
+            foreachdecl(trans, s->transitions) {
+                if (trans->t->from == s) {
+                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i+1, fault->idMapToOrigin[j], i+1, fault->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
+                    if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
                     fprintf(file, "]\n");
                 }
             }
@@ -197,9 +197,9 @@ void printExplainer(Explainer * exp) {
         }
         fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
             fromId+1, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId+1, t->toStateId, t->obs);
-        if (t->ril>0) fprintf(file, "R%d", t->ril);
-        if (t->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
-        else fprintf(file, " %s\"]\n", t->regex);
+        if (t->fault>0) fprintf(file, "R%d", t->fault);
+        if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
+        else fprintf(file, " %s\"]\n", t->regex->regex);
     }
     fprintf(file, "}\n");
     fclose(file);

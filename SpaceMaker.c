@@ -8,9 +8,9 @@ bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuov
     BehState *s;
     if (b->nStates>0) {
         for (s=b->states[i=0]; i<b->nStates; s=(i<b->nStates ? b->states[++i] : s)) { // Per ogni stato dello spazio comportamentale
-            if (memcmp(nuovo->statoComponenti, s->statoComponenti, ncomp*sizeof(int)) == 0
-            && memcmp(nuovo->contenutoLink, s->contenutoLink, nlink*sizeof(int)) == 0) {
-                giaPresente = (loss>0 ? nuovo->indiceOsservazione == s->indiceOsservazione : true);
+            if (memcmp(nuovo->componentStatus, s->componentStatus, ncomp*sizeof(int)) == 0
+            && memcmp(nuovo->linkContent, s->linkContent, nlink*sizeof(int)) == 0) {
+                giaPresente = (loss>0 ? nuovo->obsIndex == s->obsIndex : true);
                 if (giaPresente) {
                     freeBehState(nuovo); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
                     nuovo = s;  // Non è solo una questione di prestazioni, ma di mantenimento relazione biunivoca ptr <-> id
@@ -20,11 +20,11 @@ bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuov
         }
     }
     if (giaPresente) { // Già c'era lo stato, ma la transizione non è detto
-        struct ltrans * trans = precedente->transizioni;
+        struct ltrans * trans = precedente->transitions;
         nuovo->id = s->id;
         while (trans != NULL) {
-            if (trans->t->a == nuovo && trans->t->t->id == mezzo->id) return false;
-            trans = trans->prossima;
+            if (trans->t->to == nuovo && trans->t->t->id == mezzo->id) return false;
+            trans = trans->next;
         }
     } else { // Se lo stato è nuovo, ovviamente lo è anche la transizione che ci arriva
         alloc1(b, 's');
@@ -33,21 +33,21 @@ bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuov
     }
     if (mezzo != NULL) { // Lo stato iniziale, ad esempio ha NULL
         BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
-        nuovaTransRete->a = nuovo;
-        nuovaTransRete->da = precedente;
+        nuovaTransRete->to = nuovo;
+        nuovaTransRete->from = precedente;
         nuovaTransRete->t = mezzo;
         nuovaTransRete->regex = NULL;
 
         struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
         nuovaLTr->t = nuovaTransRete;
-        nuovaLTr->prossima = nuovo->transizioni;//statiSpazio[nuovo->id]->transizioni;
-        nuovo->transizioni = nuovaLTr; //statiSpazio[nuovo->id]->transizioni = nuovaLTr;
+        nuovaLTr->next = nuovo->transitions;//statiSpazio[nuovo->id]->transitions;
+        nuovo->transitions = nuovaLTr; //statiSpazio[nuovo->id]->transitions = nuovaLTr;
         
         if (nuovo != precedente) {
             nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->prossima = precedente->transizioni; //statiSpazio[precedente->id]->transizioni;
-            precedente->transizioni = nuovaLTr; //statiSpazio[precedente->id]->transizioni = nuovaLTr;
+            nuovaLTr->next = precedente->transitions; //statiSpazio[precedente->id]->transitions;
+            precedente->transitions = nuovaLTr; //statiSpazio[precedente->id]->transitions = nuovaLTr;
         }
 
         b->nTrans++;
@@ -60,37 +60,37 @@ void generateBehavioralSpace(BehSpace * b, BehState * attuale, int* obs, int los
     int i, j, k;
     for (c=components[i=0]; i<ncomp;  c=components[++i]){
         Trans *t;
-        int nT = c->nTransizioni;
+        int nT = c->nTrans;
         if (nT == 0) continue;
-        for (t=c->transizioni[j=0]; j<nT; t=(j<nT ? c->transizioni[++j] : t)) {
-            if ((attuale->statoComponenti[c->intId] == t->da) &&                          // Transizione abilitata se stato attuale = da
-            (t->idEventoIn == VUOTO || t->idEventoIn == attuale->contenutoLink[t->linkIn->intId])) { // Ok eventi in ingresso
-                if (loss>0 && ((attuale->indiceOsservazione>=loss && t->oss > 0) ||    // Osservate tutte, non se ne possono più vedere
-                (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss != obs[attuale->indiceOsservazione])))
+        for (t=c->transitions[j=0]; j<nT; t=(j<nT ? c->transitions[++j] : t)) {
+            if ((attuale->componentStatus[c->intId] == t->from) &&                          // Transizione abilitata se stato attuale = from
+            (t->idIncomingEvent == VUOTO || t->idIncomingEvent == attuale->linkContent[t->linkIn->intId])) { // Ok eventi in ingresso
+                if (loss>0 && ((attuale->obsIndex>=loss && t->obs > 0) ||    // Osservate tutte, non se ne possono più vedere
+                (attuale->obsIndex<loss && t->obs > 0 && t->obs != obs[attuale->obsIndex])))
                     continue; // Transizione non compatibile con l'osservazione lineare
                 bool ok = true;
-                for (k=0; k<t->nEventiU; k++) {                                        // I link di uscita sono vuoti
-                    if (attuale->contenutoLink[t->linkU[k]->intId] != VUOTO
-                    && !(t->idEventoIn != VUOTO && t->linkIn->intId == t->linkU[k]->intId)) { // L'evento in ingresso svuoterà questo link
+                for (k=0; k<t->nOutgoingEvents; k++) {                                        // I link di uscita sono vuoti
+                    if (attuale->linkContent[t->linkOut[k]->intId] != VUOTO
+                    && !(t->idIncomingEvent != VUOTO && t->linkIn->intId == t->linkOut[k]->intId)) { // L'evento in ingresso svuoterà questo link
                         ok = false;
                         break;
                     }
                 }
                 if (ok) { // La transizione è abilitata: esecuzione
                     int nuoviStatiAttivi[ncomp], nuovoStatoLink[nlink];
-                    memcpy(nuovoStatoLink, attuale->contenutoLink, nlink*sizeof(int));
-                    memcpy(nuoviStatiAttivi, attuale->statoComponenti, ncomp*sizeof(int));
-                    if (t->idEventoIn != VUOTO) // Consumo link in ingresso
+                    memcpy(nuovoStatoLink, attuale->linkContent, nlink*sizeof(int));
+                    memcpy(nuoviStatiAttivi, attuale->componentStatus, ncomp*sizeof(int));
+                    if (t->idIncomingEvent != VUOTO) // Consumo link in ingresso
                         nuovoStatoLink[t->linkIn->intId] = VUOTO;
-                    nuoviStatiAttivi[c->intId] = t->a; // Nuovo stato attivo
-                    for (k=0; k<t->nEventiU; k++) // Riempimento link in uscita
-                        nuovoStatoLink[t->linkU[k]->intId] = t->idEventiU[k];
+                    nuoviStatiAttivi[c->intId] = t->to; // Nuovo stato attivo
+                    for (k=0; k<t->nOutgoingEvents; k++) // Riempimento link in uscita
+                        nuovoStatoLink[t->linkOut[k]->intId] = t->idOutgoingEvents[k];
                     BehState * nuovoStato = generateBehState(nuovoStatoLink, nuoviStatiAttivi);
-                    nuovoStato->indiceOsservazione = attuale->indiceOsservazione;
+                    nuovoStato->obsIndex = attuale->obsIndex;
                     if (loss>0) {
-                        if (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss == obs[attuale->indiceOsservazione])
-                            nuovoStato->indiceOsservazione = attuale->indiceOsservazione+1;
-                        nuovoStato->flags &= !FLAG_FINAL | (nuovoStato->indiceOsservazione == loss);
+                        if (attuale->obsIndex<loss && t->obs > 0 && t->obs == obs[attuale->obsIndex])
+                            nuovoStato->obsIndex = attuale->obsIndex+1;
+                        nuovoStato->flags &= !FLAG_FINAL | (nuovoStato->obsIndex == loss);
                     }
                     // Ora bisogna inserire il nuovo stato e la nuova transizione nello spazio
                     bool avanzamento = enlargeBehavioralSpace(b, attuale, nuovoStato, t, loss);
@@ -104,9 +104,9 @@ void generateBehavioralSpace(BehSpace * b, BehState * attuale, int* obs, int los
 
 void pruneRec(BehState *s) { // Invocata esternamente solo a partire dagli stati finali
     ok[s->id] = true;
-    foreachdecl(trans, s->transizioni) {
-        if (trans->t->a == s && !ok[trans->t->da->id])
-            pruneRec(trans->t->da);
+    foreachdecl(trans, s->transitions) {
+        if (trans->t->to == s && !ok[trans->t->from->id])
+            pruneRec(trans->t->from);
     }
 }
 
@@ -132,16 +132,16 @@ void prune(BehSpace *b) {
 void faultSpaceExtend(BehState * base, int *obsStates, BehTrans **obsTrs) {
     ok[base->id] = true;
     int i=0;
-    foreachdecl(lt, base->transizioni) {
-        if (lt->t->da == base && lt->t->t->oss != 0) {
+    foreachdecl(lt, base->transitions) {
+        if (lt->t->from == base && lt->t->t->obs != 0) {
             while (obsStates[i] != -1) i++;
             obsStates[i] = base->id;
             obsTrs[i] = lt->t;
         }
     }
-    foreach(lt, base->transizioni)
-        if (lt->t->t->oss == 0 && !ok[lt->t->a->id])
-            faultSpaceExtend(lt->t->a, obsStates+i, obsTrs);
+    foreach(lt, base->transitions)
+        if (lt->t->t->obs == 0 && !ok[lt->t->to->id])
+            faultSpaceExtend(lt->t->to, obsStates+i, obsTrs);
 }
 
 FaultSpace * faultSpace(BehSpace * b, BehState * base, BehTrans **obsTrs) {
@@ -158,9 +158,9 @@ FaultSpace * faultSpace(BehSpace * b, BehState * base, BehTrans **obsTrs) {
 
     BehState *r, *temp;
     for (r=ret->b->states[k=0]; k<ret->b->nStates; r=ret->b->states[++k]) { // make base its inital state
-        if (//k!=0 //&& base->indiceOsservazione == r->indiceOsservazione
-        memcmp(base->contenutoLink, r->contenutoLink, nlink*sizeof(int)) == 0
-        && memcmp(base->statoComponenti, r->statoComponenti, ncomp*sizeof(int)) == 0) {
+        if (//k!=0 //&& base->obsIndex == r->obsIndex
+        memcmp(base->linkContent, r->linkContent, nlink*sizeof(int)) == 0
+        && memcmp(base->componentStatus, r->componentStatus, ncomp*sizeof(int)) == 0) {
             temp = ret->b->states[0];           // swap ptrs
             ret->b->states[0] = r;
             ret->b->states[k] = temp;
@@ -197,8 +197,8 @@ FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, BehTrans ****obsTrs) {
     int i, j=0;
     *nSpaces = 1;
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
-        foreachdecl(lt, s->transizioni) {
-            if (lt->t->a == s && lt->t->t->oss != 0) {
+        foreachdecl(lt, s->transitions) {
+            if (lt->t->to == s && lt->t->t->obs != 0) {
                 (*nSpaces)++;
                 break;
             }
@@ -211,8 +211,8 @@ FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, BehTrans ****obsTrs) {
     }
     ret[0] = faultSpace(b, b->states[0], (*obsTrs)[0]);
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
-        foreachdecl(lt, s->transizioni) {
-            if (lt->t->a == s && lt->t->t->oss != 0) {
+        foreachdecl(lt, s->transitions) {
+            if (lt->t->to == s && lt->t->t->obs != 0) {
                 j++;
                 ret[j] = faultSpace(b, s, (*obsTrs)[j]);
                 break;

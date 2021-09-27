@@ -54,11 +54,11 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
         } break;
         case 't': {
             Component * comp = (Component*) ptr;
-            if (comp->nTransizioni+1 > sizeofTrComp[comp->intId]) {
+            if (comp->nTrans+1 > sizeofTrComp[comp->intId]) {
                 sizeofTrComp[comp->intId] += 10;
-                Trans ** spazio = realloc(comp->transizioni, sizeofTrComp[comp->intId]*sizeof(Trans*));
+                Trans ** spazio = realloc(comp->transitions, sizeofTrComp[comp->intId]*sizeof(Trans*));
                 if (spazio == NULL) printf(MSG_MEMERR);
-                else comp->transizioni = spazio;
+                else comp->transitions = spazio;
             }
         } break;
         case 'e': {
@@ -85,7 +85,7 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
 Component * newComponent(void) {
     alloc1(NULL, 'c');
     Component *nuovo = calloc(1, sizeof(Component));
-    nuovo->transizioni = calloc(5, sizeof(Trans*));
+    nuovo->transitions = calloc(5, sizeof(Trans*));
     nuovo->intId = ncomp;
     sizeofTrComp[ncomp] = 5;
     components[ncomp++] = nuovo;
@@ -108,23 +108,23 @@ Link* linkById(int id) {
     return NULL;
 }
 
-BehState * generateBehState(int *contenutoLink, int *statiAttivi) {
+BehState * generateBehState(int *linkContent, int *statiAttivi) {
     BehState *s = calloc(1, sizeof(BehState));
     s->id = VUOTO;
-    if (contenutoLink != NULL) {
-        s->contenutoLink = malloc(nlink*sizeof(int));
-        memcpy(s->contenutoLink, contenutoLink, nlink*sizeof(int));
+    if (linkContent != NULL) {
+        s->linkContent = malloc(nlink*sizeof(int));
+        memcpy(s->linkContent, linkContent, nlink*sizeof(int));
         s->flags = FLAG_FINAL;
         int i;
         for (i=0; i<nlink; i++)
-            s->flags &= (s->contenutoLink[i] == VUOTO); // Works because there are no other flags set
+            s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     }
-    else s->contenutoLink = NULL;
+    else s->linkContent = NULL;
     if (statiAttivi != NULL) {
-        s->statoComponenti = malloc(ncomp*sizeof(int));
-        memcpy(s->statoComponenti, statiAttivi, ncomp*sizeof(int));
+        s->componentStatus = malloc(ncomp*sizeof(int));
+        memcpy(s->componentStatus, statiAttivi, ncomp*sizeof(int));
     }
-    else s->statoComponenti = NULL;
+    else s->componentStatus = NULL;
     return s;
 }
 
@@ -132,45 +132,45 @@ void removeBehState(BehSpace *b, BehState * delete) {
     // Paragoni tra stati per puntatori a locazione di memoria, non per id
     int deleteId = delete->id, i;
     struct ltrans * temp, *trans, *transPrima, *temp2;
-    temp = delete->transizioni;
+    temp = delete->transitions;
     trans = transPrima = temp2 = NULL;
     
     while (temp != NULL) { // Ciclo di rimozione di doppioni
-        trans = temp->prossima;
+        trans = temp->next;
         transPrima = trans;
         while (trans != NULL) {
             if (trans->t == temp->t) {
                 temp2 = transPrima;
-                transPrima->prossima = trans->prossima;
+                transPrima->next = trans->next;
                 free(trans);
                 trans = temp2;
             }
             transPrima = trans;
-            trans = trans->prossima;
+            trans = trans->next;
         }
-        temp = temp->prossima;
+        temp = temp->next;
     }
 
-    temp = delete->transizioni;
+    temp = delete->transitions;
     while (temp != NULL) {
         BehTrans * tr = temp->t;
         BehState  *eliminaAncheDa = NULL;
 
-        if (tr->da != delete && tr->a != delete)
+        if (tr->from != delete && tr->to != delete)
             printf(MSG_STATE_ANOMALY, deleteId); // Situazione anomala, ma non importa, qui
         else {
             eliminaAncheDa = NULL;
-            if (tr->da == delete && tr->a != delete) eliminaAncheDa = tr->a;
-            else if (tr->da != delete && tr->a == delete) eliminaAncheDa = tr->da;
+            if (tr->from == delete && tr->to != delete) eliminaAncheDa = tr->to;
+            else if (tr->from != delete && tr->to == delete) eliminaAncheDa = tr->from;
 
             if (eliminaAncheDa != NULL) {
                 transPrima = temp2 = NULL;
-                for (trans = eliminaAncheDa->transizioni; trans != NULL; trans = trans->prossima) {
+                for (trans = eliminaAncheDa->transitions; trans != NULL; trans = trans->next) {
                     if (trans->t == tr) {
-                        temp2 = trans->prossima;
+                        temp2 = trans->next;
                         free(trans);
-                        if (transPrima == NULL) eliminaAncheDa->transizioni = temp2;
-                        else transPrima->prossima = temp2;
+                        if (transPrima == NULL) eliminaAncheDa->transitions = temp2;
+                        else transPrima->next = temp2;
                         break;
                     }
                     else transPrima = trans;
@@ -180,9 +180,9 @@ void removeBehState(BehSpace *b, BehState * delete) {
             free(tr);
             temp->t = NULL;
         }
-        temp = temp->prossima;
-        free(delete->transizioni);
-        delete->transizioni = temp;
+        temp = temp->next;
+        free(delete->transitions);
+        delete->transitions = temp;
     }
     freeBehState(delete);
     
@@ -193,9 +193,9 @@ void removeBehState(BehSpace *b, BehState * delete) {
 }
 
 void freeBehState(BehState *s) {
-    if (s->contenutoLink != NULL) free(s->contenutoLink);
-    if (s->statoComponenti != NULL) free(s->statoComponenti);
-    if (s->transizioni != NULL) free(s->transizioni); // Struttura ricorsiva il cui contenuto deve essere già stato liberato
+    if (s->linkContent != NULL) free(s->linkContent);
+    if (s->componentStatus != NULL) free(s->componentStatus);
+    if (s->transitions != NULL) free(s->transitions); // Struttura ricorsiva il cui contenuto deve essere già stato liberato
     free(s);
 }
 
@@ -227,54 +227,48 @@ BehSpace * dup(BehSpace *b, bool mask[], bool silence, int** map) {
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (mask[i]) {
             new = dup->states[(*map)[i]];  // State information copy...
-            new->contenutoLink = malloc(nlink*sizeof(int));
-            new->statoComponenti = malloc(ncomp*sizeof(int));
-            memcpy(new->contenutoLink, s->contenutoLink, nlink*sizeof(int));
-            memcpy(new->statoComponenti, s->statoComponenti, ncomp*sizeof(int));
+            new->linkContent = malloc(nlink*sizeof(int));
+            new->componentStatus = malloc(ncomp*sizeof(int));
+            memcpy(new->linkContent, s->linkContent, nlink*sizeof(int));
+            memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(int));
             new->flags = s->flags;
-            new->indiceOsservazione = s->indiceOsservazione;
+            new->obsIndex = s->obsIndex;
             new->id = (*map)[i];
-            struct ltrans *trans = s->transizioni, *temp;
+            struct ltrans *trans = s->transitions, *temp;
             while (trans != NULL) {     // Transition list copy...
                 BehTrans *t = trans->t;
-                if (!silence || t->t->oss == 0) {
-                    int mapA = (*map)[t->a->id], mapDa = (*map)[t->da->id]; 
+                if (!silence || t->t->obs == 0) {
+                    int mapA = (*map)[t->to->id], mapDa = (*map)[t->from->id]; 
                     if (mapA != -1 && mapDa != -1) {
                         struct ltrans *newList = calloc(1, sizeof(struct ltrans));
-                        temp = new->transizioni;
-                        new->transizioni = newList;
-                        newList->prossima = temp;
+                        temp = new->transitions;
+                        new->transitions = newList;
+                        newList->next = temp;
                         if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
                             BehTrans *nt = calloc(1, sizeof(BehTrans));
                             dup->nTrans++;
                             newList->t = nt;
-                            nt->a = dup->states[mapA];
-                            nt->da = dup->states[mapDa];
+                            nt->to = dup->states[mapA];
+                            nt->from = dup->states[mapDa];
                             nt->t = t->t;
-                            nt->concreta = t->concreta;
-                            nt->parentesizzata = t->parentesizzata;
-                            nt->dimRegex = t->dimRegex;
+                            nt->regex = regexCpy(t->regex);
                             nt->marker = t->marker;
-                            if (nt->dimRegex>0) {
-                                nt->regex = malloc(nt->dimRegex);
-                                strcpy(nt->regex, t->regex);
-                            }
                         }
                         else {  // If execution goes here, it means the BehTrans has alredy been created, so we search for its pointer
                             int idSt = mapA < mapDa ? mapA : mapDa;
-                            temp = dup->states[idSt]->transizioni;
+                            temp = dup->states[idSt]->transitions;
                             while (temp != NULL) {
-                                if (temp->t->a->id == mapA && temp->t->da->id == mapDa
+                                if (temp->t->to->id == mapA && temp->t->from->id == mapDa
                                 && temp->t->t == t->t) {
                                     newList->t = temp->t;
                                     break;
                                 }
-                                temp = temp->prossima;
+                                temp = temp->next;
                             }
                         }
                     }
                 }
-                trans = trans->prossima;
+                trans = trans->next;
             }
         }
     }
@@ -288,20 +282,31 @@ void freeBehSpace(BehSpace *b) {
     free(b);
 }
 
+void freeMonitoring(Monitoring *mon) {
+    int i, j;
+    for (i=0; i<mon->length; i++) {
+        MonitorTrans *arc;
+        if (mon->mu[i]->nArcs)
+            for (arc=mon->mu[i]->arcs[j=0]; j<mon->mu[i]->nArcs; arc=mon->mu[i]->arcs[++j])
+                free(arc);
+        free(mon->mu[i]);
+    }
+}
+
 void behCoherenceTest(BehSpace *b){
     int i;
     BehState *s;
     printf(MSG_MEMTEST1, b->nStates, b->nTrans);
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (s->id != i) printf(MSG_MEMTEST2, i, s->id);
-        foreachdecl(lt, s->transizioni) {
-            if (lt->t->a->id != i && lt->t->da->id != i)
-                printf(MSG_MEMTEST3, i, lt->t->da->id, lt->t->a->id);
-            if (lt->t->a != s && lt->t->da != s) {
+        foreachdecl(lt, s->transitions) {
+            if (lt->t->to->id != i && lt->t->from->id != i)
+                printf(MSG_MEMTEST3, i, lt->t->from->id, lt->t->to->id);
+            if (lt->t->to != s && lt->t->from != s) {
                 printf(MSG_MEMTEST4, i, s);
-                printf(MSG_MEMTEST5, lt->t->da, lt->t->da->id, lt->t->a, lt->t->a->id);
-                printf(MSG_MEMTEST6, memcmp(lt->t->a, s, sizeof(BehState))==0);
-                printf(MSG_MEMTEST7, memcmp(lt->t->da, s, sizeof(BehState))==0);
+                printf(MSG_MEMTEST5, lt->t->from, lt->t->from->id, lt->t->to, lt->t->to->id);
+                printf(MSG_MEMTEST6, memcmp(lt->t->to, s, sizeof(BehState))==0);
+                printf(MSG_MEMTEST7, memcmp(lt->t->from, s, sizeof(BehState))==0);
             }
         }
     }

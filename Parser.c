@@ -32,7 +32,7 @@ void parseDES(FILE* file) {
                 
                 linea++;
                 Component *nuovo = newComponent();
-                fscanf(file, "%d", &(nuovo->nStati));
+                fscanf(file, "%d", &(nuovo->nStates));
                 match(',', file);
                 fscanf(file, "%d", &(nuovo->id));
                 if (!feof(file)) match(ACAPO, file);
@@ -48,29 +48,29 @@ void parseDES(FILE* file) {
                 linea++;
                 Trans *nuovo = calloc(1, sizeof(Trans));
                 int temp, componentePadrone;
-                nuovo->idEventiU = calloc(2, sizeof(int));
-                nuovo->linkU = calloc(2, sizeof(Link*));
-                nuovo->sizeofEvU = 2;
+                nuovo->idOutgoingEvents = calloc(2, sizeof(int));
+                nuovo->linkOut = calloc(2, sizeof(Link*));
+                nuovo->sizeofOE = 2;
                 fscanf(file, "%d", &(nuovo->id));
                 match(',', file);
                 fscanf(file, "%d", &componentePadrone);
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->da));
+                fscanf(file, "%d", &(nuovo->from));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->a));
+                fscanf(file, "%d", &(nuovo->to));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->oss));
+                fscanf(file, "%d", &(nuovo->obs));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->ril));
+                fscanf(file, "%d", &(nuovo->fault));
                 match(',', file);
                 if (isdigit(c = fgetc(file))) {                     // Se dopo la virgola c'è un numero, allora c'è un evento in ingresso
                     ungetc(c, file);
-                    fscanf(file, "%d", &(nuovo->idEventoIn));
+                    fscanf(file, "%d", &(nuovo->idIncomingEvent));
                     match(':', file);                               // idEvento:idLink
                     fscanf(file, "%d", &temp);
                     nuovo->linkIn = linkById(temp);
                 } else {
-                    nuovo->idEventoIn = VUOTO;
+                    nuovo->idIncomingEvent = VUOTO;
                     nuovo->linkIn = NULL;
                     ungetc(c, file);
                 }
@@ -81,26 +81,26 @@ void parseDES(FILE* file) {
                     ungetc(c, file);
                     
                     fscanf(file, "%d", &temp);
-                    if (nuovo->nEventiU +1 > nuovo->sizeofEvU) {    // Allocazione bufferizzata della memoria anche in questo caso
-                        nuovo->sizeofEvU += 5;
-                        nuovo->idEventiU = realloc(nuovo->idEventiU, nuovo->sizeofEvU*sizeof(int));
-                        nuovo->idEventiU = realloc(nuovo->idEventiU, nuovo->sizeofEvU*sizeof(int));
+                    if (nuovo->nOutgoingEvents +1 > nuovo->sizeofOE) {    // Allocazione bufferizzata della memoria anche in questo caso
+                        nuovo->sizeofOE += 5;
+                        nuovo->idOutgoingEvents = realloc(nuovo->idOutgoingEvents, nuovo->sizeofOE*sizeof(int));
+                        nuovo->idOutgoingEvents = realloc(nuovo->idOutgoingEvents, nuovo->sizeofOE*sizeof(int));
                     }
-                    nuovo->idEventiU[nuovo->nEventiU] = temp;
+                    nuovo->idOutgoingEvents[nuovo->nOutgoingEvents] = temp;
 
                     match(':', file); //idEvento:idLink
                     fscanf(file, "%d", &temp);
                     Link *linkNuovo = linkById(temp);
-                    nuovo->linkU[nuovo->nEventiU] = linkNuovo;
-                    nuovo->nEventiU++;
+                    nuovo->linkOut[nuovo->nOutgoingEvents] = linkNuovo;
+                    nuovo->nOutgoingEvents++;
                     match(',', file);
                 }
                 if (!feof(file)) ungetc(c, file);
                 
                 Component *padrone = compById(componentePadrone);  // Aggiunta della neonata transizione al relativo componente
                 alloc1(padrone, 't');
-                padrone->transizioni[padrone->nTransizioni] = nuovo;
-                padrone->nTransizioni++;
+                padrone->transitions[padrone->nTrans] = nuovo;
+                padrone->nTrans++;
 
                 if (!feof(file)) match(ACAPO, file);
             }
@@ -121,8 +121,8 @@ void parseDES(FILE* file) {
                 match(',', file);
                 fscanf(file, "%d", &(nuovo->id));
                 nuovo->intId = nlink;
-                nuovo->da = compById(idComp1);
-                nuovo->a = compById(idComp2);
+                nuovo->from = compById(idComp1);
+                nuovo->to = compById(idComp2);
                 alloc1(NULL, 'l');
                 links[nlink++] = nuovo;
 
@@ -166,7 +166,7 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             BehState * nuovo = generateBehState(clink, attivi);
             nuovo->id = b->nStates;
             nuovo->flags = dbc;
-            nuovo->indiceOsservazione = oss;
+            nuovo->obsIndex = oss;
             alloc1(b, 's');
             b->states[b->nStates++] = nuovo;
             fscanf(file, "%s", buffer); // Simbolo ;
@@ -191,9 +191,9 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             int idTransizione = atoi(buffer+8);
             Trans *t = NULL;
             for (i=0; i<ncomp; i++) {
-                for (j=0; j<components[i]->nTransizioni; j++) {
-                    if (components[i]->transizioni[j]->id == idTransizione) {
-                        t = components[i]->transizioni[j];
+                for (j=0; j<components[i]->nTrans; j++) {
+                    if (components[i]->transitions[j]->id == idTransizione) {
+                        t = components[i]->transitions[j];
                         break;
                     }
                 }
@@ -201,19 +201,19 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             }
 
             BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
-            nuovaTransRete->a = statoA;
-            nuovaTransRete->da = statoDa;
+            nuovaTransRete->to = statoA;
+            nuovaTransRete->from = statoDa;
             nuovaTransRete->t = t;
             nuovaTransRete->regex = NULL;
             struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->prossima = statoDa->transizioni;
-            statoDa->transizioni = nuovaLTr;
+            nuovaLTr->next = statoDa->transitions;
+            statoDa->transitions = nuovaLTr;
             if (statoA != statoDa) {
                 nuovaLTr = calloc(1, sizeof(struct ltrans));
                 nuovaLTr->t = nuovaTransRete;
-                nuovaLTr->prossima = statoA->transizioni;
-                statoA->transizioni = nuovaLTr;
+                nuovaLTr->next = statoA->transitions;
+                statoA->transitions = nuovaLTr;
             }
             b->nTrans++;
 
@@ -244,9 +244,9 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             int idTransizione = atoi(buffer+8);
             Trans *t = NULL;
             for (i=0; i<ncomp; i++) {
-                for (j=0; j<components[i]->nTransizioni; j++) {
-                    if (components[i]->transizioni[j]->id == idTransizione) {
-                        t = components[i]->transizioni[j];
+                for (j=0; j<components[i]->nTrans; j++) {
+                    if (components[i]->transitions[j]->id == idTransizione) {
+                        t = components[i]->transitions[j];
                         break;
                     }
                 }
@@ -256,18 +256,18 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             
             BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
             nuovaTransRete->regex = NULL;
-            nuovaTransRete->a = b->states[idA];
-            nuovaTransRete->da = b->states[idDa];
+            nuovaTransRete->to = b->states[idA];
+            nuovaTransRete->from = b->states[idDa];
             nuovaTransRete->t = t;
             struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->prossima = b->states[idDa]->transizioni;
-            b->states[idDa]->transizioni = nuovaLTr;
+            nuovaLTr->next = b->states[idDa]->transitions;
+            b->states[idDa]->transitions = nuovaLTr;
             if (idA != idDa) {
                 nuovaLTr = calloc(1, sizeof(struct ltrans));
                 nuovaLTr->t = nuovaTransRete;
-                nuovaLTr->prossima = b->states[idA]->transizioni;
-                b->states[idA]->transizioni = nuovaLTr;
+                nuovaLTr->next = b->states[idA]->transitions;
+                b->states[idA]->transitions = nuovaLTr;
             }
             b->nTrans++;
 

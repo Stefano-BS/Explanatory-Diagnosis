@@ -13,15 +13,15 @@ Explainer * makeExplainer(BehSpace *b) {
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
         int nStates = currentFault->b->nStates;
         BehSpace *duplicated = dup(currentFault->b, mask, false, NULL);
-        char** diagnosis = diagnostics(duplicated, true);
+        currentFault->diagnosis = diagnostics(duplicated, true);
         freeBehSpace(duplicated);
         j=0;
         while ((currentTr = obsTrs[i][j]) != NULL) {
             ExplTrans *nt = calloc(1, sizeof(ExplTrans));
             nt->from = currentFault;
-            nt->fromStateId = currentFault->idMapFromOrigin[currentTr->da->id];
+            nt->fromStateId = currentFault->idMapFromOrigin[currentTr->from->id];
             currentFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
-            nt->toStateId = currentTr->a->id;
+            nt->toStateId = currentTr->to->id;
 
             FaultSpace * f;                                                     // Finding reference to destination fault space,
             for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
@@ -32,9 +32,9 @@ Explainer * makeExplainer(BehSpace *b) {
             }
             if (nt->to == NULL) printf(MSG_EXP_FAULT_NOT_FOUND);
 
-            nt->obs = currentTr->t->oss;
-            nt->ril = currentTr->t->ril;
-            nt->regex = diagnosis[currentFault->exitStates[j]];
+            nt->obs = currentTr->t->obs;
+            nt->fault = currentTr->t->fault;
+            nt->regex = currentFault->diagnosis[currentFault->exitStates[j]];
             alloc1(exp, 'e');
             exp->trans[exp->nTrans++] = nt;
             j++;
@@ -49,8 +49,8 @@ Explainer * makeExplainer(BehSpace *b) {
             strcpy(inputDES, filename);
             printlog("Fault space %d having %d states\n", i, nStates);
             for (j=0; j<nStates; j++) {
-                if (diagnosis[j][0] == '\0') printf("F%d S%d: %lc\n", i, j, eps);
-                else printf("F%d S%d: %.10000s\n", i, j, diagnosis[j]);
+                if (currentFault->diagnosis[j]->regex[0] == '\0') printf("F%d S%d: %lc\n", i, j, eps);
+                else printf("F%d S%d: %.10000s\n", i, j, currentFault->diagnosis[j]->regex);
             }
         }
     }
@@ -163,17 +163,21 @@ Monitoring* explanationEngine(Explainer * exp, Monitoring *monitor, int * obs, i
                 MonitorTrans *mt = calloc(1, sizeof(MonitorTrans));
                 mt->from = mu_s;
                 mt->to = dest;
+                mt->l = te->regex;
                 alloc1(mu, 'm');
                 mu->arcs[mu->nArcs] = mt;
                 mu->nArcs++;
             }
         }
     }
-    monitor->length++;
-    monitor->mu = realloc(monitor->mu, monitor->length*sizeof(MonitorState*));
-    monitor->mu[monitor->length-1] = newmu;
+    if (mu->nArcs + newmu->nExpStates) {
+        monitor->length++;
+        monitor->mu = realloc(monitor->mu, monitor->length*sizeof(MonitorState*));
+        monitor->mu[monitor->length-1] = newmu;
+    }
+    else return NULL;
     // Extend E by L(µ') based on Def. 7
-
+    
     // X ← the set of states in µ that are not exited by any arc
     // while X != ∅
     //      Remove from µ the states in X and their entering arcs

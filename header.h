@@ -6,64 +6,70 @@
 #include <ctype.h>
 #include <time.h>
 
-#define VUOTO -1
-#define ACAPO -10
-#define REGEX 10
-#define REGEXLEVER 2
+#define VUOTO       -1
+#define ACAPO       -10
+#define REGEX       10
+#define REGEXLEVER  2
 
-#define FLAG_FINAL 1
-#define FLAG_SILENT_FINAL 1 << 1
+#define FLAG_FINAL          1
+#define FLAG_SILENT_FINAL   1 << 1
 
-#define ottieniComando(com) while (!isalpha(com=getchar()));
-#define inizioTimer inizio = clock();
-#define foreach(lnode, from) for(lnode=from; lnode!=NULL; lnode = lnode->prossima)
-#define foreachdecl(lnode, from) struct ltrans * lnode; foreach(lnode, from)
+#define getCommand(com)             while (!isalpha(com=getchar()));
+#define beginTimer                  timer = clock();
+#define foreach(lnode, from)        for(lnode=from; lnode!=NULL; lnode = lnode->next)
+#define foreachdecl(lnode, from)    struct ltrans * lnode; foreach(lnode, from)
 
 #ifndef DEBUG_MODE
     #define DEBUG_MODE false
 #endif
 #if DEBUG_MODE
-    #define printlog(...) printf(__VA_ARGS__)
+    #define printlog(...)           printf(__VA_ARGS__)
 #else
     #define printlog(...)
 #endif
 
+// GENERAL
+typedef struct {
+    char * regex;
+    int size;
+    bool bracketed, concrete;
+} Regex;
+
 // DISCRETE EVENT SYSTEM
 typedef struct {
-    struct component *da, *a;
+    struct component *from, *to;
     int id, intId;
 } Link;
 
 typedef struct {
-    int oss, ril, da, a, id;
-    int idEventoIn, *idEventiU, nEventiU, sizeofEvU;
-    Link *linkIn, **linkU;
+    int obs, fault, from, to, id;
+    int idIncomingEvent, *idOutgoingEvents, nOutgoingEvents, sizeofOE;
+    Link *linkIn, **linkOut;
 } Trans;
 
 typedef struct component {
-    int nStati, id, intId, nTransizioni;
-    Trans **transizioni;
+    int nStates, id, intId, nTrans;
+    Trans **transitions;
 } Component;
 
 // BEHAVIORAL SPACE
 typedef struct {
-    int *statoComponenti, *contenutoLink;
-    int id, indiceOsservazione;
+    int *componentStatus, *linkContent;
+    int id, obsIndex;
     char flags;
-    struct ltrans *transizioni;
+    struct ltrans *transitions;
 } BehState;
 
 typedef struct {
-    BehState *da, *a;
-    int dimRegex, marker;
-    char *regex;
-    bool parentesizzata, concreta;
+    BehState *from, *to;
+    int marker;
+    Regex *regex;
     Trans * t;
 } BehTrans;
 
 struct ltrans {
     BehTrans *t;
-    struct ltrans * prossima;
+    struct ltrans * next;
 };
 
 typedef struct {
@@ -75,12 +81,13 @@ typedef struct {
 typedef struct {
     BehSpace *b;
     int *idMapToOrigin, *idMapFromOrigin, *exitStates;
+    Regex ** diagnosis;
 } FaultSpace;
 
 typedef struct {
     FaultSpace * from, *to;
-    int obs, ril, fromStateId, toStateId;
-    char * regex;
+    int obs, fault, fromStateId, toStateId;
+    Regex * regex;
 } ExplTrans;
 
 typedef struct {
@@ -91,12 +98,14 @@ typedef struct {
 
 typedef struct {
     FaultSpace * from, * to;
+    Regex *l, *lp;
 } MonitorTrans;
 
 typedef struct {
     FaultSpace ** expStates;
     MonitorTrans ** arcs;
     int nExpStates, nArcs, sizeofArcs;
+    Regex *lin, lout;
 } MonitorState;
 
 typedef struct {
@@ -105,7 +114,7 @@ typedef struct {
 } Monitoring;
 
 
-// Global variables: things will never change during execution
+// Global variables: these will never change during execution
 extern int nlink, ncomp;
 extern Component **components;
 extern Link **links;
@@ -124,6 +133,7 @@ void removeBehState(BehSpace *, BehState *);
 void freeBehState(BehState *);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
 void freeBehSpace(BehSpace *);
+void freeMonitoring(Monitoring *);
 void behCoherenceTest(BehSpace *);
 void expCoherenceTest(Explainer *);
 void monitoringCoherenceTest(Monitoring *);
@@ -140,8 +150,11 @@ void generateBehavioralSpace(BehSpace *, BehState *, int *, int);
 void prune(BehSpace *);
 FaultSpace ** faultSpaces(BehSpace *, int *, BehTrans ****);
 // Diagnoser.c
-void regexMake(BehTrans*, BehTrans*, BehTrans*, char, BehTrans *);
-char** diagnostics(BehSpace *, bool);
+void freeRegex(Regex *);
+Regex * emptyRegex(void);
+Regex * regexCpy(Regex *);
+void regexMake(Regex*, Regex*, Regex*, char, Regex *);
+Regex** diagnostics(BehSpace *, bool);
 // Explainer.c
 Explainer * makeExplainer(BehSpace *);
 Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
@@ -216,7 +229,8 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
     #define MSG_MONITORING_RESULT "Traccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
-    #define fineTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
+    #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
+    #define endTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #elif LANG=='e'
     #define INPUT_Y 'y'
     #define MSG_YES "yes"
@@ -283,7 +297,8 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define MSG_MONITORING_RESULT "Explanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
-    #define fineTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
+    #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
+    #define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #endif
 
 /*

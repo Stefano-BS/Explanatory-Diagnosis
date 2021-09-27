@@ -1,147 +1,171 @@
 #include "header.h"
 
-char *tempRegex = NULL;
-int tempRegexLen = 0;
+Regex *tempRegex = NULL;
 
-void regexMake(BehTrans* s1, BehTrans* s2, BehTrans* d, char op, BehTrans *autoTransizione) {
+Regex * emptyRegex(void) {
+    Regex * new = malloc(sizeof(Regex));
+    new->size = REGEX;
+    new->concrete = false;
+    new->bracketed = true;
+    new->regex = calloc(REGEX, 1);
+    return new;
+}
+
+void freeRegex(Regex *r) {
+    free(r->regex);
+    free(r);
+}
+
+Regex * regexCpy(Regex *src) {
+    if (src == NULL) return NULL;
+    Regex * ret = malloc(sizeof(Regex));
+    memcpy(ret, src, sizeof(Regex));
+    if (ret->size>0) {
+        ret->regex = malloc(ret->size);
+        strcpy(ret->regex, src->regex);
+    }
+    return ret;
+}
+
+void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) {
     int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
     if (autoTransizione != NULL) strl3 = strlen(autoTransizione->regex);
     bool streq = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
     char * solution;
     int solutionLen;
 
-    if (strl1+strl2+strl3+4 > tempRegexLen) {
-        tempRegexLen = tempRegexLen*(REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
-        tempRegex = realloc(tempRegex, tempRegexLen);
+    if (strl1+strl2+strl3+4 > tempRegex->size) {
+        tempRegex->size = tempRegex->size*(REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
+        tempRegex->regex = realloc(tempRegex->regex, tempRegex->size);
     }
 
     if (op == 'c') { // Concat
         if (strl1>0 && strl2>0) { // concat
             solutionLen = strl1+strl2+1 < REGEX? REGEX : strl1+strl2+1;
-            solution = tempRegex;
-            d->parentesizzata = false;
-            d->concreta = s1->concreta || s2->concreta;
-            sprintf(tempRegex, "%s%s", s1->regex, s2->regex);
+            solution = tempRegex->regex;
+            d->bracketed = false;
+            d->concrete = s1->concrete || s2->concrete;
+            sprintf(tempRegex->regex, "%s%s", s1->regex, s2->regex);
         }
         else if (strl1>0 && strl2==0) { // copia s1 in d
             solution = s1->regex;
-            solutionLen = s1->dimRegex;
-            d->parentesizzata = s1->parentesizzata;
-            d->concreta = s1->concreta;
+            solutionLen = s1->size;
+            d->bracketed = s1->bracketed;
+            d->concrete = s1->concrete;
         }
         else if (strl1==0 && strl2>0) {// Copia s2 in d
             solution = s2->regex;
-            solutionLen = s2->dimRegex;
-            d->parentesizzata = s2->parentesizzata;
-            d->concreta = s2->concreta;
+            solutionLen = s2->size;
+            d->bracketed = s2->bracketed;
+            d->concrete = s2->concrete;
         }
         else if (strl2==0 && strl2==0) { // d null
             d->regex = calloc(REGEX, 1);
-            d->dimRegex = REGEX;
-            d->parentesizzata = true;
-            d->concreta = false;
+            d->size = REGEX;
+            d->bracketed = true;
+            d->concrete = false;
             return;
         }
     }
     else if (op == 'a') {
         if (strl1 > 0 && streq) { // Copia s1 in d
             solution = s1->regex;
-            solutionLen = s1->dimRegex;
-            d->parentesizzata = s1->parentesizzata;
-            d->concreta = s1->concreta;
+            solutionLen = s1->size;
+            d->bracketed = s1->bracketed;
+            d->concrete = s1->concrete;
         }
         else if (strl1 > 0 && strl2 > 0) { // s1|s2
-            solution = tempRegex;
-            d->parentesizzata = false;
-            d->concreta = s1->concreta && s2->concreta;
-            if (s1->parentesizzata && s2->parentesizzata) {
+            solution = tempRegex->regex;
+            d->bracketed = false;
+            d->concrete = s1->concrete && s2->concrete;
+            if (s1->bracketed && s2->bracketed) {
                 solutionLen = strl1+strl2+2 < REGEX? REGEX : strl1+strl2+2;
-                sprintf(tempRegex, "%s|%s", s1->regex, s2->regex);
-            } else if (s1->parentesizzata && !s2->parentesizzata) {
+                sprintf(tempRegex->regex, "%s|%s", s1->regex, s2->regex);
+            } else if (s1->bracketed && !s2->bracketed) {
                 solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
-                sprintf(tempRegex, "%s|(%s)", s1->regex, s2->regex);
-            } else if (!s1->parentesizzata && s2->parentesizzata) {
+                sprintf(tempRegex->regex, "%s|(%s)", s1->regex, s2->regex);
+            } else if (!s1->bracketed && s2->bracketed) {
                 solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
-                sprintf(tempRegex, "(%s)|%s", s1->regex, s2->regex);
+                sprintf(tempRegex->regex, "(%s)|%s", s1->regex, s2->regex);
             } else {
                 solutionLen = strl1+strl2+6 < REGEX? REGEX : strl1+strl2+6;
-                sprintf(tempRegex, "(%s)|(%s)", s1->regex, s2->regex);
+                sprintf(tempRegex->regex, "(%s)|(%s)", s1->regex, s2->regex);
             }
         } else if (strl1 > 0 && strl2==0) {
-            solution = tempRegex;
-            if (s1->concreta) {
-                if (s1->parentesizzata) {
+            solution = tempRegex->regex;
+            if (s1->concrete) {
+                if (s1->bracketed) {
                     solutionLen = strl1+2 < REGEX? REGEX : strl1+2;
-                    sprintf(tempRegex, "%s?", s1->regex);
+                    sprintf(tempRegex->regex, "%s?", s1->regex);
                 }
                 else {
                     solutionLen = strl1+4 < REGEX? REGEX : strl1+4;
-                    sprintf(tempRegex, "(%s)?", s1->regex);
+                    sprintf(tempRegex->regex, "(%s)?", s1->regex);
                 }
-                d->parentesizzata = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
+                d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
                 solutionLen = strl1+1 < REGEX? REGEX : strl1+1;
-                strcpy(tempRegex, s1->regex);
-                d->parentesizzata = s1->parentesizzata;
+                strcpy(tempRegex->regex, s1->regex);
+                d->bracketed = s1->bracketed;
             }
-            d->concreta = false;
+            d->concrete = false;
         } else if (strl2 > 0) {
-            solution = tempRegex;
-            if (s2->concreta) {
-                if (s2->parentesizzata) {
+            solution = tempRegex->regex;
+            if (s2->concrete) {
+                if (s2->bracketed) {
                     solutionLen = strl2+2 < REGEX? REGEX : strl2+2;
-                    sprintf(tempRegex, "%s?", s2->regex);
+                    sprintf(tempRegex->regex, "%s?", s2->regex);
                 }
                 else {
                     solutionLen = strl2+4 < REGEX? REGEX : strl2+4;
-                    sprintf(tempRegex, "(%s)?", s2->regex);
+                    sprintf(tempRegex->regex, "(%s)?", s2->regex);
                 }
-                d->parentesizzata = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
+                d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
                 solutionLen = strl2+1 < REGEX? REGEX : strl2+1;
-                strcpy(tempRegex, s2->regex);
-                d->parentesizzata = s2->parentesizzata;
+                strcpy(tempRegex->regex, s2->regex);
+                d->bracketed = s2->bracketed;
             }
-            d->concreta = false;
+            d->concrete = false;
         } else {
             d->regex = calloc(REGEX, 1);
-            d->dimRegex = REGEX;
-            d->parentesizzata = true;
-            d->concreta = false;
+            d->size = REGEX;
+            d->bracketed = true;
+            d->concrete = false;
             return;
         }
     }
     else if (op == 'r') {
         solutionLen = strl1+strl2+strl3+4 < REGEX ? REGEX : strl1+strl2+strl3+4;
         d->regex = calloc(solutionLen, 1);
-        d->dimRegex = solutionLen;
+        d->size = solutionLen;
         if (strl3 == 0) regexMake(s1, s2, d, 'c', NULL);
         else {
             if (strl1 + strl2 >0) {
-                if (autoTransizione->parentesizzata) sprintf(d->regex, "%s%s*%s", s1->regex, autoTransizione->regex, s2->regex);
+                if (autoTransizione->bracketed) sprintf(d->regex, "%s%s*%s", s1->regex, autoTransizione->regex, s2->regex);
                 else sprintf(d->regex, "%s(%s)*%s", s1->regex, autoTransizione->regex, s2->regex);
-                d->parentesizzata = false;
-                d->concreta = s1->concreta && s2->concreta && autoTransizione->concreta;
+                d->bracketed = false;
+                d->concrete = s1->concrete && s2->concrete && autoTransizione->concrete;
             }
             else {
-                if (autoTransizione->parentesizzata) {
+                if (autoTransizione->bracketed) {
                     if (autoTransizione->regex[strl3]=='?') autoTransizione->regex[strl3] = '\0';
                     sprintf(d->regex, "%s*", autoTransizione->regex);
                 }
                 else sprintf(d->regex, "(%s)*", autoTransizione->regex);
-                d->parentesizzata = true; // Se anche termina con *, non importa
-                d->concreta = autoTransizione->concreta;
+                d->bracketed = true; // Se anche termina con *, non importa
+                d->concrete = autoTransizione->concrete;
             }
         }
         return;
     }
 
-    if (d->dimRegex < solutionLen) {
-        if (d->dimRegex == 0) d->regex = calloc(solutionLen*REGEXLEVER, 1);
+    if (d->size < solutionLen) {
+        if (d->size == 0) d->regex = calloc(solutionLen*REGEXLEVER, 1);
         else d->regex = realloc(d->regex, solutionLen*REGEXLEVER);
-        d->dimRegex = solutionLen*REGEXLEVER;
+        d->size = solutionLen*REGEXLEVER;
     }
     if (solution != d->regex) strcpy(d->regex, solution);
 }
@@ -150,9 +174,9 @@ inline bool exitCondition(BehSpace *, bool) __attribute__((always_inline));
 inline bool exitCondition(BehSpace * b, bool mode2) {
     if (mode2) {
         if (b->nStates>2) return false;
-        foreachdecl(lt, b->states[0]->transizioni) {
-            printlog("from %d to %d mark %d\n",lt->t->da->id, lt->t->a->id, lt->t->marker);
-            foreachdecl(lt2, lt->prossima) {
+        foreachdecl(lt, b->states[0]->transitions) {
+            printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker);
+            foreachdecl(lt2, lt->next) {
                 if (lt->t->marker != 0 && lt->t->marker == lt2->t->marker) return false;
             }
         }
@@ -161,14 +185,15 @@ inline bool exitCondition(BehSpace * b, bool mode2) {
     else return b->nTrans<=1;
 }
 
-char** diagnostics(BehSpace *b, bool mode2) {
+Regex** diagnostics(BehSpace *b, bool mode2) {
     int i=0, j=0, nMarker = b->nStates+2, markerMap[nMarker];
     for (; i<nMarker; i++) 
         markerMap[i] = i; // Including α and ω
-    char ** ret = calloc(mode2? nMarker-2 : 1, sizeof(char*));
+    Regex ** ret = calloc(mode2? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
-    tempRegexLen = REGEX*b->nStates*b->nTrans;
-    tempRegex = malloc(tempRegexLen);
+    tempRegex = emptyRegex();
+    tempRegex->size = REGEX*b->nStates*b->nTrans;
+    tempRegex->regex = realloc(tempRegex->regex, tempRegex->size);
 
     //Arricchimento spazio con nuovi stati iniziale e finale
     Trans *tvuota = calloc(1, sizeof(Trans));
@@ -181,15 +206,16 @@ char** diagnostics(BehSpace *b, bool mode2) {
     b->states[0] = stemp;
     stemp->id = 0;
     BehTrans * nuovaTr = calloc(1, sizeof(BehTrans));
-    nuovaTr->da = stemp;
-    nuovaTr->a = b->states[1];
+    nuovaTr->from = stemp;
+    nuovaTr->to = b->states[1];
     nuovaTr->t = tvuota;
-    stemp->transizioni = calloc(1, sizeof(struct ltrans));
-    stemp->transizioni->t = nuovaTr;
-    struct ltrans *vecchiaTesta = b->states[1]->transizioni;
-    b->states[1]->transizioni = calloc(1, sizeof(struct ltrans));
-    b->states[1]->transizioni->t = nuovaTr;
-    b->states[1]->transizioni->prossima = vecchiaTesta;
+    nuovaTr->regex = emptyRegex();
+    stemp->transitions = calloc(1, sizeof(struct ltrans));
+    stemp->transitions->t = nuovaTr;
+    struct ltrans *vecchiaTesta = b->states[1]->transitions;
+    b->states[1]->transitions = calloc(1, sizeof(struct ltrans));
+    b->states[1]->transitions->t = nuovaTr;
+    b->states[1]->transitions->next = vecchiaTesta;
     b->nTrans++;
 
     alloc1(b, 's');
@@ -199,17 +225,18 @@ char** diagnostics(BehSpace *b, bool mode2) {
     for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Transitions from ex final states/all states to ω
         if (mode2 || (stemp->flags & FLAG_FINAL)) {
             BehTrans * trFinale = calloc(1, sizeof(BehTrans));
-            trFinale->da = stemp;
-            trFinale->a = fine;
+            trFinale->from = stemp;
+            trFinale->to = fine;
             trFinale->t = tvuota;
-            struct ltrans *vecchiaTesta = stemp->transizioni;
-            stemp->transizioni = calloc(1, sizeof(struct ltrans));
-            stemp->transizioni->t = trFinale;
-            stemp->transizioni->prossima = vecchiaTesta;
-            vecchiaTesta = fine->transizioni;
-            fine->transizioni = calloc(1, sizeof(struct ltrans));
-            fine->transizioni->t = trFinale;
-            fine->transizioni->prossima = vecchiaTesta;
+            trFinale->regex = emptyRegex();
+            struct ltrans *vecchiaTesta = stemp->transitions;
+            stemp->transitions = calloc(1, sizeof(struct ltrans));
+            stemp->transitions->t = trFinale;
+            stemp->transitions->next = vecchiaTesta;
+            vecchiaTesta = fine->transitions;
+            fine->transitions = calloc(1, sizeof(struct ltrans));
+            fine->transitions->t = trFinale;
+            fine->transitions->next = vecchiaTesta;
             b->nTrans++;
             stemp->flags &= !FLAG_FINAL;
         }
@@ -217,14 +244,12 @@ char** diagnostics(BehSpace *b, bool mode2) {
     b->states[b->nStates++] = fine;
 
     for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Singleton regex making
-        foreachdecl(trans, stemp->transizioni) {
-            if (trans->t->da == stemp) {
-                trans->t->regex = calloc(REGEX, 1);
-                trans->t->dimRegex = REGEX;
-                trans->t->parentesizzata = true;
-                if (trans->t->t->ril >0) {
-                    sprintf(trans->t->regex, "r%d", trans->t->t->ril);
-                    trans->t->concreta = true;
+        foreachdecl(trans, stemp->transitions) {
+            if (trans->t->from == stemp) {
+                trans->t->regex = emptyRegex();
+                if (trans->t->t->fault >0) {
+                    sprintf(trans->t->regex->regex, "r%d", trans->t->t->fault);
+                    trans->t->regex->concrete = true;
                 }
             }
         }
@@ -236,62 +261,63 @@ char** diagnostics(BehSpace *b, bool mode2) {
         bool continua = false;
         for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
             BehTrans *tentra, *tesce;
-            if (stemp->transizioni != NULL && stemp->transizioni->prossima != NULL && stemp->transizioni->prossima->prossima == NULL &&
-            (((tesce = stemp->transizioni->t)->da == stemp && (tentra = stemp->transizioni->prossima->t)->a == stemp)
-            || ((tentra = stemp->transizioni->t)->a == stemp && (tesce = stemp->transizioni->prossima->t)->da == stemp))
-            && tesce->da != tesce->a && tentra->a != tentra->da)  {             // Elemento interno alla sequenza
+            if (stemp->transitions != NULL && stemp->transitions->next != NULL && stemp->transitions->next->next == NULL &&
+            (((tesce = stemp->transitions->t)->from == stemp && (tentra = stemp->transitions->next->t)->to == stemp)
+            || ((tentra = stemp->transitions->t)->to == stemp && (tesce = stemp->transitions->next->t)->from == stemp))
+            && tesce->from != tesce->to && tentra->to != tentra->from)  {             // Elemento interno alla sequenza
                 BehTrans *nt = calloc(1, sizeof(BehTrans));
-                nt->da = tentra->da;
-                nt->a = tesce->a;
+                nt->from = tentra->from;
+                nt->to = tesce->to;
                 nt->t = tvuota;
-                regexMake(tentra, tesce, nt, 'c', NULL);
-                if (mode2 && nt->a->id == b->nStates-1) {
+                nt->regex = emptyRegex();
+                regexMake(tentra->regex, tesce->regex, nt->regex, 'c', NULL);
+                if (mode2 && nt->to->id == b->nStates-1) {
                     if (tesce->marker != 0) nt->marker = tesce->marker;
                     else nt->marker = markerMap[stemp->id];
-                    printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->da->id], markerMap[nt->a->id], nt->marker);
+                    printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->from->id], markerMap[nt->to->id], nt->marker);
                 }
 
                 b->nTrans++;
                 struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
                 nuovaTr->t = nt;
-                struct ltrans *templtrans = b->states[tentra->da->id]->transizioni;
-                b->states[tentra->da->id]->transizioni = nuovaTr;
-                b->states[tentra->da->id]->transizioni->prossima = templtrans;
-                if (tentra->da != tesce->a) {
-                    templtrans = b->states[tesce->a->id]->transizioni;
+                struct ltrans *templtrans = b->states[tentra->from->id]->transitions;
+                b->states[tentra->from->id]->transitions = nuovaTr;
+                b->states[tentra->from->id]->transitions->next = templtrans;
+                if (tentra->from != tesce->to) {
+                    templtrans = b->states[tesce->to->id]->transitions;
                     nuovaTr = calloc(1, sizeof(struct ltrans));
                     nuovaTr->t = nt;
-                    b->states[tesce->a->id]->transizioni = nuovaTr;
-                    b->states[tesce->a->id]->transizioni->prossima = templtrans;
+                    b->states[tesce->to->id]->transitions = nuovaTr;
+                    b->states[tesce->to->id]->transitions->next = templtrans;
                 }
-                free(tentra->regex);
-                free(tesce->regex);
+                freeRegex(tentra->regex);
+                freeRegex(tesce->regex);
                 memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
                 removeBehState(b, stemp);
                 continua = true;
             }
         }
         if (continua) continue;
-        for (stemp=b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {       // Collasso gruppi di transizioni che condividono partenze e arrivi in una
-            foreachdecl(trans1, stemp->transizioni) {
+        for (stemp=b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {       // Collasso gruppi di transitions che condividono partenze e arrivi in una
+            foreachdecl(trans1, stemp->transitions) {
                 struct ltrans *trans2, *nodoPrecedente = NULL;
-                foreach(trans2, stemp->transizioni) {
-                    if (trans1->t != trans2->t && trans1->t->da == trans2->t->da && trans1->t->a == trans2->t->a
+                foreach(trans2, stemp->transitions) {
+                    if (trans1->t != trans2->t && trans1->t->from == trans2->t->from && trans1->t->to == trans2->t->to
                     && (!mode2 || (mode2 &&trans2->t->marker == trans1->t->marker))) {
-                        regexMake(trans1->t, trans2->t, trans1->t, 'a', NULL);
+                        regexMake(trans1->t->regex, trans2->t->regex, trans1->t->regex, 'a', NULL);
                         printlog("Removed t with mark %d\n", trans2->t->marker);
-                        free(trans2->t->regex);
-                        nodoPrecedente->prossima = trans2->prossima;
-                        BehState * nodopartenza = trans2->t->da == stemp ? trans2->t->a : trans2->t->da;
-                        struct ltrans *listaNelNodoDiPartenza = nodopartenza->transizioni, *precedenteNelNodoDiPartenza = NULL;
+                        freeRegex(trans2->t->regex);
+                        nodoPrecedente->next = trans2->next;
+                        BehState * nodopartenza = trans2->t->from == stemp ? trans2->t->to : trans2->t->from;
+                        struct ltrans *listaNelNodoDiPartenza = nodopartenza->transitions, *precedenteNelNodoDiPartenza = NULL;
                         while (listaNelNodoDiPartenza != NULL) {
                             if (listaNelNodoDiPartenza->t == trans2->t) {
-                                if (precedenteNelNodoDiPartenza == NULL) nodopartenza->transizioni = listaNelNodoDiPartenza->prossima;
-                                else precedenteNelNodoDiPartenza->prossima = listaNelNodoDiPartenza->prossima;
+                                if (precedenteNelNodoDiPartenza == NULL) nodopartenza->transitions = listaNelNodoDiPartenza->next;
+                                else precedenteNelNodoDiPartenza->next = listaNelNodoDiPartenza->next;
                                 break;
                             }
                             precedenteNelNodoDiPartenza = listaNelNodoDiPartenza;
-                            listaNelNodoDiPartenza = listaNelNodoDiPartenza->prossima;
+                            listaNelNodoDiPartenza = listaNelNodoDiPartenza->next;
                         }
                         free(trans2->t);
                         b->nTrans--;
@@ -308,43 +334,44 @@ char** diagnostics(BehSpace *b, bool mode2) {
         bool azioneEffettuataSuQuestoStato = false;
         for (stemp=b->states[i=1]; i<b->nStates-1; stemp=b->states[++i]) {
             BehTrans * autoTransizione = NULL;
-            foreachdecl(trans, stemp->transizioni) {
-                if (trans->t->a == trans->t->da) {
+            foreachdecl(trans, stemp->transitions) {
+                if (trans->t->to == trans->t->from) {
                     autoTransizione = trans->t;
                     break;
                 }
             }
-        foreachdecl(trans1, stemp->transizioni) {                                   // Transizione entrante
-                if (trans1->t->a == stemp && trans1->t->da != stemp) {             // In trans1 c'è una entrante nel nodo      
-                    foreachdecl(trans2, stemp->transizioni) {                     // Transizione uscente
-                        if (trans2->t->da == stemp && trans2->t->a != stemp) {   // In trans2 c'è una uscente dal nodo
+        foreachdecl(trans1, stemp->transitions) {                                   // Transizione entrante
+                if (trans1->t->to == stemp && trans1->t->from != stemp) {             // In trans1 c'è una entrante nel nodo      
+                    foreachdecl(trans2, stemp->transitions) {                     // Transizione uscente
+                        if (trans2->t->from == stemp && trans2->t->to != stemp) {   // In trans2 c'è una uscente dal nodo
                             azioneEffettuataSuQuestoStato = true;                  
                             BehTrans *nt = calloc(1, sizeof(BehTrans));
-                            nt->da = trans1->t->da;
-                            nt->a = trans2->t->a;
+                            nt->from = trans1->t->from;
+                            nt->to = trans2->t->to;
                             nt->t = tvuota;
+                            nt->regex = emptyRegex();
 
                             struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
                             nuovaTr->t = nt;
-                            nuovaTr->prossima = nt->da->transizioni;
-                            nt->da->transizioni = nuovaTr;
+                            nuovaTr->next = nt->from->transitions;
+                            nt->from->transitions = nuovaTr;
 
-                            if (nt->a != nt->da) {
+                            if (nt->to != nt->from) {
                                 struct ltrans *nuovaTr2 = calloc(1, sizeof(struct ltrans));
                                 nuovaTr2->t = nt;
-                                nuovaTr2->prossima = nt->a->transizioni;
-                                nt->a->transizioni = nuovaTr2;
+                                nuovaTr2->next = nt->to->transitions;
+                                nt->to->transitions = nuovaTr2;
                             }
                             b->nTrans++;
                             
-                            if (autoTransizione) regexMake(trans1->t, trans2->t, nt, 'r', autoTransizione);
-                            else regexMake(trans1->t, trans2->t, nt, 'c', NULL);
+                            if (autoTransizione) regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'r', autoTransizione->regex);
+                            else regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'c', NULL);
 
-                            if (mode2 && nt->a->id == b->nStates-1) {
+                            if (mode2 && nt->to->id == b->nStates-1) {
                                 if (trans2->t->marker != 0) nt->marker = trans2->t->marker;
                                 else nt->marker = markerMap[stemp->id];
                                 //nt->marker = markerMap[stemp->id];
-                                printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->da->id], markerMap[nt->a->id], nt->marker);
+                                printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->from->id], markerMap[nt->to->id], nt->marker);
                             }
                         }
                     }
@@ -358,14 +385,13 @@ char** diagnostics(BehSpace *b, bool mode2) {
             }
         }
     }
-    free(tempRegex);
+    freeRegex(tempRegex);
     tempRegex = NULL;
-    tempRegexLen = 0;
     if (mode2) {
-        foreachdecl(lt, b->states[0]->transizioni)
+        foreachdecl(lt, b->states[0]->transitions)
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
     }
-    else ret[0] = b->states[0]->transizioni->t->regex;
+    else ret[0] = b->states[0]->transitions->t->regex;
     printlog("-----\n");
     return ret;
 }
