@@ -2,17 +2,17 @@
 
 bool *ok;
 
-bool ampliaSpazioComportamentale(BehSpace * b, StatoRete * precedente, StatoRete * nuovo, Transizione * mezzo) {
+bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuovo, Trans * mezzo, int loss) {
     int i;
     bool giaPresente = false;
-    StatoRete *s;
+    BehState *s;
     if (b->nStates>0) {
         for (s=b->states[i=0]; i<b->nStates; s=(i<b->nStates ? b->states[++i] : s)) { // Per ogni stato dello spazio comportamentale
             if (memcmp(nuovo->statoComponenti, s->statoComponenti, ncomp*sizeof(int)) == 0
             && memcmp(nuovo->contenutoLink, s->contenutoLink, nlink*sizeof(int)) == 0) {
                 giaPresente = (loss>0 ? nuovo->indiceOsservazione == s->indiceOsservazione : true);
                 if (giaPresente) {
-                    freeStatoRete(nuovo); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
+                    freeBehState(nuovo); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
                     nuovo = s;  // Non è solo una questione di prestazioni, ma di mantenimento relazione biunivoca ptr <-> id
                     break;
                 }
@@ -32,7 +32,7 @@ bool ampliaSpazioComportamentale(BehSpace * b, StatoRete * precedente, StatoRete
         b->states[b->nStates++] = nuovo;
     }
     if (mezzo != NULL) { // Lo stato iniziale, ad esempio ha NULL
-        TransizioneRete * nuovaTransRete = calloc(1, sizeof(TransizioneRete));
+        BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
         nuovaTransRete->a = nuovo;
         nuovaTransRete->da = precedente;
         nuovaTransRete->t = mezzo;
@@ -55,18 +55,18 @@ bool ampliaSpazioComportamentale(BehSpace * b, StatoRete * precedente, StatoRete
     return !giaPresente;
 }
 
-void generaSpazioComportamentale(BehSpace * b, StatoRete * attuale) {
-    Componente *c;
+void generateBehavioralSpace(BehSpace * b, BehState * attuale, int* obs, int loss) {
+    Component *c;
     int i, j, k;
-    for (c=componenti[i=0]; i<ncomp;  c=componenti[++i]){
-        Transizione *t;
+    for (c=components[i=0]; i<ncomp;  c=components[++i]){
+        Trans *t;
         int nT = c->nTransizioni;
         if (nT == 0) continue;
         for (t=c->transizioni[j=0]; j<nT; t=(j<nT ? c->transizioni[++j] : t)) {
             if ((attuale->statoComponenti[c->intId] == t->da) &&                          // Transizione abilitata se stato attuale = da
             (t->idEventoIn == VUOTO || t->idEventoIn == attuale->contenutoLink[t->linkIn->intId])) { // Ok eventi in ingresso
                 if (loss>0 && ((attuale->indiceOsservazione>=loss && t->oss > 0) ||    // Osservate tutte, non se ne possono più vedere
-                (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss != osservazione[attuale->indiceOsservazione])))
+                (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss != obs[attuale->indiceOsservazione])))
                     continue; // Transizione non compatibile con l'osservazione lineare
                 bool ok = true;
                 for (k=0; k<t->nEventiU; k++) {                                        // I link di uscita sono vuoti
@@ -85,43 +85,43 @@ void generaSpazioComportamentale(BehSpace * b, StatoRete * attuale) {
                     nuoviStatiAttivi[c->intId] = t->a; // Nuovo stato attivo
                     for (k=0; k<t->nEventiU; k++) // Riempimento link in uscita
                         nuovoStatoLink[t->linkU[k]->intId] = t->idEventiU[k];
-                    StatoRete * nuovoStato = generaStato(nuovoStatoLink, nuoviStatiAttivi);
+                    BehState * nuovoStato = generateBehState(nuovoStatoLink, nuoviStatiAttivi);
                     nuovoStato->indiceOsservazione = attuale->indiceOsservazione;
                     if (loss>0) {
-                        if (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss == osservazione[attuale->indiceOsservazione])
+                        if (attuale->indiceOsservazione<loss && t->oss > 0 && t->oss == obs[attuale->indiceOsservazione])
                             nuovoStato->indiceOsservazione = attuale->indiceOsservazione+1;
                         nuovoStato->flags &= !FLAG_FINAL | (nuovoStato->indiceOsservazione == loss);
                     }
                     // Ora bisogna inserire il nuovo stato e la nuova transizione nello spazio
-                    bool avanzamento = ampliaSpazioComportamentale(b, attuale, nuovoStato, t);
+                    bool avanzamento = enlargeBehavioralSpace(b, attuale, nuovoStato, t, loss);
                     //Se non è stato aggiunto un nuovo stato allora stiamo come prima: taglio
-                    if (avanzamento) generaSpazioComportamentale(b, nuovoStato);
+                    if (avanzamento) generateBehavioralSpace(b, nuovoStato, obs, loss);
                 }
             }
         }
     }
 }
 
-void potsSC(StatoRete *s) { // Invocata esternamente solo a partire dagli stati finali
+void pruneRec(BehState *s) { // Invocata esternamente solo a partire dagli stati finali
     ok[s->id] = true;
     foreachdecl(trans, s->transizioni) {
         if (trans->t->a == s && !ok[trans->t->da->id])
-            potsSC(trans->t->da);
+            pruneRec(trans->t->da);
     }
 }
 
-void potatura(BehSpace *b) {
-    StatoRete *s;
+void prune(BehSpace *b) {
+    BehState *s;
     int i;
     ok = calloc(b->nStates, sizeof(bool));
     ok[0] = true;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (s->flags & FLAG_FINAL) potsSC(s);
+        if (s->flags & FLAG_FINAL) pruneRec(s);
     }
     
     for (i=0; i<b->nStates; i++) {
         if (!ok[i]) {
-            removeState(b, b->states[i]);
+            removeBehState(b, b->states[i]);
             memcpy(ok+i, ok+i+1, (b->nStates-i)*sizeof(bool));
             i--;
         }
@@ -129,7 +129,7 @@ void potatura(BehSpace *b) {
     free(ok);
 }
 
-void faultSpaceExtend(StatoRete * base, int *obsStates, TransizioneRete **obsTrs) {
+void faultSpaceExtend(BehState * base, int *obsStates, BehTrans **obsTrs) {
     ok[base->id] = true;
     int i=0;
     foreachdecl(lt, base->transizioni) {
@@ -144,7 +144,7 @@ void faultSpaceExtend(StatoRete * base, int *obsStates, TransizioneRete **obsTrs
             faultSpaceExtend(lt->t->a, obsStates+i, obsTrs);
 }
 
-FaultSpace * faultSpace(BehSpace * b, StatoRete * base, TransizioneRete **obsTrs) {
+FaultSpace * faultSpace(BehSpace * b, BehState * base, BehTrans **obsTrs) {
     int k, index=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     ret->idMapFromOrigin = calloc(b->nStates, sizeof(int));
@@ -156,7 +156,7 @@ FaultSpace * faultSpace(BehSpace * b, StatoRete * base, TransizioneRete **obsTrs
     ret->b = dup(b, ok, true, &ret->idMapFromOrigin);
     free(ok);
 
-    StatoRete *r, *temp;
+    BehState *r, *temp;
     for (r=ret->b->states[k=0]; k<ret->b->nStates; r=ret->b->states[++k]) { // make base its inital state
         if (//k!=0 //&& base->indiceOsservazione == r->indiceOsservazione
         memcmp(base->contenutoLink, r->contenutoLink, nlink*sizeof(int)) == 0
@@ -190,10 +190,10 @@ FaultSpace * faultSpace(BehSpace * b, StatoRete * base, TransizioneRete **obsTrs
 
 /* Call like:
     int nSpaces=0;
-    TransizioneRete *** obsTrs;
+    BehTrans *** obsTrs;
     FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
-FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, TransizioneRete ****obsTrs) {
-    StatoRete * s;
+FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, BehTrans ****obsTrs) {
+    BehState * s;
     int i, j=0;
     *nSpaces = 1;
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
@@ -205,9 +205,9 @@ FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, TransizioneRete ****obsTrs
         }
     }
     FaultSpace ** ret = malloc(*nSpaces*sizeof(BehSpace *));
-    *obsTrs = (TransizioneRete***)calloc(*nSpaces, sizeof(TransizioneRete**));
+    *obsTrs = (BehTrans***)calloc(*nSpaces, sizeof(BehTrans**));
     for (i=0; i<*nSpaces; i++) {
-        (*obsTrs)[i] = calloc(b->nTrans, sizeof(TransizioneRete**));
+        (*obsTrs)[i] = calloc(b->nTrans, sizeof(BehTrans**));
     }
     ret[0] = faultSpace(b, b->states[0], (*obsTrs)[0]);
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {

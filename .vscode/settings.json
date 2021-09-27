@@ -2,6 +2,6 @@
     "files.associations": {
         "ctype.h": "c",
         "header.h": "c",
-        "SpaceMaker.c": "c"
+        "*.c": "c"
     }
 }

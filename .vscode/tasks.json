@@ -2,14 +2,16 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: gcc.exe build active file",
+            "label": "SC",
             "command": "C:\\MinGW\\bin\\gcc.exe",
             "args": [
                 "-std=c99",
                 "-D\"DEBUG_MODE=false\"",
                 "-D\"LANG='e'\"",
                 "-g",
-                "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c", "${fileDirname}\\Diagnoser.c", "${fileDirname}\\Printer.c", "${fileDirname}\\Parser.c", "${fileDirname}\\DataStructures.c", "${fileDirname}\\Main.c",
+                "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c",
+                "${fileDirname}\\Diagnoser.c", "${fileDirname}\\Printer.c", "${fileDirname}\\Parser.c",
+                "${fileDirname}\\DataStructures.c", "${fileDirname}\\Main.c",
                 "-o",
                 "${fileDirname}\\SC.exe",
                 "-lm"

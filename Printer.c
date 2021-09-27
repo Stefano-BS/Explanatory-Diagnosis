@@ -1,7 +1,7 @@
 #include "header.h"
 
-inline char* nomeStato(StatoRete *) __attribute__((always_inline));
-inline char* nomeStato(StatoRete *s) {
+inline char* stateName(BehState *, bool) __attribute__((always_inline));
+inline char* stateName(BehState *s, bool showObs) {
     int j, v;
     char* nome = calloc(30, sizeof(char)), *puntatore = nome;
     sprintf(puntatore++, "R");
@@ -20,7 +20,7 @@ inline char* nomeStato(StatoRete *s) {
             sprintf(puntatore, "%d", v);
             puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
         }
-    if (loss>0) {
+    if (showObs) {
         sprintf(puntatore,"_O");
         puntatore+=2;
         v = s->indiceOsservazione;
@@ -30,24 +30,24 @@ inline char* nomeStato(StatoRete *s) {
     return nome;
 }
 
-void stampaStruttureAttuali(StatoRete * attuale, bool testuale) {
-    int i, j, k, strlenNomeFile = strlen(nomeFile);
+void printDES(BehState * attuale, bool testuale) {
+    int i, j, k, strlenNomeFile = strlen(inputDES);
     Link *l;
-    Componente *c;
+    Component *c;
     FILE * file;
     
     char nomeFileDot[strlenNomeFile+7], nomeFilePDF[strlenNomeFile+7], comando[30+strlenNomeFile*2];
     if (testuale) printf(MSG_ACTUAL_STRUCTURES);
     else {
-        sprintf(nomeFileDot, "%s.dot", nomeFile);
+        sprintf(nomeFileDot, "%s.dot", inputDES);
         file = fopen(nomeFileDot, "w");
-        fprintf(file, "digraph \"%s\" {\nsize=\"8,5\"\ncompound=true\n", nomeFile);
+        fprintf(file, "digraph \"%s\" {\nsize=\"8,5\"\ncompound=true\n", inputDES);
     }
-    for (c=componenti[i=0]; i<ncomp; c=(i<ncomp ? componenti[++i] : c)){
+    for (c=components[i=0]; i<ncomp; c=(i<ncomp ? components[++i] : c)){
         int nT = c->nTransizioni;
         if (testuale) printf(MSG_COMP_DESCRIPTION, c->id, c->nStati, attuale->statoComponenti[c->intId], nT);
         else fprintf(file, "subgraph cluster%d {node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->statoComponenti[c->intId]);
-        Transizione *t;
+        Trans *t;
         if (nT == 0) continue;
         for (t=c->transizioni[j=0]; j<nT; t=(j<nT ? c->transizioni[++j] : t)) {
             if (testuale) printf(MSG_TRANS_DESCRIPTION, t->id, t->da, t->a, t->oss, t->ril);
@@ -83,24 +83,24 @@ void stampaStruttureAttuali(StatoRete * attuale, bool testuale) {
     else {
         fprintf(file, "}\n");
         fclose(file);
-        sprintf(nomeFilePDF, "%s.svg", nomeFile);
+        sprintf(nomeFilePDF, "%s.svg", inputDES);
         sprintf(comando, "dot -Tsvg -o %s %s", nomeFilePDF, nomeFileDot);
         system(comando);
     }
 }
 
-char* stampaSpazioComportamentale(BehSpace *b, bool rename, int toString) {
-    int i, strlenNomeFile = strlen(nomeFile), position=0;
+char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
+    int i, strlenNomeFile = strlen(inputDES), position=0;
     char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFilePDF[strlenNomeFile+8], comando[35+strlenNomeFile*2], *ret;
     FILE * file;
     if (!toString) {
-        sprintf(nomeFileDot, "%s_SC.dot", nomeFile);
+        sprintf(nomeFileDot, "%s_SC.dot", inputDES);
         file = fopen(nomeFileDot, "w");
-        fprintf(file ,"digraph \"SC%s\" {\n", nomeFile);
+        fprintf(file ,"digraph \"SC%s\" {\n", inputDES);
     }
     else ret = malloc((b->nStates+b->nTrans)*100);  // ARBITRARY LIMIT
     for (i=0; i<b->nStates; i++) {
-        nomeSpazi[i] = nomeStato(b->states[i]);
+        nomeSpazi[i] = stateName(b->states[i], showObs);
         if (toString) {
             if (rename) sprintf(ret+position, "C%dS%d ;\n", toString, i);
             else sprintf(ret+position, "%s ;\n", nomeSpazi[i]);
@@ -112,7 +112,7 @@ char* stampaSpazioComportamentale(BehSpace *b, bool rename, int toString) {
             else fprintf(file, "%s ;\n", nomeSpazi[i]);
         }
     }
-    StatoRete *s;
+    BehState *s;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         foreachdecl(trans, s->transizioni) {
             if (trans->t->da == s) {
@@ -141,7 +141,7 @@ char* stampaSpazioComportamentale(BehSpace *b, bool rename, int toString) {
     else {
         fprintf(file, "}");
         fclose(file);
-        sprintf(nomeFilePDF, "%s_SC.svg", nomeFile);
+        sprintf(nomeFilePDF, "%s_SC.svg", inputDES);
         sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFilePDF, nomeFileDot);
         system(comando);
         if (rename) {
@@ -156,13 +156,13 @@ char* stampaSpazioComportamentale(BehSpace *b, bool rename, int toString) {
 }
 
 void printExplainer(Explainer * exp) {
-    int i, j, strlenNomeFile = strlen(nomeFile);
+    int i, j, strlenNomeFile = strlen(inputDES);
     char nomeFileDot[strlenNomeFile+9], nomeFilePDF[strlenNomeFile+9], comando[44+strlenNomeFile*2];
-    sprintf(nomeFileDot, "%s_EXP.dot", nomeFile);
-    sprintf(nomeFilePDF, "%s_EXP.svg", nomeFile);
+    sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
+    sprintf(nomeFilePDF, "%s_EXP.svg", inputDES);
     sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFilePDF, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
-    fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", nomeFile);
+    fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
     FaultSpace * fault;
     for (fault=exp->faults[i=0]; i<exp->nFaultSpaces; fault=exp->faults[++i]) {
         fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#EAFFEE\"\nedge[color=darkgray fontcolor=darkgray]\n", i+1);
@@ -174,7 +174,7 @@ void printExplainer(Explainer * exp) {
             else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
             else fprintf(file, "node [shape=oval]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
         }
-        StatoRete *s;
+        BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
             foreachdecl(trans, s->transizioni) {
                 if (trans->t->da == s) {
@@ -188,7 +188,7 @@ void printExplainer(Explainer * exp) {
         fprintf(file, "}\n");
     }
     
-    TransExpl *t;
+    ExplTrans *t;
     for (t=exp->trans[i=0]; i<exp->nTrans; t=exp->trans[++i]) {
         int fromId, toId;
         for (j=0; j<exp->nFaultSpaces; j++) {
@@ -198,7 +198,8 @@ void printExplainer(Explainer * exp) {
         fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
             fromId+1, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId+1, t->toStateId, t->obs);
         if (t->ril>0) fprintf(file, "R%d", t->ril);
-        fprintf(file, " %s\"]\n", t->regex);
+        if (t->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
+        else fprintf(file, " %s\"]\n", t->regex);
     }
     fprintf(file, "}\n");
     fclose(file);

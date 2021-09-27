@@ -3,7 +3,7 @@
 char *tempRegex = NULL;
 int tempRegexLen = 0;
 
-void regexMake(TransizioneRete* s1, TransizioneRete* s2, TransizioneRete* d, char op, TransizioneRete *autoTransizione) {
+void regexMake(BehTrans* s1, BehTrans* s2, BehTrans* d, char op, BehTrans *autoTransizione) {
     int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
     if (autoTransizione != NULL) strl3 = strlen(autoTransizione->regex);
     bool streq = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
@@ -161,26 +161,26 @@ inline bool exitCondition(BehSpace * b, bool mode2) {
     else return b->nTrans<=1;
 }
 
-char** diagnostica(BehSpace *b, bool mode2) {
+char** diagnostics(BehSpace *b, bool mode2) {
     int i=0, j=0, nMarker = b->nStates+2, markerMap[nMarker];
     for (; i<nMarker; i++) 
         markerMap[i] = i; // Including α and ω
     char ** ret = calloc(mode2? nMarker-2 : 1, sizeof(char*));
-    StatoRete * stemp = NULL;
+    BehState * stemp = NULL;
     tempRegexLen = REGEX*b->nStates*b->nTrans;
     tempRegex = malloc(tempRegexLen);
 
     //Arricchimento spazio con nuovi stati iniziale e finale
-    Transizione *tvuota = calloc(1, sizeof(Transizione));
+    Trans *tvuota = calloc(1, sizeof(Trans));
     for (stemp=b->states[j=b->nStates-1]; j>=0; stemp=b->states[--j])          // New initial state α
         stemp->id++;
     alloc1(b, 's');
-    memmove(b->states+1, b->states, b->nStates*sizeof(StatoRete*));
+    memmove(b->states+1, b->states, b->nStates*sizeof(BehState*));
     b->nStates++;
-    stemp = calloc(1, sizeof(StatoRete));
+    stemp = calloc(1, sizeof(BehState));
     b->states[0] = stemp;
     stemp->id = 0;
-    TransizioneRete * nuovaTr = calloc(1, sizeof(TransizioneRete));
+    BehTrans * nuovaTr = calloc(1, sizeof(BehTrans));
     nuovaTr->da = stemp;
     nuovaTr->a = b->states[1];
     nuovaTr->t = tvuota;
@@ -193,12 +193,12 @@ char** diagnostica(BehSpace *b, bool mode2) {
     b->nTrans++;
 
     alloc1(b, 's');
-    StatoRete * fine = calloc(1, sizeof(StatoRete));                            // New final state ω
+    BehState * fine = calloc(1, sizeof(BehState));                            // New final state ω
     fine->id = b->nStates;
     fine->flags = FLAG_FINAL;
     for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {         // Transitions from ex final states/all states to ω
         if (mode2 || (stemp->flags & FLAG_FINAL)) {
-            TransizioneRete * trFinale = calloc(1, sizeof(TransizioneRete));
+            BehTrans * trFinale = calloc(1, sizeof(BehTrans));
             trFinale->da = stemp;
             trFinale->a = fine;
             trFinale->t = tvuota;
@@ -235,12 +235,12 @@ char** diagnostica(BehSpace *b, bool mode2) {
         // for(i=0;i<b->nStates;i++)printlog("%d ",markerMap[i]);printlog("\n");
         bool continua = false;
         for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
-            TransizioneRete *tentra, *tesce;
+            BehTrans *tentra, *tesce;
             if (stemp->transizioni != NULL && stemp->transizioni->prossima != NULL && stemp->transizioni->prossima->prossima == NULL &&
             (((tesce = stemp->transizioni->t)->da == stemp && (tentra = stemp->transizioni->prossima->t)->a == stemp)
             || ((tentra = stemp->transizioni->t)->a == stemp && (tesce = stemp->transizioni->prossima->t)->da == stemp))
             && tesce->da != tesce->a && tentra->a != tentra->da)  {             // Elemento interno alla sequenza
-                TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                BehTrans *nt = calloc(1, sizeof(BehTrans));
                 nt->da = tentra->da;
                 nt->a = tesce->a;
                 nt->t = tvuota;
@@ -267,7 +267,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
                 free(tentra->regex);
                 free(tesce->regex);
                 memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
-                removeState(b, stemp);
+                removeBehState(b, stemp);
                 continua = true;
             }
         }
@@ -282,7 +282,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
                         printlog("Removed t with mark %d\n", trans2->t->marker);
                         free(trans2->t->regex);
                         nodoPrecedente->prossima = trans2->prossima;
-                        StatoRete * nodopartenza = trans2->t->da == stemp ? trans2->t->a : trans2->t->da;
+                        BehState * nodopartenza = trans2->t->da == stemp ? trans2->t->a : trans2->t->da;
                         struct ltrans *listaNelNodoDiPartenza = nodopartenza->transizioni, *precedenteNelNodoDiPartenza = NULL;
                         while (listaNelNodoDiPartenza != NULL) {
                             if (listaNelNodoDiPartenza->t == trans2->t) {
@@ -307,7 +307,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
 
         bool azioneEffettuataSuQuestoStato = false;
         for (stemp=b->states[i=1]; i<b->nStates-1; stemp=b->states[++i]) {
-            TransizioneRete * autoTransizione = NULL;
+            BehTrans * autoTransizione = NULL;
             foreachdecl(trans, stemp->transizioni) {
                 if (trans->t->a == trans->t->da) {
                     autoTransizione = trans->t;
@@ -319,7 +319,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
                     foreachdecl(trans2, stemp->transizioni) {                     // Transizione uscente
                         if (trans2->t->da == stemp && trans2->t->a != stemp) {   // In trans2 c'è una uscente dal nodo
                             azioneEffettuataSuQuestoStato = true;                  
-                            TransizioneRete *nt = calloc(1, sizeof(TransizioneRete));
+                            BehTrans *nt = calloc(1, sizeof(BehTrans));
                             nt->da = trans1->t->da;
                             nt->a = trans2->t->a;
                             nt->t = tvuota;
@@ -353,7 +353,7 @@ char** diagnostica(BehSpace *b, bool mode2) {
             if (azioneEffettuataSuQuestoStato) {
                 printlog("Cut %d\n", markerMap[i]);
                 memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
-                removeState(b, stemp);
+                removeBehState(b, stemp);
                 break;
             }
         }

@@ -14,7 +14,7 @@
 #define FLAG_FINAL 1
 #define FLAG_SILENT_FINAL 1 << 1
 
-#define ottieniComando(com) while (!isalpha(*com=getchar()));
+#define ottieniComando(com) while (!isalpha(com=getchar()));
 #define inizioTimer inizio = clock();
 #define foreach(lnode, from) for(lnode=from; lnode!=NULL; lnode = lnode->prossima)
 #define foreachdecl(lnode, from) struct ltrans * lnode; foreach(lnode, from)
@@ -28,106 +28,123 @@
     #define printlog(...)
 #endif
 
-// MODEL
-typedef struct link {
-    struct componente *da, *a;
+// DISCRETE EVENT SYSTEM
+typedef struct {
+    struct component *da, *a;
     int id, intId;
 } Link;
 
-typedef struct transizione {
+typedef struct {
     int oss, ril, da, a, id;
     int idEventoIn, *idEventiU, nEventiU, sizeofEvU;
-    struct link *linkIn, **linkU;
-} Transizione;
+    Link *linkIn, **linkU;
+} Trans;
 
-typedef struct componente {
+typedef struct component {
     int nStati, id, intId, nTransizioni;
-    struct transizione **transizioni;
-} Componente;
+    Trans **transizioni;
+} Component;
 
 // BEHAVIORAL SPACE
-typedef struct statorete {
+typedef struct {
     int *statoComponenti, *contenutoLink;
     int id, indiceOsservazione;
     char flags;
     struct ltrans *transizioni;
-} StatoRete;
+} BehState;
 
 typedef struct {
-    StatoRete *da, *a;
+    BehState *da, *a;
     int dimRegex, marker;
     char *regex;
     bool parentesizzata, concreta;
-    struct transizione * t;
-} TransizioneRete;
+    Trans * t;
+} BehTrans;
 
 struct ltrans {
-    TransizioneRete *t;
+    BehTrans *t;
     struct ltrans * prossima;
 };
 
-typedef struct behspace {
-    StatoRete ** states;
+typedef struct {
+    BehState ** states;
     int nStates, nTrans, sizeofS;
 } BehSpace;
 
-// EXPLAINER
-typedef struct faultspace {
+// EXPLAINER AND MONITORNING
+typedef struct {
     BehSpace *b;
     int *idMapToOrigin, *idMapFromOrigin, *exitStates;
 } FaultSpace;
 
-typedef struct texp {
+typedef struct {
     FaultSpace * from, *to;
     int obs, ril, fromStateId, toStateId;
     char * regex;
-} TransExpl;
+} ExplTrans;
 
-typedef struct explainer {
+typedef struct {
     FaultSpace ** faults;
-    TransExpl ** trans;
+    ExplTrans ** trans;
     int nFaultSpaces, nTrans, sizeofTrans;
 } Explainer;
 
-extern int nlink, ncomp, *osservazione, loss;
-extern Componente **componenti;
+typedef struct {
+    FaultSpace * from, * to;
+} MonitorTrans;
+
+typedef struct {
+    FaultSpace ** expStates;
+    MonitorTrans ** arcs;
+    int nExpStates, nArcs, sizeofArcs;
+} MonitorState;
+
+typedef struct {
+    MonitorState ** mu;
+    int length;
+} Monitoring;
+
+
+// Global variables: things will never change during execution
+extern int nlink, ncomp;
+extern Component **components;
 extern Link **links;
-extern char nomeFile[100];
+extern char inputDES[100];
 extern const unsigned int eps;
 
 // DataStructures.c
-Componente * nuovoComponente(void);
-Link* linkDaId(int);
-Componente* compDaId(int);
+Component * newComponent(void);
+Link* linkById(int);
+Component* compById(int);
 void netAlloc(void);
-void alloc1(BehSpace *, char);
-void alloc1trC(Componente *);
-void alloc1trExp(Explainer *);
+void alloc1(void *, char);
 BehSpace * newBehSpace(void);
-StatoRete * generaStato(int *, int *);
-void removeState(BehSpace *, StatoRete *);
-void freeStatoRete(StatoRete *);
+BehState * generateBehState(int *, int *);
+void removeBehState(BehSpace *, BehState *);
+void freeBehState(BehState *);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
 void freeBehSpace(BehSpace *);
 void behCoherenceTest(BehSpace *);
 void expCoherenceTest(Explainer *);
+void monitoringCoherenceTest(Monitoring *);
 // Parser.c
-void parse(FILE*);
-BehSpace * parseDot(FILE *, bool);
+void parseDES(FILE*);
+BehSpace * parseBehSpace(FILE *, bool, int*);
 // Printer.c
-void stampaStruttureAttuali(StatoRete *, bool);
-char* stampaSpazioComportamentale(BehSpace *, bool, int);
+void printDES(BehState *, bool);
+char* printBehSpace(BehSpace *, bool, bool, int);
 void printExplainer(Explainer *);
 // SpaceMaker.c
-bool ampliaSpazioComportamentale(BehSpace * b, StatoRete *, StatoRete *, Transizione *);
-void potatura(BehSpace *);
-void generaSpazioComportamentale(BehSpace *, StatoRete *);
-FaultSpace ** faultSpaces(BehSpace *, int *, TransizioneRete ****);
+bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, int);
+void generateBehavioralSpace(BehSpace *, BehState *, int *, int);
+void prune(BehSpace *);
+FaultSpace ** faultSpaces(BehSpace *, int *, BehTrans ****);
 // Diagnoser.c
-void regexMake(TransizioneRete*, TransizioneRete*, TransizioneRete*, char, TransizioneRete *);
-char** diagnostica(BehSpace *, bool);
+void regexMake(BehTrans*, BehTrans*, BehTrans*, char, BehTrans *);
+char** diagnostics(BehSpace *, bool);
 // Explainer.c
 Explainer * makeExplainer(BehSpace *);
+Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
 
 #ifndef LANG
     #define LANG 'e'
@@ -144,8 +161,9 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_MENU_D "\td: Calcola una diagnosi su questa osservazione completa\n"
     #define MSG_MENU_E "\te: Genera un Diagnosticatore\n"
     #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
+    #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
     #define MSG_MENU_END "Scelta: "
-    #define MSG_OBS "Fornire la sequenza di etichette. Ogni numero, a capo, per terminare usa un carattere non numerico\n"
+    #define MSG_OBS "Fornire la sequenza di etichette. Per ogni numero, a capo o spazio, per terminare usa un carattere non numerico\n"
     #define MSG_DEF_AUTOMA "\nIndicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
     #define MSG_PARS_DONE "Parsing effettuato...\n"
@@ -191,7 +209,13 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_MEMTEST10 "La transizione %d non è osservabile\n"
     #define MSG_MEMTEST11 "La chiusura %d ha mapToOrigin -1 in posizione %d\n"
     #define MSG_MEMTEST12 "Chiusura %d: trovato che mapFrom[mapTo[%d]] != %d\n"
+    #define MSG_MEMTEST13 "Monitoraggio: %d stati\n"
+    #define MSG_MEMTEST14 "Stato di monitoraggio %d: %d chiusure e %d transizioni\n"
+    #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
+    #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
+    #define MSG_MONITORING_RESULT "Traccia delle diagnosi:\n"
+    #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define fineTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 #elif LANG=='e'
     #define INPUT_Y 'y'
@@ -203,9 +227,10 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_MENU_O "\to: Generate Behavioral Space relative to a full observation\n"
     #define MSG_MENU_D "\td: Calculate diagnosis over this full observation\n"
     #define MSG_MENU_E "\te: Generate Explainer\n"
-    #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral space from file (states renamed)\n"
+    #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral Space from file (states renamed)\n"
+    #define MSG_MENU_M "\tm: Start monitoring procedure\n"
     #define MSG_MENU_END "Your choice: "
-    #define MSG_OBS "Provide the observation sequence. A new line foreach number, non numeric to stop\n"
+    #define MSG_OBS "Provide the observation sequence. A new line or space foreach number, non numeric to stop\n"
     #define MSG_DEF_AUTOMA "\nWhere does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
@@ -251,7 +276,13 @@ Explainer * makeExplainer(BehSpace *);
     #define MSG_MEMTEST10 "Transition %d is not observable\n"
     #define MSG_MEMTEST11 "Fault %d has mapToOrigin -1 in position %d\n"
     #define MSG_MEMTEST12 "Fault %d: found mapFrom[mapTo[%d]] != %d\n"
+    #define MSG_MEMTEST13 "Monitoring: %d states\n"
+    #define MSG_MEMTEST14 "Monitoring State %d: %d fault spaces and %d transitions\n"
+    #define MSG_MEMTEST15 "Found that in Monitoring State %d there's a fault state non exited by any arc\n"
+    #define MSG_MEMTEST16 "Found that in Monitoring State %d there's a fault state not reached by any arc\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
+    #define MSG_MONITORING_RESULT "Explanation Trace:\n"
+    #define MSG_NEXT_OBS "Provide next observation: "
     #define fineTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - inizio))/CLOCKS_PER_SEC);
 #endif
 
