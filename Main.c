@@ -1,7 +1,7 @@
 #include "header.h"
 #include <locale.h>
 
-const unsigned int eps = L'ε';
+const unsigned int eps = L'ε', mu = L'μ';
 
 char inputDES[100] = "";
 char sceltaDot='\0';
@@ -170,6 +170,9 @@ void menu(void) {
             int oss, loss=0, *obs=NULL, sizeofObs=0;
             while (true) {
                 printf(MSG_MONITORING_RESULT);
+                int i;
+                for (i=0; i<=loss; i++)
+                    printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
                 printf(MSG_NEXT_OBS);
 
                 RETRY: scanf("%9s", digitazione);
@@ -187,7 +190,6 @@ void menu(void) {
             }
             printf(MSG_IMPOSSIBLE_OBS);
             freeMonitoring(monitor);
-            free(monitor);
             free(obs);
         }
     }

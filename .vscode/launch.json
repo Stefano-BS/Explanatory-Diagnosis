@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${fileDirname}\\SC.exe",
             "args": [
-                "-d",
+                "-n",
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

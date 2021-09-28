@@ -282,15 +282,35 @@ void freeBehSpace(BehSpace *b) {
     free(b);
 }
 
+/* Not freeing its arcs, just basic structures*/
+void freeMonitoringState(MonitorState * mu) {
+    free(mu->arcs);
+    free(mu->expStates);
+    freeRegex(mu->lmu);
+    int i=0;
+    for (; i<mu->nExpStates; i++) {
+        if (mu->lin[i]) freeRegex(mu->lin[i]);
+        if (mu->lout[i]) freeRegex(mu->lout[i]);
+    }
+    free(mu->lin);
+    free(mu->lout);
+    free(mu);
+}
+
 void freeMonitoring(Monitoring *mon) {
     int i, j;
     for (i=0; i<mon->length; i++) {
         MonitorTrans *arc;
         if (mon->mu[i]->nArcs)
-            for (arc=mon->mu[i]->arcs[j=0]; j<mon->mu[i]->nArcs; arc=mon->mu[i]->arcs[++j])
+            for (arc=mon->mu[i]->arcs[j=0]; j<mon->mu[i]->nArcs; arc=mon->mu[i]->arcs[++j]) {
+                freeRegex(arc->l);
+                freeRegex(arc->lp);
                 free(arc);
-        free(mon->mu[i]);
+            }
+        freeMonitoringState(mon->mu[i]);
     }
+    free(mon->mu);
+    free(mon);
 }
 
 void behCoherenceTest(BehSpace *b){

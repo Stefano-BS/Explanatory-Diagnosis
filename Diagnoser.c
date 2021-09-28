@@ -1,51 +1,62 @@
 #include "header.h"
 
-Regex *tempRegex = NULL;
 
-Regex * emptyRegex(void) {
+INLINE(Regex * emptyRegex(int))
+Regex * emptyRegex(int size) {
     Regex * new = malloc(sizeof(Regex));
-    new->size = REGEX;
+    size = size <= REGEX ? REGEX : size;
+    new->size = size;
     new->concrete = false;
     new->bracketed = true;
-    new->regex = calloc(REGEX, 1);
+    new->regex = malloc(size);
+    new->regex[0] = '\0';
     return new;
 }
 
-void freeRegex(Regex *r) {
-    free(r->regex);
+INLINE(void freeRegex(Regex *RESTRICT))
+void freeRegex(Regex *RESTRICT r) {
+    if (r->regex) free(r->regex);
     free(r);
 }
 
-Regex * regexCpy(Regex *src) {
+Regex * regexCpy(Regex *RESTRICT src) {
     if (src == NULL) return NULL;
     Regex * ret = malloc(sizeof(Regex));
     memcpy(ret, src, sizeof(Regex));
     if (ret->size>0) {
         ret->regex = malloc(ret->size);
-        strcpy(ret->regex, src->regex);
+        strncpy(ret->regex, src->regex, ret->size);
+        ret->regex[ret->size-1] = '\0';
     }
+    else ret->regex = NULL;
     return ret;
 }
 
 void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) {
+    static char *regexBuf = NULL;
+    static int regexBufLen = 0;
+    if (regexBuf==NULL) regexBuf = calloc(regexBufLen=REGEX, 1);
+
     int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
     if (autoTransizione != NULL) strl3 = strlen(autoTransizione->regex);
     bool streq = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
-    char * solution;
-    int solutionLen;
+    char * solution = NULL;
+    int solutionLen = 0;
 
-    if (strl1+strl2+strl3+4 > tempRegex->size) {
-        tempRegex->size = tempRegex->size*(REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
-        tempRegex->regex = realloc(tempRegex->regex, tempRegex->size);
+    if (strl1+strl2+strl3+6 > regexBufLen) {
+        do regexBufLen *= (REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
+        while (strl1+strl2+strl3+6 > regexBufLen);
+        printlog("REALLOC regexBuf w %d was %d\n", regexBufLen);
+        regexBuf = realloc(regexBuf, regexBufLen);
     }
 
     if (op == 'c') { // Concat
         if (strl1>0 && strl2>0) { // concat
             solutionLen = strl1+strl2+1 < REGEX? REGEX : strl1+strl2+1;
-            solution = tempRegex->regex;
+            solution = regexBuf;
             d->bracketed = false;
             d->concrete = s1->concrete || s2->concrete;
-            sprintf(tempRegex->regex, "%s%s", s1->regex, s2->regex);
+            sprintf(regexBuf, "%s%s", s1->regex, s2->regex);
         }
         else if (strl1>0 && strl2==0) { // copia s1 in d
             solution = s1->regex;
@@ -60,8 +71,10 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             d->concrete = s2->concrete;
         }
         else if (strl2==0 && strl2==0) { // d null
-            d->regex = calloc(REGEX, 1);
-            d->size = REGEX;
+            if (d->regex == NULL) {
+                d->regex = calloc(REGEX, 1);
+                d->size = REGEX;
+            } else d->regex[0] = '\0';
             d->bracketed = true;
             d->concrete = false;
             return;
@@ -75,57 +88,57 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             d->concrete = s1->concrete;
         }
         else if (strl1 > 0 && strl2 > 0) { // s1|s2
-            solution = tempRegex->regex;
+            solution = regexBuf;
             d->bracketed = false;
             d->concrete = s1->concrete && s2->concrete;
             if (s1->bracketed && s2->bracketed) {
                 solutionLen = strl1+strl2+2 < REGEX? REGEX : strl1+strl2+2;
-                sprintf(tempRegex->regex, "%s|%s", s1->regex, s2->regex);
+                sprintf(regexBuf, "%s|%s", s1->regex, s2->regex);
             } else if (s1->bracketed && !s2->bracketed) {
                 solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
-                sprintf(tempRegex->regex, "%s|(%s)", s1->regex, s2->regex);
+                sprintf(regexBuf, "%s|(%s)", s1->regex, s2->regex);
             } else if (!s1->bracketed && s2->bracketed) {
                 solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
-                sprintf(tempRegex->regex, "(%s)|%s", s1->regex, s2->regex);
+                sprintf(regexBuf, "(%s)|%s", s1->regex, s2->regex);
             } else {
                 solutionLen = strl1+strl2+6 < REGEX? REGEX : strl1+strl2+6;
-                sprintf(tempRegex->regex, "(%s)|(%s)", s1->regex, s2->regex);
+                sprintf(regexBuf, "(%s)|(%s)", s1->regex, s2->regex);
             }
         } else if (strl1 > 0 && strl2==0) {
-            solution = tempRegex->regex;
+            solution = regexBuf;
             if (s1->concrete) {
                 if (s1->bracketed) {
                     solutionLen = strl1+2 < REGEX? REGEX : strl1+2;
-                    sprintf(tempRegex->regex, "%s?", s1->regex);
+                    sprintf(regexBuf, "%s?", s1->regex);
                 }
                 else {
                     solutionLen = strl1+4 < REGEX? REGEX : strl1+4;
-                    sprintf(tempRegex->regex, "(%s)?", s1->regex);
+                    sprintf(regexBuf, "(%s)?", s1->regex);
                 }
                 d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
                 solutionLen = strl1+1 < REGEX? REGEX : strl1+1;
-                strcpy(tempRegex->regex, s1->regex);
+                strcpy(regexBuf, s1->regex);
                 d->bracketed = s1->bracketed;
             }
             d->concrete = false;
         } else if (strl2 > 0) {
-            solution = tempRegex->regex;
+            solution = regexBuf;
             if (s2->concrete) {
                 if (s2->bracketed) {
                     solutionLen = strl2+2 < REGEX? REGEX : strl2+2;
-                    sprintf(tempRegex->regex, "%s?", s2->regex);
+                    sprintf(regexBuf, "%s?", s2->regex);
                 }
                 else {
                     solutionLen = strl2+4 < REGEX? REGEX : strl2+4;
-                    sprintf(tempRegex->regex, "(%s)?", s2->regex);
+                    sprintf(regexBuf, "(%s)?", s2->regex);
                 }
                 d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
                 solutionLen = strl2+1 < REGEX? REGEX : strl2+1;
-                strcpy(tempRegex->regex, s2->regex);
+                strcpy(regexBuf, s2->regex);
                 d->bracketed = s2->bracketed;
             }
             d->concrete = false;
@@ -139,7 +152,8 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     }
     else if (op == 'r') {
         solutionLen = strl1+strl2+strl3+4 < REGEX ? REGEX : strl1+strl2+strl3+4;
-        d->regex = calloc(solutionLen, 1);
+        d->regex = malloc(solutionLen);
+        d->regex[0] = '\0';
         d->size = solutionLen;
         if (strl3 == 0) regexMake(s1, s2, d, 'c', NULL);
         else {
@@ -163,15 +177,23 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     }
 
     if (d->size < solutionLen) {
-        if (d->size == 0) d->regex = calloc(solutionLen*REGEXLEVER, 1);
-        else d->regex = realloc(d->regex, solutionLen*REGEXLEVER);
+        if (d->size == 0) {
+            d->regex = malloc(solutionLen*REGEXLEVER);
+            d->regex[0] = '\0';
+        } else {
+            printlog("REALLOC d->regex w %d was %d \n", solutionLen*REGEXLEVER, d->size);
+            d->regex = realloc(d->regex, solutionLen*REGEXLEVER);
+        }
         d->size = solutionLen*REGEXLEVER;
     }
-    if (solution != d->regex) strcpy(d->regex, solution);
+    if (solution != d->regex) {
+        strncpy(d->regex, solution, solutionLen);
+        d->regex[d->size-1] = '\0';
+    }
 }
 
-inline bool exitCondition(BehSpace *, bool) __attribute__((always_inline));
-inline bool exitCondition(BehSpace * b, bool mode2) {
+INLINE(bool exitCondition(BehSpace *RESTRICT, bool))
+bool exitCondition(BehSpace *RESTRICT b, bool mode2) {
     if (mode2) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transitions) {
@@ -191,9 +213,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
         markerMap[i] = i; // Including α and ω
     Regex ** ret = calloc(mode2? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
-    tempRegex = emptyRegex();
-    tempRegex->size = REGEX*b->nStates*b->nTrans;
-    tempRegex->regex = realloc(tempRegex->regex, tempRegex->size);
+    // tempRegex = emptyRegex(REGEX*b->nStates*b->nTrans);
 
     //Arricchimento spazio con nuovi stati iniziale e finale
     Trans *tvuota = calloc(1, sizeof(Trans));
@@ -209,7 +229,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
     nuovaTr->from = stemp;
     nuovaTr->to = b->states[1];
     nuovaTr->t = tvuota;
-    nuovaTr->regex = emptyRegex();
+    nuovaTr->regex = emptyRegex(0);
     stemp->transitions = calloc(1, sizeof(struct ltrans));
     stemp->transitions->t = nuovaTr;
     struct ltrans *vecchiaTesta = b->states[1]->transitions;
@@ -228,7 +248,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
             trFinale->from = stemp;
             trFinale->to = fine;
             trFinale->t = tvuota;
-            trFinale->regex = emptyRegex();
+            trFinale->regex = emptyRegex(0);
             struct ltrans *vecchiaTesta = stemp->transitions;
             stemp->transitions = calloc(1, sizeof(struct ltrans));
             stemp->transitions->t = trFinale;
@@ -246,7 +266,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
     for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Singleton regex making
         foreachdecl(trans, stemp->transitions) {
             if (trans->t->from == stemp) {
-                trans->t->regex = emptyRegex();
+                trans->t->regex = emptyRegex(0);
                 if (trans->t->t->fault >0) {
                     sprintf(trans->t->regex->regex, "r%d", trans->t->t->fault);
                     trans->t->regex->concrete = true;
@@ -269,7 +289,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
                 nt->from = tentra->from;
                 nt->to = tesce->to;
                 nt->t = tvuota;
-                nt->regex = emptyRegex();
+                nt->regex = emptyRegex(0);
                 regexMake(tentra->regex, tesce->regex, nt->regex, 'c', NULL);
                 if (mode2 && nt->to->id == b->nStates-1) {
                     if (tesce->marker != 0) nt->marker = tesce->marker;
@@ -349,7 +369,7 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
                             nt->from = trans1->t->from;
                             nt->to = trans2->t->to;
                             nt->t = tvuota;
-                            nt->regex = emptyRegex();
+                            nt->regex = emptyRegex(0);
 
                             struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
                             nuovaTr->t = nt;
@@ -385,8 +405,8 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
             }
         }
     }
-    freeRegex(tempRegex);
-    tempRegex = NULL;
+    // freeRegex(tempRegex);
+    // tempRegex = NULL;
     if (mode2) {
         foreachdecl(lt, b->states[0]->transitions)
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;

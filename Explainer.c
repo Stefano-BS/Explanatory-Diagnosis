@@ -14,6 +14,10 @@ Explainer * makeExplainer(BehSpace *b) {
         int nStates = currentFault->b->nStates;
         BehSpace *duplicated = dup(currentFault->b, mask, false, NULL);
         currentFault->diagnosis = diagnostics(duplicated, true);
+        currentFault->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*currentFault->b->nStates/2);
+        for (j=0; j<currentFault->b->nStates; j++)
+            if (currentFault->diagnosis[j] != NULL && currentFault->diagnosis[j]->regex != NULL)
+                regexMake(currentFault->alternativeOfDiagnoses, currentFault->diagnosis[j], currentFault->alternativeOfDiagnoses, 'a', NULL);
         freeBehSpace(duplicated);
         j=0;
         while ((currentTr = obsTrs[i][j]) != NULL) {
@@ -59,6 +63,7 @@ Explainer * makeExplainer(BehSpace *b) {
     return exp;
 }
 
+
 Monitoring * initializeMonitoring(Explainer * exp) {
     Monitoring *m = calloc(1, sizeof(Monitoring));
     m->mu = malloc(sizeof(MonitorState*));
@@ -66,6 +71,11 @@ Monitoring * initializeMonitoring(Explainer * exp) {
     mu0->expStates = malloc(sizeof(FaultSpace*));
     mu0->expStates[0] = exp->faults[0];
     mu0->nExpStates = 1;
+    mu0->lin = malloc(sizeof(Regex*));
+    mu0->lin[0] = emptyRegex(0);
+    mu0->lout = malloc(sizeof(Regex*));
+    mu0->lout[0] = emptyRegex(0);
+    mu0->lmu = regexCpy(exp->faults[0]->alternativeOfDiagnoses);
     alloc1(mu0, 'm');
     m->mu[0] = mu0;
     m->length=1;
@@ -110,6 +120,8 @@ void pruneMonitoring(Monitoring * monitor) {
                 MonitorTrans *te;
                 for (te=mu->arcs[k=0]; k<mu->nArcs; te=mu->arcs[++k]) {
                     if (te->from == remove) {
+                        freeRegex(te->l);
+                        freeRegex(te->lp);
                         free(te);
                         memcpy(mu->arcs+k, mu->arcs+k+1, (mu->nArcs-k)*sizeof(MonitorTrans*));
                         mu->nArcs--;
@@ -120,6 +132,8 @@ void pruneMonitoring(Monitoring * monitor) {
                     MonitorState *precedingMu = monitor->mu[i-1];
                     for (te=precedingMu->arcs[k=0]; k<precedingMu->nArcs; te=precedingMu->arcs[++k]) {
                         if (te->to == remove) {
+                            freeRegex(te->l);
+                            freeRegex(te->lp);
                             free(te);
                             memcpy(precedingMu->arcs+k, precedingMu->arcs+k+1, (precedingMu->nArcs-k)*sizeof(MonitorTrans*));
                             precedingMu->nArcs--;
@@ -128,6 +142,10 @@ void pruneMonitoring(Monitoring * monitor) {
                     }
                 }
                 memcpy(mu->expStates+j, mu->expStates+j+1, (mu->nExpStates-j)*sizeof(FaultSpace*));
+                freeRegex(mu->lin[j]);
+                freeRegex(mu->lout[j]);
+                memcpy(mu->lout+j, mu->lout+j+1, (mu->nExpStates-j)*sizeof(Regex*));
+                memcpy(mu->lin+j, mu->lin+j+1, (mu->nExpStates-j)*sizeof(Regex*));
                 mu->nExpStates--;
                 memcpy(ok[i]+j, ok[i]+j+1, (mu->nExpStates-j)*sizeof(bool));
                 j--;
@@ -138,8 +156,10 @@ void pruneMonitoring(Monitoring * monitor) {
     free(ok);
 }
 
-Monitoring* explanationEngine(Explainer * exp, Monitoring *monitor, int * obs, int loss) {
-    if (monitor == NULL || loss==0) return initializeMonitoring(exp); // Assert before calling loss==monitor->length
+Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss) {
+    if (monitor == NULL || loss==0)  // Assert before calling loss==monitor->length
+        return initializeMonitoring(exp);
+    Regex * empty = emptyRegex(0);
     // Extend O by the new observation o
     int i, j, k;
     // Let µ denote the last node of M (before the extension)
@@ -158,35 +178,86 @@ Monitoring* explanationEngine(Explainer * exp, Monitoring *monitor, int * obs, i
                         destAlredyPresent |= (newmu_s == dest);
                 if (!destAlredyPresent) {
                     newmu->expStates = realloc(newmu->expStates, (newmu->nExpStates+1)*sizeof(FaultSpace*));
+                    newmu->lin = realloc(newmu->lin, (newmu->nExpStates+1)*sizeof(Regex*));
+                    newmu->lout = realloc(newmu->lout, (newmu->nExpStates+1)*sizeof(Regex*));
                     newmu->expStates[newmu->nExpStates++] = dest;
                 }
                 MonitorTrans *mt = calloc(1, sizeof(MonitorTrans));
                 mt->from = mu_s;
                 mt->to = dest;
-                mt->l = te->regex;
+                mt->l = regexCpy(te->regex); // copy necessary?
+                mt->lp = emptyRegex(0);
+                Regex * fault = empty, *l = empty;
+                if (loss>1) {
+                    MonitorTrans *mu_a;
+                    for (mu_a=monitor->mu[loss-2]->arcs[k=0]; k<monitor->mu[loss-2]->nArcs; mu_a=monitor->mu[loss-2]->arcs[++k]) {
+                        if (mu_a->to == mu_s) regexMake(mt->lp, mu_a->lp, mt->lp, 'a', NULL);
+                    }
+                }
+                if (te->fault) {
+                    fault = emptyRegex(0);
+                    sprintf(fault->regex, "r%d", te->fault);
+                }
+                if (te->regex != NULL && te->regex->regex != NULL) l = te->regex;
+                regexMake(mt->lp, l, mt->lp, 'c', NULL);
+                regexMake(mt->lp, fault, mt->lp, 'c', NULL);
                 alloc1(mu, 'm');
                 mu->arcs[mu->nArcs] = mt;
                 mu->nArcs++;
             }
         }
     }
+    freeRegex(empty);
     if (mu->nArcs + newmu->nExpStates) {
+        newmu->lmu = emptyRegex(0);
         monitor->length++;
         monitor->mu = realloc(monitor->mu, monitor->length*sizeof(MonitorState*));
         monitor->mu[monitor->length-1] = newmu;
     }
     else return NULL;
+    FaultSpace *state;
+    for (state=newmu->expStates[i=0]; i<newmu->nExpStates; state=newmu->expStates[++i]) {
+        newmu->lin[i] = emptyRegex(0);
+        MonitorTrans *arc;
+        for (arc=mu->arcs[j=0]; j<mu->nArcs; arc=mu->arcs[++j]) {
+            if (state == arc->to) {
+                regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'a', NULL);
+                newmu->lin[i] = regexCpy(newmu->lin[i]);
+            }
+        }
+    }
     // Extend E by L(µ') based on Def. 7
-    
+    for (i=0; i< newmu->nExpStates; i++)
+        newmu->lout[i] = regexCpy(newmu->expStates[i]->alternativeOfDiagnoses);
+    Regex * temp = emptyRegex(0);
+    for (i=0; i< newmu->nExpStates; i++) {
+        regexMake(newmu->lin[i], newmu->lout[i], temp, 'c', NULL);
+        regexMake(newmu->lmu, temp, newmu->lmu, 'a', NULL);
+    }
     // X ← the set of states in µ that are not exited by any arc
     // while X != ∅
     //      Remove from µ the states in X and their entering arcs
-    //      Update L(µ) in E based on Def. 7
+    //      Update L(µ) in E based on Def. 7 <-- no
     //      µ ← the node preceding µ in M
     //      X ← the set of states in µ that are not exited by any arc
     // end while
     pruneMonitoring(monitor);
     if (DEBUG_MODE) monitoringCoherenceTest(monitor);
     // Update L(µ) in E based on Def. 7
+    for (mu=monitor->mu[i=0]; i<monitor->length-1; mu=monitor->mu[++i]) {
+        for (j=0; j<mu->nExpStates; j++) {
+            freeRegex(mu->lout[j]);
+            mu->lout[j] = emptyRegex(0);
+            for (k=0; k<mu->nArcs; k++)
+                if (mu->arcs[k]->from == mu->expStates[j]) regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'a', NULL);
+        }
+        freeRegex(mu->lmu);
+        mu->lmu = emptyRegex(0);
+        for (j=0; j< mu->nExpStates; j++) {
+            regexMake(mu->lin[j], mu->lout[j], temp, 'c', NULL);
+            regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
+        }
+    }
+    freeRegex(temp);
     return monitor;
 }

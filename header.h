@@ -8,7 +8,7 @@
 
 #define VUOTO       -1
 #define ACAPO       -10
-#define REGEX       10
+#define REGEX       5
 #define REGEXLEVER  2
 
 #define FLAG_FINAL          1
@@ -19,13 +19,18 @@
 #define foreach(lnode, from)        for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreach(lnode, from)
 
+
 #ifndef DEBUG_MODE
     #define DEBUG_MODE false
 #endif
 #if DEBUG_MODE
     #define printlog(...)           printf(__VA_ARGS__)
+    #define INLINE(f)
+    #define RESTRICT
 #else
     #define printlog(...)
+    #define INLINE(f) inline f __attribute__((always_inline)); inline
+    #define RESTRICT restrict
 #endif
 
 // GENERAL
@@ -81,7 +86,7 @@ typedef struct {
 typedef struct {
     BehSpace *b;
     int *idMapToOrigin, *idMapFromOrigin, *exitStates;
-    Regex ** diagnosis;
+    Regex ** diagnosis, *alternativeOfDiagnoses;
 } FaultSpace;
 
 typedef struct {
@@ -105,7 +110,7 @@ typedef struct {
     FaultSpace ** expStates;
     MonitorTrans ** arcs;
     int nExpStates, nArcs, sizeofArcs;
-    Regex *lin, lout;
+    Regex *lmu, **lin, **lout;
 } MonitorState;
 
 typedef struct {
@@ -119,7 +124,7 @@ extern int nlink, ncomp;
 extern Component **components;
 extern Link **links;
 extern char inputDES[100];
-extern const unsigned int eps;
+extern const unsigned int eps, mu;
 
 // DataStructures.c
 Component * newComponent(void);
@@ -151,7 +156,7 @@ void prune(BehSpace *);
 FaultSpace ** faultSpaces(BehSpace *, int *, BehTrans ****);
 // Diagnoser.c
 void freeRegex(Regex *);
-Regex * emptyRegex(void);
+Regex * emptyRegex(int);
 Regex * regexCpy(Regex *);
 void regexMake(Regex*, Regex*, Regex*, char, Regex *);
 Regex** diagnostics(BehSpace *, bool);
@@ -227,7 +232,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
     #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
-    #define MSG_MONITORING_RESULT "Traccia delle diagnosi:\n"
+    #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
     #define endTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
@@ -295,7 +300,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MEMTEST15 "Found that in Monitoring State %d there's a fault state non exited by any arc\n"
     #define MSG_MEMTEST16 "Found that in Monitoring State %d there's a fault state not reached by any arc\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
-    #define MSG_MONITORING_RESULT "Explanation Trace:\n"
+    #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
     #define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
