@@ -1,0 +1,27 @@
+digraph "MONinput/s2" {
+rankdir=LR
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" color="#FFF9DD"
+label="r1?"
+M0S0 ;
+}
+subgraph cluster1 {
+style="rounded,filled" color="#FFF9DD"
+label="(r1r1)?"
+M1S0 ;
+}
+subgraph cluster2 {
+style="rounded,filled" color="#FFF9DD"
+label="(r1r3(r2r3)*)?"
+M2S1 ;
+}
+subgraph cluster3 {
+style="rounded,filled" color="#FFF9DD"
+label="r3(r2r3)*"
+M3S7 ;
+}
+M0S0 -> M1S0 [label="(r1, r1)"]
+M1S0 -> M2S1 [label="(ε, r1)"]
+M2S1 -> M3S7 [label="(r3(r2r3)*, r1r3(r2r3)*)"]
+}

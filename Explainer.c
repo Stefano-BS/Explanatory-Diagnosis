@@ -1,8 +1,10 @@
 #include "header.h"
 
 bool **ok;
+Regex * empty = NULL;
 
 Explainer * makeExplainer(BehSpace *b) {
+    if (empty == NULL) empty = emptyRegex(0);
     int i, j, k;
     BehTrans ***obsTrs, *currentTr;
     Explainer * exp = calloc(1, sizeof(Explainer));
@@ -18,6 +20,8 @@ Explainer * makeExplainer(BehSpace *b) {
         for (j=0; j<currentFault->b->nStates; j++)
             if (currentFault->diagnosis[j] != NULL && currentFault->diagnosis[j]->regex != NULL)
                 regexMake(currentFault->alternativeOfDiagnoses, currentFault->diagnosis[j], currentFault->alternativeOfDiagnoses, 'a', NULL);
+            else
+                regexMake(currentFault->alternativeOfDiagnoses, empty, currentFault->alternativeOfDiagnoses, 'a', NULL);
         freeBehSpace(duplicated);
         j=0;
         while ((currentTr = obsTrs[i][j]) != NULL) {
@@ -159,7 +163,6 @@ void pruneMonitoring(Monitoring * monitor) {
 Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss) {
     if (monitor == NULL || loss==0)  // Assert before calling loss==monitor->length
         return initializeMonitoring(exp);
-    Regex * empty = emptyRegex(0);
     // Extend O by the new observation o
     int i, j, k;
     // Let µ denote the last node of M (before the extension)
@@ -190,13 +193,21 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 Regex * fault = empty, *l = empty;
                 if (loss>1) {
                     MonitorTrans *mu_a;
+                    bool firstShot = true;
                     for (mu_a=monitor->mu[loss-2]->arcs[k=0]; k<monitor->mu[loss-2]->nArcs; mu_a=monitor->mu[loss-2]->arcs[++k]) {
-                        if (mu_a->to == mu_s) regexMake(mt->lp, mu_a->lp, mt->lp, 'a', NULL);
+                        if (mu_a->to == mu_s) {
+                            if (firstShot) {
+                                firstShot = false;
+                                regexMake(mt->lp, mu_a->lp, mt->lp, 'c', NULL);
+                            }
+                            else regexMake(mt->lp, mu_a->lp, mt->lp, 'a', NULL);
+                        }
                     }
                 }
                 if (te->fault) {
                     fault = emptyRegex(0);
                     sprintf(fault->regex, "r%d", te->fault);
+                    fault->concrete = true;
                 }
                 if (te->regex != NULL && te->regex->regex != NULL) l = te->regex;
                 regexMake(mt->lp, l, mt->lp, 'c', NULL);
@@ -207,7 +218,6 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
             }
         }
     }
-    freeRegex(empty);
     if (mu->nArcs + newmu->nExpStates) {
         newmu->lmu = emptyRegex(0);
         monitor->length++;
@@ -219,10 +229,14 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     for (state=newmu->expStates[i=0]; i<newmu->nExpStates; state=newmu->expStates[++i]) {
         newmu->lin[i] = emptyRegex(0);
         MonitorTrans *arc;
+        bool firstShot = true;
         for (arc=mu->arcs[j=0]; j<mu->nArcs; arc=mu->arcs[++j]) {
             if (state == arc->to) {
-                regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'a', NULL);
-                newmu->lin[i] = regexCpy(newmu->lin[i]);
+                if (firstShot) {
+                    firstShot = false;
+                    regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'c', NULL);
+                }
+                else regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'a', NULL);
             }
         }
     }
@@ -248,8 +262,15 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
         for (j=0; j<mu->nExpStates; j++) {
             freeRegex(mu->lout[j]);
             mu->lout[j] = emptyRegex(0);
+            bool firstShot = true;
             for (k=0; k<mu->nArcs; k++)
-                if (mu->arcs[k]->from == mu->expStates[j]) regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'a', NULL);
+                if (mu->arcs[k]->from == mu->expStates[j]) {
+                    if (firstShot) {
+                        firstShot = false;
+                        regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'c', NULL);
+                    }
+                    else regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'a', NULL);
+                }
         }
         freeRegex(mu->lmu);
         mu->lmu = emptyRegex(0);

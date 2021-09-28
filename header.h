@@ -25,12 +25,12 @@
 #endif
 #if DEBUG_MODE
     #define printlog(...)           printf(__VA_ARGS__)
-    #define INLINE(f)
+    #define INLINE(f)               f
     #define RESTRICT
 #else
     #define printlog(...)
-    #define INLINE(f) inline f __attribute__((always_inline)); inline
-    #define RESTRICT restrict
+    #define INLINE(f)               inline f __attribute__((always_inline)); inline f
+    #define RESTRICT                restrict
 #endif
 
 // GENERAL
@@ -149,6 +149,7 @@ BehSpace * parseBehSpace(FILE *, bool, int*);
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
 void printExplainer(Explainer *);
+void printMonitoring(Monitoring *, Explainer *);
 // SpaceMaker.c
 bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, int);
 void generateBehavioralSpace(BehSpace *, BehState *, int *, int);

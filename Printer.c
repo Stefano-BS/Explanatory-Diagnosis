@@ -36,7 +36,7 @@ void printDES(BehState * attuale, bool testuale) {
     Component *c;
     FILE * file;
     
-    char nomeFileDot[strlenNomeFile+7], nomeFilePDF[strlenNomeFile+7], comando[30+strlenNomeFile*2];
+    char nomeFileDot[strlenNomeFile+7], nomeFileSvg[strlenNomeFile+7], comando[30+strlenNomeFile*2];
     if (testuale) printf(MSG_ACTUAL_STRUCTURES);
     else {
         sprintf(nomeFileDot, "%s.dot", inputDES);
@@ -83,15 +83,15 @@ void printDES(BehState * attuale, bool testuale) {
     else {
         fprintf(file, "}\n");
         fclose(file);
-        sprintf(nomeFilePDF, "%s.svg", inputDES);
-        sprintf(comando, "dot -Tsvg -o %s %s", nomeFilePDF, nomeFileDot);
+        sprintf(nomeFileSvg, "%s.svg", inputDES);
+        sprintf(comando, "dot -Tsvg -o %s %s", nomeFileSvg, nomeFileDot);
         system(comando);
     }
 }
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     int i, strlenNomeFile = strlen(inputDES), position=0;
-    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFilePDF[strlenNomeFile+8], comando[35+strlenNomeFile*2], *ret;
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFileSvg[strlenNomeFile+8], comando[35+strlenNomeFile*2], *ret;
     FILE * file;
     if (!toString) {
         sprintf(nomeFileDot, "%s_SC.dot", inputDES);
@@ -141,8 +141,8 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     else {
         fprintf(file, "}");
         fclose(file);
-        sprintf(nomeFilePDF, "%s_SC.svg", inputDES);
-        sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFilePDF, nomeFileDot);
+        sprintf(nomeFileSvg, "%s_SC.svg", inputDES);
+        sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
         system(comando);
         if (rename) {
             printf(MSG_SOBSTITUTION_LIST);
@@ -157,10 +157,10 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
 
 void printExplainer(Explainer * exp) {
     int i, j, strlenNomeFile = strlen(inputDES);
-    char nomeFileDot[strlenNomeFile+9], nomeFilePDF[strlenNomeFile+9], comando[44+strlenNomeFile*2];
+    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9], comando[44+strlenNomeFile*2];
     sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
-    sprintf(nomeFilePDF, "%s_EXP.svg", inputDES);
-    sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFilePDF, nomeFileDot);
+    sprintf(nomeFileSvg, "%s_EXP.svg", inputDES);
+    sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
     FaultSpace * fault;
@@ -200,6 +200,46 @@ void printExplainer(Explainer * exp) {
         if (t->fault>0) fprintf(file, "R%d", t->fault);
         if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
         else fprintf(file, " %s\"]\n", t->regex->regex);
+    }
+    fprintf(file, "}\n");
+    fclose(file);
+    system(comando);
+}
+
+int findInExplainer(Explainer *exp, FaultSpace *f) {
+    int i=0;
+    for (; i<exp->nFaultSpaces; i++)
+        if (exp->faults[i] == f) break;
+    return i;
+}
+
+void printMonitoring(Monitoring * m, Explainer *exp) {
+    int i, j, strlenNomeFile = strlen(inputDES);
+    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9], comando[44+strlenNomeFile*2];
+    sprintf(nomeFileDot, "%s_MON.dot", inputDES);
+    sprintf(nomeFileSvg, "%s_MON.svg", inputDES);
+    sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+    FILE * file = fopen(nomeFileDot, "w");
+    fprintf(file ,"digraph \"MON%s\" {\nrankdir=LR\nnode [style=filled fillcolor=white]\n", inputDES);
+    MonitorState * mu;
+    for (mu=m->mu[i=0]; i<m->length; mu=m->mu[++i]) {
+        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFF9DD\"\n", i);
+        if (mu->lmu->regex[0] == '\0') fprintf(file, "label=ε\n");
+        else fprintf(file, "label=\"%s\"\n", mu->lmu->regex);
+        for (j=0; j<mu->nExpStates; j++)
+            fprintf(file, "M%dS%d ;\n", i, findInExplainer(exp, mu->expStates[j]));
+        fprintf(file, "}\n");
+    }
+    for (mu=m->mu[i=0]; i<m->length-1; mu=m->mu[++i]) {
+        MonitorTrans *arc;
+        if (mu->nArcs>0) {
+            for (arc=mu->arcs[j=0]; j<mu->nArcs; arc=mu->arcs[++j]) {
+                char *l = arc->l->regex, *lp = arc->lp->regex;
+                if (l[0] == '\0') l = "ε";
+                if (lp[0] == '\0') lp = "ε";
+                fprintf(file, "M%dS%d -> M%dS%d [label=\"(%s, %s)\"]\n", i, findInExplainer(exp, arc->from), i+1, findInExplainer(exp, arc->to), l, lp);
+            }
+        }
     }
     fprintf(file, "}\n");
     fclose(file);

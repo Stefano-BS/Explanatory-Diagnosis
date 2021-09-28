@@ -173,6 +173,7 @@ void menu(void) {
                 int i;
                 for (i=0; i<=loss; i++)
                     printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
+                if (sceltaDot==INPUT_Y) printMonitoring(monitor, explainer);
                 printf(MSG_NEXT_OBS);
 
                 RETRY: scanf("%9s", digitazione);

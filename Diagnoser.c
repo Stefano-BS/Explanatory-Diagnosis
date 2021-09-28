@@ -1,8 +1,7 @@
 #include "header.h"
 
 
-INLINE(Regex * emptyRegex(int))
-Regex * emptyRegex(int size) {
+INLINE(Regex * emptyRegex(int size)) {
     Regex * new = malloc(sizeof(Regex));
     size = size <= REGEX ? REGEX : size;
     new->size = size;
@@ -13,8 +12,7 @@ Regex * emptyRegex(int size) {
     return new;
 }
 
-INLINE(void freeRegex(Regex *RESTRICT))
-void freeRegex(Regex *RESTRICT r) {
+INLINE(void freeRegex(Regex *RESTRICT r)) {
     if (r->regex) free(r->regex);
     free(r);
 }
@@ -192,8 +190,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     }
 }
 
-INLINE(bool exitCondition(BehSpace *RESTRICT, bool))
-bool exitCondition(BehSpace *RESTRICT b, bool mode2) {
+INLINE(bool exitCondition(BehSpace *RESTRICT b, bool mode2)) {
     if (mode2) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transitions) {
