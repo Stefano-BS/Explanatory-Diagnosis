@@ -1,0 +1,33 @@
+digraph "MONinput/i" {
+rankdir=LR
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label=ε
+M0S0 [label=0];
+}
+subgraph cluster1 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))?"
+M1S9 [label=9];
+}
+subgraph cluster2 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))?"
+M2S7 [label=7];
+M2S5 [label=5];
+M2S6 [label=6];
+}
+subgraph cluster3 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))?"
+M3S4 [label=4];
+}
+M0S0 -> M1S9 [label="(ε, ε)"]
+M1S9 -> M2S7 [label="(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))), r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))"]
+M1S9 -> M2S5 [label="(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))), r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))))"]
+M1S9 -> M2S6 [label="(ε, ε)"]
+M2S7 -> M3S4 [label="(ε, r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))"]
+M2S5 -> M3S4 [label="(ε, r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))))"]
+M2S6 -> M3S4 [label="(ε, ε)"]
+}

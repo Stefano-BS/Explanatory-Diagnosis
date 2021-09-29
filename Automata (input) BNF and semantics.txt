@@ -1,0 +1,22 @@
+BNF specifying syntax to describe your DES:
+
+axiom → components '\n' link '\n' transitions
+components → "//COMPONENTI\n" complist
+complist → int ',' int '\n' complist | ε
+link → "//LINK\n" linklist
+linklist → int ',' int ',' int '\n' linklist | ε
+transitions → "//TRANSIZIONI\n" trlist
+trlist → int ',' int ',' int ',' int ',' int ',' int ',' (int ':' int)? '|' outgoinglist '\n' trlist | ε
+outgoinglist → int ':' int ',' outgoinglist | ε
+
+NOTE: the end of line character is \n (LF standard)
+
+Semantics:
+
+//COMPONENTI
+n° states, id component
+//LINK
+id departure component, id arrival component, id link
+//TRANSIZIONI
+id transition, id component, departure state, arrival state, observability, faulty,
+id incoming event:id link|id outgoing event:id link, ...

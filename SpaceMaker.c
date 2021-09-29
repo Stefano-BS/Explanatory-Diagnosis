@@ -1,8 +1,8 @@
 #include "header.h"
 
-bool *ok;
+bool *RESTRICT ok;
 
-bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuovo, Trans * mezzo, int loss) {
+bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT precedente, BehState *RESTRICT nuovo, Trans *RESTRICT mezzo, int loss) {
     int i;
     bool giaPresente = false;
     BehState *s;
@@ -55,7 +55,7 @@ bool enlargeBehavioralSpace(BehSpace * b, BehState * precedente, BehState * nuov
     return !giaPresente;
 }
 
-void generateBehavioralSpace(BehSpace * b, BehState * attuale, int* obs, int loss) {
+void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT attuale, int*RESTRICT obs, int loss) {
     Component *c;
     int i, j, k;
     for (c=components[i=0]; i<ncomp;  c=components[++i]){
@@ -102,7 +102,7 @@ void generateBehavioralSpace(BehSpace * b, BehState * attuale, int* obs, int los
     }
 }
 
-void pruneRec(BehState *s) { // Invocata esternamente solo a partire dagli stati finali
+void pruneRec(BehState *RESTRICT s) { // Invocata esternamente solo a partire dagli stati finali
     ok[s->id] = true;
     foreachdecl(trans, s->transitions) {
         if (trans->t->to == s && !ok[trans->t->from->id])
@@ -110,7 +110,7 @@ void pruneRec(BehState *s) { // Invocata esternamente solo a partire dagli stati
     }
 }
 
-void prune(BehSpace *b) {
+void prune(BehSpace *RESTRICT b) {
     BehState *s;
     int i;
     ok = calloc(b->nStates, sizeof(bool));
@@ -129,7 +129,7 @@ void prune(BehSpace *b) {
     free(ok);
 }
 
-void faultSpaceExtend(BehState * base, int *obsStates, BehTrans **obsTrs) {
+void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs) {
     ok[base->id] = true;
     int i=0;
     foreachdecl(lt, base->transitions) {
@@ -144,7 +144,7 @@ void faultSpaceExtend(BehState * base, int *obsStates, BehTrans **obsTrs) {
             faultSpaceExtend(lt->t->to, obsStates+i, obsTrs);
 }
 
-FaultSpace * faultSpace(BehSpace * b, BehState * base, BehTrans **obsTrs) {
+FaultSpace * faultSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
     int k, index=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     ret->idMapFromOrigin = calloc(b->nStates, sizeof(int));
@@ -192,7 +192,7 @@ FaultSpace * faultSpace(BehSpace * b, BehState * base, BehTrans **obsTrs) {
     int nSpaces=0;
     BehTrans *** obsTrs;
     FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
-FaultSpace ** faultSpaces(BehSpace * b, int *nSpaces, BehTrans ****obsTrs) {
+FaultSpace ** faultSpaces(BehSpace *RESTRICT b, int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs) {
     BehState * s;
     int i, j=0;
     *nSpaces = 1;

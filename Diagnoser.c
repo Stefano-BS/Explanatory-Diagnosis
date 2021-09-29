@@ -1,6 +1,5 @@
 #include "header.h"
 
-
 INLINE(Regex * emptyRegex(int size)) {
     Regex * new = malloc(sizeof(Regex));
     size = size <= REGEX ? REGEX : size;
@@ -31,7 +30,7 @@ Regex * regexCpy(Regex *RESTRICT src) {
 }
 
 void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) {
-    static char *regexBuf = NULL;
+    static char *RESTRICT regexBuf = NULL;
     static int regexBufLen = 0;
     if (regexBuf==NULL) regexBuf = calloc(regexBufLen=REGEX, 1);
 
@@ -87,8 +86,6 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
         }
         else if (strl1 > 0 && strl2 > 0) { // s1|s2
             solution = regexBuf;
-            d->bracketed = false;
-            d->concrete = s1->concrete && s2->concrete;
             if (s1->bracketed && s2->bracketed) {
                 solutionLen = strl1+strl2+2 < REGEX? REGEX : strl1+strl2+2;
                 sprintf(regexBuf, "%s|%s", s1->regex, s2->regex);
@@ -102,6 +99,8 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
                 solutionLen = strl1+strl2+6 < REGEX? REGEX : strl1+strl2+6;
                 sprintf(regexBuf, "(%s)|(%s)", s1->regex, s2->regex);
             }
+            d->bracketed = false;
+            d->concrete = s1->concrete && s2->concrete;
         } else if (strl1 > 0 && strl2==0) {
             solution = regexBuf;
             if (s1->concrete) {
@@ -204,7 +203,7 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, bool mode2)) {
     else return b->nTrans<=1;
 }
 
-Regex** diagnostics(BehSpace *b, bool mode2) {
+Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
     int i=0, j=0, nMarker = b->nStates+2, markerMap[nMarker];
     for (; i<nMarker; i++) 
         markerMap[i] = i; // Including α and ω
@@ -358,8 +357,8 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
                 }
             }
         foreachdecl(trans1, stemp->transitions) {                                   // Transizione entrante
-                if (trans1->t->to == stemp && trans1->t->from != stemp) {             // In trans1 c'è una entrante nel nodo      
-                    foreachdecl(trans2, stemp->transitions) {                     // Transizione uscente
+                if (trans1->t->to == stemp && trans1->t->from != stemp) {           // In trans1 c'è una entrante nel nodo      
+                    foreachdecl(trans2, stemp->transitions) {                       // Transizione uscente
                         if (trans2->t->from == stemp && trans2->t->to != stemp) {   // In trans2 c'è una uscente dal nodo
                             azioneEffettuataSuQuestoStato = true;                  
                             BehTrans *nt = calloc(1, sizeof(BehTrans));
@@ -402,8 +401,6 @@ Regex** diagnostics(BehSpace *b, bool mode2) {
             }
         }
     }
-    // freeRegex(tempRegex);
-    // tempRegex = NULL;
     if (mode2) {
         foreachdecl(lt, b->states[0]->transitions)
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;

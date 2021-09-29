@@ -1,6 +1,6 @@
 #include "header.h"
 
-bool **ok;
+bool **RESTRICT ok;
 Regex * empty = NULL;
 
 Explainer * makeExplainer(BehSpace *b) {
@@ -116,12 +116,12 @@ void pruneMonitoring(Monitoring * monitor) {
     
     if (DEBUG_MODE) for (i=0; i<mlen; i++) {for (j=0; j<monitor->mu[i]->nExpStates; j++) printf("%d ", ok[i][j]); printf("\n");}
 
-    MonitorState *mu;
+    MonitorState *RESTRICT mu;
     for (mu=monitor->mu[i=0]; i<mlen-1; mu=monitor->mu[++i]) {
         for (j=0; j<mu->nExpStates; j++) {
             if (!ok[i][j]) {
                 FaultSpace * remove = mu->expStates[j];
-                MonitorTrans *te;
+                MonitorTrans *RESTRICT te;
                 for (te=mu->arcs[k=0]; k<mu->nArcs; te=mu->arcs[++k]) {
                     if (te->from == remove) {
                         freeRegex(te->l);
@@ -133,7 +133,7 @@ void pruneMonitoring(Monitoring * monitor) {
                     }
                 }
                 if (i>0) {  // Except from initial μ, we gotta prune arcs getting to pruned state, so let's look back at previous state
-                    MonitorState *precedingMu = monitor->mu[i-1];
+                    MonitorState *RESTRICT precedingMu = monitor->mu[i-1];
                     for (te=precedingMu->arcs[k=0]; k<precedingMu->nArcs; te=precedingMu->arcs[++k]) {
                         if (te->to == remove) {
                             freeRegex(te->l);
@@ -166,15 +166,15 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     // Extend O by the new observation o
     int i, j, k;
     // Let µ denote the last node of M (before the extension)
-    MonitorState *mu = monitor->mu[loss-1];
+    MonitorState *RESTRICT mu = monitor->mu[loss-1];
     // Extend M by a node µ' based on the new observation o
-    MonitorState *newmu = calloc(1, sizeof(MonitorState));
-    FaultSpace * mu_s;
+    MonitorState *RESTRICT newmu = calloc(1, sizeof(MonitorState));
+    FaultSpace *RESTRICT mu_s;
     for (mu_s=mu->expStates[i=0]; i<mu->nExpStates; mu_s=mu->expStates[++i]) {
-        ExplTrans *te;
+        ExplTrans *RESTRICT te;
         for (te=exp->trans[j=0]; j<exp->nTrans; te=exp->trans[++j]) {
             if (te->from == mu_s && te->obs == obs[loss-1]) {
-                FaultSpace *dest = te->to, *newmu_s;
+                FaultSpace * dest = te->to, *newmu_s;
                 bool destAlredyPresent = false;
                 if (newmu->nExpStates)
                     for (newmu_s=newmu->expStates[k=0]; k<newmu->nExpStates; newmu_s=newmu->expStates[++k]) 
@@ -185,14 +185,14 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                     newmu->lout = realloc(newmu->lout, (newmu->nExpStates+1)*sizeof(Regex*));
                     newmu->expStates[newmu->nExpStates++] = dest;
                 }
-                MonitorTrans *mt = calloc(1, sizeof(MonitorTrans));
+                MonitorTrans *RESTRICT mt = calloc(1, sizeof(MonitorTrans));
                 mt->from = mu_s;
                 mt->to = dest;
                 mt->l = regexCpy(te->regex); // copy necessary?
                 mt->lp = emptyRegex(0);
-                Regex * fault = empty, *l = empty;
+                Regex * fault = empty;
                 if (loss>1) {
-                    MonitorTrans *mu_a;
+                    MonitorTrans *RESTRICT mu_a;
                     bool firstShot = true;
                     for (mu_a=monitor->mu[loss-2]->arcs[k=0]; k<monitor->mu[loss-2]->nArcs; mu_a=monitor->mu[loss-2]->arcs[++k]) {
                         if (mu_a->to == mu_s) {
@@ -209,8 +209,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                     sprintf(fault->regex, "r%d", te->fault);
                     fault->concrete = true;
                 }
-                if (te->regex != NULL && te->regex->regex != NULL) l = te->regex;
-                regexMake(mt->lp, l, mt->lp, 'c', NULL);
+                regexMake(mt->lp, mt->l, mt->lp, 'c', NULL);
                 regexMake(mt->lp, fault, mt->lp, 'c', NULL);
                 alloc1(mu, 'm');
                 mu->arcs[mu->nArcs] = mt;
@@ -234,20 +233,15 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
             if (state == arc->to) {
                 if (firstShot) {
                     firstShot = false;
-                    regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'c', NULL);
+                    regexMake(newmu->lin[i], arc->lp, newmu->lin[i], 'c', NULL);
                 }
-                else regexMake(newmu->lin[i], arc->l, newmu->lin[i], 'a', NULL);
+                else regexMake(newmu->lin[i], arc->lp, newmu->lin[i], 'a', NULL);
             }
         }
     }
     // Extend E by L(µ') based on Def. 7
     for (i=0; i< newmu->nExpStates; i++)
         newmu->lout[i] = regexCpy(newmu->expStates[i]->alternativeOfDiagnoses);
-    Regex * temp = emptyRegex(0);
-    for (i=0; i< newmu->nExpStates; i++) {
-        regexMake(newmu->lin[i], newmu->lout[i], temp, 'c', NULL);
-        regexMake(newmu->lmu, temp, newmu->lmu, 'a', NULL);
-    }
     // X ← the set of states in µ that are not exited by any arc
     // while X != ∅
     //      Remove from µ the states in X and their entering arcs
@@ -267,16 +261,20 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 if (mu->arcs[k]->from == mu->expStates[j]) {
                     if (firstShot) {
                         firstShot = false;
-                        regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'c', NULL);
+                        regexMake(mu->lout[j], mu->arcs[k]->l, mu->lout[j], 'c', NULL);
                     }
-                    else regexMake(mu->lout[j], mu->arcs[k]->lp, mu->lout[j], 'a', NULL);
+                    else regexMake(mu->lout[j], mu->arcs[k]->l, mu->lout[j], 'a', NULL);
                 }
         }
-        freeRegex(mu->lmu);
+    }
+    Regex * temp = emptyRegex(0);
+    for (mu=monitor->mu[i=0]; i<monitor->length; mu=monitor->mu[++i]) {
+        if (mu->lmu != NULL) freeRegex(mu->lmu);
         mu->lmu = emptyRegex(0);
         for (j=0; j< mu->nExpStates; j++) {
             regexMake(mu->lin[j], mu->lout[j], temp, 'c', NULL);
-            regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
+            if (j>0) regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
+            else regexMake(mu->lmu, temp, mu->lmu, 'c', NULL);
         }
     }
     freeRegex(temp);

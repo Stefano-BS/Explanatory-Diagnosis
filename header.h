@@ -42,27 +42,27 @@ typedef struct {
 
 // DISCRETE EVENT SYSTEM
 typedef struct {
-    struct component *from, *to;
+    struct component *RESTRICT from, *RESTRICT to;
     int id, intId;
 } Link;
 
 typedef struct {
     int obs, fault, from, to, id;
-    int idIncomingEvent, *idOutgoingEvents, nOutgoingEvents, sizeofOE;
-    Link *linkIn, **linkOut;
+    int idIncomingEvent, *RESTRICT idOutgoingEvents, nOutgoingEvents, sizeofOE;
+    Link *RESTRICT linkIn, **RESTRICT linkOut;
 } Trans;
 
 typedef struct component {
     int nStates, id, intId, nTrans;
-    Trans **transitions;
+    Trans **RESTRICT transitions;
 } Component;
 
 // BEHAVIORAL SPACE
 typedef struct {
-    int *componentStatus, *linkContent;
+    int *RESTRICT componentStatus, *RESTRICT linkContent;
     int id, obsIndex;
     char flags;
-    struct ltrans *transitions;
+    struct ltrans *RESTRICT transitions;
 } BehState;
 
 typedef struct {
@@ -74,18 +74,18 @@ typedef struct {
 
 struct ltrans {
     BehTrans *t;
-    struct ltrans * next;
+    struct ltrans *RESTRICT next;
 };
 
 typedef struct {
-    BehState ** states;
+    BehState **RESTRICT states;
     int nStates, nTrans, sizeofS;
 } BehSpace;
 
 // EXPLAINER AND MONITORNING
 typedef struct {
     BehSpace *b;
-    int *idMapToOrigin, *idMapFromOrigin, *exitStates;
+    int *RESTRICT idMapToOrigin, * idMapFromOrigin, *RESTRICT exitStates;
     Regex ** diagnosis, *alternativeOfDiagnoses;
 } FaultSpace;
 
@@ -96,8 +96,8 @@ typedef struct {
 } ExplTrans;
 
 typedef struct {
-    FaultSpace ** faults;
-    ExplTrans ** trans;
+    FaultSpace **RESTRICT faults;
+    ExplTrans **RESTRICT trans;
     int nFaultSpaces, nTrans, sizeofTrans;
 } Explainer;
 
@@ -107,10 +107,10 @@ typedef struct {
 } MonitorTrans;
 
 typedef struct {
-    FaultSpace ** expStates;
-    MonitorTrans ** arcs;
+    FaultSpace **RESTRICT expStates;
+    MonitorTrans **RESTRICT arcs;
     int nExpStates, nArcs, sizeofArcs;
-    Regex *lmu, **lin, **lout;
+    Regex * lmu, ** lin, ** lout;
 } MonitorState;
 
 typedef struct {
@@ -121,8 +121,8 @@ typedef struct {
 
 // Global variables: these will never change during execution
 extern int nlink, ncomp;
-extern Component **components;
-extern Link **links;
+extern Component **RESTRICT components;
+extern Link **RESTRICT links;
 extern char inputDES[100];
 extern const unsigned int eps, mu;
 

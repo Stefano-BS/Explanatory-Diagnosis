@@ -1,79 +1,79 @@
 digraph "EXPinput/e" {
 node [style=filled fillcolor=white]
-subgraph cluster1 {
-style="rounded,filled" color="#EAFFEE"
+subgraph cluster0 {
+style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon]; C1S0 ;
+node [shape=doubleoctagon]; C0S0 [label=0];
+}
+subgraph cluster1 {
+style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=octagon]; C1S1 [label=1];
 }
 subgraph cluster2 {
-style="rounded,filled" color="#EAFFEE"
+style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C2S1 ;
+node [shape=oval]; C2S2 [label=2];
+node [shape=doubleoctagon]; C2S0 [label=0];
+node [shape=doubleoctagon]; C2S3 [label=3];
+node [shape=octagon]; C2S4 [label=4];
+node [shape=doubleoctagon]; C2S10 [label=10];
+node [shape=oval]; C2S11 [label=11];
+node [shape=doubleoctagon]; C2S12 [label=12];
+C2S2 -> C2S3 [label=t4]
+C2S2 -> C2S10 [label=t5R2]
+C2S3 -> C2S4 [label=t2R1]
+C2S10 -> C2S11 [label=t2R1]
+C2S11 -> C2S0 [label=t4]
+C2S11 -> C2S12 [label=t5R2]
 }
 subgraph cluster3 {
-style="rounded,filled" color="#EAFFEE"
+style="rounded,filled" label="C3" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=oval]; C3S2 ;
-node [shape=doubleoctagon]; C3S0 ;
-node [shape=doubleoctagon]; C3S3 ;
-node [shape=octagon]; C3S4 ;
-node [shape=doubleoctagon]; C3S10 ;
-node [shape=oval]; C3S11 ;
-node [shape=doubleoctagon]; C3S12 ;
-C3S2 -> C3S3 [label=t4]
-C3S2 -> C3S10 [label=t5R2]
-C3S3 -> C3S4 [label=t2R1]
-C3S10 -> C3S11 [label=t2R1]
-C3S11 -> C3S0 [label=t4]
-C3S11 -> C3S12 [label=t5R2]
+node [shape=oval]; C3S5 [label=5];
+node [shape=octagon]; C3S1 [label=1];
+node [shape=octagon]; C3S6 [label=6];
+C3S5 -> C3S6 [label=t4]
+C3S5 -> C3S1 [label=t5R2]
 }
 subgraph cluster4 {
-style="rounded,filled" color="#EAFFEE"
+style="rounded,filled" label="C4" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=oval]; C4S5 ;
-node [shape=octagon]; C4S1 ;
-node [shape=octagon]; C4S6 ;
-C4S5 -> C4S6 [label=t4]
-C4S5 -> C4S1 [label=t5R2]
+node [shape=octagon]; C4S7 [label=7];
 }
 subgraph cluster5 {
-style="rounded,filled" color="#EAFFEE"
+style="rounded,filled" label="C5" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C5S7 ;
+node [shape=oval]; C5S8 [label=8];
+node [shape=oval]; C5S5 [label=5];
+node [shape=octagon]; C5S6 [label=6];
+node [shape=octagon]; C5S1 [label=1];
+node [shape=oval]; C5S9 [label=9];
+C5S8 -> C5S9 [label=t5R2]
+C5S5 -> C5S6 [label=t4]
+C5S5 -> C5S1 [label=t5R2]
+C5S9 -> C5S5 [label=t2R1]
 }
 subgraph cluster6 {
-style="rounded,filled" color="#EAFFEE"
+style="rounded,filled" label="C6" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=oval]; C6S8 ;
-node [shape=oval]; C6S5 ;
-node [shape=octagon]; C6S6 ;
-node [shape=octagon]; C6S1 ;
-node [shape=oval]; C6S9 ;
-C6S8 -> C6S9 [label=t5R2]
+node [shape=oval]; C6S9 [label=9];
+node [shape=oval]; C6S5 [label=5];
+node [shape=octagon]; C6S6 [label=6];
+node [shape=octagon]; C6S1 [label=1];
+C6S9 -> C6S5 [label=t2R1]
 C6S5 -> C6S6 [label=t4]
 C6S5 -> C6S1 [label=t5R2]
-C6S9 -> C6S5 [label=t2R1]
 }
-subgraph cluster7 {
-style="rounded,filled" color="#EAFFEE"
-edge[color=darkgray fontcolor=darkgray]
-node [shape=oval]; C7S9 ;
-node [shape=oval]; C7S5 ;
-node [shape=octagon]; C7S6 ;
-node [shape=octagon]; C7S1 ;
-C7S9 -> C7S5 [label=t2R1]
-C7S5 -> C7S6 [label=t4]
-C7S5 -> C7S1 [label=t5R2]
-}
-C1S0 -> C2S1 [style=dashed arrowhead=vee label="O3 ε"]
-C2S1 -> C3S2 [style=dashed arrowhead=vee label="O2 ε"]
-C3S0 -> C2S1 [style=dashed arrowhead=vee label="O3 r2r1"]
-C3S4 -> C4S5 [style=dashed arrowhead=vee label="O3 ε"]
-C4S1 -> C3S2 [style=dashed arrowhead=vee label="O2 r2"]
-C4S6 -> C5S7 [style=dashed arrowhead=vee label="O2 ε"]
-C5S7 -> C6S8 [style=dashed arrowhead=vee label="O3 ε"]
-C6S1 -> C3S2 [style=dashed arrowhead=vee label="O2 r2r1r2"]
-C6S6 -> C5S7 [style=dashed arrowhead=vee label="O2 r2r1"]
-C7S1 -> C3S2 [style=dashed arrowhead=vee label="O2 r1r2"]
-C7S6 -> C5S7 [style=dashed arrowhead=vee label="O2 r1"]
+C0S0 -> C1S1 [style=dashed arrowhead=vee label="O3 ε"]
+C1S1 -> C2S2 [style=dashed arrowhead=vee label="O2 ε"]
+C2S0 -> C1S1 [style=dashed arrowhead=vee label="O3 r2r1"]
+C2S4 -> C3S5 [style=dashed arrowhead=vee label="O3 ε"]
+C3S1 -> C2S2 [style=dashed arrowhead=vee label="O2 r2"]
+C3S6 -> C4S7 [style=dashed arrowhead=vee label="O2 ε"]
+C4S7 -> C5S8 [style=dashed arrowhead=vee label="O3 ε"]
+C5S1 -> C2S2 [style=dashed arrowhead=vee label="O2 r2r1r2"]
+C5S6 -> C4S7 [style=dashed arrowhead=vee label="O2 r2r1"]
+C6S1 -> C2S2 [style=dashed arrowhead=vee label="O2 r1r2"]
+C6S6 -> C4S7 [style=dashed arrowhead=vee label="O2 r1"]
 }

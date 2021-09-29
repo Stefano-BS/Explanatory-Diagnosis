@@ -1,8 +1,8 @@
 #include "header.h"
 
 int nlink=0, ncomp=0;
-Component **components;
-Link **links;
+Component **RESTRICT components;
+Link **RESTRICT links;
 
 // Buffered memory allocation (reduces realloc frequency)
 int *sizeofTrComp;
@@ -108,7 +108,7 @@ Link* linkById(int id) {
     return NULL;
 }
 
-BehState * generateBehState(int *linkContent, int *statiAttivi) {
+BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT statiAttivi) {
     BehState *s = calloc(1, sizeof(BehState));
     s->id = VUOTO;
     if (linkContent != NULL) {
@@ -128,7 +128,7 @@ BehState * generateBehState(int *linkContent, int *statiAttivi) {
     return s;
 }
 
-void removeBehState(BehSpace *b, BehState * delete) {
+void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
     // Paragoni tra stati per puntatori a locazione di memoria, non per id
     int deleteId = delete->id, i;
     struct ltrans * temp, *trans, *transPrima, *temp2;
@@ -203,7 +203,7 @@ void freeBehState(BehState *s) {
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false); */
-BehSpace * dup(BehSpace *b, bool mask[], bool silence, int** map) {
+BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT map) {
     int i, ns = 0;
     if (map == NULL) {
         int *temp = malloc(b->nStates*sizeof(int));
@@ -283,7 +283,7 @@ void freeBehSpace(BehSpace *b) {
 }
 
 /* Not freeing its arcs, just basic structures*/
-void freeMonitoringState(MonitorState * mu) {
+void freeMonitoringState(MonitorState *RESTRICT mu) {
     free(mu->arcs);
     free(mu->expStates);
     freeRegex(mu->lmu);
@@ -297,7 +297,7 @@ void freeMonitoringState(MonitorState * mu) {
     free(mu);
 }
 
-void freeMonitoring(Monitoring *mon) {
+void freeMonitoring(Monitoring *RESTRICT mon) {
     int i, j;
     for (i=0; i<mon->length; i++) {
         MonitorTrans *arc;

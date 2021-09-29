@@ -165,20 +165,20 @@ void printExplainer(Explainer * exp) {
     fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
     FaultSpace * fault;
     for (fault=exp->faults[i=0]; i<exp->nFaultSpaces; fault=exp->faults[++i]) {
-        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#EAFFEE\"\nedge[color=darkgray fontcolor=darkgray]\n", i+1);
+        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" label=\"C%d\" fontcolor=\"#B2CCBB\" color=\"#EAFFEE\"\nedge[color=darkgray fontcolor=darkgray]\n", i, i);
         //char * descBehSpace = stampaSpazioComportamentale(exp->faults[i]->b, true, i+1);
         //fprintf(file, "%s", descBehSpace);
         for (j=0; j<fault->b->nStates; j++) {
             char flags = fault->b->states[j]->flags;
-            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
-            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
-            else fprintf(file, "node [shape=oval]; C%dS%d ;\n", i+1, fault->idMapToOrigin[j]);
+            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
+            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
+            else fprintf(file, "node [shape=oval]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
         }
         BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
             foreachdecl(trans, s->transitions) {
                 if (trans->t->from == s) {
-                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i+1, fault->idMapToOrigin[j], i+1, fault->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, fault->idMapToOrigin[j], i, fault->idMapToOrigin[trans->t->to->id], trans->t->t->id);
                     if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
                     if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
                     fprintf(file, "]\n");
@@ -196,7 +196,7 @@ void printExplainer(Explainer * exp) {
             if (t->to == exp->faults[j]) toId=j;
         }
         fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
-            fromId+1, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId+1, t->toStateId, t->obs);
+            fromId, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
         if (t->fault>0) fprintf(file, "R%d", t->fault);
         if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
         else fprintf(file, " %s\"]\n", t->regex->regex);
@@ -214,7 +214,7 @@ int findInExplainer(Explainer *exp, FaultSpace *f) {
 }
 
 void printMonitoring(Monitoring * m, Explainer *exp) {
-    int i, j, strlenNomeFile = strlen(inputDES);
+    int i, j, temp, strlenNomeFile = strlen(inputDES);
     char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9], comando[44+strlenNomeFile*2];
     sprintf(nomeFileDot, "%s_MON.dot", inputDES);
     sprintf(nomeFileSvg, "%s_MON.svg", inputDES);
@@ -223,11 +223,13 @@ void printMonitoring(Monitoring * m, Explainer *exp) {
     fprintf(file ,"digraph \"MON%s\" {\nrankdir=LR\nnode [style=filled fillcolor=white]\n", inputDES);
     MonitorState * mu;
     for (mu=m->mu[i=0]; i<m->length; mu=m->mu[++i]) {
-        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFF9DD\"\n", i);
+        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFF9DD\" node [style=\"rounded,filled\" shape=box fillcolor=\"#FFFFFF\"]\n", i);
         if (mu->lmu->regex[0] == '\0') fprintf(file, "label=ε\n");
         else fprintf(file, "label=\"%s\"\n", mu->lmu->regex);
-        for (j=0; j<mu->nExpStates; j++)
-            fprintf(file, "M%dS%d ;\n", i, findInExplainer(exp, mu->expStates[j]));
+        for (j=0; j<mu->nExpStates; j++) {
+            temp = findInExplainer(exp, mu->expStates[j]);
+            fprintf(file, "M%dS%d [label=%d];\n", i, temp, temp);
+        }
         fprintf(file, "}\n");
     }
     for (mu=m->mu[i=0]; i<m->length-1; mu=m->mu[++i]) {
