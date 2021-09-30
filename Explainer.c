@@ -1,7 +1,7 @@
 #include "header.h"
 
 bool **RESTRICT ok;
-Regex * empty = NULL;
+Regex * empty = NULL, *temp = NULL;
 
 Explainer * makeExplainer(BehSpace *b) {
     if (empty == NULL) empty = emptyRegex(0);
@@ -13,7 +13,6 @@ Explainer * makeExplainer(BehSpace *b) {
     memset(mask, true, b->nStates);
     FaultSpace *currentFault;
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
-        int nStates = currentFault->b->nStates;
         BehSpace *duplicated = dup(currentFault->b, mask, false, NULL);
         currentFault->diagnosis = diagnostics(duplicated, true);
         currentFault->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*currentFault->b->nStates/2);
@@ -49,26 +48,60 @@ Explainer * makeExplainer(BehSpace *b) {
         }
         free(obsTrs[i]);
 
-        if (DEBUG_MODE) {
+        debugif (DEBUG_FAULT_DOT, {
             char filename[100];
             strcpy(filename, inputDES);
             sprintf(inputDES, "debug/%d", i);
             printBehSpace(currentFault->b, false, false, false);
             strcpy(inputDES, filename);
+            int nStates = currentFault->b->nStates;
             printlog("Fault space %d having %d states\n", i, nStates);
             for (j=0; j<nStates; j++) {
                 if (currentFault->diagnosis[j]->regex[0] == '\0') printf("F%d S%d: %lc\n", i, j, eps);
                 else printf("F%d S%d: %.10000s\n", i, j, currentFault->diagnosis[j]->regex);
             }
-        }
+        })
     }
     free(obsTrs);
-    if (DEBUG_MODE) expCoherenceTest(exp);
+    debugif(DEBUG_MEMCOH, expCoherenceTest(exp))
     return exp;
 }
 
 
+INLINE(void calcLout(MonitorState *RESTRICT const mu, int fault, FaultSpace * ptr)) {
+    if (fault < 0) {
+        for (fault=0; fault<mu->nExpStates; fault++)
+            if (mu->expStates[fault] == ptr) break;
+    }
+    assert(ptr == NULL || ptr == mu->expStates[fault]);
+    freeRegex(mu->lout[fault]);
+    mu->lout[fault] = emptyRegex(0);
+    bool firstShot = true;
+    int k;
+    for (k=0; k<mu->nArcs; k++)
+        if (mu->arcs[k]->from == mu->expStates[fault]) {
+            if (firstShot) {
+                firstShot = false;
+                regexMake(mu->lout[fault], mu->arcs[k]->l, mu->lout[fault], 'c', NULL);
+            }
+            else regexMake(mu->lout[fault], mu->arcs[k]->l, mu->lout[fault], 'a', NULL);
+        }
+}
+
+INLINE(void calcLmu(MonitorState *RESTRICT const mu)) {
+    int j;
+    if (mu->lmu != NULL) freeRegex(mu->lmu);
+    mu->lmu = emptyRegex(0);
+    for (j=0; j< mu->nExpStates; j++) {
+        //calcLout(mu, j, NULL);
+        regexMake(mu->lin[j], mu->lout[j], temp, 'c', NULL);
+        if (j>0) regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
+        else regexMake(mu->lmu, temp, mu->lmu, 'c', NULL);
+    }
+}
+
 Monitoring * initializeMonitoring(Explainer * exp) {
+    if (temp == NULL) temp = emptyRegex(0);
     Monitoring *m = calloc(1, sizeof(Monitoring));
     m->mu = malloc(sizeof(MonitorState*));
     MonitorState *mu0 = calloc(1, sizeof(MonitorState));
@@ -117,9 +150,13 @@ void pruneMonitoring(Monitoring * monitor) {
     if (DEBUG_MODE) for (i=0; i<mlen; i++) {for (j=0; j<monitor->mu[i]->nExpStates; j++) printf("%d ", ok[i][j]); printf("\n");}
 
     MonitorState *RESTRICT mu;
-    for (mu=monitor->mu[i=0]; i<mlen-1; mu=monitor->mu[++i]) {
+    bool recalcLmu[mlen];
+    memset(recalcLmu, 0, mlen*sizeof(bool));
+    for (mu=monitor->mu[i=mlen-2]; i>0; mu=monitor->mu[--i]) {
+        bool somePruned = false;
         for (j=0; j<mu->nExpStates; j++) {
             if (!ok[i][j]) {
+                somePruned = true;
                 FaultSpace * remove = mu->expStates[j];
                 MonitorTrans *RESTRICT te;
                 for (te=mu->arcs[k=0]; k<mu->nArcs; te=mu->arcs[++k]) {
@@ -132,17 +169,18 @@ void pruneMonitoring(Monitoring * monitor) {
                         k--;
                     }
                 }
-                if (i>0) {  // Except from initial μ, we gotta prune arcs getting to pruned state, so let's look back at previous state
-                    MonitorState *RESTRICT precedingMu = monitor->mu[i-1];
-                    for (te=precedingMu->arcs[k=0]; k<precedingMu->nArcs; te=precedingMu->arcs[++k]) {
-                        if (te->to == remove) {
-                            freeRegex(te->l);
-                            freeRegex(te->lp);
-                            free(te);
-                            memcpy(precedingMu->arcs+k, precedingMu->arcs+k+1, (precedingMu->nArcs-k)*sizeof(MonitorTrans*));
-                            precedingMu->nArcs--;
-                            k--;
-                        }
+                // Except from initial μ, we gotta prune arcs getting to pruned state, so let's look back at previous state
+                MonitorState *precedingMu = monitor->mu[i-1];
+                for (te=precedingMu->arcs[k=0]; k<precedingMu->nArcs; te=precedingMu->arcs[++k]) {
+                    if (te->to == remove) {
+                        FaultSpace * from = te->from;
+                        freeRegex(te->l);
+                        freeRegex(te->lp);
+                        free(te);
+                        memcpy(precedingMu->arcs+k, precedingMu->arcs+k+1, (precedingMu->nArcs-k)*sizeof(MonitorTrans*));
+                        precedingMu->nArcs--;
+                        k--;
+                        calcLout(precedingMu, -1, from); // That state has 1 less outgoing arc, so a different Lout
                     }
                 }
                 memcpy(mu->expStates+j, mu->expStates+j+1, (mu->nExpStates-j)*sizeof(FaultSpace*));
@@ -155,14 +193,18 @@ void pruneMonitoring(Monitoring * monitor) {
                 j--;
             }
         }
+        if (somePruned) recalcLmu[i-1] = recalcLmu[i] = true; // Prune a state in μi causes recalc of L(μi) as well as of L(μi-1) because Lout in its states might change
     }
-    for (i=0; i<mlen; i++) free(ok[i]);
+    for (i=0; i<mlen; i++) {
+        if (recalcLmu[i]) calcLmu(monitor->mu[i]);
+        free(ok[i]);
+    }
     free(ok);
 }
 
 Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss) {
-    if (monitor == NULL || loss==0)  // Assert before calling loss==monitor->length
-        return initializeMonitoring(exp);
+    assert((monitor == NULL && loss == 0) || (monitor->length == loss));
+    if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
     int i, j, k;
     // Let µ denote the last node of M (before the extension)
@@ -242,41 +284,19 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     // Extend E by L(µ') based on Def. 7
     for (i=0; i< newmu->nExpStates; i++)
         newmu->lout[i] = regexCpy(newmu->expStates[i]->alternativeOfDiagnoses);
+    calcLmu(newmu);
     // X ← the set of states in µ that are not exited by any arc
     // while X != ∅
     //      Remove from µ the states in X and their entering arcs
-    //      Update L(µ) in E based on Def. 7 <-- no
+    //      Update L(µ) in E based on Def. 7
     //      µ ← the node preceding µ in M
     //      X ← the set of states in µ that are not exited by any arc
     // end while
     pruneMonitoring(monitor);
-    if (DEBUG_MODE) monitoringCoherenceTest(monitor);
+    debugif(DEBUG_MEMCOH, monitoringCoherenceTest(monitor))
     // Update L(µ) in E based on Def. 7
-    for (mu=monitor->mu[i=0]; i<monitor->length-1; mu=monitor->mu[++i]) {
-        for (j=0; j<mu->nExpStates; j++) {
-            freeRegex(mu->lout[j]);
-            mu->lout[j] = emptyRegex(0);
-            bool firstShot = true;
-            for (k=0; k<mu->nArcs; k++)
-                if (mu->arcs[k]->from == mu->expStates[j]) {
-                    if (firstShot) {
-                        firstShot = false;
-                        regexMake(mu->lout[j], mu->arcs[k]->l, mu->lout[j], 'c', NULL);
-                    }
-                    else regexMake(mu->lout[j], mu->arcs[k]->l, mu->lout[j], 'a', NULL);
-                }
-        }
-    }
-    Regex * temp = emptyRegex(0);
-    for (mu=monitor->mu[i=0]; i<monitor->length; mu=monitor->mu[++i]) {
-        if (mu->lmu != NULL) freeRegex(mu->lmu);
-        mu->lmu = emptyRegex(0);
-        for (j=0; j< mu->nExpStates; j++) {
-            regexMake(mu->lin[j], mu->lout[j], temp, 'c', NULL);
-            if (j>0) regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
-            else regexMake(mu->lmu, temp, mu->lmu, 'c', NULL);
-        }
-    }
-    freeRegex(temp);
+    for (i=0; i< mu->nExpStates; i++)   // Because even if no pruning was done, the ex last µ
+        calcLout(mu, i, NULL);          // still has L(µ) built on Louts made for a last µ
+    calcLmu(mu);
     return monitor;
 }

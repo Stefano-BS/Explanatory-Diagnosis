@@ -43,7 +43,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     if (strl1+strl2+strl3+6 > regexBufLen) {
         do regexBufLen *= (REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
         while (strl1+strl2+strl3+6 > regexBufLen);
-        printlog("REALLOC regexBuf w %d was %d\n", regexBufLen);
+        debugif(DEBUG_REGEX, printlog("REALLOC regexBuf w %d\n", regexBufLen))
         regexBuf = realloc(regexBuf, regexBufLen);
     }
 
@@ -178,7 +178,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             d->regex = malloc(solutionLen*REGEXLEVER);
             d->regex[0] = '\0';
         } else {
-            printlog("REALLOC d->regex w %d was %d \n", solutionLen*REGEXLEVER, d->size);
+            debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %d was %d \n", solutionLen*REGEXLEVER, d->size))
             d->regex = realloc(d->regex, solutionLen*REGEXLEVER);
         }
         d->size = solutionLen*REGEXLEVER;
@@ -193,7 +193,7 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, bool mode2)) {
     if (mode2) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transitions) {
-            printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker);
+            debugif(DEBUG_REGEX, printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker))
             foreachdecl(lt2, lt->next) {
                 if (lt->t->marker != 0 && lt->t->marker == lt2->t->marker) return false;
             }
@@ -271,9 +271,8 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
         }
     }
     
-    printlog("-----\n");
+    debugif(DEBUG_REGEX, printlog("-----\n"));
     while (!exitCondition(b, mode2)) {
-        // for(i=0;i<b->nStates;i++)printlog("%d ",markerMap[i]);printlog("\n");
         bool continua = false;
         for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
             BehTrans *tentra, *tesce;
@@ -290,7 +289,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                 if (mode2 && nt->to->id == b->nStates-1) {
                     if (tesce->marker != 0) nt->marker = tesce->marker;
                     else nt->marker = markerMap[stemp->id];
-                    printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->from->id], markerMap[nt->to->id], nt->marker);
+                    debugif(DEBUG_REGEX, printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->from->id], markerMap[nt->to->id], nt->marker))
                 }
 
                 b->nTrans++;
@@ -321,7 +320,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                     if (trans1->t != trans2->t && trans1->t->from == trans2->t->from && trans1->t->to == trans2->t->to
                     && (!mode2 || (mode2 &&trans2->t->marker == trans1->t->marker))) {
                         regexMake(trans1->t->regex, trans2->t->regex, trans1->t->regex, 'a', NULL);
-                        printlog("Removed t with mark %d\n", trans2->t->marker);
+                        debugif(DEBUG_REGEX, printlog("Removed t with mark %d\n", trans2->t->marker))
                         freeRegex(trans2->t->regex);
                         nodoPrecedente->next = trans2->next;
                         BehState * nodopartenza = trans2->t->from == stemp ? trans2->t->to : trans2->t->from;
@@ -387,14 +386,14 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                                 if (trans2->t->marker != 0) nt->marker = trans2->t->marker;
                                 else nt->marker = markerMap[stemp->id];
                                 //nt->marker = markerMap[stemp->id];
-                                printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->from->id], markerMap[nt->to->id], nt->marker);
+                                debugif(DEBUG_REGEX, printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->from->id], markerMap[nt->to->id], nt->marker))
                             }
                         }
                     }
                 }
             }
             if (azioneEffettuataSuQuestoStato) {
-                printlog("Cut %d\n", markerMap[i]);
+                debugif(DEBUG_REGEX, printlog("Cut %d\n", markerMap[i]))
                 memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
                 removeBehState(b, stemp);
                 break;
@@ -406,6 +405,6 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
     }
     else ret[0] = b->states[0]->transitions->t->regex;
-    printlog("-----\n");
+    debugif(DEBUG_REGEX, printlog("-----\n"))
     return ret;
 }

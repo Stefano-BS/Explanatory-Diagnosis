@@ -196,7 +196,18 @@ void menu(void) {
     }
 }
 
+static void beforeExit(int signo) {
+    printf(MSG_BEFORE_EXIT);
+    fflush(stdin);
+    char close;
+    getCommand(close)
+    if (close == INPUT_Y) exit(0);
+    fflush(stdin);
+    signal(SIGINT, beforeExit);
+}
+
 int main(int argc, char *argv[]) {
+    signal(SIGINT, beforeExit);
     setlocale(LC_ALL, "");
     printf(LOGO);
     if (argc >1) {

@@ -5,6 +5,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <time.h>
+#include <signal.h>
 
 #define VUOTO       -1
 #define ACAPO       -10
@@ -13,6 +14,10 @@
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
+
+#define DEBUG_REGEX         1 << 1
+#define DEBUG_MEMCOH        1 << 2
+#define DEBUG_FAULT_DOT     1 << 3
 
 #define getCommand(com)             while (!isalpha(com=getchar()));
 #define beginTimer                  timer = clock();
@@ -25,13 +30,17 @@
 #endif
 #if DEBUG_MODE
     #define printlog(...)           printf(__VA_ARGS__)
+    #define debugif(mode, action)   if ((DEBUG_MODE & mode) == mode) action;
     #define INLINE(f)               f
     #define RESTRICT
 #else
     #define printlog(...)
+    #define debugif(...)
     #define INLINE(f)               inline f __attribute__((always_inline)); inline f
     #define RESTRICT                restrict
+    #define NDEBUG
 #endif
+#include <assert.h>
 
 // GENERAL
 typedef struct {
@@ -236,6 +245,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
+    #define MSG_BEFORE_EXIT "\nTerminare? "
     #define endTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #elif LANG=='e'
     #define INPUT_Y 'y'
@@ -304,6 +314,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
+    #define MSG_BEFORE_EXIT "\nExit? "
     #define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #endif
 

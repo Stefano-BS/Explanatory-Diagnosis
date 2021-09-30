@@ -1,0 +1,9 @@
+digraph "MONinput/ic" {
+rankdir=LR
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((((((((((((((((r1?|(r1r1))|(r1r1))|((r7r1r1)|(((r7r1r1)|(((r1r7r1)|(r1(r7r1)|(r1r7)))|((r1r7r1)|(r1(r7r1)|((r7r1)|(r1r7))))))|((r7r1r1)|(((r1r7r1)|(r1(r7r1)|(r1r7)))|(((r1r7r1)|((r1(r7r1)|(r1r7))|((r1r7r1)|(r1r1r7))))|((r1r7r1)|((r1(r7r1)|((r7r1)|(r1r7)))|((r1r7r1)|((r1(r7r1)|(r1r7))|((r1r7r1)|(r1r1r7))))))))))))|((r7r5r1r1)|((r7(r5r1r1)|(r1r5r1))|((r7r5r1r1)|((r7r1r5r1)|(r1r7r5r1))))))|r1)|r1)|r1)|((r7r1)|((r7r1)|(r1r7))))|((r7r5r1)|((r7(r5r1)|(r1r5))|((r7r5r1)|((r7r1r5)|(r1r7r5))))))|r1)|((r7r1)|((r7r1)|(r1r7))))|r1)|((r7r1)|(r1r7)))|(r7r5r1))|(r7r5r1))|r7)|(r7r5))|r7)|(r7r5)"
+M0S0 [label=0];
+}
+}

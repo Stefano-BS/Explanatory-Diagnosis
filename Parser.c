@@ -275,6 +275,6 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             if (strcmp(buffer, "}") == 0) break;
         }
     }
-    if (DEBUG_MODE) behCoherenceTest(b);
+    debugif(DEBUG_MEMCOH, behCoherenceTest(b))
     return b;
 }

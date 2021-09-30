@@ -21,15 +21,7 @@ style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fi
 label="r1r3(r2r3)*"
 M3S7 [label=7];
 }
-subgraph cluster4 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(r1r3(r2r3)*r5(r1(r4r1)*r4)?|(r1(r4r1)*))|(r1r3(r2r3)*r1?)"
-M4S4 [label=4];
-M4S0 [label=0];
-}
 M0S0 -> M1S0 [label="(r1, r1)"]
 M1S0 -> M2S1 [label="(ε, r1)"]
 M2S1 -> M3S7 [label="(r3(r2r3)*, r1r3(r2r3)*)"]
-M3S7 -> M4S4 [label="(ε, r1r3(r2r3)*r5)"]
-M3S7 -> M4S0 [label="(ε, r1r3(r2r3)*)"]
 }
