@@ -1,51 +1,46 @@
 #include "header.h"
 
 bool **RESTRICT ok;
-Regex * empty = NULL, *temp = NULL;
+Regex *temp = NULL;
+
+void addFaultSpaceToExplainer(Explainer * exp, FaultSpace * fault, BehTrans** obsTrs) {
+    int j, k;
+    BehTrans* currentTr;
+    j=0;
+    while ((currentTr = obsTrs[j]) != NULL) {
+        ExplTrans *nt = calloc(1, sizeof(ExplTrans));
+        nt->from = fault;
+        nt->fromStateId = fault->idMapFromOrigin[currentTr->from->id];
+        fault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
+        nt->toStateId = currentTr->to->id;
+
+        FaultSpace * f;                                                     // Finding reference to destination fault space,
+        for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
+            if (f->idMapToOrigin[0] == nt->toStateId) {                     // was initialized with the meant destination
+                nt->to = f;
+                break;
+            }
+        }
+        if (nt->to == NULL) printf(MSG_EXP_FAULT_NOT_FOUND);
+
+        nt->obs = currentTr->t->obs;
+        nt->fault = currentTr->t->fault;
+        nt->regex = fault->diagnosis[fault->exitStates[j]];
+        alloc1(exp, 'e');
+        exp->trans[exp->nTrans++] = nt;
+        j++;
+    }
+}
 
 Explainer * makeExplainer(BehSpace *b) {
-    if (empty == NULL) empty = emptyRegex(0);
-    int i, j, k;
-    BehTrans ***obsTrs, *currentTr;
+    int i;
+    BehTrans ***obsTrs;
     Explainer * exp = calloc(1, sizeof(Explainer));
     exp->faults = faultSpaces(b, &(exp->nFaultSpaces), &obsTrs);
-    bool mask[b->nStates];
-    memset(mask, true, b->nStates);
+    exp->sizeofFaults = exp->nFaultSpaces;
     FaultSpace *currentFault;
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
-        BehSpace *duplicated = dup(currentFault->b, mask, false, NULL);
-        currentFault->diagnosis = diagnostics(duplicated, true);
-        currentFault->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*currentFault->b->nStates/2);
-        for (j=0; j<currentFault->b->nStates; j++)
-            if (currentFault->diagnosis[j] != NULL && currentFault->diagnosis[j]->regex != NULL)
-                regexMake(currentFault->alternativeOfDiagnoses, currentFault->diagnosis[j], currentFault->alternativeOfDiagnoses, 'a', NULL);
-            else
-                regexMake(currentFault->alternativeOfDiagnoses, empty, currentFault->alternativeOfDiagnoses, 'a', NULL);
-        freeBehSpace(duplicated);
-        j=0;
-        while ((currentTr = obsTrs[i][j]) != NULL) {
-            ExplTrans *nt = calloc(1, sizeof(ExplTrans));
-            nt->from = currentFault;
-            nt->fromStateId = currentFault->idMapFromOrigin[currentTr->from->id];
-            currentFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
-            nt->toStateId = currentTr->to->id;
-
-            FaultSpace * f;                                                     // Finding reference to destination fault space,
-            for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
-                if (f->idMapToOrigin[0] == nt->toStateId) {                     // was initialized with the meant destination
-                    nt->to = f;
-                    break;
-                }
-            }
-            if (nt->to == NULL) printf(MSG_EXP_FAULT_NOT_FOUND);
-
-            nt->obs = currentTr->t->obs;
-            nt->fault = currentTr->t->fault;
-            nt->regex = currentFault->diagnosis[currentFault->exitStates[j]];
-            alloc1(exp, 'e');
-            exp->trans[exp->nTrans++] = nt;
-            j++;
-        }
+        addFaultSpaceToExplainer(exp, currentFault, obsTrs[i]);
         free(obsTrs[i]);
 
         debugif (DEBUG_FAULT_DOT, {
@@ -56,7 +51,7 @@ Explainer * makeExplainer(BehSpace *b) {
             strcpy(inputDES, filename);
             int nStates = currentFault->b->nStates;
             printlog("Fault space %d having %d states\n", i, nStates);
-            for (j=0; j<nStates; j++) {
+            for (int j=0; j<nStates; j++) {
                 if (currentFault->diagnosis[j]->regex[0] == '\0') printf("F%d S%d: %lc\n", i, j, eps);
                 else printf("F%d S%d: %.10000s\n", i, j, currentFault->diagnosis[j]->regex);
             }
@@ -65,6 +60,98 @@ Explainer * makeExplainer(BehSpace *b) {
     free(obsTrs);
     debugif(DEBUG_MEMCOH, expCoherenceTest(exp))
     return exp;
+}
+
+Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
+    if (exp == NULL)  exp = calloc(1, sizeof(Explainer));
+    alloc1(exp, 'f');                                           // Build the fault space rooted in base
+    FaultSpace * newFault = makeLazyFaultSpace(exp, base);
+    debugif(DEBUG_MON, printlog("Placing fault %p in position %d\n", newFault, exp->nFaultSpaces);)
+    exp->faults[exp->nFaultSpaces++] = newFault;
+    // Deal with transitions: save them right away with wild pointers, or keep a list of them?
+    int hash = hashBehState(base);
+    struct tList * pt = catalog.tList[hash], *before=NULL;      // In this bucket are (also) BehTrans going to this fault space
+    debugif(DEBUG_MON, printlog("Looking for BehTrans in bucket %d\n", hash);)
+    while (pt != NULL) {
+        debugif(DEBUG_MON, printlog("Compare %p w %p\n", pt->t->to, base);)
+        if (behStateCompareTo(pt->t->to, base)) {
+            ExplTrans *nt = calloc(1, sizeof(ExplTrans));
+            nt->to = newFault;
+            nt->from = pt->tempFault;
+            nt->obs = pt->t->t->obs;
+            nt->fault = pt->t->t->fault;
+            nt->fromStateId = -1;
+            nt->toStateId = -1;
+            for (int k=0; k<nt->from->b->nStates; k++)
+                if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
+                    nt->regex = nt->from->diagnosis[k];
+                    break;
+                }
+            alloc1(exp, 'e');
+            exp->trans[exp->nTrans++] = nt;
+            // Remove BehTrans from catalog
+            if (before == NULL) {
+                catalog.tList[hash] = pt->next;
+                free(pt);
+                pt = catalog.tList[hash];
+            } else {
+                before->next = pt->next;
+                free(pt);
+                pt = before->next;
+            }
+            continue;
+        }
+        before = pt;
+        pt = pt->next;
+    }
+    pt = catalog.tList[catalog.length];
+    while (pt != NULL) {
+        ExplTrans *nt = calloc(1, sizeof(ExplTrans));
+        nt->to = pt->tempFault;
+        nt->from = newFault;
+        nt->obs = pt->t->t->obs;
+        nt->fault = pt->t->t->fault;
+        nt->fromStateId = -1;
+        nt->toStateId = -1;
+        for (int k=0; k<nt->from->b->nStates; k++)
+            if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
+                nt->regex = nt->from->diagnosis[k];
+                break;
+            }
+        alloc1(exp, 'e');
+        exp->trans[exp->nTrans++] = nt;
+        catalog.tList[catalog.length] = pt->next;
+        free(pt);
+        pt = catalog.tList[catalog.length];
+    }
+    return exp;
+}
+
+void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
+    debugif(DEBUG_MON, printlog("Building on obs %d from fault %p\n", obs, fault);)
+    //  for all x ∈ fault, (x, t, x') ∈ X* do
+    //      Let fault' denote the fault space of x'
+    //      if fault' not in Exp then
+    //          Create the state fault' in Exp
+    //      end if
+    //      Insert the transition (fault,(o, L(x), f), fault') i into Exp->trans
+    //  end for
+    for (int i=0; i<catalog.length; i++) {
+        struct tList * pt;
+        NEXT: pt = catalog.tList[i];
+        while (pt != NULL) {
+            if (fault==pt->tempFault && pt->t->t->obs == obs) {
+                int j;
+                for (BehState *x=fault->b->states[j=0]; j<fault->b->nStates; x=fault->b->states[++j]) {
+                    if (behStateCompareTo(x, pt->t->from)) {
+                        makeLazyExplainer(exp, pt->t->to); // Not removing here the tList record because it will be removed inside makeLazyExplainer
+                        goto NEXT;
+                    }
+                }
+            }
+            pt = pt->next;
+        }
+    }
 }
 
 
@@ -147,7 +234,7 @@ void pruneMonitoring(Monitoring * monitor) {
     for (i=mlen-2; i>=0; i--)
         calcWhatToBePruned(monitor, i);
     
-    if (DEBUG_MODE) for (i=0; i<mlen; i++) {for (j=0; j<monitor->mu[i]->nExpStates; j++) printf("%d ", ok[i][j]); printf("\n");}
+    debugif(DEBUG_MON, for (i=0; i<mlen; i++) {for (j=0; j<monitor->mu[i]->nExpStates; j++) printf("%d ", ok[i][j]); printf("\n");})
 
     MonitorState *RESTRICT mu;
     bool recalcLmu[mlen];
@@ -202,13 +289,38 @@ void pruneMonitoring(Monitoring * monitor) {
     free(ok);
 }
 
-Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss) {
+Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss, bool lazy) {
     assert((monitor == NULL && loss == 0) || (monitor->length == loss));
     if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
     int i, j, k;
     // Let µ denote the last node of M (before the extension)
     MonitorState *RESTRICT mu = monitor->mu[loss-1];
+    //  for all fault ∈ µ do
+    //      if there is no transition (fault, o, fault') in Exp then
+    //          builfFaultsReachedWithObs
+    //      end if
+    //  end for
+    if (lazy) {
+        for (FaultSpace * fault=mu->expStates[i=0]; i<mu->nExpStates; fault=mu->expStates[++i]) {
+            /*bool haveToBuilsSomeFaultSpace = true;
+            if (exp->nTrans>0)
+                for (ExplTrans * et=exp->trans[j=0]; j<exp->nTrans; et=exp->trans[++j])
+                    if (et->from == fault && et->obs == obs[loss-1]) {
+                        haveToBuilsSomeFaultSpace = false;
+                        break;
+                    }
+            if (haveToBuilsSomeFaultSpace)*/ buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
+        }
+        debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
+        debugif(DEBUG_MON, for(int l=0; l<catalog.length; l++){
+            struct tList * pt=catalog.tList[l];
+            while(pt) {
+                printlog("Bucket %d trans from state hash %d to %d\n", l, hashBehState(pt->t->from), hashBehState(pt->t->to));
+                pt = pt->next;
+            }
+        })
+    }
     // Extend M by a node µ' based on the new observation o
     MonitorState *RESTRICT newmu = calloc(1, sizeof(MonitorState));
     FaultSpace *RESTRICT mu_s;

@@ -23,6 +23,14 @@ BehSpace * newBehSpace(void) {
     return b;
 }
 
+/*  c: Component
+    e: ExplTrans in an Explainer
+    f: FaultSpace in an Explainer
+    l: Link
+    m: MonitorTrans in a MonitorState
+    s: BehState in BehSpace
+    t: Trans in a Component
+*/
 void alloc1(void *ptr, char o) {   // Call before inserting anything new in any of these structures
     switch (o) {
         case 's': {
@@ -70,6 +78,15 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
                 else exp->trans = array;
             }
         } break;
+        case 'f': {
+            Explainer * exp = (Explainer *) ptr;
+            if (exp->nFaultSpaces+1 > exp->sizeofFaults) {
+                exp->sizeofFaults += 5;
+                FaultSpace ** array = realloc(exp->faults, exp->sizeofFaults*sizeof(ExplTrans*));
+                if (array == NULL) printf(MSG_MEMERR);
+                else exp->faults = array;
+            }
+        } break;
         case 'm': {
             MonitorState * mu = (MonitorState *) ptr;
             if (mu->nArcs+1 > mu->sizeofArcs) {
@@ -93,19 +110,35 @@ Component * newComponent(void) {
 }
 
 Component* compById(int id) {
-    int i=0;
-    for (; i<ncomp; i++)
+    for (int i=0; i<ncomp; i++)
         if (components[i]->id == id) return components[i];
     printf(MSG_COMP_NOT_FOUND, id);
     return NULL;
 }
 
 Link* linkById(int id) {
-    int i=0;
-    for (; i<nlink; i++)
+    for (int i=0; i<nlink; i++)
         if (links[i]->id == id) return links[i];
     printf(MSG_LINK_NOT_FOUND, id);
     return NULL;
+}
+
+int hashBehState(BehState *s) {
+    int hash = 42;
+    for (int i=0; i<ncomp; i++) hash += (s->componentStatus[i]+1) << i;
+    for (int i=0; i<nlink; i++) hash += (s->linkContent[i]+2) << i;
+    return abs(hash) % HASHSTATSIZE;
+}
+
+bool behTransCompareTo(BehTrans * t1, BehTrans *t2) {
+    return  t1->marker == t2->marker && t1->t == t2->t
+            && behStateCompareTo(t1->from, t2->from) && behStateCompareTo(t1->to, t2->to);
+}
+
+INLINE(bool behStateCompareTo(BehState * s1, BehState * s2)) {
+    return  // s1->flags == s2->flags && s1->obsIndex == s2->obsIndex &&
+            memcmp(s1->componentStatus, s2->componentStatus, ncomp*sizeof(int)) == 0
+            && memcmp(s1->linkContent, s2->linkContent, nlink*sizeof(int)) == 0;
 }
 
 BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT statiAttivi) {
@@ -115,8 +148,7 @@ BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT statiAttivi
         s->linkContent = malloc(nlink*sizeof(int));
         memcpy(s->linkContent, linkContent, nlink*sizeof(int));
         s->flags = FLAG_FINAL;
-        int i;
-        for (i=0; i<nlink; i++)
+        for (int i=0; i<nlink; i++)
             s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     }
     else s->linkContent = NULL;
@@ -338,10 +370,11 @@ void expCoherenceTest(Explainer *exp){
     printf(MSG_MEMTEST9, exp->nFaultSpaces, exp->nTrans);
     for (s=exp->faults[i=0]; i<exp->nFaultSpaces; s=exp->faults[++i]) {
         behCoherenceTest(s->b);
-        for (j=0; j<s->b->nStates; j++) {
-            if (s->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
-            if (s->idMapFromOrigin[s->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
-        }
+        if (s->idMapFromOrigin !=NULL && s->idMapToOrigin != NULL)
+            for (j=0; j<s->b->nStates; j++) {
+                if (s->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
+                if (s->idMapFromOrigin[s->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
+            }
         //int z;for(z=0;z<s->b->nStates;z++)printf("%d ",s->idMapToOrigin[z]);printf("\n");for(z=0;z<12;z++)printf("%d ",s->idMapFromOrigin[z]);printf("\n");
     }
     

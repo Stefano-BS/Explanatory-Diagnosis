@@ -170,9 +170,10 @@ void printExplainer(Explainer * exp) {
         //fprintf(file, "%s", descBehSpace);
         for (j=0; j<fault->b->nStates; j++) {
             char flags = fault->b->states[j]->flags;
-            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
-            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
-            else fprintf(file, "node [shape=oval]; C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
+            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; ");
+            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; ");
+            else fprintf(file, "node [shape=oval]; ");
+            fprintf(file, "C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
         }
         BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {

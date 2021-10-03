@@ -6,11 +6,13 @@
 #include <ctype.h>
 #include <time.h>
 #include <signal.h>
+#include <locale.h>
 
-#define VUOTO       -1
-#define ACAPO       -10
-#define REGEX       5
-#define REGEXLEVER  2
+#define VUOTO           -1
+#define ACAPO           -10
+#define REGEX           5
+#define REGEXLEVER      2
+#define HASHSTATSIZE    181         // Occupy HASHSTATSIZE*2*sizeof(pointer) in RAM
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -18,6 +20,7 @@
 #define DEBUG_REGEX         1 << 1
 #define DEBUG_MEMCOH        1 << 2
 #define DEBUG_FAULT_DOT     1 << 3
+#define DEBUG_MON           1 << 4
 
 #define getCommand(com)             while (!isalpha(com=getchar()));
 #define beginTimer                  timer = clock();
@@ -49,6 +52,19 @@ typedef struct {
     bool bracketed, concrete;
 } Regex;
 
+typedef struct {
+    int length;
+    struct sList {
+        struct behstate *s;
+        struct sList * next;
+    } *sList [HASHSTATSIZE];
+    struct tList {
+        struct behtrans *t;
+        struct faultspace *tempFault;
+        struct tList * next;
+    } *tList [HASHSTATSIZE+1];
+} BehSpaceCatalog;
+
 // DISCRETE EVENT SYSTEM
 typedef struct {
     struct component *RESTRICT from, *RESTRICT to;
@@ -67,14 +83,14 @@ typedef struct component {
 } Component;
 
 // BEHAVIORAL SPACE
-typedef struct {
+typedef struct behstate {
     int *RESTRICT componentStatus, *RESTRICT linkContent;
     int id, obsIndex;
     char flags;
     struct ltrans *RESTRICT transitions;
 } BehState;
 
-typedef struct {
+typedef struct behtrans {
     BehState *from, *to;
     int marker;
     Regex *regex;
@@ -92,7 +108,7 @@ typedef struct {
 } BehSpace;
 
 // EXPLAINER AND MONITORNING
-typedef struct {
+typedef struct faultspace {
     BehSpace *b;
     int *RESTRICT idMapToOrigin, * idMapFromOrigin, *RESTRICT exitStates;
     Regex ** diagnosis, *alternativeOfDiagnoses;
@@ -107,7 +123,7 @@ typedef struct {
 typedef struct {
     FaultSpace **RESTRICT faults;
     ExplTrans **RESTRICT trans;
-    int nFaultSpaces, nTrans, sizeofTrans;
+    int nFaultSpaces, nTrans, sizeofTrans, sizeofFaults;
 } Explainer;
 
 typedef struct {
@@ -133,7 +149,9 @@ extern int nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
 extern char inputDES[100];
+extern Regex* empty;
 extern const unsigned int eps, mu;
+extern BehSpaceCatalog catalog;
 
 // DataStructures.c
 Component * newComponent(void);
@@ -141,6 +159,9 @@ Link* linkById(int);
 Component* compById(int);
 void netAlloc(void);
 void alloc1(void *, char);
+int hashBehState(BehState *);
+bool behTransCompareTo(BehTrans *, BehTrans *);
+bool behStateCompareTo(BehState *, BehState *);
 BehSpace * newBehSpace(void);
 BehState * generateBehState(int *, int *);
 void removeBehState(BehSpace *, BehState *);
@@ -163,7 +184,9 @@ void printMonitoring(Monitoring *, Explainer *);
 bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, int);
 void generateBehavioralSpace(BehSpace *, BehState *, int *, int);
 void prune(BehSpace *);
+FaultSpace * faultSpace(BehSpace *, BehState *, BehTrans **);
 FaultSpace ** faultSpaces(BehSpace *, int *, BehTrans ****);
+FaultSpace * makeLazyFaultSpace(Explainer *, BehState *);
 // Diagnoser.c
 void freeRegex(Regex *);
 Regex * emptyRegex(int);
@@ -172,7 +195,8 @@ void regexMake(Regex*, Regex*, Regex*, char, Regex *);
 Regex** diagnostics(BehSpace *, bool);
 // Explainer.c
 Explainer * makeExplainer(BehSpace *);
-Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
+Explainer * makeLazyExplainer(Explainer *, BehState *);
+Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
 
 #ifndef LANG
     #define LANG 'e'
@@ -190,6 +214,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MENU_E "\te: Genera un Diagnosticatore\n"
     #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
+    #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra del Diagnosticatore)\n"
     #define MSG_MENU_END "Scelta: "
     #define MSG_OBS "Fornire la sequenza di etichette. Per ogni numero, a capo o spazio, per terminare usa un carattere non numerico\n"
     #define MSG_DEF_AUTOMA "\nIndicare il file che contiene la definizione dell'automa: "
@@ -259,6 +284,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int);
     #define MSG_MENU_E "\te: Generate Explainer\n"
     #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral Space from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
+    #define MSG_MENU_L "\tl: Start monitoring procedure (lazy Explainer compilation)\n"
     #define MSG_MENU_END "Your choice: "
     #define MSG_OBS "Provide the observation sequence. A new line or space foreach number, non numeric to stop\n"
     #define MSG_DEF_AUTOMA "\nWhere does automata's definition file locate: "

@@ -6,7 +6,7 @@
             "command": "C:\\MinGW\\bin\\gcc.exe",
             "args": [
                 "-std=c99",
-                "-D\"DEBUG_MODE=false\"",
+                "-D\"DEBUG_MODE=0\"",
                 "-D\"LANG='e'\"",
                 "-g",
                 "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c",

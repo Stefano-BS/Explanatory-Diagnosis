@@ -1,8 +1,8 @@
 #include "header.h"
-#include <locale.h>
 
 const unsigned int eps = L'ε', mu = L'μ';
 
+Regex* empty;
 char inputDES[100] = "";
 char sceltaDot='\0';
 bool benchmark = false;
@@ -36,6 +36,36 @@ int* impostaDatiOsservazione(int *loss) {
     return obs;
 }
 
+void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
+    char digitazione[10];
+    int oss, loss=0, *obs=NULL, sizeofObs=0;
+    while (true) {
+        printf(MSG_MONITORING_RESULT);
+        int i;
+        for (i=0; i<=loss; i++)
+            if (monitor->mu[i]->lmu->regex[0]=='\0') printf("%lc%d:\t%lc\n", mu, i, eps);
+            else printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
+        if (sceltaDot==INPUT_Y) printMonitoring(monitor, explainer);
+        printf(MSG_NEXT_OBS);
+
+        RETRY: scanf("%9s", digitazione);
+        oss = atoi(digitazione);
+        if (oss <= 0) goto RETRY;
+
+        if (loss+1 > sizeofObs) {
+            sizeofObs += 5;
+            obs = realloc(obs, sizeofObs*sizeof(int));
+        }
+        obs[loss++] = oss;
+        Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy);
+        if (updatedMonitor == NULL) break;
+        monitor = updatedMonitor;
+    }
+    printf(MSG_IMPOSSIBLE_OBS);
+    freeMonitoring(monitor);
+    free(obs);
+}
+
 void menu(void) {
     bool sc = false, exp = false, fixedObs = false;
     char op, pota, sceltaRinomina;
@@ -48,7 +78,8 @@ void menu(void) {
             allow_fg = !exp & !fixedObs,
             allow_e = sc & !fixedObs & !exp,
             allow_m = sc & exp & !fixedObs,
-            allow_d = sc & fixedObs;
+            allow_d = sc & fixedObs,
+            allow_l = !sc & !fixedObs & !exp;
         
         printf(MSG_MENU_INTRO);
         if (allow_c) printf(MSG_MENU_C);
@@ -57,6 +88,7 @@ void menu(void) {
         if (allow_e) printf(MSG_MENU_E);
         if (allow_m) printf(MSG_MENU_M);
         if (allow_d) printf(MSG_MENU_D);
+        if (allow_l) printf(MSG_MENU_L);
         printf(MSG_MENU_END);
         getCommand(op);
 
@@ -165,33 +197,14 @@ void menu(void) {
             endTimer
         }
         else if (op=='m' && allow_m) {
-            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0), *updatedMonitor;
-            char digitazione[10];
-            int oss, loss=0, *obs=NULL, sizeofObs=0;
-            while (true) {
-                printf(MSG_MONITORING_RESULT);
-                int i;
-                for (i=0; i<=loss; i++)
-                    printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
-                if (sceltaDot==INPUT_Y) printMonitoring(monitor, explainer);
-                printf(MSG_NEXT_OBS);
-
-                RETRY: scanf("%9s", digitazione);
-                oss = atoi(digitazione);
-                if (oss <= 0) goto RETRY;
-
-                if (loss+1 > sizeofObs) {
-                    sizeofObs += 5;
-                    obs = realloc(obs, sizeofObs*sizeof(int));
-                }
-                obs[loss++] = oss;
-                updatedMonitor = explanationEngine(explainer, monitor, obs, loss);
-                if (updatedMonitor == NULL) break;
-                monitor = updatedMonitor;
-            }
-            printf(MSG_IMPOSSIBLE_OBS);
-            freeMonitoring(monitor);
-            free(obs);
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, false);
+            driveMonitoring(explainer, monitor, false);
+        }
+        else if (op=='l' && allow_l) {
+            exp = sc = true;
+            explainer = makeLazyExplainer(NULL, iniziale);
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true);
+            driveMonitoring(explainer, monitor, true);
         }
     }
 }
@@ -226,6 +239,7 @@ int main(int argc, char *argv[]) {
         }
     }
     
+    empty = emptyRegex(0);
     if (inputDES[0]=='\0') {
         printf(MSG_DEF_AUTOMA);
         fflush(stdout);
