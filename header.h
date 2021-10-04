@@ -12,7 +12,7 @@
 #define ACAPO           -10
 #define REGEX           5
 #define REGEXLEVER      2
-#define HASHSTATSIZE    181         // Occupy HASHSTATSIZE*2*sizeof(pointer) in RAM
+#define HASHSTATSIZE    181
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -47,22 +47,22 @@
 
 // GENERAL
 typedef struct {
-    char * regex;
-    int size;
+    int size, strlen;
     bool bracketed, concrete;
+    char * regex;
 } Regex;
 
 typedef struct {
     int length;
-    struct sList {
+    /*struct sList {
         struct behstate *s;
         struct sList * next;
-    } *sList [HASHSTATSIZE];
+    } *sList [HASHSTATSIZE];*/
     struct tList {
         struct behtrans *t;
         struct faultspace *tempFault;
         struct tList * next;
-    } *tList [HASHSTATSIZE+1];
+    } **tList;
 } BehSpaceCatalog;
 
 // DISCRETE EVENT SYSTEM

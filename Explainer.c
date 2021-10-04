@@ -63,7 +63,11 @@ Explainer * makeExplainer(BehSpace *b) {
 }
 
 Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
-    if (exp == NULL)  exp = calloc(1, sizeof(Explainer));
+    if (exp == NULL) {
+        exp = calloc(1, sizeof(Explainer));
+        catalog.length = HASHSTATSIZE;
+        catalog.tList = calloc(HASHSTATSIZE+1, sizeof(struct tList*));
+    }
     alloc1(exp, 'f');                                           // Build the fault space rooted in base
     FaultSpace * newFault = makeLazyFaultSpace(exp, base);
     debugif(DEBUG_MON, printlog("Placing fault %p in position %d\n", newFault, exp->nFaultSpaces);)
@@ -323,10 +327,8 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     }
     // Extend M by a node µ' based on the new observation o
     MonitorState *RESTRICT newmu = calloc(1, sizeof(MonitorState));
-    FaultSpace *RESTRICT mu_s;
-    for (mu_s=mu->expStates[i=0]; i<mu->nExpStates; mu_s=mu->expStates[++i]) {
-        ExplTrans *RESTRICT te;
-        for (te=exp->trans[j=0]; j<exp->nTrans; te=exp->trans[++j]) {
+    for (FaultSpace *RESTRICT mu_s=mu->expStates[i=0]; i<mu->nExpStates; mu_s=mu->expStates[++i]) {
+        for (ExplTrans *RESTRICT te=exp->trans[j=0]; j<exp->nTrans; te=exp->trans[++j]) {
             if (te->from == mu_s && te->obs == obs[loss-1]) {
                 FaultSpace * dest = te->to, *newmu_s;
                 bool destAlredyPresent = false;
@@ -361,6 +363,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 if (te->fault) {
                     fault = emptyRegex(0);
                     sprintf(fault->regex, "r%d", te->fault);
+                    fault->strlen = 1+(int)ceilf(log10f(te->fault+1));
                     fault->concrete = true;
                 }
                 regexMake(mt->lp, mt->l, mt->lp, 'c', NULL);
@@ -378,8 +381,8 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
         monitor->mu[monitor->length-1] = newmu;
     }
     else return NULL;
-    FaultSpace *state;
-    for (state=newmu->expStates[i=0]; i<newmu->nExpStates; state=newmu->expStates[++i]) {
+    
+    for (FaultSpace * state=newmu->expStates[i=0]; i<newmu->nExpStates; state=newmu->expStates[++i]) {
         newmu->lin[i] = emptyRegex(0);
         MonitorTrans *arc;
         bool firstShot = true;

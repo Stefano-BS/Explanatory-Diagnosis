@@ -124,10 +124,10 @@ Link* linkById(int id) {
 }
 
 int hashBehState(BehState *s) {
-    int hash = 42;
-    for (int i=0; i<ncomp; i++) hash += (s->componentStatus[i]+1) << i;
-    for (int i=0; i<nlink; i++) hash += (s->linkContent[i]+2) << i;
-    return abs(hash) % HASHSTATSIZE;
+    int hash = 0;
+    for (int i=0; i<ncomp; i++) hash = ((hash << 3) + s->componentStatus[i]) % catalog.length;
+    for (int i=0; i<nlink; i++) hash = ((hash << 3) + s->linkContent[i]+1) % catalog.length;
+    return hash;
 }
 
 bool behTransCompareTo(BehTrans * t1, BehTrans *t2) {

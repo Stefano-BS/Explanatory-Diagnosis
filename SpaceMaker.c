@@ -290,26 +290,16 @@ FaultSpace ** faultSpaces(BehSpace *RESTRICT b, int *RESTRICT nSpaces, BehTrans 
 }
 
 FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base) {
-    static bool hasToInit = true;
-    if (hasToInit) {
-        hasToInit = false;
-        buildingTransCatalogue = true;
-        catalog.length = HASHSTATSIZE;
-        for (int i=0; i<catalog.length; i++) {
-            catalog.sList[i] = NULL;
-            catalog.tList[i] = NULL;
-        }
-    }
-    
-    int i, nExitStates=0, fakeObs[1] = {-1};
+    int fakeObs[1] = {-1}; //, i, nExitStates=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     context = ret;
     expWorkingOn = expCtx;
+    buildingTransCatalogue = true;
     ret->b = newBehSpace();
     enlargeBehavioralSpace(ret->b, NULL, base, NULL, 0);
     generateBehavioralSpace(ret->b, base, fakeObs, 1);  // FakeObs will prevent from expanding in any observable direction
-    ret->exitStates = malloc(ret->b->nStates* sizeof(int));
-    BehState *s;
+    //ret->exitStates = malloc(ret->b->nStates* sizeof(int));
+    /*BehState *s;
     for (s=ret->b->states[i=0]; i<ret->b->nStates; s=ret->b->states[++i]) {
         int hash = hashBehState(s);
         struct sList *pt = catalog.sList[hash];
@@ -325,14 +315,15 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base) {
         }
         
         //for (t=components[i=0]->transitions[j=0]; i<ncomp; t=(j+1==components[i]->nTrans? components[++i]->transitions[j=0] : components[i]->transitions[++j])) {     // Double var auto cycle <3
-        /*for (Component * c=components[k=0]; k<ncomp; c=components[++k])
+        //for (Component * c=components[k=0]; k<ncomp; c=components[++k])
             for (Trans *t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j])
                 if (t->obs != 0 && isTransEnabled(s, components[k], t, NULL, 0))
-                    ret->exitStates[nExitStates++] = i;*/
-    }
-    ret->exitStates = realloc(ret->exitStates, nExitStates*sizeof(int));
+                    ret->exitStates[nExitStates++] = i;
+    }*/
+    //ret->exitStates = realloc(ret->exitStates, nExitStates*sizeof(int));
     decorateFaultSpace(ret);
     context = NULL;
     expWorkingOn = NULL;
+    buildingTransCatalogue = false;
     return ret;
 }

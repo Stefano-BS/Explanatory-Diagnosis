@@ -79,7 +79,7 @@ void menu(void) {
             allow_e = sc & !fixedObs & !exp,
             allow_m = sc & exp & !fixedObs,
             allow_d = sc & fixedObs,
-            allow_l = !sc & !fixedObs & !exp;
+            allow_l = !fixedObs & !exp;
         
         printf(MSG_MENU_INTRO);
         if (allow_c) printf(MSG_MENU_C);
@@ -202,6 +202,8 @@ void menu(void) {
         }
         else if (op=='l' && allow_l) {
             exp = sc = true;
+            if (b != NULL) {freeBehSpace(b); b=NULL;}
+            generaStatoIniziale();
             explainer = makeLazyExplainer(NULL, iniziale);
             Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true);
             driveMonitoring(explainer, monitor, true);

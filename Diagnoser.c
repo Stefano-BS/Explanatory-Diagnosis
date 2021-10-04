@@ -4,6 +4,7 @@ INLINE(Regex * emptyRegex(int size)) {
     Regex * new = malloc(sizeof(Regex));
     size = size <= REGEX ? REGEX : size;
     new->size = size;
+    new->strlen = 0;
     new->concrete = false;
     new->bracketed = true;
     new->regex = malloc(size);
@@ -18,12 +19,13 @@ INLINE(void freeRegex(Regex *RESTRICT r)) {
 
 Regex * regexCpy(Regex *RESTRICT src) {
     if (src == NULL) return NULL;
+    assert(src->size > src->strlen);
     Regex * ret = malloc(sizeof(Regex));
     memcpy(ret, src, sizeof(Regex));
     if (ret->size>0) {
         ret->regex = malloc(ret->size);
-        strncpy(ret->regex, src->regex, ret->size);
-        ret->regex[ret->size-1] = '\0';
+        strncpy(ret->regex, src->regex, ret->strlen);
+        ret->regex[ret->strlen] = '\0';
     }
     else ret->regex = NULL;
     return ret;
@@ -34,11 +36,11 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     static int regexBufLen = 0;
     if (regexBuf==NULL) regexBuf = calloc(regexBufLen=REGEX, 1);
 
-    int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
-    if (autoTransizione != NULL) strl3 = strlen(autoTransizione->regex);
+    int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0;//int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
+    if (autoTransizione != NULL) strl3 = autoTransizione->strlen; //strl3 = strlen(autoTransizione->regex);
     bool streq = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
     char * solution = NULL;
-    int solutionLen = 0;
+    int solLen = 0;
 
     if (strl1+strl2+strl3+6 > regexBufLen) {
         do regexBufLen *= (REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
@@ -46,10 +48,15 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
         debugif(DEBUG_REGEX, printlog("REALLOC regexBuf w %d\n", regexBufLen))
         regexBuf = realloc(regexBuf, regexBufLen);
     }
+    
+    debugif(DEBUG_REGEX, {
+        assert(strl1 < s1->size && strl2 < s2->size && (autoTransizione == NULL || strl3 < autoTransizione->size));
+        assert(strl1 == strlen(s1->regex) && strl2 == strlen(s2->regex) && (autoTransizione == NULL || strl3 == strlen(autoTransizione->regex)));
+    })
 
     if (op == 'c') { // Concat
         if (strl1>0 && strl2>0) { // concat
-            solutionLen = strl1+strl2+1 < REGEX? REGEX : strl1+strl2+1;
+            solLen = strl1+strl2;
             solution = regexBuf;
             d->bracketed = false;
             d->concrete = s1->concrete || s2->concrete;
@@ -57,13 +64,13 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
         }
         else if (strl1>0 && strl2==0) { // copia s1 in d
             solution = s1->regex;
-            solutionLen = s1->size;
+            solLen = strl1;
             d->bracketed = s1->bracketed;
             d->concrete = s1->concrete;
         }
         else if (strl1==0 && strl2>0) {// Copia s2 in d
             solution = s2->regex;
-            solutionLen = s2->size;
+            solLen = strl2;
             d->bracketed = s2->bracketed;
             d->concrete = s2->concrete;
         }
@@ -72,6 +79,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
                 d->regex = calloc(REGEX, 1);
                 d->size = REGEX;
             } else d->regex[0] = '\0';
+            d->strlen = 0;
             d->bracketed = true;
             d->concrete = false;
             return;
@@ -80,23 +88,23 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     else if (op == 'a') {
         if (strl1 > 0 && streq) { // Copia s1 in d
             solution = s1->regex;
-            solutionLen = s1->size;
+            solLen = strl1;
             d->bracketed = s1->bracketed;
             d->concrete = s1->concrete;
         }
         else if (strl1 > 0 && strl2 > 0) { // s1|s2
             solution = regexBuf;
             if (s1->bracketed && s2->bracketed) {
-                solutionLen = strl1+strl2+2 < REGEX? REGEX : strl1+strl2+2;
+                solLen = strl1+strl2+1;
                 sprintf(regexBuf, "%s|%s", s1->regex, s2->regex);
             } else if (s1->bracketed && !s2->bracketed) {
-                solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
+                solLen = strl1+strl2+3;
                 sprintf(regexBuf, "%s|(%s)", s1->regex, s2->regex);
             } else if (!s1->bracketed && s2->bracketed) {
-                solutionLen = strl1+strl2+4 < REGEX? REGEX : strl1+strl2+4;
+                solLen = strl1+strl2+3;
                 sprintf(regexBuf, "(%s)|%s", s1->regex, s2->regex);
             } else {
-                solutionLen = strl1+strl2+6 < REGEX? REGEX : strl1+strl2+6;
+                solLen = strl1+strl2+5;
                 sprintf(regexBuf, "(%s)|(%s)", s1->regex, s2->regex);
             }
             d->bracketed = false;
@@ -105,17 +113,17 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             solution = regexBuf;
             if (s1->concrete) {
                 if (s1->bracketed) {
-                    solutionLen = strl1+2 < REGEX? REGEX : strl1+2;
+                    solLen = strl1+1;
                     sprintf(regexBuf, "%s?", s1->regex);
                 }
                 else {
-                    solutionLen = strl1+4 < REGEX? REGEX : strl1+4;
+                    solLen = strl1+3;
                     sprintf(regexBuf, "(%s)?", s1->regex);
                 }
                 d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
-                solutionLen = strl1+1 < REGEX? REGEX : strl1+1;
+                solLen = strl1;
                 strcpy(regexBuf, s1->regex);
                 d->bracketed = s1->bracketed;
             }
@@ -124,17 +132,17 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             solution = regexBuf;
             if (s2->concrete) {
                 if (s2->bracketed) {
-                    solutionLen = strl2+2 < REGEX? REGEX : strl2+2;
+                    solLen = strl2+1;
                     sprintf(regexBuf, "%s?", s2->regex);
                 }
                 else {
-                    solutionLen = strl2+4 < REGEX? REGEX : strl2+4;
+                    solLen = strl2+3;
                     sprintf(regexBuf, "(%s)?", s2->regex);
                 }
                 d->bracketed = true;   // Anche se non termina con ), non ha senso aggiungere ulteriori parentesi
             }
             else {
-                solutionLen = strl2+1 < REGEX? REGEX : strl2+1;
+                solLen = strl2;
                 strcpy(regexBuf, s2->regex);
                 d->bracketed = s2->bracketed;
             }
@@ -148,24 +156,36 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
         }
     }
     else if (op == 'r') {
-        solutionLen = strl1+strl2+strl3+4 < REGEX ? REGEX : strl1+strl2+strl3+4;
-        d->regex = malloc(solutionLen);
+        d->size = strl1+strl2+strl3+4 < REGEX ? REGEX : strl1+strl2+strl3+4;
+        d->regex = malloc(d->size);
         d->regex[0] = '\0';
-        d->size = solutionLen;
+        d->strlen = 0;
         if (strl3 == 0) regexMake(s1, s2, d, 'c', NULL);
         else {
             if (strl1 + strl2 >0) {
-                if (autoTransizione->bracketed) sprintf(d->regex, "%s%s*%s", s1->regex, autoTransizione->regex, s2->regex);
-                else sprintf(d->regex, "%s(%s)*%s", s1->regex, autoTransizione->regex, s2->regex);
+                if (autoTransizione->bracketed) {
+                    sprintf(d->regex, "%s%s*%s", s1->regex, autoTransizione->regex, s2->regex);
+                    d->strlen = strl1+strl2+strl3+1;
+                } else {
+                    sprintf(d->regex, "%s(%s)*%s", s1->regex, autoTransizione->regex, s2->regex);
+                    d->strlen = strl1+strl2+strl3+3;
+                }
                 d->bracketed = false;
                 d->concrete = s1->concrete && s2->concrete && autoTransizione->concrete;
             }
             else {
                 if (autoTransizione->bracketed) {
-                    if (autoTransizione->regex[strl3]=='?') autoTransizione->regex[strl3] = '\0';
+                    if (autoTransizione->regex[strl3-1]=='?') {
+                        autoTransizione->regex[strl3-1] = '\0';
+                        d->strlen = strl3;
+                    }
+                    else d->strlen = strl3+1;
                     sprintf(d->regex, "%s*", autoTransizione->regex);
                 }
-                else sprintf(d->regex, "(%s)*", autoTransizione->regex);
+                else {
+                    sprintf(d->regex, "(%s)*", autoTransizione->regex);
+                    d->strlen = strl3+3;
+                }
                 d->bracketed = true; // Se anche termina con *, non importa
                 d->concrete = autoTransizione->concrete;
             }
@@ -173,19 +193,21 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
         return;
     }
 
-    if (d->size < solutionLen) {
+    if (d->size < solLen+1) {
         if (d->size == 0) {
-            d->regex = malloc(solutionLen*REGEXLEVER);
+            d->regex = malloc(solLen*REGEXLEVER);
             d->regex[0] = '\0';
         } else {
-            debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %d was %d \n", solutionLen*REGEXLEVER, d->size))
-            d->regex = realloc(d->regex, solutionLen*REGEXLEVER);
+            debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %d was %d \n", solLen*REGEXLEVER, d->size))
+            d->regex = realloc(d->regex, solLen*REGEXLEVER);
         }
-        d->size = solutionLen*REGEXLEVER;
+        d->size = solLen*REGEXLEVER;
     }
     if (solution != d->regex) {
-        strncpy(d->regex, solution, solutionLen);
-        d->regex[d->size-1] = '\0';
+        strncpy(d->regex, solution, solLen);
+        d->strlen = solLen;
+        d->regex[d->strlen] = '\0';
+        assert(d->size > d->strlen);
     }
 }
 
@@ -265,6 +287,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                 trans->t->regex = emptyRegex(0);
                 if (trans->t->t->fault >0) {
                     sprintf(trans->t->regex->regex, "r%d", trans->t->t->fault);
+                    trans->t->regex->strlen = 1+(int)ceilf(log10f(trans->t->t->fault+1));
                     trans->t->regex->concrete = true;
                 }
             }

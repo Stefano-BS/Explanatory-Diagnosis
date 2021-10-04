@@ -3,31 +3,23 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label=ε
+label="((r1?|(r1r1))|r1)|r1"
 M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((((((((((((r1?|r1)|(r1r1))|(r1r1))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|(r1r3)))))|(r1r1|(r1|(r1|(r1|r3)))))))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3)))))|(r1r1|(r1|(r1|((r1|r3)|r3)))))))|((r1r1)|(((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|((r1r3)|(((r1r1)|(r1r3))|(r1r3))))))))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|(r1r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))))))))))|r1)|r1)|(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1))))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))|r1)|(r1|((r1|(r1|r3))|r1)))|r1)|r1"
-M1S9 [label=9];
+label="(((((r1((((r1?|r1)|r1)|(r1|(r1|(r1|r3))))|((r1r1)|((r1r1)|((r1|r3r1)|(r1r3)))))|(r1|(r1|(r1|(r3|(r1|r3))))))|((((((((((((((r1?|r1)|(r1r1))|(r1r1))|((r1r1)|((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|(r1r3)))))))|((r1r1)|((r1r1)|((r1|r3r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3)))))))|((r1r1r1)|((r1r1r1)|((r1|r3r1r1)|((r1r1r1)|((((r1r1)|(r1r3))|(r1r3)r1)|(r1r1r3)))))))|((r1r1)|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|((r1r3)|(((r1r1)|(r1r3))|(r1r3))))))))))))))|r1)|r1)|(r1|(r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))))|(r1|(r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))))|r1)|(r1|(r1|(r1|r3))))|r1))|(r1r1(r1|r3)?))|(r1((((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(r1|((r1|r3)|r3)))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3)|r3r1)|(r1r3))))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))))|(((((((((((((((r1?|r1)|r1)|(r1r1))|(r1r1))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|(r1r3)))))|((r1r1)|((r1r1)|((r1r1)|((r1r1)|(r1r3))))))))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3)))))|((r1r1)|((r1r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3))))))))|((r1r1r1)|(((r1r1r1)|((r1|r3r1r1)|((r1r1r1)|((((r1r1)|(r1r3))|(r1r3)r1)|(r1r1r3)))))|((r1r1r1)|((r1r1r1)|((r1r1r1)|((((r1r1)|(r1r3))|(r1r3)r1)|(r1r1r3))))))))|((r1r1)|(((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|((r1r3)|(((r1r1)|(r1r3))|(r1r3))))))))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1r1)|((r1r1)|((r1r1)|((r1r1)|((r1r3)|(((r1r1)|(r1r3))|(r1r3)))))))))))))))|r1)|r1)|(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1))))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))|r1)|(r1|((r1|(r1|r3))|r1)))|r1))|(r1((((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(r1|((r1|r3)|r3)))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3)|r3r1)|(r1r3))))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3)))))))"
+M1S1 [label=1];
+M1S2 [label=2];
+M1S3 [label=3];
+M1S4 [label=4];
+M1S5 [label=5];
+M1S6 [label=6];
 }
-subgraph cluster2 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))?"
-M2S7 [label=7];
-M2S5 [label=5];
-M2S6 [label=6];
-}
-subgraph cluster3 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))?"
-M3S4 [label=4];
-}
-M0S0 -> M1S9 [label="(ε, ε)"]
-M1S9 -> M2S7 [label="(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))), r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))"]
-M1S9 -> M2S5 [label="(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))), r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))))"]
-M1S9 -> M2S6 [label="(ε, ε)"]
-M2S7 -> M3S4 [label="(ε, r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1)))))))"]
-M2S5 -> M3S4 [label="(ε, r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1)))))))"]
-M2S6 -> M3S4 [label="(ε, ε)"]
+M0S0 -> M1S1 [label="(r1, r1)"]
+M0S0 -> M1S2 [label="(ε, ε)"]
+M0S0 -> M1S3 [label="(r1r1, r1r1)"]
+M0S0 -> M1S4 [label="(r1, r1)"]
+M0S0 -> M1S5 [label="(ε, ε)"]
+M0S0 -> M1S6 [label="(r1, r1)"]
 }
