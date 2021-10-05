@@ -45,7 +45,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
     if (strl1+strl2+strl3+6 > regexBufLen) {
         do regexBufLen *= (REGEXLEVER > 1.5 ? REGEXLEVER : 1.5);
         while (strl1+strl2+strl3+6 > regexBufLen);
-        debugif(DEBUG_REGEX, printlog("REALLOC regexBuf w %d\n", regexBufLen))
+        debugif(DEBUG_REGEX, printlog("REALLOC regexBuf w %lu\n", regexBufLen))
         regexBuf = realloc(regexBuf, regexBufLen);
     }
     
@@ -198,7 +198,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) 
             d->regex = malloc(solLen*REGEXLEVER);
             d->regex[0] = '\0';
         } else {
-            debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %d was %d \n", solLen*REGEXLEVER, d->size))
+            debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %lf was %u \n", solLen*REGEXLEVER, d->size))
             d->regex = realloc(d->regex, solLen*REGEXLEVER);
         }
         d->size = solLen*REGEXLEVER;

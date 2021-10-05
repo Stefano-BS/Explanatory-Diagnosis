@@ -3,44 +3,39 @@
 bool **RESTRICT ok;
 Regex *temp = NULL;
 
-void addFaultSpaceToExplainer(Explainer * exp, FaultSpace * fault, BehTrans** obsTrs) {
-    int j, k;
-    BehTrans* currentTr;
-    j=0;
-    while ((currentTr = obsTrs[j]) != NULL) {
-        ExplTrans *nt = calloc(1, sizeof(ExplTrans));
-        nt->from = fault;
-        nt->fromStateId = fault->idMapFromOrigin[currentTr->from->id];
-        fault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
-        nt->toStateId = currentTr->to->id;
-
-        FaultSpace * f;                                                     // Finding reference to destination fault space,
-        for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
-            if (f->idMapToOrigin[0] == nt->toStateId) {                     // was initialized with the meant destination
-                nt->to = f;
-                break;
-            }
-        }
-        if (nt->to == NULL) printf(MSG_EXP_FAULT_NOT_FOUND);
-
-        nt->obs = currentTr->t->obs;
-        nt->fault = currentTr->t->fault;
-        nt->regex = fault->diagnosis[fault->exitStates[j]];
-        alloc1(exp, 'e');
-        exp->trans[exp->nTrans++] = nt;
-        j++;
-    }
-}
-
 Explainer * makeExplainer(BehSpace *b) {
     int i;
     BehTrans ***obsTrs;
     Explainer * exp = calloc(1, sizeof(Explainer));
-    exp->faults = faultSpaces(b, &(exp->nFaultSpaces), &obsTrs);
+    exp->faults = faultSpaces(&(exp->maps), b, &(exp->nFaultSpaces), &obsTrs);
     exp->sizeofFaults = exp->nFaultSpaces;
     FaultSpace *currentFault;
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
-        addFaultSpaceToExplainer(exp, currentFault, obsTrs[i]);
+        int j=0, k;
+        BehTrans* currentTr;
+        while ((currentTr = obsTrs[i][j]) != NULL) {
+            ExplTrans *nt = calloc(1, sizeof(ExplTrans));
+            nt->from = currentFault;
+            nt->fromStateId = exp->maps[i]->idMapFromOrigin[currentTr->from->id];
+            currentFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
+            nt->toStateId = currentTr->to->id;
+
+            FaultSpace * f;                                                     // Finding reference to destination fault space,
+            for (f=exp->faults[k=0]; k<exp->nFaultSpaces; f=exp->faults[++k]) { // means geeting the one that
+                if (exp->maps[k]->idMapToOrigin[0] == nt->toStateId) {          // was initialized with the meant destination
+                    nt->to = f;
+                    break;
+                }
+            }
+            if (nt->to == NULL) printf(MSG_EXP_FAULT_NOT_FOUND);
+
+            nt->obs = currentTr->t->obs;
+            nt->fault = currentTr->t->fault;
+            nt->regex = currentFault->diagnosis[exp->maps[i]->exitStates[j]];
+            alloc1(exp, 'e');
+            exp->trans[exp->nTrans++] = nt;
+            j++;
+        }
         free(obsTrs[i]);
 
         debugif (DEBUG_FAULT_DOT, {

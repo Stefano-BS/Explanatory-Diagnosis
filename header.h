@@ -67,10 +67,10 @@ typedef struct {
         struct faultspace *tempFault;
         struct tList * next;
     } **tList;
-    struct sList {
-        struct behspace *s;
+    /*struct sList {
+        struct behstate *s;
         struct sList * next;
-    } **sList;
+    } **sList;*/
     unsigned int length;
 } BehSpaceCatalog;
 
@@ -121,9 +121,12 @@ typedef struct {
 } BehSpace;
 
 // EXPLAINER AND MONITORNING
+typedef struct {
+    int *RESTRICT idMapToOrigin, * idMapFromOrigin, *RESTRICT exitStates;
+} FaultSpaceMaps;
+
 typedef struct faultspace {
     BehSpace *b;
-    int *RESTRICT idMapToOrigin, * idMapFromOrigin, *RESTRICT exitStates;
     Regex ** diagnosis, *alternativeOfDiagnoses;
 } FaultSpace;
 
@@ -136,6 +139,7 @@ typedef struct {
 typedef struct {
     FaultSpace **RESTRICT faults;
     ExplTrans **RESTRICT trans;
+    FaultSpaceMaps **maps;
     unsigned int nFaultSpaces, nTrans, sizeofTrans, sizeofFaults;
 } Explainer;
 
@@ -195,11 +199,9 @@ void printExplainer(Explainer *);
 void printMonitoring(Monitoring *, Explainer *);
 // SpaceMaker.c
 BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
-//bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, unsigned short);
-//void generateBehavioralSpace(BehSpace *, BehState *, int *, unsigned short);
 void prune(BehSpace *);
-FaultSpace * faultSpace(BehSpace *, BehState *, BehTrans **);
-FaultSpace ** faultSpaces(BehSpace *, unsigned int *, BehTrans ****);
+FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **);
+FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****);
 FaultSpace * makeLazyFaultSpace(Explainer *, BehState *);
 // Diagnoser.c
 void freeRegex(Regex *);

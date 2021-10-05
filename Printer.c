@@ -190,13 +190,13 @@ void printExplainer(Explainer * exp) {
             if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; ");
             else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; ");
             else fprintf(file, "node [shape=oval]; ");
-            fprintf(file, "C%dS%d [label=%d];\n", i, fault->idMapToOrigin[j], fault->idMapToOrigin[j]);
+            fprintf(file, "C%dS%d [label=%d];\n", i, exp->maps[i]->idMapToOrigin[j], exp->maps[i]->idMapToOrigin[j]);
         }
         BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
             foreachdecl(trans, s->transitions) {
                 if (trans->t->from == s) {
-                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, fault->idMapToOrigin[j], i, fault->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[j], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
                     if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
                     if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
                     fprintf(file, "]\n");
@@ -214,7 +214,7 @@ void printExplainer(Explainer * exp) {
             if (t->to == exp->faults[j]) toId=j;
         }
         fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
-            fromId, exp->faults[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
+            fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
         if (t->fault>0) fprintf(file, "R%d", t->fault);
         if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
         else fprintf(file, " %s\"]\n", t->regex->regex);

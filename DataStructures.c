@@ -368,10 +368,10 @@ void expCoherenceTest(Explainer *exp){
     printf(MSG_MEMTEST9, exp->nFaultSpaces, exp->nTrans);
     for (s=exp->faults[i=0]; i<exp->nFaultSpaces; s=exp->faults[++i]) {
         behCoherenceTest(s->b);
-        if (s->idMapFromOrigin !=NULL && s->idMapToOrigin != NULL)
+        if (exp->maps != NULL) 
             for (j=0; j<s->b->nStates; j++) {
-                if (s->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
-                if (s->idMapFromOrigin[s->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
+                if (exp->maps[i]->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
+                if (exp->maps[i]->idMapFromOrigin[exp->maps[i]->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
             }
         //int z;for(z=0;z<s->b->nStates;z++)printf("%d ",s->idMapToOrigin[z]);printf("\n");for(z=0;z<12;z++)printf("%d ",s->idMapFromOrigin[z]);printf("\n");
     }

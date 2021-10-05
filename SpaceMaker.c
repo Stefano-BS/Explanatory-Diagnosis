@@ -214,16 +214,16 @@ void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs
             faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i);
 }
 
-FaultSpace * faultSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
+FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
     int k, index=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
-    ret->idMapFromOrigin = calloc(b->nStates, sizeof(int));
-    ret->exitStates = malloc(b->nTrans*sizeof(int));
-    memset(ret->exitStates, -1, b->nStates*sizeof(int));
+    map->idMapFromOrigin = calloc(b->nStates, sizeof(int));
+    map->exitStates = malloc(b->nTrans*sizeof(int));
+    memset(map->exitStates, -1, b->nStates*sizeof(int));
 
     ok = calloc(b->nStates, sizeof(bool));
-    faultSpaceExtend(base, ret->exitStates, obsTrs); // state ids and transitions refer to the original space, not a dup copy
-    ret->b = dup(b, ok, true, &ret->idMapFromOrigin);
+    faultSpaceExtend(base, map->exitStates, obsTrs); // state ids and transitions refer to the original space, not a dup copy
+    ret->b = dup(b, ok, true, &map->idMapFromOrigin);
     free(ok);
 
     BehState *r, *temp;
@@ -238,26 +238,26 @@ FaultSpace * faultSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans 
             r->id = 0;
             int tempId, swap1, swap2;           // swap id map
             for (index=0; index<b->nStates; index++) {
-                if (ret->idMapFromOrigin[index]==0) swap1=index;
-                if (ret->idMapFromOrigin[index]==k) swap2=index;
+                if (map->idMapFromOrigin[index]==0) swap1=index;
+                if (map->idMapFromOrigin[index]==k) swap2=index;
             }
-            tempId = ret->idMapFromOrigin[swap1];
-            ret->idMapFromOrigin[swap1] = ret->idMapFromOrigin[swap2];
-            ret->idMapFromOrigin[swap2] = tempId;
+            tempId = map->idMapFromOrigin[swap1];
+            map->idMapFromOrigin[swap1] = map->idMapFromOrigin[swap2];
+            map->idMapFromOrigin[swap2] = tempId;
             break;
         }
     }
     for (k=0; k<b->nTrans; k++) {
-        if (ret->exitStates[k] == -1) {k++; break;}
-        ret->exitStates[k] = ret->idMapFromOrigin[ret->exitStates[k]];
+        if (map->exitStates[k] == -1) {k++; break;}
+        map->exitStates[k] = map->idMapFromOrigin[map->exitStates[k]];
     }
     k = k==0 ? 1 : k;
-    ret->exitStates = realloc(ret->exitStates, k*sizeof(int));
+    map->exitStates = realloc(map->exitStates, k*sizeof(int));
     obsTrs = realloc(obsTrs, k*sizeof(BehTrans*));
     obsTrs[k-1] = NULL;
-    ret->idMapToOrigin = calloc(ret->b->nStates, sizeof(int));
+    map->idMapToOrigin = calloc(ret->b->nStates, sizeof(int));
     for (k=0; k<b->nStates; k++)
-        if (ret->idMapFromOrigin[k] != -1) ret->idMapToOrigin[ret->idMapFromOrigin[k]] = k;
+        if (map->idMapFromOrigin[k] != -1) map->idMapToOrigin[map->idMapFromOrigin[k]] = k;
     
     decorateFaultSpace(ret);
     return ret;
@@ -267,7 +267,7 @@ FaultSpace * faultSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans 
     int nSpaces=0;
     BehTrans *** obsTrs;
     FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
-FaultSpace ** faultSpaces(BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs) {
+FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs) {
     BehState * s;
     int i, j=0;
     *nSpaces = 1;
@@ -280,16 +280,18 @@ FaultSpace ** faultSpaces(BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, 
         }
     }
     FaultSpace ** ret = malloc(*nSpaces*sizeof(BehSpace *));
-    *obsTrs = (BehTrans***)calloc(*nSpaces, sizeof(BehTrans**));
+    *obsTrs = malloc(*nSpaces * sizeof(BehTrans**));
+    *maps = malloc(*nSpaces * sizeof(FaultSpaceMaps**));
     for (i=0; i<*nSpaces; i++) {
+        (*maps)[i] = malloc(sizeof(FaultSpaceMaps));
         (*obsTrs)[i] = calloc(b->nTrans, sizeof(BehTrans**));
     }
-    ret[0] = faultSpace(b, b->states[0], (*obsTrs)[0]);
+    ret[0] = faultSpace((*maps)[0], b, b->states[0], (*obsTrs)[0]);
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
         foreachdecl(lt, s->transitions) {
             if (lt->t->to == s && lt->t->t->obs != 0) {
                 j++;
-                ret[j] = faultSpace(b, s, (*obsTrs)[j]);
+                ret[j] = faultSpace((*maps)[j], b, s, (*obsTrs)[j]);
                 break;
             }
         }
