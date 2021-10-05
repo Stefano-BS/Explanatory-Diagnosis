@@ -5,6 +5,7 @@
             "label": "SC",
             "command": "C:\\MinGW\\bin\\gcc.exe",
             "args": [
+                "-xc",
                 "-std=c99",
                 "-D\"DEBUG_MODE=0\"",
                 "-D\"LANG='e'\"",

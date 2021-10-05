@@ -1,6 +1,6 @@
 #include "header.h"
 
-const unsigned int eps = L'ε', mu = L'μ';
+const unsigned short eps = L'ε', mu = L'μ';
 
 Regex* empty;
 char inputDES[100] = "";
@@ -9,16 +9,15 @@ bool benchmark = false;
 clock_t timer;
 BehState * iniziale;
 
-void generaStatoIniziale(void) {
-    int *statiAttivi = calloc(ncomp, sizeof(int));
-    int statoLink[nlink], i;
-    for (i=0; i<nlink; i++)
-        statoLink[i] = VUOTO;
-    iniziale = generateBehState(statoLink, statiAttivi);
-    iniziale->obsIndex = 0;
+static void beforeExit(int signo) {
+    printf(MSG_BEFORE_EXIT);
+    char close;
+    getCommand(close)
+    if (close == INPUT_Y) exit(0);
+    signal(SIGINT, beforeExit);
 }
 
-int* impostaDatiOsservazione(int *loss) {
+int* impostaDatiOsservazione(unsigned short *loss) {
     int oss, sizeofBuf = 10;
     int *obs = calloc(10, sizeof(int));
     printf(MSG_OBS);
@@ -38,28 +37,33 @@ int* impostaDatiOsservazione(int *loss) {
 
 void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
     char digitazione[10];
-    int oss, loss=0, *obs=NULL, sizeofObs=0;
+    int oss, *obs=NULL, sizeofObs=0;
+    unsigned short loss = 0;
     while (true) {
-        printf(MSG_MONITORING_RESULT);
-        int i;
-        for (i=0; i<=loss; i++)
-            if (monitor->mu[i]->lmu->regex[0]=='\0') printf("%lc%d:\t%lc\n", mu, i, eps);
-            else printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
-        if (sceltaDot==INPUT_Y) printMonitoring(monitor, explainer);
-        printf(MSG_NEXT_OBS);
+        interruptable({
+            printf(MSG_MONITORING_RESULT);
+            unsigned short i;
+            for (i=0; i<=loss; i++)
+                if (monitor->mu[i]->lmu->regex[0]=='\0') printf("%lc%d:\t%lc\n", mu, i, eps);
+                else printf("%lc%d:\t%s\n", mu, i, monitor->mu[i]->lmu->regex);
+            if (sceltaDot==INPUT_Y) printMonitoring(monitor, explainer);
+            printf(MSG_NEXT_OBS);
+        })
 
         RETRY: scanf("%9s", digitazione);
         oss = atoi(digitazione);
         if (oss <= 0) goto RETRY;
 
-        if (loss+1 > sizeofObs) {
-            sizeofObs += 5;
-            obs = realloc(obs, sizeofObs*sizeof(int));
-        }
-        obs[loss++] = oss;
-        Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy);
-        if (updatedMonitor == NULL) break;
-        monitor = updatedMonitor;
+        interruptable({
+            if (loss+1 > sizeofObs) {
+                sizeofObs += 5;
+                obs = realloc(obs, sizeofObs*sizeof(int));
+            }
+            obs[loss++] = oss;
+            Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy);
+            if (updatedMonitor == NULL) break;
+            monitor = updatedMonitor;
+        })
     }
     printf(MSG_IMPOSSIBLE_OBS);
     freeMonitoring(monitor);
@@ -71,7 +75,7 @@ void menu(void) {
     char op, pota, sceltaRinomina;
     BehSpace *b = NULL;
     Explainer *explainer = NULL; 
-
+    bool doneSomething = true;
     while (true) {
         bool allow_c = !exp & !fixedObs,
             allow_o = !exp & !fixedObs,
@@ -81,33 +85,32 @@ void menu(void) {
             allow_d = sc & fixedObs,
             allow_l = !fixedObs & !exp;
         
-        printf(MSG_MENU_INTRO);
-        if (allow_c) printf(MSG_MENU_C);
-        if (allow_o) printf(MSG_MENU_O);
-        if (allow_fg) printf(MSG_MENU_FG);
-        if (allow_e) printf(MSG_MENU_E);
-        if (allow_m) printf(MSG_MENU_M);
-        if (allow_d) printf(MSG_MENU_D);
-        if (allow_l) printf(MSG_MENU_L);
-        printf(MSG_MENU_END);
+        if (doneSomething) {
+            printf(MSG_MENU_INTRO);
+            if (allow_c) printf(MSG_MENU_C);
+            if (allow_o) printf(MSG_MENU_O);
+            if (allow_fg) printf(MSG_MENU_FG);
+            if (allow_e) printf(MSG_MENU_E);
+            if (allow_m) printf(MSG_MENU_M);
+            if (allow_d) printf(MSG_MENU_D);
+            if (allow_l) printf(MSG_MENU_L);
+            printf(MSG_MENU_END);
+        }
         getCommand(op);
-
+        doneSomething = true;
         if (op == 'x') return;
         else if (op == 'c' && allow_c) {
             printf(MSG_GEN_SC);
             if (b != NULL) {freeBehSpace(b); b=NULL;}
             beginTimer
-            generaStatoIniziale();
-            b = newBehSpace();
-            enlargeBehavioralSpace(b, NULL, iniziale, NULL, 0);
-            generateBehavioralSpace(b, iniziale, NULL, 0);
+            interruptable(b = BehavioralSpace(NULL, NULL, 0);)
             endTimer
             printf(MSG_POTA);
             getCommand(pota);
             if (pota==INPUT_Y && b->nTrans>1) {
                 int statiPrima = b->nStates, transPrima = b->nTrans;
                 beginTimer
-                prune(b);
+                interruptable(prune(b);)
                 endTimer
                 printf(MSG_POTA_RES, statiPrima-b->nStates, transPrima-b->nTrans);
             }
@@ -123,15 +126,12 @@ void menu(void) {
         }
         else if (op == 'o' && allow_o) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
-            int loss = 0;
+            unsigned short loss = 0;
             int * obs = impostaDatiOsservazione(&loss);
             fixedObs = true;
             printf(MSG_GEN_SC);
             beginTimer
-            generaStatoIniziale();
-            b = newBehSpace();
-            enlargeBehavioralSpace(b, NULL, iniziale, NULL, loss);
-            generateBehavioralSpace(b, iniziale, obs, loss);
+            interruptable(b = BehavioralSpace(NULL, obs, loss);)
             free(obs);
             sc = true;
             endTimer
@@ -140,7 +140,7 @@ void menu(void) {
             if (pota==INPUT_Y && b->nTrans>1) {
                 int statiPrima = b->nStates, transPrima = b->nTrans;
                 beginTimer
-                prune(b);
+                interruptable(prune(b);)
                 endTimer
                 printf(MSG_POTA_RES, statiPrima-b->nStates, transPrima-b->nTrans);
             }
@@ -156,12 +156,9 @@ void menu(void) {
         else if (allow_fg && (op=='f' || op=='g')) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
             printf(MSG_DOT_INPUT);
-            fflush(stdout);
-            fflush(stdin);
             char nomeFileSC[100];
             scanf("%99s", nomeFileSC);
-            fflush(stdin);
-            FILE* fileSC = fopen(nomeFileSC, "rb+");
+            FILE* fileSC = fopen(nomeFileSC, "r");
             if (fileSC == NULL) {
                 printf(MSG_NO_FILE, nomeFileSC);
                 return;
@@ -178,22 +175,26 @@ void menu(void) {
         }
         else if (op=='e' && allow_e) {
             beginTimer
-            explainer = makeExplainer(b);
-            freeBehSpace(b);
-            exp = true;
+            interruptable({
+                explainer = makeExplainer(b);
+                freeBehSpace(b);
+                exp = true;
+            })
             endTimer
             if (sceltaDot==INPUT_Y) printExplainer(explainer);
         }
         else if (op=='d' && allow_d) {
             printf(MSG_DIAG_EXEC);
             beginTimer
-            Regex * diagnosis = diagnostics(b, false)[0];
-            if (diagnosis->regex[0] == '\0') printf("%lc\n", eps);
-            else printf("%.10000s\n", diagnosis->regex);
-            freeBehSpace(b);
-            b = NULL;
-            sc = false;
-            fixedObs = false;
+            interruptable({
+                Regex * diagnosis = diagnostics(b, false)[0];
+                if (diagnosis->regex[0] == '\0') printf("%lc\n", eps);
+                else printf("%.10000s\n", diagnosis->regex);
+                freeBehSpace(b);
+                b = NULL;
+                sc = false;
+                fixedObs = false;
+            })
             endTimer
         }
         else if (op=='m' && allow_m) {
@@ -203,26 +204,19 @@ void menu(void) {
         else if (op=='l' && allow_l) {
             exp = sc = true;
             if (b != NULL) {freeBehSpace(b); b=NULL;}
-            generaStatoIniziale();
-            explainer = makeLazyExplainer(NULL, iniziale);
+            explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL));
             Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true);
             driveMonitoring(explainer, monitor, true);
+        }
+        else {
+            printf("\a");
+            doneSomething = false;
         }
     }
 }
 
-static void beforeExit(int signo) {
-    printf(MSG_BEFORE_EXIT);
-    fflush(stdin);
-    char close;
-    getCommand(close)
-    if (close == INPUT_Y) exit(0);
-    fflush(stdin);
-    signal(SIGINT, beforeExit);
-}
-
 int main(int argc, char *argv[]) {
-    signal(SIGINT, beforeExit);
+    doC11(setbuf(stdout, NULL);)
     setlocale(LC_ALL, "");
     printf(LOGO);
     if (argc >1) {
@@ -244,10 +238,9 @@ int main(int argc, char *argv[]) {
     empty = emptyRegex(0);
     if (inputDES[0]=='\0') {
         printf(MSG_DEF_AUTOMA);
-        fflush(stdout);
         scanf("%99s", inputDES);
     }
-	FILE* file = fopen(inputDES, "rb+");
+	FILE* file = fopen(inputDES, "r");
 	if (file == NULL) {
 		printf(MSG_NO_FILE, inputDES);
 		return -1;
@@ -262,9 +255,12 @@ int main(int argc, char *argv[]) {
         printf(MSG_DOT);
         getCommand(sceltaDot);
     }
-    generaStatoIniziale();
-    if (sceltaDot!='n') printDES(iniziale, sceltaDot != INPUT_Y);
-
+    
+    if (sceltaDot!='n') {
+        BehState * tmp = generateBehState(NULL, NULL);
+        printDES(tmp, sceltaDot != INPUT_Y);
+        freeBehState(tmp);
+    }
     menu();
 	return(0);
 }

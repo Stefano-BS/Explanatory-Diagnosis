@@ -33,7 +33,7 @@ Regex * regexCpy(Regex *RESTRICT src) {
 
 void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *autoTransizione) {
     static char *RESTRICT regexBuf = NULL;
-    static int regexBufLen = 0;
+    static size_t regexBufLen = 0;
     if (regexBuf==NULL) regexBuf = calloc(regexBufLen=REGEX, 1);
 
     int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0;//int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;

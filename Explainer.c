@@ -293,7 +293,7 @@ void pruneMonitoring(Monitoring * monitor) {
     free(ok);
 }
 
-Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, int loss, bool lazy) {
+Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, unsigned short loss, bool lazy) {
     assert((monitor == NULL && loss == 0) || (monitor->length == loss));
     if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
@@ -306,16 +306,9 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     //      end if
     //  end for
     if (lazy) {
-        for (FaultSpace * fault=mu->expStates[i=0]; i<mu->nExpStates; fault=mu->expStates[++i]) {
-            /*bool haveToBuilsSomeFaultSpace = true;
-            if (exp->nTrans>0)
-                for (ExplTrans * et=exp->trans[j=0]; j<exp->nTrans; et=exp->trans[++j])
-                    if (et->from == fault && et->obs == obs[loss-1]) {
-                        haveToBuilsSomeFaultSpace = false;
-                        break;
-                    }
-            if (haveToBuilsSomeFaultSpace)*/ buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
-        }
+        for (FaultSpace * fault=mu->expStates[i=0]; i<mu->nExpStates; fault=mu->expStates[++i])
+            buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
+
         debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
         debugif(DEBUG_MON, for(int l=0; l<catalog.length; l++){
             struct tList * pt=catalog.tList[l];

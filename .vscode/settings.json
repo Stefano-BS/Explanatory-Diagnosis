@@ -4,6 +4,5 @@
         "*.c": "c",
         "ctype.h": "c",
         "header.h": "c",
-        "cstdlib": "c"
     }
 }

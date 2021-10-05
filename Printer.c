@@ -3,7 +3,7 @@
 inline char* stateName(BehState *, bool) __attribute__((always_inline));
 inline char* stateName(BehState *s, bool showObs) {
     int j, v;
-    char* nome = calloc(30, sizeof(char)), *puntatore = nome;
+    char* nome = malloc(30), *puntatore = nome;
     sprintf(puntatore++, "R");
     for (j=0; j<ncomp; j++) {
         v = s->componentStatus[j];
@@ -30,13 +30,27 @@ inline char* stateName(BehState *s, bool showObs) {
     return nome;
 }
 
+int thJob(void * command) {
+    system(command);
+    free(command);
+    return 0;
+}
+
+void launchDot(char * command) {
+    doC11({
+        thrd_t thr;
+        thrd_create(&thr, thJob, command);
+    })
+    doC99(system(command);)
+}
+
 void printDES(BehState * attuale, bool testuale) {
     int i, j, k, strlenNomeFile = strlen(inputDES);
     Link *l;
     Component *c;
     FILE * file;
     
-    char nomeFileDot[strlenNomeFile+7], nomeFileSvg[strlenNomeFile+7], comando[30+strlenNomeFile*2];
+    char nomeFileDot[strlenNomeFile+7], nomeFileSvg[strlenNomeFile+7];
     if (testuale) printf(MSG_ACTUAL_STRUCTURES);
     else {
         sprintf(nomeFileDot, "%s.dot", inputDES);
@@ -84,14 +98,15 @@ void printDES(BehState * attuale, bool testuale) {
         fprintf(file, "}\n");
         fclose(file);
         sprintf(nomeFileSvg, "%s.svg", inputDES);
-        sprintf(comando, "dot -Tsvg -o %s %s", nomeFileSvg, nomeFileDot);
-        system(comando);
+        char * command = malloc(30+strlenNomeFile*2);
+        sprintf(command, "dot -Tsvg -o %s %s", nomeFileSvg, nomeFileDot);
+        launchDot(command);
     }
 }
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     int i, strlenNomeFile = strlen(inputDES), position=0;
-    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFileSvg[strlenNomeFile+8], comando[35+strlenNomeFile*2], *ret;
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFileSvg[strlenNomeFile+8], *ret;
     FILE * file;
     if (!toString) {
         sprintf(nomeFileDot, "%s_SC.dot", inputDES);
@@ -142,8 +157,9 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
         fprintf(file, "}");
         fclose(file);
         sprintf(nomeFileSvg, "%s_SC.svg", inputDES);
-        sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
-        system(comando);
+        char * command = malloc(35+strlenNomeFile*2);
+        sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+        launchDot(command);
         if (rename) {
             printf(MSG_SOBSTITUTION_LIST);
             for (i=0; i<b->nStates; i++)
@@ -157,10 +173,11 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
 
 void printExplainer(Explainer * exp) {
     int i, j, strlenNomeFile = strlen(inputDES);
-    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9], comando[44+strlenNomeFile*2];
+    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9];
+    char * command = malloc(44+strlenNomeFile*2);
     sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
     sprintf(nomeFileSvg, "%s_EXP.svg", inputDES);
-    sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+    sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
     FaultSpace * fault;
@@ -204,7 +221,7 @@ void printExplainer(Explainer * exp) {
     }
     fprintf(file, "}\n");
     fclose(file);
-    system(comando);
+    launchDot(command);
 }
 
 int findInExplainer(Explainer *exp, FaultSpace *f) {
@@ -216,10 +233,11 @@ int findInExplainer(Explainer *exp, FaultSpace *f) {
 
 void printMonitoring(Monitoring * m, Explainer *exp) {
     int i, j, temp, strlenNomeFile = strlen(inputDES);
-    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9], comando[44+strlenNomeFile*2];
+    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9];
+    char * command = malloc(44+strlenNomeFile*2);
     sprintf(nomeFileDot, "%s_MON.dot", inputDES);
     sprintf(nomeFileSvg, "%s_MON.svg", inputDES);
-    sprintf(comando, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+    sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"MON%s\" {\nrankdir=LR\nnode [style=filled fillcolor=white]\n", inputDES);
     MonitorState * mu;
@@ -246,5 +264,5 @@ void printMonitoring(Monitoring * m, Explainer *exp) {
     }
     fprintf(file, "}\n");
     fclose(file);
-    system(comando);
+    launchDot(command);
 }

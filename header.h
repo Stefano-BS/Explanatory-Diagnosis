@@ -7,11 +7,19 @@
 #include <time.h>
 #include <signal.h>
 #include <locale.h>
+#if __STDC_VERSION__ >= 201112L
+    #include <threads.h>
+    #define doC11(code) code
+    #define doC99(code)
+#else
+    #define doC11(code)
+    #define doC99(code) code
+#endif
 
 #define VUOTO           -1
 #define ACAPO           -10
-#define REGEX           5
-#define REGEXLEVER      2
+#define REGEX           4
+#define REGEXLEVER      1.6
 #define HASHSTATSIZE    181
 
 #define FLAG_FINAL          1
@@ -26,6 +34,7 @@
 #define beginTimer                  timer = clock();
 #define foreach(lnode, from)        for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreach(lnode, from)
+#define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
 
 
 #ifndef DEBUG_MODE
@@ -47,22 +56,22 @@
 
 // GENERAL
 typedef struct {
-    int size, strlen;
-    bool bracketed, concrete;
     char * regex;
+    unsigned int size, strlen;
+    bool bracketed, concrete;
 } Regex;
 
 typedef struct {
-    int length;
-    /*struct sList {
-        struct behstate *s;
-        struct sList * next;
-    } *sList [HASHSTATSIZE];*/
     struct tList {
         struct behtrans *t;
         struct faultspace *tempFault;
         struct tList * next;
     } **tList;
+    struct sList {
+        struct behspace *s;
+        struct sList * next;
+    } **sList;
+    unsigned int length;
 } BehSpaceCatalog;
 
 // DISCRETE EVENT SYSTEM
@@ -72,29 +81,32 @@ typedef struct {
 } Link;
 
 typedef struct {
-    int obs, fault, from, to, id;
-    int idIncomingEvent, *RESTRICT idOutgoingEvents, nOutgoingEvents, sizeofOE;
     Link *RESTRICT linkIn, **RESTRICT linkOut;
+    int *RESTRICT idOutgoingEvents;
+    int obs, fault, from, to, id, idIncomingEvent;
+    unsigned int nOutgoingEvents, sizeofOE;
 } Trans;
 
 typedef struct component {
-    int nStates, id, intId, nTrans;
     Trans **RESTRICT transitions;
+    int id, intId;
+    unsigned int nStates, nTrans;
 } Component;
 
 // BEHAVIORAL SPACE
 typedef struct behstate {
     int *RESTRICT componentStatus, *RESTRICT linkContent;
-    int id, obsIndex;
-    char flags;
     struct ltrans *RESTRICT transitions;
+    int id;
+    unsigned short obsIndex;
+    char flags;
 } BehState;
 
 typedef struct behtrans {
     BehState *from, *to;
-    int marker;
     Regex *regex;
     Trans * t;
+    int marker;
 } BehTrans;
 
 struct ltrans {
@@ -104,7 +116,8 @@ struct ltrans {
 
 typedef struct {
     BehState **RESTRICT states;
-    int nStates, nTrans, sizeofS;
+    size_t sizeofS;
+    unsigned int nStates, nTrans;
 } BehSpace;
 
 // EXPLAINER AND MONITORNING
@@ -116,14 +129,14 @@ typedef struct faultspace {
 
 typedef struct {
     FaultSpace * from, *to;
-    int obs, fault, fromStateId, toStateId;
     Regex * regex;
+    int obs, fault, fromStateId, toStateId;
 } ExplTrans;
 
 typedef struct {
     FaultSpace **RESTRICT faults;
     ExplTrans **RESTRICT trans;
-    int nFaultSpaces, nTrans, sizeofTrans, sizeofFaults;
+    unsigned int nFaultSpaces, nTrans, sizeofTrans, sizeofFaults;
 } Explainer;
 
 typedef struct {
@@ -134,13 +147,13 @@ typedef struct {
 typedef struct {
     FaultSpace **RESTRICT expStates;
     MonitorTrans **RESTRICT arcs;
-    int nExpStates, nArcs, sizeofArcs;
     Regex * lmu, ** lin, ** lout;
+    unsigned short nExpStates, nArcs, sizeofArcs;
 } MonitorState;
 
 typedef struct {
     MonitorState ** mu;
-    int length;
+    unsigned short length;
 } Monitoring;
 
 
@@ -150,7 +163,7 @@ extern Component **RESTRICT components;
 extern Link **RESTRICT links;
 extern char inputDES[100];
 extern Regex* empty;
-extern const unsigned int eps, mu;
+extern const unsigned short eps, mu;
 extern BehSpaceCatalog catalog;
 
 // DataStructures.c
@@ -181,11 +194,12 @@ char* printBehSpace(BehSpace *, bool, bool, int);
 void printExplainer(Explainer *);
 void printMonitoring(Monitoring *, Explainer *);
 // SpaceMaker.c
-bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, int);
-void generateBehavioralSpace(BehSpace *, BehState *, int *, int);
+BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
+//bool enlargeBehavioralSpace(BehSpace * b, BehState *, BehState *, Trans *, unsigned short);
+//void generateBehavioralSpace(BehSpace *, BehState *, int *, unsigned short);
 void prune(BehSpace *);
 FaultSpace * faultSpace(BehSpace *, BehState *, BehTrans **);
-FaultSpace ** faultSpaces(BehSpace *, int *, BehTrans ****);
+FaultSpace ** faultSpaces(BehSpace *, unsigned int *, BehTrans ****);
 FaultSpace * makeLazyFaultSpace(Explainer *, BehState *);
 // Diagnoser.c
 void freeRegex(Regex *);
@@ -196,7 +210,7 @@ Regex** diagnostics(BehSpace *, bool);
 // Explainer.c
 Explainer * makeExplainer(BehSpace *);
 Explainer * makeLazyExplainer(Explainer *, BehState *);
-Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
+Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, bool);
 
 #ifndef LANG
     #define LANG 'e'
@@ -262,7 +276,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
     #define MSG_MEMTEST10 "La transizione %d non è osservabile\n"
     #define MSG_MEMTEST11 "La chiusura %d ha mapToOrigin -1 in posizione %d\n"
     #define MSG_MEMTEST12 "Chiusura %d: trovato che mapFrom[mapTo[%d]] != %d\n"
-    #define MSG_MEMTEST13 "Monitoraggio: %d stati\n"
+    #define MSG_MEMTEST13 "Monitoraggio: %u stati\n"
     #define MSG_MEMTEST14 "Stato di monitoraggio %d: %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
     #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
@@ -270,7 +284,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
     #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
-    #define MSG_BEFORE_EXIT "\nTerminare? "
+    #define MSG_BEFORE_EXIT "\a\nTerminare? "
     #define endTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #elif LANG=='e'
     #define INPUT_Y 'y'
@@ -332,7 +346,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
     #define MSG_MEMTEST10 "Transition %d is not observable\n"
     #define MSG_MEMTEST11 "Fault %d has mapToOrigin -1 in position %d\n"
     #define MSG_MEMTEST12 "Fault %d: found mapFrom[mapTo[%d]] != %d\n"
-    #define MSG_MEMTEST13 "Monitoring: %d states\n"
+    #define MSG_MEMTEST13 "Monitoring: %u states\n"
     #define MSG_MEMTEST14 "Monitoring State %d: %d fault spaces and %d transitions\n"
     #define MSG_MEMTEST15 "Found that in Monitoring State %d there's a fault state non exited by any arc\n"
     #define MSG_MEMTEST16 "Found that in Monitoring State %d there's a fault state not reached by any arc\n"
@@ -340,13 +354,11 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, int, bool);
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
-    #define MSG_BEFORE_EXIT "\nExit? "
+    #define MSG_BEFORE_EXIT "\a\nExit? "
     #define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #endif
 
 /*
-#define MSG_CHOOSE_OP "Generare spazio comportamentale (c), fornire un'osservazione lineare (o), o caricare uno spazio da file (f, se gli stati sono rinominati: g)? "
 #define MSG_DIAG "Eseguire una diagnosi su questa osservazione (s/n)? "
-#define MSG_CHOOSE_OP "Generate behavioral space (c), input a linear observation (o), or load a space from file (f, if states have been renamed: g)? "
 #define MSG_DIAG "Calculate a diagnosis upon this observation (y/n)? "
 */

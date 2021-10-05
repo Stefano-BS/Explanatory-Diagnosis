@@ -3,7 +3,7 @@ node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon]; C0S0 [label=0];
+node [shape=octagon]; C0S0 [label=0];
 node [shape=octagon]; C0S7 [label=7];
 C0S0 -> C0S7 [label=t3R1]
 }

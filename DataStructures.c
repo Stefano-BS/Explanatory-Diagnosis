@@ -17,7 +17,7 @@ void netAlloc(void){
 
 BehSpace * newBehSpace(void) {
     BehSpace* b = calloc(1, sizeof(BehSpace));
-    b->sizeofS=5;
+    b->sizeofS=1;
     b->states = malloc(b->sizeofS* sizeof(BehState*));
     if (b->states==NULL) printf(MSG_MEMERR);
     return b;
@@ -82,7 +82,7 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
             Explainer * exp = (Explainer *) ptr;
             if (exp->nFaultSpaces+1 > exp->sizeofFaults) {
                 exp->sizeofFaults += 5;
-                FaultSpace ** array = realloc(exp->faults, exp->sizeofFaults*sizeof(ExplTrans*));
+                FaultSpace ** array = realloc(exp->faults, exp->sizeofFaults*sizeof(FaultSpace*));
                 if (array == NULL) printf(MSG_MEMERR);
                 else exp->faults = array;
             }
@@ -141,22 +141,20 @@ INLINE(bool behStateCompareTo(BehState * s1, BehState * s2)) {
             && memcmp(s1->linkContent, s2->linkContent, nlink*sizeof(int)) == 0;
 }
 
-BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT statiAttivi) {
+BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT componentStatus) {
     BehState *s = calloc(1, sizeof(BehState));
     s->id = VUOTO;
+    s->componentStatus = malloc(ncomp*sizeof(int));
+    s->linkContent = malloc(nlink*sizeof(int));
     if (linkContent != NULL) {
-        s->linkContent = malloc(nlink*sizeof(int));
         memcpy(s->linkContent, linkContent, nlink*sizeof(int));
         s->flags = FLAG_FINAL;
         for (int i=0; i<nlink; i++)
             s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     }
-    else s->linkContent = NULL;
-    if (statiAttivi != NULL) {
-        s->componentStatus = malloc(ncomp*sizeof(int));
-        memcpy(s->componentStatus, statiAttivi, ncomp*sizeof(int));
-    }
-    else s->componentStatus = NULL;
+    else memset(s->linkContent, VUOTO, nlink*sizeof(int));
+    if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(int));
+    else memset(s->componentStatus, 0, ncomp*sizeof(int));
     return s;
 }
 
