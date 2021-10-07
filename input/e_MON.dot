@@ -18,25 +18,50 @@ M2S2 [label=2];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r2r1)|((r1r2)|r1))|(r1r2?)"
+label="((r2r1)|((r1r2)|r1))|(r1r2)"
 M3S1 [label=1];
-M3S6 [label=6];
 M3S3 [label=3];
+M3S4 [label=4];
 }
 subgraph cluster4 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((r2r1)|(r1r2))|(r1r2)((((r2r1)?|r1)|r2)|(r2r1))|(r2r1r2))|r1"
+label="(((r2r1)|(r1r2))|(r1r2)(r2r1)?|r1)|r1"
 M4S2 [label=2];
-M4S4 [label=4];
+M4S5 [label=5];
+}
+subgraph cluster5 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(((((r2r1)|(r1r2))|(r1r2)r2r1)|(((r2r1)|(r1r2))|(r1r2)(r1r2)|r1))|(((r2r1)|(r1r2))|(r1r2)r1r2))|(r1(r2r1r2)|(r2r1))"
+M5S1 [label=1];
+M5S3 [label=3];
+M5S4 [label=4];
+M5S6 [label=6];
+}
+subgraph cluster6 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((((r2r1)|(r1r2))|(r1r2)r2r1)|(((r2r1)|(r1r2))|(r1r2)r1r2))|(((r2r1)|(r1r2))|(r1r2)r1r2))|(r1r2r1r2)(((r1?|r2)|(r2r1))|(r2r1))|(r2r1r2))|((((r2r1)|(r1r2))|(r1r2)r1)|(r1r2r1))"
+M6S2 [label=2];
+M6S5 [label=5];
 }
 M0S0 -> M1S1 [label="(ε, ε)"]
 M1S1 -> M2S2 [label="(ε, ε)"]
 M2S2 -> M3S1 [label="(r2r1, r2r1)"]
-M2S2 -> M3S6 [label="(ε, ε)"]
-M2S2 -> M3S3 [label="(r1, r1)"]
+M2S2 -> M3S3 [label="(ε, ε)"]
+M2S2 -> M3S4 [label="(r1, r1)"]
 M3S1 -> M4S2 [label="(ε, r2r1)"]
-M3S6 -> M4S2 [label="(r1r2, r1r2)"]
-M3S6 -> M4S4 [label="(r1, r1)"]
-M3S3 -> M4S2 [label="(r2, r1r2)"]
-M3S3 -> M4S4 [label="(ε, r1)"]
+M3S3 -> M4S2 [label="(r1r2, r1r2)"]
+M3S3 -> M4S5 [label="(r1, r1)"]
+M3S4 -> M4S2 [label="(r2, r1r2)"]
+M3S4 -> M4S5 [label="(ε, r1)"]
+M4S2 -> M5S1 [label="(r2r1, ((r2r1)|(r1r2))|(r1r2)r2r1)"]
+M4S2 -> M5S3 [label="(ε, ((r2r1)|(r1r2))|(r1r2))"]
+M4S2 -> M5S4 [label="(r1, ((r2r1)|(r1r2))|(r1r2)r1)"]
+M4S5 -> M5S6 [label="(ε, r1)"]
+M5S1 -> M6S2 [label="(ε, ((r2r1)|(r1r2))|(r1r2)r2r1)"]
+M5S3 -> M6S2 [label="(r1r2, ((r2r1)|(r1r2))|(r1r2)r1r2)"]
+M5S3 -> M6S5 [label="(r1, ((r2r1)|(r1r2))|(r1r2)r1)"]
+M5S4 -> M6S2 [label="(r2, ((r2r1)|(r1r2))|(r1r2)r1r2)"]
+M5S4 -> M6S5 [label="(ε, ((r2r1)|(r1r2))|(r1r2)r1)"]
+M5S6 -> M6S2 [label="(r2r1r2, r1r2r1r2)"]
+M5S6 -> M6S5 [label="(r2r1, r1r2r1)"]
 }

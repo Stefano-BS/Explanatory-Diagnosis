@@ -1,8 +1,8 @@
 digraph "SCinput/r" {
-node [shape=doublecircle]; R00_Lee ;
-node [shape=doublecircle]; R10_Lee ;
-node [shape=doublecircle]; R11_Lee ;
-node [shape=doublecircle]; R01_Lee ;
+node [fillcolor="#FFFFFF"]; R00_Lee ;
+node [style=filled fillcolor="#FFEEEE"]; R10_Lee ;
+node [style=filled fillcolor="#FFEEEE"]; R11_Lee ;
+node [style=filled fillcolor="#FFEEEE"]; R01_Lee ;
 R00_Lee -> R01_Lee [label=t5O1R3]
 R00_Lee -> R00_Lee [label=t4]
 R00_Lee -> R10_Lee [label=t1R1]

@@ -4,16 +4,16 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
-#include <time.h>
+#include <sys/time.h>
 #include <signal.h>
 #include <locale.h>
 #if __STDC_VERSION__ >= 201112L
     #include <threads.h>
-    #define doC11(code) code
-    #define doC99(code)
+    #define doC11(...) __VA_ARGS__
+    #define doC99(...)
 #else
-    #define doC11(code)
-    #define doC99(code) code
+    #define doC11(...)
+    #define doC99(...) __VA_ARGS__
 #endif
 
 #define VUOTO           -1
@@ -31,11 +31,14 @@
 #define DEBUG_MON           1 << 4
 
 #define getCommand(com)             while (!isalpha(com=getchar()));
-#define beginTimer                  timer = clock();
+#define beginTimer                  gettimeofday(&beginT, NULL);//timer = clock();
 #define foreach(lnode, from)        for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreach(lnode, from)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
-
+#ifndef M_PI
+    #define M_PI                    acos(-1.0)
+#endif
+#define normal(mu, sigma, x)    (1.0 / (sigma * sqrt(M_PI+M_PI))) * exp(-(x-mu)*(x-mu)/(2.0*sigma*sigma))
 
 #ifndef DEBUG_MODE
     #define DEBUG_MODE false
@@ -77,25 +80,25 @@ typedef struct {
 // DISCRETE EVENT SYSTEM
 typedef struct {
     struct component *RESTRICT from, *RESTRICT to;
-    int id, intId;
+    short id, intId;
 } Link;
 
 typedef struct {
     Link *RESTRICT linkIn, **RESTRICT linkOut;
-    int *RESTRICT idOutgoingEvents;
-    int obs, fault, from, to, id, idIncomingEvent;
-    unsigned int nOutgoingEvents, sizeofOE;
+    short *RESTRICT idOutgoingEvents;
+    short id, idIncomingEvent;
+    unsigned short obs, fault, from, to, nOutgoingEvents, sizeofOE;
 } Trans;
 
 typedef struct component {
     Trans **RESTRICT transitions;
-    int id, intId;
-    unsigned int nStates, nTrans;
+    short id, intId;
+    unsigned short nStates, nTrans;
 } Component;
 
 // BEHAVIORAL SPACE
 typedef struct behstate {
-    int *RESTRICT componentStatus, *RESTRICT linkContent;
+    short *RESTRICT componentStatus, *RESTRICT linkContent;
     struct ltrans *RESTRICT transitions;
     int id;
     unsigned short obsIndex;
@@ -133,7 +136,8 @@ typedef struct faultspace {
 typedef struct {
     FaultSpace * from, *to;
     Regex * regex;
-    int obs, fault, fromStateId, toStateId;
+    int fromStateId, toStateId;
+    unsigned short obs, fault;
 } ExplTrans;
 
 typedef struct {
@@ -160,9 +164,17 @@ typedef struct {
     unsigned short length;
 } Monitoring;
 
+// MULTITHREADING
+struct FaultSpaceParams {
+    FaultSpace **RESTRICT ret;
+    BehSpace *RESTRICT b;
+    FaultSpaceMaps *RESTRICT map;
+    BehState *RESTRICT s;
+    BehTrans **RESTRICT obsTrs;
+};
 
 // Global variables: these will never change during execution
-extern int nlink, ncomp;
+extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
 extern char inputDES[100];
@@ -172,15 +184,15 @@ extern BehSpaceCatalog catalog;
 
 // DataStructures.c
 Component * newComponent(void);
-Link* linkById(int);
-Component* compById(int);
-void netAlloc(void);
+Link* linkById(short);
+Component* compById(short);
+void netAlloc(unsigned short, unsigned short);
 void alloc1(void *, char);
-int hashBehState(BehState *);
+unsigned int hashBehState(BehState *);
 bool behTransCompareTo(BehTrans *, BehTrans *);
 bool behStateCompareTo(BehState *, BehState *);
 BehSpace * newBehSpace(void);
-BehState * generateBehState(int *, int *);
+BehState * generateBehState(short *, short *);
 void removeBehState(BehSpace *, BehState *);
 void freeBehState(BehState *);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
@@ -191,7 +203,8 @@ void expCoherenceTest(Explainer *);
 void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
-BehSpace * parseBehSpace(FILE *, bool, int*);
+BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
+void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
@@ -231,11 +244,14 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
     #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra del Diagnosticatore)\n"
+    #define MSG_MENU_I "\ti: Fornire la descrizione del Sistema a Eventi Discreti in ingresso\n"
+    #define MSG_MENU_K "\tk: Generare automaticamente un Sistema a Eventi Discreti\n"
     #define MSG_MENU_END "Scelta: "
     #define MSG_OBS "Fornire la sequenza di etichette. Per ogni numero, a capo o spazio, per terminare usa un carattere non numerico\n"
-    #define MSG_DEF_AUTOMA "\nIndicare il file che contiene la definizione dell'automa: "
+    #define MSG_DEF_AUTOMA "Indicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
     #define MSG_PARS_DONE "Parsing effettuato...\n"
+    #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
     #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo spazio comportamentale: "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
@@ -287,7 +303,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
     #define MSG_BEFORE_EXIT "\a\nTerminare? "
-    #define endTimer if (benchmark) printf("\tTempo: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
+    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
 #elif LANG=='e'
     #define INPUT_Y 'y'
     #define MSG_YES "yes"
@@ -301,11 +317,14 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral Space from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
     #define MSG_MENU_L "\tl: Start monitoring procedure (lazy Explainer compilation)\n"
+    #define MSG_MENU_I "\ti: Provide DES input description\n"
+    #define MSG_MENU_K "\tk: Generate automatically a DES\n"
     #define MSG_MENU_END "Your choice: "
     #define MSG_OBS "Provide the observation sequence. A new line or space foreach number, non numeric to stop\n"
-    #define MSG_DEF_AUTOMA "\nWhere does automata's definition file locate: "
+    #define MSG_DEF_AUTOMA "Where does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
+    #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
     #define MSG_DOT_INPUT "Input .dot file describing the behavioral space: "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
@@ -357,10 +376,11 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
     #define MSG_BEFORE_EXIT "\a\nExit? "
-    #define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
+    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
 #endif
 
 /*
+#define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
 #define MSG_DIAG "Eseguire una diagnosi su questa osservazione (s/n)? "
 #define MSG_DIAG "Calculate a diagnosis upon this observation (y/n)? "
 */

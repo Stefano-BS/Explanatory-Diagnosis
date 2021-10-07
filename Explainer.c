@@ -4,7 +4,7 @@ bool **RESTRICT ok;
 Regex *temp = NULL;
 
 Explainer * makeExplainer(BehSpace *b) {
-    int i;
+    unsigned int i;
     BehTrans ***obsTrs;
     Explainer * exp = calloc(1, sizeof(Explainer));
     exp->faults = faultSpaces(&(exp->maps), b, &(exp->nFaultSpaces), &obsTrs);
@@ -112,7 +112,7 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
         nt->fault = pt->t->t->fault;
         nt->fromStateId = -1;
         nt->toStateId = -1;
-        for (int k=0; k<nt->from->b->nStates; k++)
+        for (unsigned int k=0; k<nt->from->b->nStates; k++)
             if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
                 nt->regex = nt->from->diagnosis[k];
                 break;
@@ -135,12 +135,12 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
     //      end if
     //      Insert the transition (fault,(o, L(x), f), fault') i into Exp->trans
     //  end for
-    for (int i=0; i<catalog.length; i++) {
+    for (unsigned int i=0; i<catalog.length; i++) {
         struct tList * pt;
         NEXT: pt = catalog.tList[i];
         while (pt != NULL) {
             if (fault==pt->tempFault && pt->t->t->obs == obs) {
-                int j;
+                unsigned int j;
                 for (BehState *x=fault->b->states[j=0]; j<fault->b->nStates; x=fault->b->states[++j]) {
                     if (behStateCompareTo(x, pt->t->from)) {
                         makeLazyExplainer(exp, pt->t->to); // Not removing here the tList record because it will be removed inside makeLazyExplainer
@@ -154,7 +154,7 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
 }
 
 
-INLINE(void calcLout(MonitorState *RESTRICT const mu, int fault, FaultSpace * ptr)) {
+INLINE(void calcLout(MonitorState *RESTRICT const mu, short fault, FaultSpace * ptr)) {
     if (fault < 0) {
         for (fault=0; fault<mu->nExpStates; fault++)
             if (mu->expStates[fault] == ptr) break;
@@ -224,7 +224,7 @@ void calcWhatToBePruned(Monitoring *monitor, int level) {
 
 void pruneMonitoring(Monitoring * monitor) {
     int i, j, k;
-    const int mlen = monitor->length;
+    const short mlen = monitor->length;
     ok = calloc(mlen, sizeof(bool*));
     for (i=0; i<mlen; i++)
         ok[i] = calloc(monitor->mu[i]->nExpStates, sizeof(bool));
@@ -350,7 +350,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 }
                 if (te->fault) {
                     fault = emptyRegex(0);
-                    sprintf(fault->regex, "r%d", te->fault);
+                    sprintf(fault->regex, "r%hu", te->fault);
                     fault->strlen = 1+(int)ceilf(log10f(te->fault+1));
                     fault->concrete = true;
                 }

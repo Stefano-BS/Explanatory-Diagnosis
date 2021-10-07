@@ -48,28 +48,28 @@
 <polygon fill="black" stroke="black" points="147.66,-37.5 157.66,-34 147.66,-30.5 147.66,-37.5"/>
 <text text-anchor="middle" x="114" y="-37.8" font-family="Times,serif" font-size="14.00">(r1, r1)</text>
 </g>
-<!-- M2S1 -->
+<!-- M2S2 -->
 <g id="node3" class="node">
-<title>M2S1</title>
+<title>M2S2</title>
 <path fill="#ffffff" stroke="black" d="M346,-52C346,-52 316,-52 316,-52 310,-52 304,-46 304,-40 304,-40 304,-28 304,-28 304,-22 310,-16 316,-16 316,-16 346,-16 346,-16 352,-16 358,-22 358,-28 358,-28 358,-40 358,-40 358,-46 352,-52 346,-52"/>
-<text text-anchor="middle" x="331" y="-30.3" font-family="Times,serif" font-size="14.00">1</text>
+<text text-anchor="middle" x="331" y="-30.3" font-family="Times,serif" font-size="14.00">2</text>
 </g>
-<!-- M1S0&#45;&gt;M2S1 -->
+<!-- M1S0&#45;&gt;M2S2 -->
 <g id="edge2" class="edge">
-<title>M1S0&#45;&gt;M2S1</title>
+<title>M1S0&#45;&gt;M2S2</title>
 <path fill="none" stroke="black" d="M212.08,-34C234.87,-34 268.21,-34 293.62,-34"/>
 <polygon fill="black" stroke="black" points="293.63,-37.5 303.63,-34 293.63,-30.5 293.63,-37.5"/>
 <text text-anchor="middle" x="251.5" y="-37.8" font-family="Times,serif" font-size="14.00">(ε, r1)</text>
 </g>
-<!-- M3S7 -->
+<!-- M3S4 -->
 <g id="node4" class="node">
-<title>M3S7</title>
+<title>M3S4</title>
 <path fill="#ffffff" stroke="black" d="M628,-52C628,-52 598,-52 598,-52 592,-52 586,-46 586,-40 586,-40 586,-28 586,-28 586,-22 592,-16 598,-16 598,-16 628,-16 628,-16 634,-16 640,-22 640,-28 640,-28 640,-40 640,-40 640,-46 634,-52 628,-52"/>
-<text text-anchor="middle" x="613" y="-30.3" font-family="Times,serif" font-size="14.00">7</text>
+<text text-anchor="middle" x="613" y="-30.3" font-family="Times,serif" font-size="14.00">4</text>
 </g>
-<!-- M2S1&#45;&gt;M3S7 -->
+<!-- M2S2&#45;&gt;M3S4 -->
 <g id="edge3" class="edge">
-<title>M2S1&#45;&gt;M3S7</title>
+<title>M2S2&#45;&gt;M3S4</title>
 <path fill="none" stroke="black" d="M358.09,-34C408.32,-34 518.54,-34 575.82,-34"/>
 <polygon fill="black" stroke="black" points="575.87,-37.5 585.87,-34 575.87,-30.5 575.87,-37.5"/>
 <text text-anchor="middle" x="472.5" y="-37.8" font-family="Times,serif" font-size="14.00">(r3(r2r3)*, r1r3(r2r3)*)</text>

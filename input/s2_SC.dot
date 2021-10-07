@@ -1,12 +1,12 @@
 digraph "SCinput/s2" {
-node [shape=circle]; R00_Le ;
-node [shape=circle]; R10_L1 ;
-node [shape=doublecircle]; R11_Le ;
-node [shape=circle]; R01_L2 ;
-node [shape=doublecircle]; R01_Le ;
-node [shape=circle]; R11_L1 ;
-node [shape=doublecircle]; R10_Le ;
-node [shape=circle]; R00_L2 ;
+node [fillcolor="#FFFFFF"]; R00_Le ;
+node [fillcolor="#FFFFFF"]; R10_L1 ;
+node [style=filled fillcolor="#FFEEEE"]; R11_Le ;
+node [fillcolor="#FFFFFF"]; R01_L2 ;
+node [style=filled fillcolor="#FFEEEE"]; R01_Le ;
+node [fillcolor="#FFFFFF"]; R11_L1 ;
+node [style=filled fillcolor="#FFEEEE"]; R10_Le ;
+node [fillcolor="#FFFFFF"]; R00_L2 ;
 R00_Le -> R00_L2 [label=t3R1]
 R00_Le -> R10_L1 [label=t1O1]
 R10_L1 -> R10_Le [label=t7R3]

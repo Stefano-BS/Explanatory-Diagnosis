@@ -4,5 +4,16 @@
         "*.c": "c",
         "ctype.h": "c",
         "header.h": "c",
+        "cctype": "c",
+        "cmath": "c",
+        "cstdarg": "c",
+        "cstdint": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "exception": "c",
+        "limits": "c",
+        "*.tcc": "c",
+        "type_traits": "c",
+        "typeinfo": "c"
     }
 }

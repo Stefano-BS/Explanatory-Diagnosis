@@ -537,7 +537,7 @@ C10S15 -> C4S5 [style=dashed arrowhead=vee label="O1 r1|(r1|(r1|((r1|r3)|((r1|r3
 C10S22 -> C2S3 [style=dashed arrowhead=vee label="O1 ε"]
 C10S23 -> C3S4 [style=dashed arrowhead=vee label="O1 ε"]
 C10S1 -> C1S2 [style=dashed arrowhead=vee label="O1 ε"]
-C11S15 -> C4S5 [style=dashed arrowhead=vee label="O1 r1|(r1|(r1|((r1|r3)|((r1|r3)|r3))))"]
+C11S15 -> C4S5 [style=dashed arrowhead=vee label="O1 r1|(r1|(r1|((r1|(r)|((r1|r3)|r3))))"]
 C11S22 -> C2S3 [style=dashed arrowhead=vee label="O1 ε"]
 C11S23 -> C3S4 [style=dashed arrowhead=vee label="O1 ε"]
 C11S1 -> C1S2 [style=dashed arrowhead=vee label="O1 ε"]

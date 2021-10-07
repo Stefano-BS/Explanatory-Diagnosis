@@ -8,13 +8,13 @@ Explainer * expWorkingOn = NULL;
 BehSpaceCatalog catalog;
 
 BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RESTRICT obs, unsigned short loss) {
-    int newComponentStatus[ncomp], newLinkContent[nlink];
-    memcpy(newLinkContent, base->linkContent, nlink*sizeof(int));
-    memcpy(newComponentStatus, base->componentStatus, ncomp*sizeof(int));
+    short newComponentStatus[ncomp], newLinkContent[nlink];
+    memcpy(newLinkContent, base->linkContent, nlink*sizeof(short));
+    memcpy(newComponentStatus, base->componentStatus, ncomp*sizeof(short));
     if (t->idIncomingEvent != VUOTO)                                                // Incoming event consumption
         newLinkContent[t->linkIn->intId] = VUOTO;
     newComponentStatus[c->intId] = t->to;                                           // New active state
-    for (int k=0; k<t->nOutgoingEvents; k++)                                        // Outgoing event placement
+    for (unsigned short k=0; k<t->nOutgoingEvents; k++)                                        // Outgoing event placement
         newLinkContent[t->linkOut[k]->intId] = t->idOutgoingEvents[k];
     BehState * newState = generateBehState(newLinkContent, newComponentStatus);     // BehState build
     newState->obsIndex = base->obsIndex;
@@ -27,7 +27,7 @@ BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RE
 }
 
 bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned short loss) {
-    int k;
+    unsigned int k;
     if ((base->componentStatus[c->intId] == t->from) &&                                             // Trans enabled if its from component is in the correct status
     (t->idIncomingEvent == VUOTO || t->idIncomingEvent == base->linkContent[t->linkIn->intId])) {   // Trans' incoming event okay
         if (!buildingTransCatalogue && loss>0 && ((base->obsIndex>=loss && t->obs > 0) ||           // Having seen all observations, we can't see anymore
@@ -58,7 +58,7 @@ bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned s
                     return false;                                                                   // If the BehTrans' destination fault alredy exist, keep track in extra bucket
                 }
 
-            int hash = hashBehState(nt->to);                                                        // Otherwise store pending BehTrans
+            unsigned int hash = hashBehState(nt->to);                                                        // Otherwise store pending BehTrans
             pt = catalog.tList[hash];
             while (pt != NULL) {
                 if (context == pt->tempFault && behTransCompareTo(nt, pt->t)) return false;
@@ -80,13 +80,13 @@ bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned s
 }
 
 bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT precedente, BehState *RESTRICT nuovo, Trans *RESTRICT mezzo, unsigned short loss) {
-    int i;
+    unsigned int i;
     bool giaPresente = false;
     BehState *s;
     if (b->nStates>0) {
         for (s=b->states[i=0]; i<b->nStates; s=(i<b->nStates ? b->states[++i] : s)) {
-            if (memcmp(nuovo->componentStatus, s->componentStatus, ncomp*sizeof(int)) == 0
-            && memcmp(nuovo->linkContent, s->linkContent, nlink*sizeof(int)) == 0) {
+            if (memcmp(nuovo->componentStatus, s->componentStatus, ncomp*sizeof(short)) == 0
+            && memcmp(nuovo->linkContent, s->linkContent, nlink*sizeof(short)) == 0) {
                 giaPresente = (loss>0 ? nuovo->obsIndex == s->obsIndex : true);
                 if (giaPresente) {
                     freeBehState(nuovo); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
@@ -134,10 +134,10 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT precedente,
 
 void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, int*RESTRICT obs, unsigned short loss) {
     Component *c;
-    int i, j;
+    unsigned short i, j;
     for (c=components[i=0]; i<ncomp;  c=components[++i]){
         Trans *t;
-        int nT = c->nTrans;
+        unsigned short nT = c->nTrans;
         if (nT == 0) continue;
         for (t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
             if (isTransEnabled(base, c, t, obs, loss)) {                                    // Checks okay, execution
@@ -167,7 +167,7 @@ void pruneRec(BehState *RESTRICT s) { // Invocata esternamente solo a partire da
 
 void prune(BehSpace *RESTRICT b) {
     BehState *s;
-    int i;
+    unsigned int i;
     ok = calloc(b->nStates, sizeof(bool));
     ok[0] = true;
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
@@ -185,13 +185,12 @@ void prune(BehSpace *RESTRICT b) {
 }
 
 void decorateFaultSpace(FaultSpace * f) {
-    int k;
     bool mask[f->b->nStates];
     memset(mask, true, f->b->nStates);
     BehSpace *duplicated = dup(f->b, mask, false, NULL);
     f->diagnosis = diagnostics(duplicated, true);
     f->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*f->b->nTrans/5);
-    for (k=0; k<f->b->nStates; k++)
+    for (unsigned int k=0; k<f->b->nStates; k++)
         if (f->diagnosis[k] != NULL && f->diagnosis[k]->regex != NULL)
             regexMake(f->alternativeOfDiagnoses, f->diagnosis[k], f->alternativeOfDiagnoses, 'a', NULL);
         else
@@ -199,9 +198,9 @@ void decorateFaultSpace(FaultSpace * f) {
     freeBehSpace(duplicated);
 }
 
-void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs) {
+void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs, bool *ok) {
     ok[base->id] = true;
-    int i=0;
+    unsigned int i=0;
     foreachdecl(lt, base->transitions) {
         if (lt->t->from == base && lt->t->t->obs != 0) {
             while (obsStates[i] != -1) i++;
@@ -211,7 +210,7 @@ void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs
     }
     foreach(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs == 0 && !ok[lt->t->to->id])
-            faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i);
+            faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i, ok);
 }
 
 FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
@@ -221,16 +220,16 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     map->exitStates = malloc(b->nTrans*sizeof(int));
     memset(map->exitStates, -1, b->nStates*sizeof(int));
 
-    ok = calloc(b->nStates, sizeof(bool));
-    faultSpaceExtend(base, map->exitStates, obsTrs); // state ids and transitions refer to the original space, not a dup copy
+    bool *ok = calloc(b->nStates, sizeof(bool));
+    faultSpaceExtend(base, map->exitStates, obsTrs, ok); // state ids and transitions refer to the original space, not a dup copy
     ret->b = dup(b, ok, true, &map->idMapFromOrigin);
     free(ok);
 
     BehState *r, *temp;
     for (r=ret->b->states[k=0]; k<ret->b->nStates; r=ret->b->states[++k]) { // make base its inital state
         if (//k!=0 //&& base->obsIndex == r->obsIndex
-        memcmp(base->linkContent, r->linkContent, nlink*sizeof(int)) == 0
-        && memcmp(base->componentStatus, r->componentStatus, ncomp*sizeof(int)) == 0) {
+        memcmp(base->linkContent, r->linkContent, nlink*sizeof(short)) == 0
+        && memcmp(base->componentStatus, r->componentStatus, ncomp*sizeof(short)) == 0) {
             temp = ret->b->states[0];           // swap ptrs
             ret->b->states[0] = r;
             ret->b->states[k] = temp;
@@ -263,13 +262,19 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     return ret;
 }
 
+int faultJob(void *RESTRICT params) {
+    struct FaultSpaceParams*RESTRICT ps = (struct FaultSpaceParams*) params;
+    ps->ret[0] = faultSpace(ps->map, ps->b, ps->s, ps->obsTrs);
+    return 0;
+}
+
 /* Call like:
     int nSpaces=0;
     BehTrans *** obsTrs;
     FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
 FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs) {
     BehState * s;
-    int i, j=0;
+    unsigned int i, j=0;
     *nSpaces = 1;
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
         foreachdecl(lt, s->transitions) {
@@ -287,15 +292,31 @@ FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b,
         (*obsTrs)[i] = calloc(b->nTrans, sizeof(BehTrans**));
     }
     ret[0] = faultSpace((*maps)[0], b, b->states[0], (*obsTrs)[0]);
+    doC11(
+        thrd_t thr[*nSpaces];
+        struct FaultSpaceParams params[*nSpaces];
+    )
     for (s=b->states[i=1]; i<b->nStates; s=b->states[++i]) {
         foreachdecl(lt, s->transitions) {
             if (lt->t->to == s && lt->t->t->obs != 0) {
                 j++;
-                ret[j] = faultSpace((*maps)[j], b, s, (*obsTrs)[j]);
+                doC99(ret[j] = faultSpace((*maps)[j], b, s, (*obsTrs)[j]);)
+                doC11(
+                    params[j].ret = &ret[j];
+                    params[j].b = b;
+                    params[j].map = (*maps)[j];
+                    params[j].s = s;
+                    params[j].obsTrs = (*obsTrs)[j];
+                    thrd_create(&(thr[j]), faultJob, &(params[j]));
+                )
                 break;
             }
         }
     }
+    doC11(
+        for (i=1; i<*nSpaces; i++)
+            thrd_join(thr[i], NULL);
+    )
     return ret;
 }
 

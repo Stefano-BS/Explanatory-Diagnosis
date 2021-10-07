@@ -3,7 +3,23 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r1?|(r1r1))|r1)|r1"
+label="((r1?|r1)|(r1r1))|r1"
 M0S0 [label=0];
 }
+subgraph cluster1 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((((((((((((((((r1?|r1)|(r1r1))|(r1r1))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|(r1r3)))))|(r1r1|(r1|(r1|(r1|r3)))))))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3)))))|(r1r1|(r1|(r1|((r1|r3)|r3)))))))|((r1r1)|(((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1|r3)|r3))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|(r1r1|(r1|(r1|((r1|r3)|((r1|r3)|r3)))))))))))))|r1)|r1)|(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1))))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))|r1)|(r1|((r1|(r1|r3))|r1)))|r1)|r1)|(((((((((((((r1?|(r1r1))|(r1r1))|((r1r1)|((r1r1|(r1|(r1|(r1|r3))))|(r3r1))))|((r1r1)|((r1r1|(r1|(r1|((r1|r3)|r3))))|(r3r1))))|((r1r1)|((r1r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|(r3r1))))))))|r1)|r1)|(r1|(r1|(r1|(r1|(r1|(r1|r3)))))))|(r1|(r1|(r1|(r1|(r1|((r1|r3)|r3)))))))|r1)|(r1|(r1|r3)))|r1)|r1))|(r1(((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(r1|((r1|r3)|r3)))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))))|(r1(((r1?|r1)|r1)|(r1|(r1|(r1|r3))))|(r1|(r1|(r1|(r3|(r1|r3)))))))|(r1r1))|(r1(((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(((r1r1)|(r1r3))))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3)))))))"
+M1S9 [label=9];
+M1S16 [label=16];
+M1S2 [label=2];
+M1S3 [label=3];
+M1S4 [label=4];
+M1S1 [label=1];
+}
+M0S0 -> M1S9 [label="(ε, ε)"]
+M0S0 -> M1S16 [label="(ε, ε)"]
+M0S0 -> M1S2 [label="(r1, r1)"]
+M0S0 -> M1S3 [label="(r1, r1)"]
+M0S0 -> M1S4 [label="(r1r1, r1r1)"]
+M0S0 -> M1S1 [label="(r1, r1)"]
 }

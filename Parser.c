@@ -32,9 +32,9 @@ void parseDES(FILE* file) {
                 
                 linea++;
                 Component *nuovo = newComponent();
-                fscanf(file, "%d", &(nuovo->nStates));
+                fscanf(file, "%hu", &(nuovo->nStates));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->id));
+                fscanf(file, "%hd", &(nuovo->id));
                 if (!feof(file)) match(ACAPO, file);
             }
         } else if (strcmp(sezione,"//TRANSIZIONI\n")==0 || strcmp(sezione,"//TRANSIZIONI\r\n")==0) {
@@ -47,27 +47,28 @@ void parseDES(FILE* file) {
 
                 linea++;
                 Trans *nuovo = calloc(1, sizeof(Trans));
-                int temp, componentePadrone;
-                nuovo->idOutgoingEvents = calloc(2, sizeof(int));
+                unsigned short componentePadrone;
+                short temp;
+                nuovo->idOutgoingEvents = calloc(2, sizeof(short));
                 nuovo->linkOut = calloc(2, sizeof(Link*));
                 nuovo->sizeofOE = 2;
-                fscanf(file, "%d", &(nuovo->id));
+                fscanf(file, "%hd", &(nuovo->id));
                 match(',', file);
-                fscanf(file, "%d", &componentePadrone);
+                fscanf(file, "%hu", &componentePadrone);
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->from));
+                fscanf(file, "%hu", &(nuovo->from));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->to));
+                fscanf(file, "%hu", &(nuovo->to));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->obs));
+                fscanf(file, "%hu", &(nuovo->obs));
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->fault));
+                fscanf(file, "%hu", &(nuovo->fault));
                 match(',', file);
                 if (isdigit(c = fgetc(file))) {                     // Se dopo la virgola c'è un numero, allora c'è un evento in ingresso
                     ungetc(c, file);
-                    fscanf(file, "%d", &(nuovo->idIncomingEvent));
+                    fscanf(file, "%hd", &(nuovo->idIncomingEvent));
                     match(':', file);                               // idEvento:idLink
-                    fscanf(file, "%d", &temp);
+                    fscanf(file, "%hd", &temp);
                     nuovo->linkIn = linkById(temp);
                 } else {
                     nuovo->idIncomingEvent = VUOTO;
@@ -80,16 +81,16 @@ void parseDES(FILE* file) {
                     if (feof(file)) break;
                     ungetc(c, file);
                     
-                    fscanf(file, "%d", &temp);
+                    fscanf(file, "%hd", &temp);
                     if (nuovo->nOutgoingEvents +1 > nuovo->sizeofOE) {    // Allocazione bufferizzata della memoria anche in questo caso
                         nuovo->sizeofOE += 5;
-                        nuovo->idOutgoingEvents = realloc(nuovo->idOutgoingEvents, nuovo->sizeofOE*sizeof(int));
-                        nuovo->idOutgoingEvents = realloc(nuovo->idOutgoingEvents, nuovo->sizeofOE*sizeof(int));
+                        nuovo->idOutgoingEvents = realloc(nuovo->idOutgoingEvents, nuovo->sizeofOE*sizeof(short));
+                        nuovo->linkOut = realloc(nuovo->linkOut, nuovo->sizeofOE*sizeof(Link*));
                     }
                     nuovo->idOutgoingEvents[nuovo->nOutgoingEvents] = temp;
 
                     match(':', file); //idEvento:idLink
-                    fscanf(file, "%d", &temp);
+                    fscanf(file, "%hd", &temp);
                     Link *linkNuovo = linkById(temp);
                     nuovo->linkOut[nuovo->nOutgoingEvents] = linkNuovo;
                     nuovo->nOutgoingEvents++;
@@ -114,12 +115,12 @@ void parseDES(FILE* file) {
                 
                 linea++;
                 Link *nuovo = calloc(1, sizeof(Link));
-                int idComp1, idComp2;
-                fscanf(file, "%d", &idComp1);
+                unsigned short idComp1, idComp2;
+                fscanf(file, "%hd", &idComp1);
                 match(',', file);
-                fscanf(file, "%d", &idComp2);
+                fscanf(file, "%hd", &idComp2);
                 match(',', file);
-                fscanf(file, "%d", &(nuovo->id));
+                fscanf(file, "%hd", &(nuovo->id));
                 nuovo->intId = nlink;
                 nuovo->from = compById(idComp1);
                 nuovo->to = compById(idComp2);
@@ -133,7 +134,7 @@ void parseDES(FILE* file) {
     }
 }
 
-BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
+BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
     BehSpace * b = newBehSpace();
     int i;
     char buffer[50];
@@ -144,10 +145,11 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             fscanf(file, "%s", buffer);
             if (strcmp(buffer, "node") != 0) break;
             fscanf(file, "%s", buffer);
-            bool dbc = strcmp(buffer, "[shape=doublecircle];")==0;
+            bool dbc = strcmp(buffer, "[style=filled")==0;
+            if (dbc) fscanf(file, "%s", buffer); // fillcolor="#FFEEEE"];
             fscanf(file, "%s", buffer);
             strcpy(nomeStatiTrovati[b->nStates], buffer);
-            int strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0, j=1;
+            short strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0, j=1;
             for (i=1; i<strl; i++) {
                 if (buffer[i] == '_') {
                     sez++;
@@ -188,7 +190,7 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
                 }
             
             fscanf(file, "%s", buffer); // Label
-            int idTransizione = atoi(buffer+8);
+            short idTransizione = atoi(buffer+8);
             Trans *t = NULL;
             for (i=0; i<ncomp; i++) {
                 for (j=0; j<components[i]->nTrans; j++) {
@@ -225,7 +227,8 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             fscanf(file, "%s", buffer);
             if (strcmp(buffer, "node") != 0) break;
             fscanf(file, "%s", buffer);
-            bool dbc = strcmp(buffer, "[shape=doublecircle];")==0;
+            bool dbc = strcmp(buffer, "[style=filled")==0;
+            if (dbc) fscanf(file, "%s", buffer); // fillcolor="#FFEEEE"];
             fscanf(file, "%s", buffer); // Trattandosi di una sequenza S0 S1 ... Sn il contenuto è prevedibile
             
             BehState * nuovo = generateBehState(NULL, NULL);
@@ -236,12 +239,12 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
             fscanf(file, "%s", buffer); // Simbolo ;
         }
         while (true) {
-            int idDa = atoi(buffer+1), j;
+            short idDa = atoi(buffer+1), j;
             fscanf(file, "%s", buffer); // Simbolo ->
             fscanf(file, "%s", buffer);
-            int idA = atoi(buffer+1);
+            short idA = atoi(buffer+1);
             fscanf(file, "%s", buffer); // Label
-            int idTransizione = atoi(buffer+8);
+            short idTransizione = atoi(buffer+8);
             Trans *t = NULL;
             for (i=0; i<ncomp; i++) {
                 for (j=0; j<components[i]->nTrans; j++) {
@@ -277,4 +280,74 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, int* loss) {
     }
     debugif(DEBUG_MEMCOH, behCoherenceTest(b))
     return b;
+}
+
+double gauss(double mu, double sigma) {
+    double u1, u2;
+    do {
+        u1 = (double)rand()/RAND_MAX;
+        u2 = (double)rand()/RAND_MAX;
+    }
+    while (u1 < __DBL_EPSILON__);
+    return sigma * sqrt(-2.0 * log(u1)) * cos(2.0 * M_PI * u2) + mu; //double z1  = sigma * sqrt(-2.0 * log(u1)) * sin(2.0 * M_PI * u2) + mu;
+}
+
+INLINE(bool componentContainsTr(Component * c, Trans *tr)) {
+    unsigned short i;
+    if (c->transitions == NULL || c->nTrans == 0) return false;
+    for (Trans *t = c->transitions[i=0]; i<c->nTrans; t = c->transitions[++i])
+        if (t->from == tr->from && t->to == tr->to) return true;
+    return false;
+}
+
+INLINE(bool linkExists(Link *lk)) {
+    unsigned short i;
+    for (Link *l = links[i=0]; i<nlink; l = links[++i])
+        if (l->from == lk->from && l->to == lk->to) return true;
+    return false;
+}
+
+void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma) {
+    time_t t;
+    srand((unsigned) time(&t));
+    sprintf(inputDES, "gen/Seed%d", rand());
+    unsigned short desiredNlink = round(nofComp*(nofComp-1)*linkRatio);
+    netAlloc(nofComp, desiredNlink);
+    for(unsigned short i=0; i<nofComp; i++) {
+        Component * c = newComponent();
+        c->intId = c->id = i;
+        unsigned short ns = round(gauss(compSize, 1));
+        ns = ns == 0 ? 1: ns;
+        c->nStates = ns;
+        unsigned short desiderTrs = round(ns*(ns-1)*connectionRatio);
+        for (unsigned short j=0; j<desiderTrs; j++) {
+            Trans * nt = calloc(1, sizeof(Trans));
+            nt->id = j;
+            do {
+                nt->from = rand()%ns;
+                nt->to = rand()%ns;
+            } while(componentContainsTr(c, nt));
+            nt->fault = ((float)rand())/RAND_MAX > faultRatio ? rand() % faultGamma +1 : 0;
+            nt->obs = ((float)rand())/RAND_MAX > obsRatio ? rand() % obsGamma +1 : 0;
+            nt->sizeofOE = 1;
+            nt->idOutgoingEvents = calloc(nt->sizeofOE, sizeof(short));
+            nt->linkOut = calloc(nt->sizeofOE, sizeof(Link*));
+            nt->nOutgoingEvents = 0;
+            nt->idIncomingEvent = VUOTO;
+            nt->linkIn = NULL;
+            alloc1(c, 't');
+            c->transitions[c->nTrans] = nt;
+            c->nTrans++;
+        }
+    }
+    for (unsigned short i=0; i<desiredNlink; i++) {
+        Link * l = malloc(sizeof(Link));
+        l->id = l->intId = i;
+        links[i] = l;
+        do {
+            l->from = components[rand()%ncomp];
+            l->to = components[rand()%ncomp];
+        } while (linkExists(l));
+        nlink++;
+    }
 }

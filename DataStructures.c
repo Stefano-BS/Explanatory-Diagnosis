@@ -1,16 +1,18 @@
 #include "header.h"
 
-int nlink=0, ncomp=0;
+unsigned short nlink=0, ncomp=0;
 Component **RESTRICT components;
 Link **RESTRICT links;
 
 // Buffered memory allocation (reduces realloc frequency)
-int *sizeofTrComp;
-int sizeofCOMP=5, sizeofLINK=5;                                 // Initial sizes
+unsigned short *sizeofTrComp;
+unsigned short sizeofCOMP=5, sizeofLINK=5;                                 // Initial sizes
 
-void netAlloc(void){
-    components = malloc(sizeofCOMP* sizeof(Component*));
-    sizeofTrComp = malloc(sizeofCOMP*sizeof(int));              // Array of pointers to transitions inside components' sizes
+void netAlloc(unsigned short sComp, unsigned short sLink){
+    if (sComp) sizeofCOMP = sComp;
+    if (sLink) sizeofLINK = sLink;
+    components = malloc(sizeofCOMP*sizeof(Component*));
+    sizeofTrComp = malloc(sizeofCOMP*sizeof(short));              // Array of pointers to transitions inside components' sizes
     links = malloc(sizeofLINK* sizeof(Link*));
     if (components==NULL || sizeofTrComp==NULL || links==NULL) printf(MSG_MEMERR);
 }
@@ -38,62 +40,62 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
             if (b->nStates+1 > b->sizeofS) {
                 b->sizeofS *= 1.25;
                 b->sizeofS += 5;
-                BehState ** spazio = realloc(b->states, b->sizeofS*sizeof(BehState*));
-                if (spazio == NULL) printf(MSG_MEMERR);
-                else b->states = spazio;
+                BehState ** mem = realloc(b->states, b->sizeofS*sizeof(BehState*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else b->states = mem;
             }
         } break;
         case 'c': {
             if (ncomp+1 > sizeofCOMP) {
                 sizeofCOMP += 5;
-                Component ** spazio = realloc(components, sizeofCOMP*sizeof(Component*));
-                int* sottoAlloc = realloc(sizeofTrComp, sizeofCOMP*sizeof(int));
-                if ((spazio == NULL) | (sottoAlloc == NULL)) printf(MSG_MEMERR);
-                else {components = spazio; sizeofTrComp = sottoAlloc;}
+                Component ** mem = realloc(components, sizeofCOMP*sizeof(Component*));
+                unsigned short* mem2 = realloc(sizeofTrComp, sizeofCOMP*sizeof(unsigned short));
+                if ((mem == NULL) | (mem2 == NULL)) printf(MSG_MEMERR);
+                else {components = mem; sizeofTrComp = mem2;}
             }
         } break;
         case 'l': {
             if (nlink+1 > sizeofLINK) {
                 sizeofLINK += 5;
-                Link ** spazio = realloc(links, sizeofLINK*sizeof(Link*));
-                if (spazio == NULL) printf(MSG_MEMERR);
-                else links = spazio;
+                Link ** mem = realloc(links, sizeofLINK*sizeof(Link*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else links = mem;
             }
         } break;
         case 't': {
             Component * comp = (Component*) ptr;
             if (comp->nTrans+1 > sizeofTrComp[comp->intId]) {
                 sizeofTrComp[comp->intId] += 10;
-                Trans ** spazio = realloc(comp->transitions, sizeofTrComp[comp->intId]*sizeof(Trans*));
-                if (spazio == NULL) printf(MSG_MEMERR);
-                else comp->transitions = spazio;
+                Trans ** mem = realloc(comp->transitions, sizeofTrComp[comp->intId]*sizeof(Trans*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else comp->transitions = mem;
             }
         } break;
         case 'e': {
             Explainer * exp = (Explainer *) ptr;
             if (exp->nTrans+1 > exp->sizeofTrans) {
                 exp->sizeofTrans += 10;
-                ExplTrans ** array = realloc(exp->trans, exp->sizeofTrans*sizeof(ExplTrans*));
-                if (array == NULL) printf(MSG_MEMERR);
-                else exp->trans = array;
+                ExplTrans ** mem = realloc(exp->trans, exp->sizeofTrans*sizeof(ExplTrans*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else exp->trans = mem;
             }
         } break;
         case 'f': {
             Explainer * exp = (Explainer *) ptr;
             if (exp->nFaultSpaces+1 > exp->sizeofFaults) {
                 exp->sizeofFaults += 5;
-                FaultSpace ** array = realloc(exp->faults, exp->sizeofFaults*sizeof(FaultSpace*));
-                if (array == NULL) printf(MSG_MEMERR);
-                else exp->faults = array;
+                FaultSpace ** mem = realloc(exp->faults, exp->sizeofFaults*sizeof(FaultSpace*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else exp->faults = mem;
             }
         } break;
         case 'm': {
             MonitorState * mu = (MonitorState *) ptr;
             if (mu->nArcs+1 > mu->sizeofArcs) {
                 mu->sizeofArcs += 10;
-                MonitorTrans ** array = realloc(mu->arcs, mu->sizeofArcs*sizeof(MonitorTrans*));
-                if (array == NULL) printf(MSG_MEMERR);
-                else mu->arcs = array;
+                MonitorTrans ** mem = realloc(mu->arcs, mu->sizeofArcs*sizeof(MonitorTrans*));
+                if (mem == NULL) printf(MSG_MEMERR);
+                else mu->arcs = mem;
             }
         } break;
     }
@@ -101,30 +103,30 @@ void alloc1(void *ptr, char o) {   // Call before inserting anything new in any 
 
 Component * newComponent(void) {
     alloc1(NULL, 'c');
-    Component *nuovo = calloc(1, sizeof(Component));
-    nuovo->transitions = calloc(5, sizeof(Trans*));
-    nuovo->intId = ncomp;
+    Component *ret = calloc(1, sizeof(Component));
+    ret->transitions = calloc(5, sizeof(Trans*));
+    ret->intId = ncomp;
     sizeofTrComp[ncomp] = 5;
-    components[ncomp++] = nuovo;
-    return nuovo;
+    components[ncomp++] = ret;
+    return ret;
 }
 
-Component* compById(int id) {
-    for (int i=0; i<ncomp; i++)
+Component* compById(short id) {
+    for (short i=0; i<ncomp; i++)
         if (components[i]->id == id) return components[i];
     printf(MSG_COMP_NOT_FOUND, id);
     return NULL;
 }
 
-Link* linkById(int id) {
-    for (int i=0; i<nlink; i++)
+Link* linkById(short id) {
+    for (short i=0; i<nlink; i++)
         if (links[i]->id == id) return links[i];
     printf(MSG_LINK_NOT_FOUND, id);
     return NULL;
 }
 
-int hashBehState(BehState *s) {
-    int hash = 0;
+unsigned int hashBehState(BehState *s) {
+    unsigned int hash = 0;
     for (int i=0; i<ncomp; i++) hash = ((hash << 3) + s->componentStatus[i]) % catalog.length;
     for (int i=0; i<nlink; i++) hash = ((hash << 3) + s->linkContent[i]+1) % catalog.length;
     return hash;
@@ -137,24 +139,24 @@ bool behTransCompareTo(BehTrans * t1, BehTrans *t2) {
 
 INLINE(bool behStateCompareTo(BehState * s1, BehState * s2)) {
     return  // s1->flags == s2->flags && s1->obsIndex == s2->obsIndex &&
-            memcmp(s1->componentStatus, s2->componentStatus, ncomp*sizeof(int)) == 0
-            && memcmp(s1->linkContent, s2->linkContent, nlink*sizeof(int)) == 0;
+            memcmp(s1->componentStatus, s2->componentStatus, ncomp*sizeof(short)) == 0
+            && memcmp(s1->linkContent, s2->linkContent, nlink*sizeof(short)) == 0;
 }
 
-BehState * generateBehState(int *RESTRICT linkContent, int *RESTRICT componentStatus) {
+BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT componentStatus) {
     BehState *s = calloc(1, sizeof(BehState));
     s->id = VUOTO;
-    s->componentStatus = malloc(ncomp*sizeof(int));
-    s->linkContent = malloc(nlink*sizeof(int));
+    s->componentStatus = malloc(ncomp*sizeof(short));
+    s->linkContent = malloc(nlink*sizeof(short));
     if (linkContent != NULL) {
-        memcpy(s->linkContent, linkContent, nlink*sizeof(int));
+        memcpy(s->linkContent, linkContent, nlink*sizeof(short));
         s->flags = FLAG_FINAL;
         for (int i=0; i<nlink; i++)
             s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     }
-    else memset(s->linkContent, VUOTO, nlink*sizeof(int));
-    if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(int));
-    else memset(s->componentStatus, 0, ncomp*sizeof(int));
+    else memset(s->linkContent, VUOTO, nlink*sizeof(short));
+    if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
+    else memset(s->componentStatus, 0, ncomp*sizeof(short));
     return s;
 }
 
@@ -257,10 +259,10 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (mask[i]) {
             new = dup->states[(*map)[i]];  // State information copy...
-            new->linkContent = malloc(nlink*sizeof(int));
-            new->componentStatus = malloc(ncomp*sizeof(int));
-            memcpy(new->linkContent, s->linkContent, nlink*sizeof(int));
-            memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(int));
+            new->linkContent = malloc(nlink*sizeof(short));
+            new->componentStatus = malloc(ncomp*sizeof(short));
+            memcpy(new->linkContent, s->linkContent, nlink*sizeof(short));
+            memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(short));
             new->flags = s->flags;
             new->obsIndex = s->obsIndex;
             new->id = (*map)[i];

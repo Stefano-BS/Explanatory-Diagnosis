@@ -37,11 +37,12 @@ int thJob(void * command) {
 }
 
 void launchDot(char * command) {
-    doC11({
+    doC11(
         thrd_t thr;
         thrd_create(&thr, thJob, command);
-    })
-    doC99(system(command);)
+        thrd_detach(thr);
+    )
+    doC99(thJob(command);)
 }
 
 void printDES(BehState * attuale, bool testuale) {
@@ -55,12 +56,12 @@ void printDES(BehState * attuale, bool testuale) {
     else {
         sprintf(nomeFileDot, "%s.dot", inputDES);
         file = fopen(nomeFileDot, "w");
-        fprintf(file, "digraph \"%s\" {\nsize=\"8,5\"\ncompound=true\n", inputDES);
+        fprintf(file, "digraph \"%s\" {\nnode [style=filled fillcolor=white] compound=true\n", inputDES);
     }
     for (c=components[i=0]; i<ncomp; c=(i<ncomp ? components[++i] : c)){
         int nT = c->nTrans;
         if (testuale) printf(MSG_COMP_DESCRIPTION, c->id, c->nStates, attuale->componentStatus[c->intId], nT);
-        else fprintf(file, "subgraph cluster%d {node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->componentStatus[c->intId]);
+        else fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFEEEE\"node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->componentStatus[c->intId]);
         Trans *t;
         if (nT == 0) continue;
         for (t=c->transitions[j=0]; j<nT; t=(j<nT ? c->transitions[++j] : t)) {
@@ -89,9 +90,12 @@ void printDES(BehState * attuale, bool testuale) {
         if (testuale)
             if (attuale->linkContent[l->intId] == VUOTO) printf(MSG_LINK_DESCRIPTION1, l->id, l->from->id, l->to->id);
             else printf(MSG_LINK_DESCRIPTION2, l->id, attuale->linkContent[l->intId], l->from->id, l->to->id);
-        else
-            if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{}\"];\n", l->from->id, l->to->id, l->from->id, l->to->id, l->id);
-            else if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "C%d_0 -> C%d_0 [ltail=cluster%d lhead=cluster%d label=\"L%d{e%d}\"];\n", l->from->id, l->to->id, l->from->id, l->to->id, l->id, attuale->linkContent[l->intId]);
+        else {
+            fprintf(file, "C%d_0 -> C%d_0 [", l->from->id, l->to->id);
+            if (l->from != l->to) fprintf(file, "ltail=cluster%d lhead=cluster%d ", l->from->id, l->to->id);
+            if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "label=\"L%d{}\"];\n", l->id);
+            else fprintf(file, "label=\"L%d{e%d}\"];\n", l->id, attuale->linkContent[l->intId]);
+        }
     if (testuale)
         printf(MSG_END_STATE_DESC, (attuale->flags & FLAG_FINAL) == FLAG_FINAL ? MSG_YES : MSG_NO);
     else {
@@ -121,8 +125,8 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
             else sprintf(ret+position, "%s ;\n", nomeSpazi[i]);
             position += strlen(ret+position);
         } else {
-            if (b->states[i]->flags & FLAG_FINAL) fprintf(file, "node [shape=doublecircle]; ");
-            else fprintf(file, "node [shape=circle]; ");
+            if (b->states[i]->flags & FLAG_FINAL) fprintf(file, "node [style=filled fillcolor=\"#FFEEEE\"]; ");
+            else fprintf(file, "node [fillcolor=\"#FFFFFF\"]; ");
             if (rename) fprintf(file, "S%d ;\n", i);
             else fprintf(file, "%s ;\n", nomeSpazi[i]);
         }

@@ -1,18 +1,20 @@
 digraph "input/i" {
-size="8,5"
-compound=true
-subgraph cluster1 {node [shape=doublecircle]; C1_0;
+node [style=filled fillcolor=white] compound=true
+subgraph cluster1 {
+style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C1_0;
 node [shape=circle];
 C1_0 -> C1_1 [label="t1R1"];
 C1_0 -> C1_1 [label="t2"];
 C1_1 -> C1_0 [label="t3"];
 }
-subgraph cluster2 {node [shape=doublecircle]; C2_0;
+subgraph cluster2 {
+style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
 node [shape=circle];
 C2_1 -> C2_0 [label="t4O2"];
 C2_0 -> C2_1 [label="t5O1"];
 }
-subgraph cluster3 {node [shape=doublecircle]; C3_0;
+subgraph cluster3 {
+style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C3_0;
 node [shape=circle];
 C3_1 -> C3_0 [label="t6"];
 C3_0 -> C3_1 [label="t7"];
