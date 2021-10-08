@@ -308,18 +308,17 @@ INLINE(bool linkExists(Link *lk)) {
 }
 
 INLINE(void setTransAttributes(Trans * nt, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma)) {
-    if (faultRatio>0 && faultGamma>0) nt->fault = ((float)rand())/RAND_MAX > faultRatio ? rand() % faultGamma+1 : 0; else nt->fault = 0;
-    if (obsRatio>0 && obsGamma>0) nt->obs = ((float)rand())/RAND_MAX > obsRatio ? rand() % obsGamma+1 : 0; else nt->obs = 0;
-    nt->sizeofOE = 1;
-    nt->idOutgoingEvents = malloc(nt->sizeofOE*sizeof(short));
-    nt->idOutgoingEvents[0] = VUOTO;
-    nt->linkOut = calloc(nt->sizeofOE, sizeof(Link*));
-    nt->nOutgoingEvents = 0;
+    if (faultRatio>0 && faultGamma>0) nt->fault = ((float)rand())/RAND_MAX < faultRatio ? rand() % faultGamma+1 : 0; else nt->fault = 0;
+    if (obsRatio>0 && obsGamma>0) nt->obs = ((float)rand())/RAND_MAX < obsRatio ? rand() % obsGamma+1 : 0; else nt->obs = 0;
     nt->idIncomingEvent = VUOTO;
     nt->linkIn = NULL;
+    nt->sizeofOE = 0;
+    nt->nOutgoingEvents = 0;
+    nt->idOutgoingEvents = NULL;
+    nt->linkOut = NULL;
 }
 
-void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma, float eventRatio, unsigned short eventGamma) {
+void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma, float eventProb, unsigned short eventGamma) {
     time_t t;
     srand((unsigned) time(&t));
     sprintf(inputDES, "gen/Seed%d", rand());
@@ -373,16 +372,23 @@ void netMake(unsigned short nofComp, unsigned short compSize, float connectionRa
         } while (linkExists(l));
         nlink++;
     }
-    if (eventRatio>0 && eventGamma>0) {
+    if (eventProb>0 && eventGamma>0) {
         unsigned short i, j;
+        float oEvProb = eventProb*(1-eventProb);
         for (Component * c=components[i=0]; i<ncomp; c=components[++i])
             for (Trans * t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j]) {
-                t->idIncomingEvent = ((float)rand())/RAND_MAX > eventRatio ? rand() % eventGamma : VUOTO;
+                t->idIncomingEvent = ((float)rand())/RAND_MAX < eventProb ? rand() % eventGamma+1 : VUOTO;
                 if (t->idIncomingEvent != VUOTO) t->linkIn = links[rand() % nlink];
-                t->idOutgoingEvents[0] = ((float)rand())/RAND_MAX > eventRatio ? rand() % eventGamma : VUOTO;
-                if (t->idOutgoingEvents[0] != VUOTO) {
-                    t->linkOut[0] = links[rand() % nlink];
-                    t->nOutgoingEvents = 1;
+                short genEvent = VUOTO;
+                while ((genEvent = ((float)rand())/RAND_MAX < oEvProb ? rand() % eventGamma+1 : VUOTO) != VUOTO) {
+                    t->sizeofOE++;
+                    if (t->idOutgoingEvents == NULL) t->idOutgoingEvents = malloc(sizeof(short));
+                    else t->idOutgoingEvents = realloc(t->idOutgoingEvents, t->sizeofOE*sizeof(short));
+                    t->idOutgoingEvents[t->nOutgoingEvents] = genEvent;
+                    if (t->linkOut == NULL) t->linkOut = malloc(sizeof(Link*));
+                    else t->linkOut = realloc(t->linkOut, t->sizeofOE*sizeof(Link*));
+                    t->linkOut[t->nOutgoingEvents] = links[rand() % nlink];
+                    t->nOutgoingEvents++;
                 }
             }
     }
