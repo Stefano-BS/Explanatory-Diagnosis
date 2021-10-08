@@ -132,10 +132,10 @@ void menu(void) {
         else if (op == 'k' && allow_i) {
             in = true;
             printf(MSG_NET_PARAMS);
-            unsigned short nofComp, compSize, obsGamma, faultGamma;
-            float connectionRatio, linkRatio, obsRatio, faultRatio;
-            scanf(" %hu %hu %f %f %f %f %hu %hu", &nofComp, &compSize, &connectionRatio, &linkRatio, &obsRatio, &faultRatio, &obsGamma, &faultGamma);
-            netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma);
+            unsigned short nofComp, compSize, obsGamma, faultGamma, eventGamma;
+            float connectionRatio, linkRatio, obsRatio, faultRatio, eventRatio;
+            scanf(" %hu %hu %f %f %f %f %hu %hu %f %hu", &nofComp, &compSize, &connectionRatio, &linkRatio, &obsRatio, &faultRatio, &obsGamma, &faultGamma, &eventRatio,&eventGamma);
+            netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma, eventRatio , eventGamma);
             if (dot!='n') {
                 BehState * tmp = generateBehState(NULL, NULL);
                 printDES(tmp, dot != INPUT_Y);

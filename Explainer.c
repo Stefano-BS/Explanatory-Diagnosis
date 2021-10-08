@@ -305,7 +305,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
             buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
 
         debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
-        debugif(DEBUG_MON, for(int l=0; l<catalog.length; l++){
+        debugif(DEBUG_MON, for(int l=0; l<catalog.length; l++) {
             struct tList * pt=catalog.tList[l];
             while(pt) {
                 printlog("Bucket %d trans from state hash %d to %d\n", l, hashBehState(pt->t->from), hashBehState(pt->t->to));

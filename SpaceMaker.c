@@ -262,11 +262,11 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     return ret;
 }
 
-int faultJob(void *RESTRICT params) {
+doC11(int faultJob(void *RESTRICT params) {
     struct FaultSpaceParams*RESTRICT ps = (struct FaultSpaceParams*) params;
     ps->ret[0] = faultSpace(ps->map, ps->b, ps->s, ps->obsTrs);
     return 0;
-}
+})
 
 /* Call like:
     int nSpaces=0;

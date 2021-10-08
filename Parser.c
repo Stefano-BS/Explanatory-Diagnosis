@@ -307,7 +307,19 @@ INLINE(bool linkExists(Link *lk)) {
     return false;
 }
 
-void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma) {
+INLINE(void setTransAttributes(Trans * nt, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma)) {
+    if (faultRatio>0 && faultGamma>0) nt->fault = ((float)rand())/RAND_MAX > faultRatio ? rand() % faultGamma+1 : 0; else nt->fault = 0;
+    if (obsRatio>0 && obsGamma>0) nt->obs = ((float)rand())/RAND_MAX > obsRatio ? rand() % obsGamma+1 : 0; else nt->obs = 0;
+    nt->sizeofOE = 1;
+    nt->idOutgoingEvents = malloc(nt->sizeofOE*sizeof(short));
+    nt->idOutgoingEvents[0] = VUOTO;
+    nt->linkOut = calloc(nt->sizeofOE, sizeof(Link*));
+    nt->nOutgoingEvents = 0;
+    nt->idIncomingEvent = VUOTO;
+    nt->linkIn = NULL;
+}
+
+void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma, float eventRatio, unsigned short eventGamma) {
     time_t t;
     srand((unsigned) time(&t));
     sprintf(inputDES, "gen/Seed%d", rand());
@@ -320,21 +332,32 @@ void netMake(unsigned short nofComp, unsigned short compSize, float connectionRa
         ns = ns == 0 ? 1: ns;
         c->nStates = ns;
         unsigned short desiderTrs = round(ns*(ns-1)*connectionRatio);
-        for (unsigned short j=0; j<desiderTrs; j++) {
+        bool reachable[ns];
+        memset(reachable, false, ns*sizeof(bool));
+        reachable[0] = true;
+        for (unsigned short j=0; j<ns-1; j++) {  // Make the component's states reachable
+            unsigned short extractedSrc, extractedDest;
+            do extractedSrc = rand() % ns;
+            while (!reachable[extractedSrc]);
+            do extractedDest = rand() % ns;
+            while (reachable[extractedDest]);
+            reachable[extractedDest] = true;
+            Trans * nt = calloc(1, sizeof(Trans));
+            nt->from = extractedSrc;
+            nt->to = extractedDest;
+            setTransAttributes(nt, obsRatio, faultRatio, obsGamma, faultGamma);
+            alloc1(c, 't');
+            c->transitions[c->nTrans] = nt;
+            c->nTrans++;
+        }
+        for (unsigned short j=ns-1; j<desiderTrs; j++) {
             Trans * nt = calloc(1, sizeof(Trans));
             nt->id = j;
             do {
                 nt->from = rand()%ns;
                 nt->to = rand()%ns;
             } while(componentContainsTr(c, nt));
-            nt->fault = ((float)rand())/RAND_MAX > faultRatio ? rand() % faultGamma +1 : 0;
-            nt->obs = ((float)rand())/RAND_MAX > obsRatio ? rand() % obsGamma +1 : 0;
-            nt->sizeofOE = 1;
-            nt->idOutgoingEvents = calloc(nt->sizeofOE, sizeof(short));
-            nt->linkOut = calloc(nt->sizeofOE, sizeof(Link*));
-            nt->nOutgoingEvents = 0;
-            nt->idIncomingEvent = VUOTO;
-            nt->linkIn = NULL;
+            setTransAttributes(nt, obsRatio, faultRatio, obsGamma, faultGamma);
             alloc1(c, 't');
             c->transitions[c->nTrans] = nt;
             c->nTrans++;
@@ -349,5 +372,18 @@ void netMake(unsigned short nofComp, unsigned short compSize, float connectionRa
             l->to = components[rand()%ncomp];
         } while (linkExists(l));
         nlink++;
+    }
+    if (eventRatio>0 && eventGamma>0) {
+        unsigned short i, j;
+        for (Component * c=components[i=0]; i<ncomp; c=components[++i])
+            for (Trans * t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j]) {
+                t->idIncomingEvent = ((float)rand())/RAND_MAX > eventRatio ? rand() % eventGamma : VUOTO;
+                if (t->idIncomingEvent != VUOTO) t->linkIn = links[rand() % nlink];
+                t->idOutgoingEvents[0] = ((float)rand())/RAND_MAX > eventRatio ? rand() % eventGamma : VUOTO;
+                if (t->idOutgoingEvents[0] != VUOTO) {
+                    t->linkOut[0] = links[rand() % nlink];
+                    t->nOutgoingEvents = 1;
+                }
+            }
     }
 }

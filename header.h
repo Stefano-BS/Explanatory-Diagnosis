@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <time.h>
 #include <sys/time.h>
 #include <signal.h>
 #include <locale.h>
@@ -29,6 +30,7 @@
 #define DEBUG_MEMCOH        1 << 2
 #define DEBUG_FAULT_DOT     1 << 3
 #define DEBUG_MON           1 << 4
+#define DEBUG_DIAG          1 << 5
 
 #define getCommand(com)             while (!isalpha(com=getchar()));
 #define beginTimer                  gettimeofday(&beginT, NULL);//timer = clock();
@@ -204,7 +206,7 @@ void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
 BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
-void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short);
+void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
@@ -251,7 +253,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_DEF_AUTOMA "Indicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
     #define MSG_PARS_DONE "Parsing effettuato...\n"
-    #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza\n"
+    #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
     #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo spazio comportamentale: "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
@@ -324,7 +326,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_DEF_AUTOMA "Where does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
-    #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma\n"
+    #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma, Event ratio, Event gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
     #define MSG_DOT_INPUT "Input .dot file describing the behavioral space: "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
