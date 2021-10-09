@@ -263,10 +263,9 @@ int main(int argc, char *argv[]) {
     setlocale(LC_ALL, "");
     printf(LOGO);
     if (argc >1) {
-        size_t optind;
-        for (optind = 1; optind < argc; optind++) {
+        for (int optind = 1; optind < argc; optind++) {
             if (argv[optind][0] != '-') {
-                strcpy(inputDES, argv[optind]);
+                strncpy(inputDES, argv[optind], 99);
                 continue;
             }
             switch (argv[optind][1]) {
@@ -284,5 +283,5 @@ int main(int argc, char *argv[]) {
     
     empty = emptyRegex(0);
     menu();
-	return(0);
+	return 0;
 }

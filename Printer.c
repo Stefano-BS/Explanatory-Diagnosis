@@ -2,7 +2,7 @@
 
 inline char* stateName(BehState *, bool) __attribute__((always_inline));
 inline char* stateName(BehState *s, bool showObs) {
-    int j, v;
+    unsigned int j, v;
     char* nome = malloc(30), *puntatore = nome;
     sprintf(puntatore++, "R");
     for (j=0; j<ncomp; j++) {
@@ -46,7 +46,7 @@ void launchDot(char * command) {
 }
 
 void printDES(BehState * attuale, bool testuale) {
-    int i, j, k, strlenNomeFile = strlen(inputDES);
+    unsigned short i, j, k, strlenNomeFile = strlen(inputDES);
     Link *l;
     Component *c;
     FILE * file;
@@ -109,7 +109,7 @@ void printDES(BehState * attuale, bool testuale) {
 }
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
-    int i, strlenNomeFile = strlen(inputDES), position=0;
+    unsigned int i, strlenNomeFile = strlen(inputDES), position=0;
     char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFileSvg[strlenNomeFile+8], *ret;
     FILE * file;
     if (!toString) {
@@ -176,7 +176,7 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
 }
 
 void printExplainer(Explainer * exp) {
-    int i, j, strlenNomeFile = strlen(inputDES);
+    unsigned int i, j, strlenNomeFile = strlen(inputDES);
     char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9];
     char * command = malloc(44+strlenNomeFile*2);
     sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
@@ -228,8 +228,8 @@ void printExplainer(Explainer * exp) {
     launchDot(command);
 }
 
-int findInExplainer(Explainer *exp, FaultSpace *f) {
-    int i=0;
+unsigned int findInExplainer(Explainer *exp, FaultSpace *f) {
+    unsigned int i=0;
     for (; i<exp->nFaultSpaces; i++)
         if (exp->faults[i] == f) break;
     return i;

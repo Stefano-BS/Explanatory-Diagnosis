@@ -11,7 +11,7 @@ Explainer * makeExplainer(BehSpace *b) {
     exp->sizeofFaults = exp->nFaultSpaces;
     FaultSpace *currentFault;
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
-        int j=0, k;
+        unsigned int j=0, k;
         BehTrans* currentTr;
         while ((currentTr = obsTrs[i][j]) != NULL) {
             ExplTrans *nt = calloc(1, sizeof(ExplTrans));
@@ -60,8 +60,20 @@ Explainer * makeExplainer(BehSpace *b) {
 Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
     if (exp == NULL) {
         exp = calloc(1, sizeof(Explainer));
-        catalog.length = HASHSTATSIZE;
-        catalog.tList = calloc(HASHSTATSIZE+1, sizeof(struct tList*));
+        unsigned int i, j, behSizeEsteem=0;
+        for (Component *c=components[i=0]; i<ncomp; c=components[++i]) {
+            behSizeEsteem += c->nStates;
+            behSizeEsteem += c->nTrans;
+            for (Trans * t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j]) {
+                if (t->nOutgoingEvents==0) behSizeEsteem++;
+                if (t->idIncomingEvent==VUOTO) behSizeEsteem++;
+                if (t->nOutgoingEvents<2) behSizeEsteem++;
+                if (t->obs==0) behSizeEsteem++;
+            }
+        }
+        catalog.length = behSizeEsteem<50 ? HASH_SM : behSizeEsteem < 100 ? HASH_MD : HASH_LG;
+        printlog("Hash: %u\n", catalog.length);
+        catalog.tList = calloc(catalog.length+1, sizeof(struct tList*));
     }
     alloc1(exp, 'f');                                           // Build the fault space rooted in base
     FaultSpace * newFault = makeLazyFaultSpace(exp, base);
@@ -81,7 +93,7 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
             nt->fault = pt->t->t->fault;
             nt->fromStateId = -1;
             nt->toStateId = -1;
-            for (int k=0; k<nt->from->b->nStates; k++)
+            for (unsigned int k=0; k<nt->from->b->nStates; k++)
                 if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
                     nt->regex = nt->from->diagnosis[k];
                     break;
@@ -292,7 +304,8 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     assert((monitor == NULL && loss == 0) || (monitor->length == loss));
     if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
-    int i, j, k;
+    unsigned short i, k;
+    unsigned int j;
     // Let µ denote the last node of M (before the extension)
     MonitorState *RESTRICT mu = monitor->mu[loss-1];
     //  for all fault ∈ µ do

@@ -19,9 +19,11 @@
 
 #define VUOTO           -1
 #define ACAPO           -10
-#define REGEX           4
+#define REGEX           4U
 #define REGEXLEVER      1.6
-#define HASHSTATSIZE    181
+#define HASH_SM         181U
+#define HASH_MD         773U
+#define HASH_LG         2971U
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -33,14 +35,14 @@
 #define DEBUG_DIAG          1 << 5
 
 #define getCommand(com)             while (!isalpha(com=getchar()));
-#define beginTimer                  gettimeofday(&beginT, NULL);//timer = clock();
-#define foreach(lnode, from)        for(lnode=from; lnode!=NULL; lnode = lnode->next)
-#define foreachdecl(lnode, from)    struct ltrans * lnode; foreach(lnode, from)
+#define beginTimer                  gettimeofday(&beginT, NULL); //timer = clock();
+#define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
+#define foreachdecl(lnode, from)    struct ltrans * lnode; foreachtr(lnode, from)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
 #ifndef M_PI
     #define M_PI                    acos(-1.0)
 #endif
-#define normal(mu, sigma, x)    (1.0 / (sigma * sqrt(M_PI+M_PI))) * exp(-(x-mu)*(x-mu)/(2.0*sigma*sigma))
+#define normal(mu, sigma, x)        (1.0 / (sigma * sqrt(M_PI+M_PI))) * exp(-(x-mu)*(x-mu)/(2.0*sigma*sigma))
 
 #ifndef DEBUG_MODE
     #define DEBUG_MODE false
@@ -175,7 +177,7 @@ struct FaultSpaceParams {
     BehTrans **RESTRICT obsTrs;
 };
 
-// Global variables: these will never change during execution
+// Global variables
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
@@ -220,7 +222,7 @@ FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTra
 FaultSpace * makeLazyFaultSpace(Explainer *, BehState *);
 // Diagnoser.c
 void freeRegex(Regex *);
-Regex * emptyRegex(int);
+Regex * emptyRegex(unsigned int);
 Regex * regexCpy(Regex *);
 void regexMake(Regex*, Regex*, Regex*, char, Regex *);
 Regex** diagnostics(BehSpace *, bool);

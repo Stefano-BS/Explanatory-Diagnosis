@@ -162,7 +162,7 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
 
 void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
     // Paragoni tra stati per puntatori a locazione di memoria, non per id
-    int deleteId = delete->id, i;
+    int deleteId = delete->id;
     struct ltrans * temp, *trans, *transPrima, *temp2;
     temp = delete->transitions;
     trans = transPrima = temp2 = NULL;
@@ -220,7 +220,7 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
     
     b->nStates--;
     memcpy(b->states+deleteId, b->states+deleteId+1, (b->nStates - deleteId)*sizeof(BehState*));
-    for (i=0; i<b->nStates; i++)                                         // Abbasso l'id degli stati successivi
+    for (unsigned int i=0; i<b->nStates; i++)                                         // Abbasso l'id degli stati successivi
         if (b->states[i]->id>=deleteId) b->states[i]->id--;
 }
 
@@ -236,7 +236,8 @@ void freeBehState(BehState *s) {
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false); */
 BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT map) {
-    int i, ns = 0;
+    unsigned int i;
+    int ns = 0;
     if (map == NULL) {
         int *temp = malloc(b->nStates*sizeof(int));
         map = &temp;
@@ -308,8 +309,7 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
 }
 
 void freeBehSpace(BehSpace *b) {
-    int i;
-    for (i=0; i<b->nStates; i++)
+    for (unsigned int i=0; i<b->nStates; i++)
         removeBehState(b, b->states[i]);
     free(b);
 }
@@ -319,8 +319,7 @@ void freeMonitoringState(MonitorState *RESTRICT mu) {
     free(mu->arcs);
     free(mu->expStates);
     freeRegex(mu->lmu);
-    int i=0;
-    for (; i<mu->nExpStates; i++) {
+    for (unsigned short i=0; i<mu->nExpStates; i++) {
         if (mu->lin[i]) freeRegex(mu->lin[i]);
         if (mu->lout[i]) freeRegex(mu->lout[i]);
     }
@@ -330,8 +329,8 @@ void freeMonitoringState(MonitorState *RESTRICT mu) {
 }
 
 void freeMonitoring(Monitoring *RESTRICT mon) {
-    int i, j;
-    for (i=0; i<mon->length; i++) {
+    unsigned short j;
+    for (unsigned short i=0; i<mon->length; i++) {
         MonitorTrans *arc;
         if (mon->mu[i]->nArcs)
             for (arc=mon->mu[i]->arcs[j=0]; j<mon->mu[i]->nArcs; arc=mon->mu[i]->arcs[++j]) {
@@ -346,13 +345,13 @@ void freeMonitoring(Monitoring *RESTRICT mon) {
 }
 
 void behCoherenceTest(BehSpace *b){
-    int i;
+    unsigned int i;
     BehState *s;
     printf(MSG_MEMTEST1, b->nStates, b->nTrans);
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (s->id != i) printf(MSG_MEMTEST2, i, s->id);
+        if (s->id != (int)i) printf(MSG_MEMTEST2, i, s->id);
         foreachdecl(lt, s->transitions) {
-            if (lt->t->to->id != i && lt->t->from->id != i)
+            if (lt->t->to->id != (int)i && lt->t->from->id != (int)i)
                 printf(MSG_MEMTEST3, i, lt->t->from->id, lt->t->to->id);
             if (lt->t->to != s && lt->t->from != s) {
                 printf(MSG_MEMTEST4, i, s);
@@ -365,7 +364,7 @@ void behCoherenceTest(BehSpace *b){
 }
 
 void expCoherenceTest(Explainer *exp){
-    int i, j;
+    unsigned int i, j;
     FaultSpace * s;
     printf(MSG_MEMTEST9, exp->nFaultSpaces, exp->nTrans);
     for (s=exp->faults[i=0]; i<exp->nFaultSpaces; s=exp->faults[++i]) {
@@ -373,7 +372,7 @@ void expCoherenceTest(Explainer *exp){
         if (exp->maps != NULL) 
             for (j=0; j<s->b->nStates; j++) {
                 if (exp->maps[i]->idMapToOrigin[j] == -1) printf(MSG_MEMTEST11, i, j);
-                if (exp->maps[i]->idMapFromOrigin[exp->maps[i]->idMapToOrigin[j]] != j) printf(MSG_MEMTEST12, i, j, j);
+                if (exp->maps[i]->idMapFromOrigin[exp->maps[i]->idMapToOrigin[j]] != (int)j) printf(MSG_MEMTEST12, i, j, j);
             }
         //int z;for(z=0;z<s->b->nStates;z++)printf("%d ",s->idMapToOrigin[z]);printf("\n");for(z=0;z<12;z++)printf("%d ",s->idMapFromOrigin[z]);printf("\n");
     }
@@ -391,7 +390,7 @@ void expCoherenceTest(Explainer *exp){
 }
 
 void monitoringCoherenceTest(Monitoring *mon){
-    int i, j, k;
+    unsigned short i, j, k;
     MonitorState * mu;
     printf(MSG_MEMTEST13, mon->length);
     for (mu=mon->mu[i=0]; i<mon->length; mu=mon->mu[++i]) {

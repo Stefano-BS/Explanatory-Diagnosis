@@ -190,11 +190,20 @@ void decorateFaultSpace(FaultSpace * f) {
     BehSpace *duplicated = dup(f->b, mask, false, NULL);
     f->diagnosis = diagnostics(duplicated, true);
     f->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*f->b->nTrans/5);
-    for (unsigned int k=0; k<f->b->nStates; k++)
+    bool firstShot=true;
+    for (unsigned int k=0; k<f->b->nStates; k++) {
+        if (firstShot) {
+            firstShot = false;
+            if (f->diagnosis[k] != NULL && f->diagnosis[k]->strlen>0) {
+                regexMake(empty, f->diagnosis[k], f->alternativeOfDiagnoses, 'c', NULL);
+                continue;
+            }
+        }
         if (f->diagnosis[k] != NULL && f->diagnosis[k]->regex != NULL)
             regexMake(f->alternativeOfDiagnoses, f->diagnosis[k], f->alternativeOfDiagnoses, 'a', NULL);
         else
             regexMake(f->alternativeOfDiagnoses, empty, f->alternativeOfDiagnoses, 'a', NULL);
+    }
     freeBehSpace(duplicated);
 }
 
@@ -208,13 +217,13 @@ void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs
             obsTrs[i] = lt->t;
         }
     }
-    foreach(lt, base->transitions)
+    foreachtr(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs == 0 && !ok[lt->t->to->id])
             faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i, ok);
 }
 
 FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
-    int k, index=0;
+    unsigned int k, index=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     map->idMapFromOrigin = calloc(b->nStates, sizeof(int));
     map->exitStates = malloc(b->nTrans*sizeof(int));
@@ -238,7 +247,7 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
             int tempId, swap1, swap2;           // swap id map
             for (index=0; index<b->nStates; index++) {
                 if (map->idMapFromOrigin[index]==0) swap1=index;
-                if (map->idMapFromOrigin[index]==k) swap2=index;
+                if (map->idMapFromOrigin[index]==(int)k) swap2=index;
             }
             tempId = map->idMapFromOrigin[swap1];
             map->idMapFromOrigin[swap1] = map->idMapFromOrigin[swap2];

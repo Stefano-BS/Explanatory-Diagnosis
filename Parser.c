@@ -136,7 +136,7 @@ void parseDES(FILE* file) {
 
 BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
     BehSpace * b = newBehSpace();
-    int i;
+    unsigned int i;
     char buffer[50];
     fgets(buffer, 49, file);   // Intestazione
     if (!semplificata) {
@@ -149,7 +149,8 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
             if (dbc) fscanf(file, "%s", buffer); // fillcolor="#FFEEEE"];
             fscanf(file, "%s", buffer);
             strcpy(nomeStatiTrovati[b->nStates], buffer);
-            short strl = strlen(buffer), attivi[ncomp], clink[nlink], oss=-1, sez=0, j=1;
+            unsigned short strl = strlen(buffer), sez=0, j=1;
+            short oss=-1, attivi[ncomp], clink[nlink];
             for (i=1; i<strl; i++) {
                 if (buffer[i] == '_') {
                     sez++;
@@ -175,7 +176,7 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
         }
         while (true) {
             BehState *statoDa, *statoA;
-            int j;
+            unsigned int j;
             for (i=0; i<b->nStates; i++)
                 if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
                     statoDa = b->states[i]; 
