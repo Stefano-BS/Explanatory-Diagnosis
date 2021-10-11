@@ -1,0 +1,44 @@
+digraph "EXPinput/s2" {
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=octagon width=0.3 height=0.3]; C0S0 [label=""];
+node [shape=octagon width=0.3 height=0.3]; C0S1 [label=""];
+C0S0 -> C0S1 [label=t3R1]
+}
+subgraph cluster1 {
+style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon width=0.3 height=0.3]; C1S0 [label=""];
+node [shape=octagon width=0.3 height=0.3]; C1S1 [label=""];
+C1S0 -> C1S1 [label=t3R1]
+C1S1 -> C1S0 [label=t8R4]
+}
+subgraph cluster2 {
+style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=circle width=0.3 height=0.3]; C2S0 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C2S1 [label=""];
+C2S0 -> C2S1 [label=t7R3]
+C2S1 -> C2S0 [label=t4R2]
+}
+subgraph cluster3 {
+style="rounded,filled" label="C3" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=circle width=0.3 height=0.3]; C3S0 [label=""];
+}
+subgraph cluster4 {
+style="rounded,filled" label="C4" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=octagon width=0.3 height=0.3]; C4S0 [label=""];
+}
+C0S1 -> C0S0 [style=dashed arrowhead=vee label="O2 r1"]
+C0S1 -> C1S0 [style=dashed arrowhead=vee label="O2R5 r1"]
+C1S1 -> C0S0 [style=dashed arrowhead=vee label="O2 r1(r4r1)*"]
+C0S0 -> C2S0 [style=dashed arrowhead=vee label="O1 ε"]
+C1S0 -> C3S0 [style=dashed arrowhead=vee label="O1 (r1(r4r1)*r4)?"]
+C2S1 -> C4S0 [style=dashed arrowhead=vee label="O1 r3(r2r3)*"]
+C4S0 -> C1S0 [style=dashed arrowhead=vee label="O2R5 ε"]
+C4S0 -> C0S0 [style=dashed arrowhead=vee label="O2 ε"]
+}

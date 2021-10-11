@@ -46,12 +46,12 @@ void launchDot(char * command) {
 }
 
 void printDES(BehState * attuale, bool testuale) {
-    unsigned short i, j, k, strlenNomeFile = strlen(inputDES);
+    unsigned short i, j, k;
     Link *l;
     Component *c;
     FILE * file;
     
-    char nomeFileDot[strlenNomeFile+7], nomeFileSvg[strlenNomeFile+7];
+    char nomeFileDot[strlenInputDES+7], nomeFileSvg[strlenInputDES+7];
     if (testuale) printf(MSG_ACTUAL_STRUCTURES);
     else {
         sprintf(nomeFileDot, "%s.dot", inputDES);
@@ -102,15 +102,15 @@ void printDES(BehState * attuale, bool testuale) {
         fprintf(file, "}\n");
         fclose(file);
         sprintf(nomeFileSvg, "%s.svg", inputDES);
-        char * command = malloc(30+strlenNomeFile*2);
+        char * command = malloc(30+strlenInputDES*2);
         sprintf(command, "dot -Tsvg -o %s %s", nomeFileSvg, nomeFileDot);
         launchDot(command);
     }
 }
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
-    unsigned int i, strlenNomeFile = strlen(inputDES), position=0;
-    char* nomeSpazi[b->nStates], nomeFileDot[strlenNomeFile+8], nomeFileSvg[strlenNomeFile+8], *ret;
+    unsigned int i, position=0;
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenInputDES+8], nomeFileSvg[strlenInputDES+8], *ret;
     FILE * file;
     if (!toString) {
         sprintf(nomeFileDot, "%s_SC.dot", inputDES);
@@ -161,7 +161,7 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
         fprintf(file, "}");
         fclose(file);
         sprintf(nomeFileSvg, "%s_SC.svg", inputDES);
-        char * command = malloc(35+strlenNomeFile*2);
+        char * command = malloc(35+strlenInputDES*2);
         sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
         launchDot(command);
         if (rename) {
@@ -176,11 +176,13 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
 }
 
 void printExplainer(Explainer * exp) {
-    unsigned int i, j, strlenNomeFile = strlen(inputDES);
-    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9];
-    char * command = malloc(44+strlenNomeFile*2);
-    sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
-    sprintf(nomeFileSvg, "%s_EXP.svg", inputDES);
+    unsigned int i, j;
+    char nomeFileDot[strlenInputDES+9], nomeFileSvg[strlenInputDES+9];
+    char * command = malloc(44+strlenInputDES*2);
+    if (exp->maps) sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
+    else sprintf(nomeFileDot, "%s_PEX.dot", inputDES);
+    if (exp->maps) sprintf(nomeFileSvg, "%s_EXP.svg", inputDES);
+    else sprintf(nomeFileSvg, "%s_PEX.svg", inputDES);
     sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
@@ -191,16 +193,25 @@ void printExplainer(Explainer * exp) {
         //fprintf(file, "%s", descBehSpace);
         for (j=0; j<fault->b->nStates; j++) {
             char flags = fault->b->states[j]->flags;
-            if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; ");
-            else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; ");
-            else fprintf(file, "node [shape=oval]; ");
-            fprintf(file, "C%dS%d [label=%d];\n", i, exp->maps[i]->idMapToOrigin[j], exp->maps[i]->idMapToOrigin[j]);
+            if (exp->maps) {
+                if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; ");
+                else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; ");
+                else fprintf(file, "node [shape=oval]; ");
+            }
+            else {
+                if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon width=0.3 height=0.3]; ");
+                else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon width=0.3 height=0.3]; ");
+                else fprintf(file, "node [shape=circle width=0.3 height=0.3]; ");
+            }
+            if (exp->maps) fprintf(file, "C%dS%d [label=%d];\n", i, exp->maps[i]->idMapToOrigin[j], exp->maps[i]->idMapToOrigin[j]);
+            else fprintf(file, "C%dS%d [label=\"\"];\n", i, j);
         }
         BehState *s;
         for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
             foreachdecl(trans, s->transitions) {
                 if (trans->t->from == s) {
-                    fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[j], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[j], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    else fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, j, i, trans->t->to->id, trans->t->t->id);
                     if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
                     if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
                     fprintf(file, "]\n");
@@ -217,8 +228,10 @@ void printExplainer(Explainer * exp) {
             if (t->from == exp->faults[j]) fromId=j;
             if (t->to == exp->faults[j]) toId=j;
         }
-        fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
+        if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
             fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
+        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
+            fromId, t->fromStateId, toId, t->toStateId, t->obs);
         if (t->fault>0) fprintf(file, "R%d", t->fault);
         if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
         else fprintf(file, " %s\"]\n", t->regex->regex);
@@ -236,9 +249,9 @@ unsigned int findInExplainer(Explainer *exp, FaultSpace *f) {
 }
 
 void printMonitoring(Monitoring * m, Explainer *exp) {
-    int i, j, temp, strlenNomeFile = strlen(inputDES);
-    char nomeFileDot[strlenNomeFile+9], nomeFileSvg[strlenNomeFile+9];
-    char * command = malloc(44+strlenNomeFile*2);
+    unsigned int i, j, temp;
+    char nomeFileDot[strlenInputDES+9], nomeFileSvg[strlenInputDES+9];
+    char * command = malloc(44+strlenInputDES*2);
     sprintf(nomeFileDot, "%s_MON.dot", inputDES);
     sprintf(nomeFileSvg, "%s_MON.svg", inputDES);
     sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
@@ -255,7 +268,7 @@ void printMonitoring(Monitoring * m, Explainer *exp) {
         }
         fprintf(file, "}\n");
     }
-    for (mu=m->mu[i=0]; i<m->length-1; mu=m->mu[++i]) {
+    for (mu=m->mu[i=0]; i+1<m->length; mu=m->mu[++i]) {
         MonitorTrans *arc;
         if (mu->nArcs>0) {
             for (arc=mu->arcs[j=0]; j<mu->nArcs; arc=mu->arcs[++j]) {

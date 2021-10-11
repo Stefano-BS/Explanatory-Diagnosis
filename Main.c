@@ -3,15 +3,23 @@
 const unsigned short eps = L'ε', mu = L'μ';
 
 Regex* empty;
-char inputDES[100] = "";
+unsigned int strlenInputDES;
+char * inputDES = "";
+char * comBuf = "";
 char dot = '\0';
 bool benchmark = false;
 struct timeval beginT, endT;
 
+char getCommand(void) {
+    char com;
+    if (comBuf[0] == '\0') while (!isalpha(com=getchar()));
+    else com = *comBuf++;
+    return com;
+}
+
 static void beforeExit(int signo) {
     printf(MSG_BEFORE_EXIT);
-    char close;
-    getCommand(close)
+    char close = getCommand();
     if (close == INPUT_Y) exit(0);
     signal(SIGINT, beforeExit);
 }
@@ -93,7 +101,7 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
 
 void menu(void) {
     bool in = inputDES[0]!='\0', sc = false, exp = false, fixedObs = false;
-    char op, pota, sceltaRinomina;
+    char op, doPrune, doRename;
     BehSpace *b = NULL;
     Explainer *explainer = NULL; 
     bool doneSomething = true;
@@ -121,12 +129,14 @@ void menu(void) {
             if (allow_i) printf(MSG_MENU_K);
             printf(MSG_MENU_END);
         }
-        getCommand(op);
+        op = getCommand();
         doneSomething = true;
         if (op == 'x') return;
         else if (op == 'i' && allow_i) {
             printf(MSG_DEF_AUTOMA);
+            inputDES = malloc(100);
             scanf("%99s", inputDES);
+            strlenInputDES = strlen(inputDES);
             in = loadInputDes();
         }
         else if (op == 'k' && allow_i) {
@@ -149,8 +159,8 @@ void menu(void) {
             interruptable(b = BehavioralSpace(NULL, NULL, 0);)
             endTimer
             printf(MSG_POTA);
-            getCommand(pota);
-            if (pota==INPUT_Y && b->nTrans>1) {
+            doPrune = getCommand();
+            if (doPrune==INPUT_Y && b->nTrans>1) {
                 unsigned int statiPrima = b->nStates, transPrima = b->nTrans;
                 beginTimer
                 interruptable(prune(b);)
@@ -160,9 +170,9 @@ void menu(void) {
             printf(MSG_SC_RES, b->nStates, b->nTrans);
             if (dot==INPUT_Y) {
                 printf(MSG_RENAME_STATES);
-                getCommand(sceltaRinomina);
+                doRename = getCommand();
                 beginTimer
-                printBehSpace(b, sceltaRinomina==INPUT_Y, false, false);
+                printBehSpace(b, doRename==INPUT_Y, false, false);
                 endTimer
             }
             sc = true;
@@ -179,8 +189,8 @@ void menu(void) {
             sc = true;
             endTimer
             printf(MSG_POTA);
-            getCommand(pota);
-            if (pota==INPUT_Y && b->nTrans>1) {
+            doPrune = getCommand();
+            if (doPrune==INPUT_Y && b->nTrans>1) {
                 unsigned int statiPrima = b->nStates, transPrima = b->nTrans;
                 beginTimer
                 interruptable(prune(b);)
@@ -190,9 +200,9 @@ void menu(void) {
             printf(MSG_SC_RES, b->nStates, b->nTrans);
             if (dot==INPUT_Y) {
                 printf(MSG_RENAME_STATES);
-                getCommand(sceltaRinomina);
+                doRename = getCommand();
                 beginTimer
-                printBehSpace(b, sceltaRinomina==INPUT_Y, true, false);
+                printBehSpace(b, doRename==INPUT_Y, true, false);
                 endTimer
             }
         }
@@ -250,6 +260,10 @@ void menu(void) {
             explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL));
             Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true);
             driveMonitoring(explainer, monitor, true);
+            if (dot==INPUT_Y) {
+                printExplainer(explainer);
+                printf(MSG_LAZY_EXPLAINER_DIFFERENCES);
+            }
         }
         else {
             printf("\a");
@@ -265,7 +279,8 @@ int main(int argc, char *argv[]) {
     if (argc >1) {
         for (int optind = 1; optind < argc; optind++) {
             if (argv[optind][0] != '-') {
-                strncpy(inputDES, argv[optind], 99);
+                inputDES = argv[optind];
+                strlenInputDES = strlen(inputDES);
                 continue;
             }
             switch (argv[optind][1]) {
@@ -273,12 +288,15 @@ int main(int argc, char *argv[]) {
                 case 't': dot = 't'; break;
                 case 'n': dot = 'n'; break;
                 case 'b': benchmark = true; break;
+                case 'c': 
+                    if (optind < argc-1) comBuf = argv[++optind];
+                    break;
             }   
         }
     }
     if (dot == '\0') {
         printf(MSG_DOT);
-        getCommand(dot);
+        dot = getCommand();
     }
     
     empty = emptyRegex(0);

@@ -13,7 +13,7 @@ C1_0 -> C1_1 [label="t17"];
 subgraph cluster2 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
 node [shape=circle];
-C2_1 -> C2_0 [label="t4O1"];
+C2_1 -> C2_0 [label="t4O1R1"];
 C2_0 -> C2_1 [label="t5"];
 C2_0 -> C2_1 [label="t12"];
 }

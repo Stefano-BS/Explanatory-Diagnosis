@@ -1,5 +1,5 @@
 digraph "SCinput/r" {
-node [fillcolor="#FFFFFF"]; R00_Lee ;
+node [style=filled fillcolor="#FFEEEE"]; R00_Lee ;
 node [style=filled fillcolor="#FFEEEE"]; R10_Lee ;
 node [style=filled fillcolor="#FFEEEE"]; R11_Lee ;
 node [style=filled fillcolor="#FFEEEE"]; R01_Lee ;

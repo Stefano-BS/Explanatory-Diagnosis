@@ -12,13 +12,13 @@
 <!-- R00_Le -->
 <g id="node1" class="node">
 <title>R00_Le</title>
-<ellipse fill="none" stroke="black" cx="135" cy="-627" rx="44.69" ry="18"/>
+<ellipse fill="#ffeeee" stroke="black" cx="135" cy="-627" rx="44.69" ry="18"/>
 <text text-anchor="middle" x="135" y="-623.3" font-family="Times,serif" font-size="14.00">R00_Le</text>
 </g>
 <!-- R10_L1 -->
 <g id="node2" class="node">
 <title>R10_L1</title>
-<ellipse fill="none" stroke="black" cx="190" cy="-540" rx="45.49" ry="18"/>
+<ellipse fill="#ffffff" stroke="black" cx="190" cy="-540" rx="45.49" ry="18"/>
 <text text-anchor="middle" x="190" y="-536.3" font-family="Times,serif" font-size="14.00">R10_L1</text>
 </g>
 <!-- R00_Le&#45;&gt;R10_L1 -->

@@ -14,13 +14,13 @@ BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RE
     if (t->idIncomingEvent != VUOTO)                                                // Incoming event consumption
         newLinkContent[t->linkIn->intId] = VUOTO;
     newComponentStatus[c->intId] = t->to;                                           // New active state
-    for (unsigned short k=0; k<t->nOutgoingEvents; k++)                                        // Outgoing event placement
+    for (unsigned short k=0; k<t->nOutgoingEvents; k++)                             // Outgoing event placement
         newLinkContent[t->linkOut[k]->intId] = t->idOutgoingEvents[k];
     BehState * newState = generateBehState(newLinkContent, newComponentStatus);     // BehState build
     newState->obsIndex = base->obsIndex;
-    if (loss>0) {                                                                   // Linear observation advancement
+    if (loss>0 && obs[loss-1]!=-1) {                                                // Linear observation advancement
         if (base->obsIndex<loss && t->obs > 0 && t->obs == obs[base->obsIndex])
-            newState->obsIndex = base->obsIndex+1;
+            newState->obsIndex++;
         newState->flags &= !FLAG_FINAL | (newState->obsIndex == loss);
     }
     return newState;
@@ -152,6 +152,7 @@ void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, int*
 BehSpace * BehavioralSpace(BehState * src, int * obs, unsigned short loss) {
     BehSpace * b = newBehSpace();
     if (src == NULL) src = generateBehState(NULL, NULL);
+    if (loss > 0) src->flags &= !FLAG_FINAL;
     enlargeBehavioralSpace(b, NULL, src, NULL, loss);
     generateBehavioralSpace(b, src, obs, loss);
     return b;

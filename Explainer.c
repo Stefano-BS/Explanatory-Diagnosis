@@ -91,8 +91,9 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
             nt->from = pt->tempFault;
             nt->obs = pt->t->t->obs;
             nt->fault = pt->t->t->fault;
-            nt->fromStateId = -1;
-            nt->toStateId = -1;
+            nt->fromStateId = pt->t->from->id;
+            pt->tempFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
+            nt->toStateId = 0;
             for (unsigned int k=0; k<nt->from->b->nStates; k++)
                 if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
                     nt->regex = nt->from->diagnosis[k];
@@ -122,8 +123,9 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
         nt->from = newFault;
         nt->obs = pt->t->t->obs;
         nt->fault = pt->t->t->fault;
-        nt->fromStateId = -1;
-        nt->toStateId = -1;
+        nt->fromStateId = pt->t->from->id;
+        newFault->b->states[pt->t->from->id]->flags |= FLAG_SILENT_FINAL;
+        nt->toStateId = 0;
         for (unsigned int k=0; k<nt->from->b->nStates; k++)
             if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
                 nt->regex = nt->from->diagnosis[k];

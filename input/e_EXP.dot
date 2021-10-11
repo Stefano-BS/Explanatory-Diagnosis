@@ -3,7 +3,7 @@ node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C0S0 [label=0];
+node [shape=doubleoctagon]; C0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
@@ -14,7 +14,7 @@ subgraph cluster2 {
 style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=oval]; C2S2 [label=2];
-node [shape=octagon]; C2S0 [label=0];
+node [shape=doubleoctagon]; C2S0 [label=0];
 node [shape=doubleoctagon]; C2S3 [label=3];
 node [shape=octagon]; C2S4 [label=4];
 node [shape=doubleoctagon]; C2S10 [label=10];

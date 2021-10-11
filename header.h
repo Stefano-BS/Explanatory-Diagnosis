@@ -34,7 +34,6 @@
 #define DEBUG_MON           1 << 4
 #define DEBUG_DIAG          1 << 5
 
-#define getCommand(com)             while (!isalpha(com=getchar()));
 #define beginTimer                  gettimeofday(&beginT, NULL); //timer = clock();
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreachtr(lnode, from)
@@ -181,7 +180,8 @@ struct FaultSpaceParams {
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
-extern char inputDES[100];
+extern char * inputDES;
+extern unsigned int strlenInputDES;
 extern Regex* empty;
 extern const unsigned short eps, mu;
 extern BehSpaceCatalog catalog;
@@ -306,6 +306,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Diagnosticatore parziale stampato. Potrebbe mostrare, rispetto al Diagnosticatore completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
     #define MSG_BEFORE_EXIT "\a\nTerminare? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
 #elif LANG=='e'
@@ -379,6 +380,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy Explainer printed. Note that it may contain (in comparison to the full Explainer) more states and transitions (within fault spaces) due to unfeasible pruning.\n"
     #define MSG_BEFORE_EXIT "\a\nExit? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
 #endif

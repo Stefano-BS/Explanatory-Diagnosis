@@ -148,15 +148,13 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     s->id = VUOTO;
     s->componentStatus = malloc(ncomp*sizeof(short));
     s->linkContent = malloc(nlink*sizeof(short));
-    if (linkContent != NULL) {
-        memcpy(s->linkContent, linkContent, nlink*sizeof(short));
-        s->flags = FLAG_FINAL;
-        for (int i=0; i<nlink; i++)
-            s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
-    }
+    if (linkContent != NULL) memcpy(s->linkContent, linkContent, nlink*sizeof(short));
     else memset(s->linkContent, VUOTO, nlink*sizeof(short));
     if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
     else memset(s->componentStatus, 0, ncomp*sizeof(short));
+    s->flags = FLAG_FINAL;
+    for (int i=0; i<nlink; i++)
+        s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     return s;
 }
 
