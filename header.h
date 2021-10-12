@@ -208,7 +208,7 @@ void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
 BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
-void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
+int netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
@@ -240,7 +240,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_YES "si"
     #define MSG_NO "no"
     #define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\____/\\__/\\____/_/   \\___/  /_/  |_\\____/\\__/\\____/_/ /_/ /_/_/\n"
-    #define MSG_MENU_INTRO "\nMenu\tx: Esci\n"
+    #define MSG_MENU_INTRO "\nMenu\tx: Esci\n\ts: Impostazioni\n"
     #define MSG_MENU_C "\tc: Genera Spazio Comportamentale\n"
     #define MSG_MENU_O "\to: Genera Spazio Comportamentale relativo ad osservazione completa\n"
     #define MSG_MENU_D "\td: Calcola una diagnosi su questa osservazione completa\n"
@@ -257,6 +257,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_PARS_DONE "Parsing effettuato...\n"
     #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
+    #define MSG_BENCH "Cronometrare le esecuzioni? (s/n)? "
     #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo spazio comportamentale: "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
     #define MSG_INPUT_UNKNOWN_TYPE "Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n"
@@ -314,7 +315,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_YES "yes"
     #define MSG_NO "no"
     #define LOGO "  ___        _                        _          _____                    _             \n / _ \\      | |                      | |        |  ___|                  | |            \n/ /_\\ \\_   _| |_ ___  _ __ ___   __ _| |_ __ _  | |____  _____  ___ _   _| |_ ___  _ __ \n|  _  | | | | __/ _ \\| '_ ` _ \\ / _` | __/ _` | |  __\\ \\/ / _ \\/ __| | | | __/ _ \\| '__|\n| | | | |_| | || (_) | | | | | | (_| | || (_| | | |___>  <  __/ (__| |_| | || (_) | |   \n\\_| |_/\\__,_|\\__\\___/|_| |_| |_|\\__,_|\\__\\__,_| \\____/_/\\_\\___|\\___|\\__,_|\\__\\___/|_|\n"
-    #define MSG_MENU_INTRO "\nMenu\tx: Exit\n"
+    #define MSG_MENU_INTRO "\nMenu\tx: Exit\n\ts: Settings\n"
     #define MSG_MENU_C "\tc: Generate Behavioral Space\n"
     #define MSG_MENU_O "\to: Generate Behavioral Space relative to a full observation\n"
     #define MSG_MENU_D "\td: Calculate diagnosis over this full observation\n"
@@ -331,6 +332,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_PARS_DONE "Parsing done...\n"
     #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma, Event ratio, Event gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
+    #define MSG_BENCH "Measure execution time? (y/n)? "
     #define MSG_DOT_INPUT "Input .dot file describing the behavioral space: "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
     #define MSG_INPUT_UNKNOWN_TYPE "It is not possible to establish if this space is the result of linear observation: execute a diagnosis just in that case\n"

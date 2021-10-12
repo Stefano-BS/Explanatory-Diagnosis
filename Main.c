@@ -113,7 +113,7 @@ void menu(void) {
             allow_e = in & sc & !fixedObs & !exp,
             allow_m = in & sc & exp & !fixedObs,
             allow_d = in & sc & fixedObs,
-            allow_l = in & !fixedObs & !exp,
+            allow_l = in & !exp & !fixedObs,
             allow_i = !in;
         
         if (doneSomething) {
@@ -132,6 +132,12 @@ void menu(void) {
         op = getCommand();
         doneSomething = true;
         if (op == 'x') return;
+        if (op == 's') {
+            printf(MSG_DOT);
+            dot = getCommand();
+            printf(MSG_BENCH);
+            benchmark = getCommand() == INPUT_Y;
+        }
         else if (op == 'i' && allow_i) {
             printf(MSG_DEF_AUTOMA);
             inputDES = malloc(100);
@@ -145,8 +151,10 @@ void menu(void) {
             unsigned short nofComp, compSize, obsGamma, faultGamma, eventGamma;
             float connectionRatio, linkRatio, obsRatio, faultRatio, eventRatio;
             scanf(" %hu %hu %f %f %f %f %hu %hu %f %hu", &nofComp, &compSize, &connectionRatio, &linkRatio, &obsRatio, &faultRatio, &obsGamma, &faultGamma, &eventRatio,&eventGamma);
-            netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma, eventRatio , eventGamma);
+            int seed = netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma, eventRatio , eventGamma);
             if (dot!='n') {
+                inputDES = malloc(20);
+                sprintf(inputDES, "gen/Seed%d", seed);
                 BehState * tmp = generateBehState(NULL, NULL);
                 printDES(tmp, dot != INPUT_Y);
                 freeBehState(tmp);
@@ -188,9 +196,7 @@ void menu(void) {
             free(obs);
             sc = true;
             endTimer
-            printf(MSG_POTA);
-            doPrune = getCommand();
-            if (doPrune==INPUT_Y && b->nTrans>1) {
+            if (b->nTrans>1) {
                 unsigned int statiPrima = b->nStates, transPrima = b->nTrans;
                 beginTimer
                 interruptable(prune(b);)

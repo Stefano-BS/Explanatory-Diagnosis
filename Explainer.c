@@ -320,7 +320,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
             buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
 
         debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
-        debugif(DEBUG_MON, for(int l=0; l<catalog.length; l++) {
+        debugif(DEBUG_MON, for(unsigned int l=0; l<catalog.length; l++) {
             struct tList * pt=catalog.tList[l];
             while(pt) {
                 printlog("Bucket %d trans from state hash %d to %d\n", l, hashBehState(pt->t->from), hashBehState(pt->t->to));
@@ -331,6 +331,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     // Extend M by a node µ' based on the new observation o
     MonitorState *RESTRICT newmu = calloc(1, sizeof(MonitorState));
     for (FaultSpace *RESTRICT mu_s=mu->expStates[i=0]; i<mu->nExpStates; mu_s=mu->expStates[++i]) {
+        if (exp->nTrans == 0) break;
         for (ExplTrans *RESTRICT te=exp->trans[j=0]; j<exp->nTrans; te=exp->trans[++j]) {
             if (te->from == mu_s && te->obs == obs[loss-1]) {
                 FaultSpace * dest = te->to, *newmu_s;

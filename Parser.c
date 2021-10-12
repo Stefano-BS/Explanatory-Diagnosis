@@ -319,10 +319,10 @@ INLINE(void setTransAttributes(Trans * nt, float obsRatio, float faultRatio, uns
     nt->linkOut = NULL;
 }
 
-void netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma, float eventProb, unsigned short eventGamma) {
+int netMake(unsigned short nofComp, unsigned short compSize, float connectionRatio, float linkRatio, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma, float eventProb, unsigned short eventGamma) {
     time_t t;
     srand((unsigned) time(&t));
-    sprintf(inputDES, "gen/Seed%d", rand());
+    int seed = rand();
     unsigned short desiredNlink = round(nofComp*(nofComp-1)*linkRatio);
     netAlloc(nofComp, desiredNlink);
     for(unsigned short i=0; i<nofComp; i++) {
@@ -393,4 +393,5 @@ void netMake(unsigned short nofComp, unsigned short compSize, float connectionRa
                 }
             }
     }
+    return seed;
 }

@@ -39,6 +39,7 @@ Regex * regexCpy(Regex *RESTRICT src) {
     return ret;
 }
 
+
 doC11(mtx_t mutex;)
 bool hasInit=false;
 
@@ -55,6 +56,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
 
     unsigned int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0; //int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
     if (s3 != NULL) strl3 = s3->strlen; //strl3 = strlen(s3->regex);
+    bool streq12 = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
     char * solution = NULL;
     unsigned int solLen = 0;
 
@@ -79,17 +81,31 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
             d->bracketed = false;
             d->concrete = s1->concrete || s2->concrete;
             unsigned int minStrl = strl1<strl2? strl1:strl2, maxStrl = strl1>strl2? strl1:strl2;
-            char *longer = strl1>strl2? s1->regex:s2->regex;
-            if (minStrl+1==maxStrl && longer[minStrl]=='*' && memcmp(s1->regex, s2->regex, minStrl)==0) {
+            Regex *longer = strl1>strl2? s1:s2, *shorter = strl1<strl2? s1:s2;
+            if (minStrl+1==maxStrl && (longer->regex[minStrl]=='*' || longer->regex[minStrl]=='+') && memcmp(s1->regex, s2->regex, minStrl)==0) { // aa* -> a+
                 if (d->regex == s2->regex || d->regex == s1->regex) {
-                    if (d->size <= maxStrl) realloc(d->regex, maxStrl*REGEXLEVER);
+                    if (d->size <= maxStrl) {
+                        realloc(d->regex, maxStrl*REGEXLEVER);
+                        d->size = maxStrl*REGEXLEVER;
+                    }
+                    d->strlen = maxStrl;
+                    d->bracketed = true;
                     d->regex[minStrl] = '+';
                     doC11(mtx_unlock(&mutex);)
                     return;
                 }
-                else sprintf(regexBuf, "%s+", s1->regex);
+                else {
+                    d->bracketed = true;
+                    solLen = maxStrl;
+                    sprintf(regexBuf, "%s+", shorter->regex);
+                }
             }
-            if (d->regex == s1->regex && s1->regex != s2->regex && s1->size > solLen) {
+            else if (streq12 && (s1->regex[strl1-1]=='*' || s1->regex[strl1-1]=='+')) {
+                solLen = strl1;
+                solution = s1->regex;
+                d->bracketed = s1->bracketed;
+            }
+            else if (d->regex == s1->regex && s1->regex != s2->regex && s1->size > solLen) {
                 s1->strlen = solLen;
                 s1->regex[solLen] = '\0';
                 doC11(mtx_unlock(&mutex);)  // Copy does not need mutex protection
@@ -97,7 +113,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 doC99(assert(strlen(s1->regex) == solLen));
                 return;
             }
-            sprintf(regexBuf, "%s%s", s1->regex, s2->regex);
+            else sprintf(regexBuf, "%s%s", s1->regex, s2->regex);
         }
         else if (strl1>0 && strl2==0) { // copy s1 in d
             solution = s1->regex;
@@ -125,7 +141,6 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
         }
     }
     else if (op == 'a') {                                                   // Alternative
-        bool streq12 = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
         if (strl1 > 0 && streq12) { // Copia s1 in d
             solution = s1->regex;
             solLen = strl1;
@@ -134,7 +149,19 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
         }
         else if (strl1 > 0 && strl2 > 0) { // s1|s2
             solution = regexBuf;
-            if (s1->bracketed && s2->bracketed) {
+            d->concrete = s1->concrete && s2->concrete;
+            if (strl1==strl2+1 && (s1->regex[strl2]=='?' || s1->regex[strl2]=='+' || s1->regex[strl2]=='*') && strncmp(s1->regex, s2->regex, strl2)==0) {
+                solution = s1->regex;
+                solLen = strl1;
+                d->bracketed = true;
+            }
+            else if (strl2==strl1+1 && (s2->regex[strl1]=='?' || s2->regex[strl1]=='+' || s2->regex[strl1]=='*') && strncmp(s1->regex, s2->regex, strl1)==0) {
+                solution = s2->regex;
+                solLen = strl2;
+                d->bracketed = true;
+            }
+            else if (s1->bracketed && s2->bracketed) {
+                d->bracketed = false;
                 solLen = strl1+strl2+1;
                 if (d->regex==s1->regex && s1->size > solLen) {
                     solution = s1->regex;
@@ -142,7 +169,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                     memcpy(solution+strl1+1, s2->regex, strl2);
                     solution[solLen] = '\0';
                     assert(strlen(solution) == solLen);
-                    s1->strlen = solLen;
+                    d->strlen = solLen;
                 }
                 else if (d->regex==s2->regex && s2->size > solLen) {
                     solution = s2->regex;
@@ -150,11 +177,12 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                     memcpy(solution+strl2+1, s1->regex, strl1);
                     solution[solLen] = '\0';
                     assert(strlen(solution) == solLen);
-                    s2->strlen = solLen;
+                    d->strlen = solLen;
                 }
                 else sprintf(regexBuf, "%s|%s", s1->regex, s2->regex);
             }
             else if (s1->bracketed && !s2->bracketed) {
+                d->bracketed = false;
                 solLen = strl1+strl2+3;
                 if (d->regex==s1->regex && s1->size > solLen) {
                     solution = s1->regex;
@@ -165,6 +193,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 else sprintf(regexBuf, "%s|(%s)", s1->regex, s2->regex);
             }
             else if (!s1->bracketed && s2->bracketed) {
+                d->bracketed = false;
                 solLen = strl1+strl2+3;
                 if (d->regex==s2->regex && s2->size > solLen) {
                     solution = s2->regex;
@@ -174,11 +203,10 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 }
                 else sprintf(regexBuf, "(%s)|%s", s1->regex, s2->regex);
             } else {
+                d->bracketed = false;
                 solLen = strl1+strl2+5;
                 sprintf(regexBuf, "(%s)|(%s)", s1->regex, s2->regex);
             }
-            d->bracketed = false;
-            d->concrete = s1->concrete && s2->concrete;
         }
         else if (strl1 > 0 && strl2==0) {
             solution = regexBuf;
@@ -255,40 +283,70 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
             d->regex = realloc(d->regex, d->size);
             d->regex[0] = '\0';
             bool streq13 = strl1==strl3 ? strcmp(s1->regex, s3->regex)==0 : false;
+            bool streq23 = strl2==strl3 ? strcmp(s2->regex, s3->regex)==0 : false;
+            unsigned int minStrl13 = strl1<strl3? strl1:strl3, maxStrl13 = strl1>strl3? strl1:strl3;
+            unsigned int minStrl23 = strl2<strl3? strl2:strl3, maxStrl23 = strl2>strl3? strl2:strl3;
+            Regex *longer13 = strl1>strl3? s1:s3, *shorter13 = strl1<strl3? s1:s3;
+            Regex *longer23 = strl2>strl3? s2:s3, *shorter23 = strl2<strl3? s2:s3;
             if (strl1 + strl2 >0) {
-                unsigned int minStrl = strl1<strl3? strl1:strl3, maxStrl = strl1>strl3? strl1:strl3;
-                char *longer = strl1>strl3? s1->regex:s3->regex;
-                if (streq13 && s1->bracketed){
+                if (streq13 && streq23) { // aa*a -> a+
+                    if (s1->bracketed) {
+                        sprintf(d->regex, "%s+", s1->regex);
+                        d->strlen = strl1+1;
+                    } else {
+                        sprintf(d->regex, "(%s)+", s1->regex);
+                        d->strlen = strl1+3;
+                    }
+                    d->bracketed = true;
+                    d->concrete = s1->concrete;
+                }
+                else if (streq13 && s1->bracketed){ // aa*b -> a+b
                     sprintf(d->regex, "%s+%s", s1->regex, s2->regex);
                     d->strlen=strl1+strl2+1;
+                    if (strl2>0) d->bracketed = false; else d->bracketed = true;
+                    d->concrete = (s1->concrete) | (s2->concrete);
                 }
-                else if (minStrl+1==maxStrl && longer[minStrl]=='*' && memcmp(s1->regex, s3->regex, minStrl)==0)
-                    sprintf(d->regex, "%s+%s", s1->regex, s2->regex);
+                else if (minStrl13+1==maxStrl13 && longer13->regex[minStrl13]=='*' && memcmp(s1->regex, s3->regex, minStrl13)==0) { // aa**b -> a+b    a*a*b -> a+b
+                    sprintf(d->regex, "%s+%s", shorter13->regex, s2->regex);
+                    d->strlen = maxStrl13+strl2;
+                    d->concrete = (shorter13->concrete) | (s2->concrete);
+                    if (strl2>0) d->bracketed = false; else d->bracketed = true;
+                }
+                else if (minStrl23+1==maxStrl23 && longer23->regex[minStrl23]=='*' && memcmp(s2->regex, s3->regex, minStrl23)==0) { // ab**b -> ab+    ab*b* -> ab+
+                    sprintf(d->regex, "%s%s+", s1->regex, shorter23->regex);
+                    d->strlen = maxStrl23+strl1;
+                    d->concrete = (shorter23->concrete) | (s1->concrete);
+                    if (strl1>0) d->bracketed = false; else d->bracketed = true;
+                }
                 else if (s3->bracketed) {
                     if (s3->regex[strl3-1]=='?') {
+                        d->bracketed = true;
                         sprintf(d->regex, "%s%s", s1->regex, s3->regex);
                         d->regex[strl1+strl3-1]='*';
                         strcpy(d->regex+strl1+strl3, s2->regex);
                         d->strlen = strl1+strl2+strl3;
+                        d->concrete = false;
                     }
                     else {
                         sprintf(d->regex, "%s%s*%s", s1->regex, s3->regex, s2->regex);
                         d->strlen = strl1+strl2+strl3+1;
+                        d->concrete = (s1->concrete) | (s2->concrete);
+                        d->bracketed = false;
                     }
                     assert(strlen(d->regex) == d->strlen);
                 } else {
                     sprintf(d->regex, "%s(%s)*%s", s1->regex, s3->regex, s2->regex);
                     d->strlen = strl1+strl2+strl3+3;
+                    d->bracketed = false;
+                    d->concrete = (s1->concrete) | (s2->concrete);
                     assert(strlen(d->regex) == d->strlen);
                 }
-                d->bracketed = false;
-                d->concrete = s1->concrete && s2->concrete && s3->concrete;
             }
             else {
                 if (s3->bracketed) {
-                    if (s3->regex[strl3-1]=='?') {
+                    if (s3->regex[strl3-1]=='?' || s3->regex[strl3-1]=='*' || s3->regex[strl3-1]=='+') {
                         memcpy(d->regex, s3->regex, strl3);
-                        d->regex[strl3-1] = '*';
+                        if (s3->regex[strl3-1]=='?') d->regex[strl3-1] = '*';
                         d->regex[strl3] = '\0';
                         d->strlen = strl3;
                         assert(strlen(d->regex) == d->strlen);
@@ -305,10 +363,10 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                     assert(strlen(d->regex) == d->strlen);
                 }
                 d->bracketed = true; // Se anche termina con *, non importa
-                d->concrete = s3->concrete;
+                d->concrete = false;
             }
+            doC11(mtx_unlock(&mutex);)
         }
-        doC11(mtx_unlock(&mutex);)
         return;
     }
 
@@ -318,15 +376,13 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
             if (d->size == 0) {
                 d->regex = malloc(solLen*REGEXLEVER);
                 d->regex[0] = '\0';
-            } else {
-                debugif(DEBUG_REGEX, printlog("REALLOC d->regex w %u was %u \n", (unsigned int)(solLen*REGEXLEVER), d->size))
-                d->regex = realloc(d->regex, solLen*REGEXLEVER);
             }
+            else d->regex = realloc(d->regex, solLen*REGEXLEVER);
             d->size = solLen*REGEXLEVER;
         }
         memcpy(d->regex, solution, solLen);
         d->regex[solLen] = '\0';
-        debugif(DEBUG_REGEX, if (strlen(d->regex) != d->strlen) {printlog("Different strlen %ld vs %u - '%s' '", strlen(d->regex), d->strlen, d->regex); for(int i=0; i<d->strlen; i++)printf("%c",d->regex[i]);printf("'\n"); fflush(stdout);exit(0);});
+        debugif(DEBUG_REGEX, if (strlen(d->regex) != d->strlen) {printlog("Different strlen %ld vs %u - '%s' '", strlen(d->regex), d->strlen, d->regex); for(unsigned int i=0; i<d->strlen; i++)printf("%c",d->regex[i]);printf("'\n"); fflush(stdout);exit(0);});
     }
     doC11(mtx_unlock(&mutex);)
 }
