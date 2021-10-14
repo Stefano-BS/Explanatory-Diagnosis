@@ -125,14 +125,14 @@ Link* linkById(short id) {
     return NULL;
 }
 
-unsigned int hashBehState(BehState *s) {
+INLINE(unsigned int hashBehState(BehState *s)) {
     unsigned int hash = 0;
     for (int i=0; i<ncomp; i++) hash = ((hash << 3) + s->componentStatus[i]) % catalog.length;
     for (int i=0; i<nlink; i++) hash = ((hash << 3) + s->linkContent[i]+1) % catalog.length;
     return hash;
 }
 
-bool behTransCompareTo(BehTrans * t1, BehTrans *t2) {
+INLINE(bool behTransCompareTo(BehTrans * t1, BehTrans *t2)) {
     return  t1->marker == t2->marker && t1->t == t2->t
             && behStateCompareTo(t1->from, t2->from) && behStateCompareTo(t1->to, t2->to);
 }
@@ -387,7 +387,7 @@ void expCoherenceTest(Explainer *exp){
     }
 }
 
-void monitoringCoherenceTest(Monitoring *mon){
+void monitoringCoherenceTest(Monitoring *mon) {
     unsigned short i, j, k;
     MonitorState * mu;
     printf(MSG_MEMTEST13, mon->length);

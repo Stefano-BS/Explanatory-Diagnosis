@@ -11,8 +11,8 @@
                 "-D\"LANG='e'\"",
                 "-g",
                 "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c",
-                "${fileDirname}\\Diagnoser.c", "${fileDirname}\\Printer.c", "${fileDirname}\\Parser.c",
-                "${fileDirname}\\DataStructures.c", "${fileDirname}\\Main.c",
+                "${fileDirname}\\Candidates.c", "${fileDirname}\\Printer.c", "${fileDirname}\\Parser.c",
+                "${fileDirname}\\DataStructures.c", "${fileDirname}\\Regex.c", "${fileDirname}\\Main.c",
                 "-o",
                 "${fileDirname}\\SC.exe",
                 "-lm"

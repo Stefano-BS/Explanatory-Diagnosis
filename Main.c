@@ -1,6 +1,7 @@
 #include "header.h"
 
 const unsigned short eps = L'ε', mu = L'μ';
+double m_pi;
 
 Regex* empty;
 unsigned int strlenInputDES;
@@ -279,9 +280,9 @@ void menu(void) {
 }
 
 int main(int argc, char *argv[]) {
-    doC11(setbuf(stdout, NULL);)
+    m_pi = acos(-1.0);
+    doC11(bool changedStdOut = false;)
     setlocale(LC_ALL, "");
-    printf(LOGO);
     if (argc >1) {
         for (int optind = 1; optind < argc; optind++) {
             if (argv[optind][0] != '-') {
@@ -290,6 +291,15 @@ int main(int argc, char *argv[]) {
                 continue;
             }
             switch (argv[optind][1]) {
+                case '-':
+                    if (strlen(argv[optind])==7 && strcmp(argv[optind], "--stdin")==0) {
+                        if (optind < argc-1) freopen(argv[++optind], "r", stdin);
+                    } else if (strlen(argv[optind])==8 && strcmp(argv[optind], "--stdout")==0)
+                        if (optind < argc-1) {
+                            freopen(argv[++optind], "w", stdout);
+                            doC11(changedStdOut = true;)
+                        }
+                    break;
                 case 'd': dot = INPUT_Y; break;
                 case 't': dot = 't'; break;
                 case 'n': dot = 'n'; break;
@@ -300,6 +310,8 @@ int main(int argc, char *argv[]) {
             }   
         }
     }
+    doC11(if (!changedStdOut) setbuf(stdout, NULL);)
+    printf(LOGO);
     if (dot == '\0') {
         printf(MSG_DOT);
         dot = getCommand();

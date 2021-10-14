@@ -39,7 +39,7 @@
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreachtr(lnode, from)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
 #ifndef M_PI
-    #define M_PI                    acos(-1.0)
+    #define M_PI                    m_pi
 #endif
 #define normal(mu, sigma, x)        (1.0 / (sigma * sqrt(M_PI+M_PI))) * exp(-(x-mu)*(x-mu)/(2.0*sigma*sigma))
 
@@ -64,7 +64,10 @@
 typedef struct {
     char * regex;
     unsigned int size, strlen;
-    bool bracketed, concrete;
+    bool bracketed,         // Doesn't need do put brackets around (doesn't necessarily mean it has brackets wrap)
+        concrete,           // Can't be epsilon
+        brkBrk4Alt;         // Can disassemble brackets to get a|b|c instead of (a|b)|c
+    char altDecomposable;   // 0: not containing alternatives; 1: is simple alternatives; 2: is recursive mixture of type 1 and 2 
 } Regex;
 
 typedef struct {
@@ -185,6 +188,7 @@ extern unsigned int strlenInputDES;
 extern Regex* empty;
 extern const unsigned short eps, mu;
 extern BehSpaceCatalog catalog;
+extern double m_pi;
 
 // DataStructures.c
 Component * newComponent(void);

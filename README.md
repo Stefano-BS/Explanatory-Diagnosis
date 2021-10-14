@@ -12,12 +12,14 @@ A note on command arguments: the program can both be compiled in **english** or 
 
 ### Usage
 The DES description format is a little bit obscure (I plan to evolve it in a future update), but, at least, the BNF and semantics description in [Automata (input) BNF and semantics](./Automata%20(input)%20BNF%20and%20semantics.txt) is formal and precise.
-The command line executable can be called with args:
+The command line executable can be called with args (none of them is required, free order):
 - -b: benchmark mode, to print out an estimation of execution time of the main tasks
 - -d: output dot graphs
 - -t: output textual description of you DES (and no graphs)
 - -n: do not output textual nor graphical outputs
-- -c: pass commands (within following arg)
-- filename: your DES' file
+- -c *commands*: pass commands (within following arg)
+- --stdin *filename*: substitutes standard input with your file. Why using this instead of -c? Commands arg is suitable for making user interaction faster with a repetitive task, while stdin substitution is the key for a fully automated use (and that's te only way to pass observation inputs)
+- --stdout *filename*: substitutes standard output with your file
+- *filename*: your DES' description file
 
 Outputs will be placed in the same folder as your DES file, with the same filename followed by _SC for Behavioral Space graphs, _EXP for Explainer graphs, _PEX for Partial Explainer graphs, and _MON for Monitoring Trace graphs. All graphs are saved as svg.
