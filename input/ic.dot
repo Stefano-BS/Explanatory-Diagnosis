@@ -3,12 +3,12 @@ node [style=filled fillcolor=white] compound=true
 subgraph cluster1 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C1_0;
 node [shape=circle];
-C1_0 -> C1_1 [label="t1R1"];
+C1_0 -> C1_1 [label="t1a"];
 C1_0 -> C1_1 [label="t2"];
 C1_1 -> C1_0 [label="t3"];
-C1_0 -> C1_0 [label="t14R5"];
-C1_0 -> C1_0 [label="t15R5"];
-C1_0 -> C1_0 [label="t15R5"];
+C1_0 -> C1_0 [label="t14e"];
+C1_0 -> C1_0 [label="t15e"];
+C1_0 -> C1_0 [label="t15e"];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
@@ -21,16 +21,16 @@ style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C3_0;
 node [shape=circle];
 C3_1 -> C3_0 [label="t6"];
 C3_0 -> C3_1 [label="t7"];
-C3_1 -> C3_1 [label="t8R3"];
+C3_1 -> C3_1 [label="t8c"];
 }
 subgraph cluster4 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C4_0;
 node [shape=circle];
 C4_0 -> C4_1 [label="t9"];
 C4_3 -> C4_4 [label="t10"];
-C4_1 -> C4_2 [label="t11R7"];
+C4_1 -> C4_2 [label="t11g"];
 C4_3 -> C4_4 [label="t12"];
-C4_4 -> C4_1 [label="t13R6"];
+C4_4 -> C4_1 [label="t13f"];
 }
 C3_0 -> C1_0 [ltail=cluster3 lhead=cluster1 label="L1{}"];
 C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L2{}"];

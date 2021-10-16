@@ -3,9 +3,9 @@ node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C0S0 [label=0];
+node [shape=doubleoctagon]; C0S0 [label=0];
 node [shape=doubleoctagon]; C0S1 [label=1];
-C0S0 -> C0S1 [label=t1R1]
+C0S0 -> C0S1 [label=t1a]
 C0S0 -> C0S0 [label=t4]
 C0S1 -> C0S0 [label=t2]
 C0S1 -> C0S1 [label=t4]
@@ -15,16 +15,16 @@ style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=doubleoctagon]; C1S2 [label=2];
 node [shape=doubleoctagon]; C1S1 [label=1];
-node [shape=octagon]; C1S0 [label=0];
+node [shape=doubleoctagon]; C1S0 [label=0];
 node [shape=doubleoctagon]; C1S3 [label=3];
 C1S2 -> C1S3 [label=t2]
-C1S2 -> C1S1 [label=t3R2]
+C1S2 -> C1S1 [label=t3b]
 C1S1 -> C1S0 [label=t2]
 C1S1 -> C1S1 [label=t4]
-C1S0 -> C1S1 [label=t1R1]
+C1S0 -> C1S1 [label=t1a]
 C1S0 -> C1S0 [label=t4]
-C1S3 -> C1S2 [label=t1R1]
-C1S3 -> C1S0 [label=t3R2]
+C1S3 -> C1S2 [label=t1a]
+C1S3 -> C1S0 [label=t3b]
 }
 subgraph cluster2 {
 style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
@@ -32,20 +32,20 @@ edge[color=darkgray fontcolor=darkgray]
 node [shape=doubleoctagon]; C2S3 [label=3];
 node [shape=doubleoctagon]; C2S1 [label=1];
 node [shape=doubleoctagon]; C2S2 [label=2];
-node [shape=octagon]; C2S0 [label=0];
-C2S3 -> C2S2 [label=t1R1]
-C2S3 -> C2S0 [label=t3R2]
+node [shape=doubleoctagon]; C2S0 [label=0];
+C2S3 -> C2S2 [label=t1a]
+C2S3 -> C2S0 [label=t3b]
 C2S1 -> C2S0 [label=t2]
 C2S1 -> C2S1 [label=t4]
 C2S2 -> C2S3 [label=t2]
-C2S2 -> C2S1 [label=t3R2]
-C2S0 -> C2S1 [label=t1R1]
+C2S2 -> C2S1 [label=t3b]
+C2S0 -> C2S1 [label=t1a]
 C2S0 -> C2S0 [label=t4]
 }
-C0S0 -> C2S3 [style=dashed arrowhead=vee label="O1R3 r1r1?*"]
-C0S1 -> C1S2 [style=dashed arrowhead=vee label="O1R3 r1r1?*"]
-C1S1 -> C1S2 [style=dashed arrowhead=vee label="O1R3 (r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2)"]
-C1S0 -> C2S3 [style=dashed arrowhead=vee label="O1R3 (r1*(r1r2)|r2r1?*)|(r2r1?*)"]
-C2S0 -> C2S3 [style=dashed arrowhead=vee label="O1R3 (r1r1*r2)|r2r1?*"]
-C2S1 -> C1S2 [style=dashed arrowhead=vee label="O1R3 ((r1r1*r2)|r2r1?*r1)|(r1r1*r2)"]
+C0S0 -> C2S3 [style=dashed arrowhead=vee label="O1c aa*"]
+C0S1 -> C1S2 [style=dashed arrowhead=vee label="O1c aa*"]
+C1S1 -> C1S2 [style=dashed arrowhead=vee label="O1c (a*aba*a|(ab))|ba*a"]
+C1S0 -> C2S3 [style=dashed arrowhead=vee label="O1c (a*aba*)|ba*"]
+C2S0 -> C2S3 [style=dashed arrowhead=vee label="O1c a+ba*"]
+C2S1 -> C1S2 [style=dashed arrowhead=vee label="O1c a+ba*a|(a+b)"]
 }

@@ -3,23 +3,101 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r1?|r1)|(r1r1))|r1"
+label="a?"
 M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((((((((((((((((r1?|r1)|(r1r1))|(r1r1))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|((r1r1)|(r1r3)))))|(r1r1|(r1|(r1|(r1|r3)))))))|((r1r1)|(((r1r1)|((r1|r3r1)|((r1r1)|(((r1r1)|(r1r3))|(r1r3)))))|(r1r1|(r1|(r1|((r1|r3)|r3)))))))|((r1r1)|(((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|((r1|r3)|r3))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|((r3r1)|(r1r1|(r1|(r1|((r1|r3)|((r1|r3)|r3)))))))))))))|r1)|r1)|(r1|((r1|(r1|(r1|(r1|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|(r1|(r3|r1))))))))|(r1|((r1|(r1|(r1|((r1|r3)|(r3|(r1|((r1|r3)|r1)))))))|(r1|(r1|(r1|((r1|r3)|(r3|r1))))))))|r1)|(r1|((r1|(r1|r3))|r1)))|r1)|r1)|(((((((((((((r1?|(r1r1))|(r1r1))|((r1r1)|((r1r1|(r1|(r1|(r1|r3))))|(r3r1))))|((r1r1)|((r1r1|(r1|(r1|((r1|r3)|r3))))|(r3r1))))|((r1r1)|((r1r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))|((r1r1)|((r1r1)|((r1r1)|(((r1|r3r1)|(r1r3))|(r3r1))))))))|r1)|r1)|(r1|(r1|(r1|(r1|(r1|(r1|r3)))))))|(r1|(r1|(r1|(r1|(r1|((r1|r3)|r3)))))))|r1)|(r1|(r1|r3)))|r1)|r1))|(r1(((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(r1|((r1|r3)|r3)))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3))))))))|(r1(((r1?|r1)|r1)|(r1|(r1|(r1|r3))))|(r1|(r1|(r1|(r3|(r1|r3)))))))|(r1r1))|(r1(((r1?|r1)|(r1|(r1|(r1|(r1|r3)))))|(r1|(r1|(((r1r1)|(r1r3))))))|(r1|(r1|(r1|(r1|(r3|((r1|r3)|r3)))))))"
-M1S9 [label=9];
-M1S16 [label=16];
-M1S2 [label=2];
-M1S3 [label=3];
-M1S4 [label=4];
+label="a|a|c?|(a|c|(a|c)|c|a|a|c|c|a)?"
 M1S1 [label=1];
+M1S2 [label=2];
+M1S4 [label=4];
+M1S5 [label=5];
+M1S6 [label=6];
 }
-M0S0 -> M1S9 [label="(ε, ε)"]
-M0S0 -> M1S16 [label="(ε, ε)"]
-M0S0 -> M1S2 [label="(r1, r1)"]
-M0S0 -> M1S3 [label="(r1, r1)"]
-M0S0 -> M1S4 [label="(r1r1, r1r1)"]
-M0S0 -> M1S1 [label="(r1, r1)"]
+subgraph cluster2 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="a|c|(a|c)|c|a|a|c|c|a|a?|a|c?|a|c?|a|c?"
+M2S7 [label=7];
+M2S9 [label=9];
+M2S10 [label=10];
+M2S11 [label=11];
+M2S12 [label=12];
+M2S13 [label=13];
+M2S14 [label=14];
+M2S15 [label=15];
+M2S16 [label=16];
+M2S17 [label=17];
+}
+subgraph cluster3 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(a|c|(a|c)|c|a|a|c|c|a(a|c)?)|(a?|a|c|((aa)|((a|ca)|(ac)))|a|c)|(a?|a|c|((aa)|((a|ca)|(ac)))|a|c)|(a?|a|c|((aa)|((a|ca)|(ac)))|a|c)"
+M3S3 [label=3];
+M3S4 [label=4];
+M3S1 [label=1];
+M3S6 [label=6];
+}
+M0S0 -> M1S1 [label="(a, a)"]
+M0S0 -> M1S2 [label="(ε, ε)"]
+M0S0 -> M1S4 [label="(a, a)"]
+M0S0 -> M1S5 [label="(ε, ε)"]
+M0S0 -> M1S6 [label="(a, a)"]
+M1S1 -> M2S7 [label="(ε, a)"]
+M1S1 -> M2S9 [label="(ε, a)"]
+M1S1 -> M2S10 [label="(ε, a)"]
+M1S1 -> M2S11 [label="(ε, a)"]
+M1S2 -> M2S7 [label="(a|c, a|c)"]
+M1S2 -> M2S9 [label="(a|c, a|c)"]
+M1S2 -> M2S10 [label="(a, a)"]
+M1S2 -> M2S11 [label="(a, a)"]
+M1S2 -> M2S12 [label="(ε, ε)"]
+M1S2 -> M2S13 [label="(ε, ε)"]
+M1S2 -> M2S14 [label="(ε, ε)"]
+M1S2 -> M2S15 [label="(ε, ε)"]
+M1S2 -> M2S16 [label="(ε, ε)"]
+M1S4 -> M2S7 [label="(ε, a)"]
+M1S4 -> M2S9 [label="(ε, a)"]
+M1S4 -> M2S10 [label="(ε, a)"]
+M1S4 -> M2S11 [label="(ε, a)"]
+M1S5 -> M2S7 [label="(a|c|(a|c)|c|a, a|c|(a|c)|c|a)"]
+M1S5 -> M2S9 [label="(a|c|c|a, a|c|c|a)"]
+M1S5 -> M2S10 [label="(a, a)"]
+M1S5 -> M2S11 [label="(a, a)"]
+M1S5 -> M2S12 [label="(ε, ε)"]
+M1S5 -> M2S13 [label="(ε, ε)"]
+M1S5 -> M2S14 [label="(ε, ε)"]
+M1S5 -> M2S15 [label="(ε, ε)"]
+M1S5 -> M2S16 [label="(ε, ε)"]
+M1S5 -> M2S17 [label="(ε, ε)"]
+M1S6 -> M2S7 [label="(ε, a)"]
+M1S6 -> M2S9 [label="(ε, a)"]
+M1S6 -> M2S10 [label="(ε, a)"]
+M1S6 -> M2S11 [label="(ε, a)"]
+M2S7 -> M3S3 [label="(ε, a|c|(a|c)|c|a)"]
+M2S9 -> M3S3 [label="(ε, a|c|c|a)"]
+M2S10 -> M3S3 [label="(ε, a)"]
+M2S11 -> M3S3 [label="(ε, a)"]
+M2S12 -> M3S4 [label="(ε, ε)"]
+M2S12 -> M3S1 [label="(ε, ε)"]
+M2S12 -> M3S3 [label="(a, a)"]
+M2S13 -> M3S4 [label="(ε, ε)"]
+M2S13 -> M3S1 [label="(ε, ε)"]
+M2S13 -> M3S6 [label="(ε, ε)"]
+M2S13 -> M3S3 [label="(a, a)"]
+M2S14 -> M3S4 [label="(ε, ε)"]
+M2S14 -> M3S1 [label="(ε, ε)"]
+M2S14 -> M3S6 [label="(ε, ε)"]
+M2S14 -> M3S3 [label="(a|c, a|c)"]
+M2S15 -> M3S4 [label="(ε, ε)"]
+M2S15 -> M3S1 [label="(ε, ε)"]
+M2S15 -> M3S6 [label="(ε, ε)"]
+M2S15 -> M3S3 [label="(a, a)"]
+M2S16 -> M3S4 [label="(ε, ε)"]
+M2S16 -> M3S1 [label="(ε, ε)"]
+M2S16 -> M3S6 [label="(ε, ε)"]
+M2S16 -> M3S3 [label="(a|c, a|c)"]
+M2S17 -> M3S4 [label="(ε, ε)"]
+M2S17 -> M3S1 [label="(ε, ε)"]
+M2S17 -> M3S6 [label="(ε, ε)"]
+M2S17 -> M3S3 [label="(a|c, a|c)"]
 }

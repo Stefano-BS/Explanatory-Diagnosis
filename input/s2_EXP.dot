@@ -3,40 +3,40 @@ node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C0S0 [label=0];
+node [shape=doubleoctagon]; C0S0 [label=0];
 node [shape=octagon]; C0S7 [label=7];
-C0S0 -> C0S7 [label=t3R1]
+C0S0 -> C0S7 [label=t3a]
 }
 subgraph cluster1 {
 style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=octagon]; C1S1 [label=1];
 node [shape=doubleoctagon]; C1S6 [label=6];
-C1S1 -> C1S6 [label=t7R3]
-C1S6 -> C1S1 [label=t4R2]
+C1S1 -> C1S6 [label=t7j]
+C1S6 -> C1S1 [label=t4b]
 }
 subgraph cluster2 {
 style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=doubleoctagon]; C2S2 [label=2];
 node [shape=octagon]; C2S5 [label=5];
-C2S2 -> C2S5 [label=t4R2]
+C2S2 -> C2S5 [label=t4b]
 }
 subgraph cluster3 {
 style="rounded,filled" label="C3" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=octagon]; C3S3 [label=3];
 node [shape=doubleoctagon]; C3S4 [label=4];
-C3S3 -> C3S4 [label=t8R4]
-C3S4 -> C3S3 [label=t3R1]
+C3S3 -> C3S4 [label=t8k]
+C3S4 -> C3S3 [label=t3a]
 }
 subgraph cluster4 {
 style="rounded,filled" label="C4" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=doubleoctagon]; C4S4 [label=4];
 node [shape=octagon]; C4S3 [label=3];
-C4S4 -> C4S3 [label=t3R1]
-C4S3 -> C4S4 [label=t8R4]
+C4S4 -> C4S3 [label=t3a]
+C4S3 -> C4S4 [label=t8k]
 }
 subgraph cluster5 {
 style="rounded,filled" label="C5" fontcolor="#B2CCBB" color="#EAFFEE"
@@ -48,8 +48,8 @@ style="rounded,filled" label="C6" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
 node [shape=doubleoctagon]; C6S6 [label=6];
 node [shape=octagon]; C6S1 [label=1];
-C6S6 -> C6S1 [label=t4R2]
-C6S1 -> C6S6 [label=t7R3]
+C6S6 -> C6S1 [label=t4b]
+C6S1 -> C6S6 [label=t7j]
 }
 subgraph cluster7 {
 style="rounded,filled" label="C7" fontcolor="#B2CCBB" color="#EAFFEE"
@@ -57,21 +57,21 @@ edge[color=darkgray fontcolor=darkgray]
 node [shape=octagon]; C7S7 [label=7];
 }
 C0S0 -> C1S1 [style=dashed arrowhead=vee label="O1 ε"]
-C0S7 -> C4S4 [style=dashed arrowhead=vee label="O2R5 r1"]
-C0S7 -> C0S0 [style=dashed arrowhead=vee label="O2 r1"]
-C1S1 -> C2S2 [style=dashed arrowhead=vee label="O2 (r3(r2r3)*r2)?"]
-C1S6 -> C7S7 [style=dashed arrowhead=vee label="O1 r3(r2r3)*"]
+C0S7 -> C4S4 [style=dashed arrowhead=vee label="O2l a"]
+C0S7 -> C0S0 [style=dashed arrowhead=vee label="O2 a"]
+C1S1 -> C2S2 [style=dashed arrowhead=vee label="O2 (j(bj)*b)?"]
+C1S6 -> C7S7 [style=dashed arrowhead=vee label="O1 j(bj)*"]
 C2S2 -> C3S3 [style=dashed arrowhead=vee label="O1 ε"]
-C2S5 -> C6S6 [style=dashed arrowhead=vee label="O2R6 r2"]
-C2S5 -> C2S2 [style=dashed arrowhead=vee label="O2 r2"]
-C3S3 -> C0S0 [style=dashed arrowhead=vee label="O2 (r4(r1r4)*r1)?"]
-C3S4 -> C5S5 [style=dashed arrowhead=vee label="O1 r4(r1r4)*"]
-C4S4 -> C5S5 [style=dashed arrowhead=vee label="O1 (r1(r4r1)*r4)?"]
-C4S3 -> C0S0 [style=dashed arrowhead=vee label="O2 r1(r4r1)*"]
-C5S5 -> C6S6 [style=dashed arrowhead=vee label="O2R6 ε"]
+C2S5 -> C6S6 [style=dashed arrowhead=vee label="O2m b"]
+C2S5 -> C2S2 [style=dashed arrowhead=vee label="O2 b"]
+C3S3 -> C0S0 [style=dashed arrowhead=vee label="O2 (k(ak)*a)?"]
+C3S4 -> C5S5 [style=dashed arrowhead=vee label="O1 k(ak)*"]
+C4S4 -> C5S5 [style=dashed arrowhead=vee label="O1 (a(ka)*k)?"]
+C4S3 -> C0S0 [style=dashed arrowhead=vee label="O2 a(ka)*"]
+C5S5 -> C6S6 [style=dashed arrowhead=vee label="O2m ε"]
 C5S5 -> C2S2 [style=dashed arrowhead=vee label="O2 ε"]
-C6S6 -> C7S7 [style=dashed arrowhead=vee label="O1 (r2(r3r2)*r3)?"]
-C6S1 -> C2S2 [style=dashed arrowhead=vee label="O2 r2(r3r2)*"]
-C7S7 -> C4S4 [style=dashed arrowhead=vee label="O2R5 ε"]
+C6S6 -> C7S7 [style=dashed arrowhead=vee label="O1 (b(jb)*j)?"]
+C6S1 -> C2S2 [style=dashed arrowhead=vee label="O2 b(jb)*"]
+C7S7 -> C4S4 [style=dashed arrowhead=vee label="O2l ε"]
 C7S7 -> C0S0 [style=dashed arrowhead=vee label="O2 ε"]
 }

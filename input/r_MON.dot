@@ -3,25 +3,45 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="r1r1?*"
+label="aa*"
 M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(r1r1?*r3((r1r1*r2)|r2r1?*)|(((r1r1*r2)|r2r1?*r1)|(r1r1*r2)))|(r1r1?*r3((r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2))|((r1*(r1r2)|r2r1?*)|(r2r1?*)))"
-M1S2 [label=2];
+label="(aa*c(a*ba)|(a*ab)a*|(a*ba)|(a*ab)a*|(a*b))|(aa*ca+ba*a)"
 M1S1 [label=1];
+M1S2 [label=2];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((r1r1?*r3(r1r1*r2)|r2r1?*r3)|(r1r1?*r3(r1*(r1r2)|r2r1?*)|(r2r1?*)r3)(((r1r1*)|(((r1r1*r2)|r2r1?*r1)|(r1r1*r2)))|(r1r1*))|((r1r1*r2)|r2r1?*))|((r1r1?*r3((r1r1*r2)|r2r1?*r1)|(r1r1*r2)r3)|(r1r1?*r3(r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2)r3)(((r1*r1)|((r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2)))|((r1*(r1r2)|r2r1?*)|(r2r1?*)))|r1*)"
-M2S2 [label=2];
+label="((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*ba)|(a*ab)a*|(a*b))|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*a)"
 M2S1 [label=1];
+M2S2 [label=2];
 }
-M0S0 -> M1S2 [label="(r1r1?*, r1r1?*r3)"]
-M0S0 -> M1S1 [label="(r1r1?*, r1r1?*r3)"]
-M1S2 -> M2S2 [label="((r1r1*r2)|r2r1?*, r1r1?*r3(r1r1*r2)|r2r1?*r3)"]
-M1S2 -> M2S1 [label="(((r1r1*r2)|r2r1?*r1)|(r1r1*r2), r1r1?*r3((r1r1*r2)|r2r1?*r1)|(r1r1*r2)r3)"]
-M1S1 -> M2S1 [label="((r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2), r1r1?*r3(r1*((r1r2)|r2r1?*r1)|(r1r2))|((r2r1?*r1)|r2)r3)"]
-M1S1 -> M2S2 [label="((r1*(r1r2)|r2r1?*)|(r2r1?*), r1r1?*r3(r1*(r1r2)|r2r1?*)|(r2r1?*)r3)"]
+subgraph cluster3 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)(a*ba)|(a*ab)a*|(a*ba)|(a*ab)a*|(a*b))|(((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a)"
+M3S1 [label=1];
+M3S2 [label=2];
+}
+subgraph cluster4 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)(a*ba)|(a*ab)a*c)|(((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*ac)(a*a)?|a*|(a*ba)|(a*ab)a*|(a*b)|(a*ba)|(a*ab)a*)|((((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|(((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+?|a+ba*a|a+ba*)"
+M4S1 [label=1];
+M4S2 [label=2];
+}
+M0S0 -> M1S1 [label="(aa*, aa*c)"]
+M0S0 -> M1S2 [label="(aa*, aa*c)"]
+M1S1 -> M2S1 [label="((a*ba)|(a*ab)a*, aa*c(a*ba)|(a*ab)a*c)"]
+M1S1 -> M2S2 [label="((a*ba)|(a*ab)a*|(a*b), aa*c(a*ba)|(a*ab)a*|(a*b)c)"]
+M1S2 -> M2S2 [label="(a+ba*, aa*ca+ba*c)"]
+M1S2 -> M2S1 [label="(a+ba*a, aa*ca+ba*ac)"]
+M2S1 -> M3S1 [label="((a*ba)|(a*ab)a*, (aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)"]
+M2S1 -> M3S2 [label="((a*ba)|(a*ab)a*|(a*b), (aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)"]
+M2S2 -> M3S2 [label="(a+ba*, (aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)"]
+M2S2 -> M3S1 [label="(a+ba*a, (aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)"]
+M3S1 -> M4S1 [label="((a*ba)|(a*ab)a*, ((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)(a*ba)|(a*ab)a*c)"]
+M3S1 -> M4S2 [label="((a*ba)|(a*ab)a*|(a*b), ((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)"]
+M3S2 -> M4S2 [label="(a+ba*, ((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)"]
+M3S2 -> M4S1 [label="(a+ba*a, ((aa*c(a*ba)|(a*ab)a*c)|(aa*ca+ba*ac)(a*ba)|(a*ab)a*|(a*b)c)|((aa*c(a*ba)|(a*ab)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*ac)"]
 }

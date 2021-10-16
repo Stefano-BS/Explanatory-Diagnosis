@@ -1,7 +1,7 @@
 #include "header.h"
 
-INLINE(bool exitCondition(BehSpace *RESTRICT b, bool mode2)) {
-    if (mode2) {
+INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
+    if (mode) {
         if (b->nStates>2) return false;
         foreachdecl(lt, b->states[0]->transitions) {
             debugif(DEBUG_DIAG, printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker))
@@ -14,12 +14,18 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, bool mode2)) {
     else return b->nTrans<=1;
 }
 
-Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
+Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     unsigned int i=0, j=0, nMarker = b->nStates+2;
     int markerMap[nMarker], k;
-    for (; i<nMarker; i++) 
-        markerMap[i] = i; // Including α and ω
-    Regex ** ret = calloc(mode2? nMarker-2 : 1, sizeof(Regex*));
+    if (mode==2){
+        for (; i<nMarker; i++) 
+            markerMap[i] = i; // Including α and ω
+    }
+    else if (mode==1) {
+        for (; i<nMarker; i++) 
+            markerMap[i] = (b->states[i]->flags & FLAG_FINAL)*i;
+    }
+    Regex ** ret = calloc(mode? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
     //Arricchimento spazio con nuovi stati iniziale e finale
     Trans *tvuota = calloc(1, sizeof(Trans));
@@ -49,7 +55,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
     fine->id = b->nStates;
     fine->flags = FLAG_FINAL;
     for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {          // Transitions from ex final states/all states to ω
-        if (mode2 || (stemp->flags & FLAG_FINAL)) {
+        if (mode==2 || (stemp->flags & FLAG_FINAL)) {
             BehTrans * trFinale = calloc(1, sizeof(BehTrans));
             trFinale->from = stemp;
             trFinale->to = fine;
@@ -74,8 +80,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
             if (trans->t->from == stemp) {
                 trans->t->regex = emptyRegex(0);
                 if (trans->t->t->fault >0) {
-                    sprintf(trans->t->regex->regex, "r%hu", trans->t->t->fault);
-                    trans->t->regex->strlen = 1+(unsigned int)ceilf(log10f((float)(trans->t->t->fault+1)));
+                    regexCompile(trans->t->regex, trans->t->t->fault);
                     trans->t->regex->concrete = true;
                 }
             }
@@ -83,7 +88,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
     }
     
     debugif(DEBUG_DIAG, printlog("-----\n"));
-    while (!exitCondition(b, mode2)) {
+    while (!exitCondition(b, mode)) {
         bool continua = false;
         for (stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {     // Semplificazione serie -> unità
             BehTrans *tentra, *tesce;
@@ -97,7 +102,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                 nt->t = tvuota;
                 nt->regex = tentra->regex;  // To save CPU I'm making the new regex right into tentra's
                 regexMake(tentra->regex, tesce->regex, tentra->regex, 'c', NULL);
-                if (mode2 && nt->to->id == ((int)b->nStates)-1) {
+                if (mode && nt->to->id == ((int)b->nStates)-1) {
                     if (tesce->marker != 0) nt->marker = tesce->marker;
                     else nt->marker = markerMap[stemp->id];
                     debugif(DEBUG_DIAG, printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->from->id], markerMap[nt->to->id], nt->marker))
@@ -128,7 +133,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                 struct ltrans *trans2, *nodoPrecedente = NULL;
                 foreachtr(trans2, stemp->transitions) {
                     if (trans1->t != trans2->t && trans1->t->from == trans2->t->from && trans1->t->to == trans2->t->to
-                    && (!mode2 || (mode2 &&trans2->t->marker == trans1->t->marker))) {
+                    && (!mode || (mode &&trans2->t->marker == trans1->t->marker))) {
                         regexMake(trans1->t->regex, trans2->t->regex, trans1->t->regex, 'a', NULL);
                         debugif(DEBUG_DIAG, printlog("Removed t with mark %d\n", trans2->t->marker))
                         freeRegex(trans2->t->regex);
@@ -192,7 +197,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
                             if (autoTransizione) regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'r', autoTransizione->regex);
                             else regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'c', NULL);
 
-                            if (mode2 && nt->to->id == ((int)b->nStates)-1) {
+                            if (mode && nt->to->id == ((int)b->nStates)-1) {
                                 if (trans2->t->marker != 0) nt->marker = trans2->t->marker;
                                 else nt->marker = markerMap[stemp->id];
                                 //nt->marker = markerMap[stemp->id];
@@ -212,7 +217,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, bool mode2) {
             }
         }
     }
-    if (mode2) {
+    if (mode) {
         foreachdecl(lt, b->states[0]->transitions)
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
     }

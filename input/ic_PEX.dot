@@ -1,0 +1,45 @@
+digraph "EXPinput/ic" {
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S0 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S1 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S2 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S3 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S4 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S5 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S6 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S7 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S8 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S9 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S10 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S11 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S12 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S13 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S14 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S15 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S16 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S17 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S18 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S19 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S20 [label=""];
+node [shape=circle width=0.3 height=0.3]; C0S21 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S22 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S23 [label=""];
+C0S0 -> C0S20 [label=t9]
+C0S0 -> C0S15 [label=t7]
+C0S0 -> C0S1 [label=t1a]
+C0S1 -> C0S13 [label=t9]
+C0S1 -> C0S2 [label=t7]
+C0S2 -> C0S11 [label=t9]
+C0S2 -> C0S3 [label=t3]
+C0S3 -> C0S7 [label=t9]
+C0S3 -> C0S4 [label=t1a]
+C0S4 -> C0S5 [label=t9]
+C0S5 -> C0S6 [label=t11g]
+C0S7 -> C0S8 [label=t11g]
+C0S7 -> C0S5 [label=t1a]
+C0S8 -> C0S9 [label=t15e]
+C0S8 -> C0S6 [label=t1a]
+C0S9 -> C0S10

@@ -3,15 +3,15 @@ node [style=filled fillcolor=white] compound=true
 subgraph cluster1 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C1_0;
 node [shape=circle];
-C1_0 -> C1_1 [label="t1R1"];
+C1_0 -> C1_1 [label="t1a"];
 C1_1 -> C1_0 [label="t2"];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
 node [shape=circle];
-C2_1 -> C2_0 [label="t3R2"];
+C2_1 -> C2_0 [label="t3b"];
 C2_0 -> C2_0 [label="t4"];
-C2_0 -> C2_1 [label="t5O1R3"];
+C2_0 -> C2_1 [label="t5O1c"];
 }
 C2_0 -> C1_0 [ltail=cluster2 lhead=cluster1 label="L1{}"];
 C1_0 -> C2_0 [ltail=cluster1 lhead=cluster2 label="L2{}"];

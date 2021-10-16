@@ -10,6 +10,7 @@ char * comBuf = "";
 char dot = '\0';
 bool benchmark = false;
 struct timeval beginT, endT;
+clock_t beginC;
 
 char getCommand(void) {
     char com;
@@ -63,7 +64,7 @@ int* impostaDatiOsservazione(unsigned short *loss) {
     return obs;
 }
 
-void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
+void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool diagnoser) {
     char digitazione[10];
     int oss, *obs=NULL, sizeofObs=0;
     unsigned short loss = 0;
@@ -89,7 +90,7 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
 
         interruptable({
             beginTimer
-            Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy);
+            Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy, diagnoser);
             if (updatedMonitor == NULL) break;
             monitor = updatedMonitor;
             endTimer
@@ -101,20 +102,20 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy) {
 }
 
 void menu(void) {
-    bool in = inputDES[0]!='\0', sc = false, exp = false, fixedObs = false;
+    bool in = inputDES[0]!='\0', sc = false, exp = false, diag = false;
     char op, doPrune, doRename;
     BehSpace *b = NULL;
     Explainer *explainer = NULL; 
     bool doneSomething = true;
     if (in) in = loadInputDes();
     while (true) {
-        bool allow_c = in & !exp & !fixedObs,
-            allow_o = in & !exp & !fixedObs,
-            allow_fg = in & !exp & !fixedObs,
-            allow_e = in & sc & !fixedObs & !exp,
-            allow_m = in & sc & exp & !fixedObs,
-            allow_d = in & sc & fixedObs,
-            allow_l = in & !exp & !fixedObs,
+        bool allow_c = in & !exp & !diag,
+            allow_o = in & !exp & !diag,
+            allow_fg = in & !exp & !diag,
+            allow_e = in & sc & !exp & !diag,
+            allow_m = in & sc & (exp | diag),
+            allow_d = in & sc & !diag & !exp,
+            allow_l = in & !exp & !diag,
             allow_i = !in;
         
         if (doneSomething) {
@@ -190,7 +191,6 @@ void menu(void) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
             unsigned short loss = 0;
             int * obs = impostaDatiOsservazione(&loss);
-            fixedObs = true;
             printf(MSG_GEN_SC);
             beginTimer
             interruptable(b = BehavioralSpace(NULL, obs, loss);)
@@ -212,6 +212,17 @@ void menu(void) {
                 printBehSpace(b, doRename==INPUT_Y, true, false);
                 endTimer
             }
+            printf(MSG_DIAG_EXEC);
+            beginTimer
+            interruptable(
+                Regex * diagnosis = diagnostics(b, 0)[0];
+                if (diagnosis->regex[0] == '\0') printf("%lc\n", eps);
+                else printf("%.10000s\n", diagnosis->regex);
+                freeBehSpace(b);
+                b = NULL;
+                sc = false;
+            )
+            endTimer
         }
         else if (allow_fg && (op=='f' || op=='g')) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
@@ -231,12 +242,11 @@ void menu(void) {
             if (loss==0 && op=='f') printf(MSG_INPUT_NOT_OBSERVATION);
             if (op=='g') printf(MSG_INPUT_UNKNOWN_TYPE);
             sc = true;
-            fixedObs = true;
         }
         else if (op=='e' && allow_e) {
             beginTimer
             interruptable(
-                explainer = makeExplainer(b);
+                explainer = makeExplainer(b, false);
                 freeBehSpace(b);
                 exp = true;
             )
@@ -244,29 +254,29 @@ void menu(void) {
             if (dot==INPUT_Y) printExplainer(explainer);
         }
         else if (op=='d' && allow_d) {
-            printf(MSG_DIAG_EXEC);
             beginTimer
             interruptable(
-                Regex * diagnosis = diagnostics(b, false)[0];
-                if (diagnosis->regex[0] == '\0') printf("%lc\n", eps);
-                else printf("%.10000s\n", diagnosis->regex);
+                explainer = makeExplainer(b, true);
                 freeBehSpace(b);
-                b = NULL;
-                sc = false;
-                fixedObs = false;
+                diag = true;
             )
             endTimer
+            if (dot==INPUT_Y) printExplainer(explainer);
         }
         else if (op=='m' && allow_m) {
-            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, false);
-            driveMonitoring(explainer, monitor, false);
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, false, diag);
+            driveMonitoring(explainer, monitor, false, diag);
         }
         else if (op=='l' && allow_l) {
-            exp = sc = true;
+            printf(MSG_LAZY_DIAG_EXP);
+            char choice = getCommand();
+            sc = true;
+            exp = choice == INPUT_Y;
+            diag = !exp;
             if (b != NULL) {freeBehSpace(b); b=NULL;}
-            explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL));
-            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true);
-            driveMonitoring(explainer, monitor, true);
+            explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL), diag);
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true, diag);
+            driveMonitoring(explainer, monitor, true, diag);
             if (dot==INPUT_Y) {
                 printExplainer(explainer);
                 printf(MSG_LAZY_EXPLAINER_DIFFERENCES);

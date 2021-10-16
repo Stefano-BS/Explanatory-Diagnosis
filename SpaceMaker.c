@@ -79,57 +79,58 @@ bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned s
     return false;
 }
 
-bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT precedente, BehState *RESTRICT nuovo, Trans *RESTRICT mezzo, unsigned short loss) {
+bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehState *RESTRICT new, Trans *RESTRICT mezzo, unsigned short loss) {
     unsigned int i;
-    bool giaPresente = false;
+    bool alredyPresent = false;
     BehState *s;
     if (b->nStates>0) {
         for (s=b->states[i=0]; i<b->nStates; s=(i<b->nStates ? b->states[++i] : s)) {
-            if (memcmp(nuovo->componentStatus, s->componentStatus, ncomp*sizeof(short)) == 0
-            && memcmp(nuovo->linkContent, s->linkContent, nlink*sizeof(short)) == 0) {
-                giaPresente = (loss>0 ? nuovo->obsIndex == s->obsIndex : true);
-                if (giaPresente) {
-                    freeBehState(nuovo); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
-                    nuovo = s;  // Non è solo una questione di prestazioni, ma di mantenimento relazione biunivoca ptr <-> id
+            if (memcmp(new->componentStatus, s->componentStatus, ncomp*sizeof(short)) == 0
+            && memcmp(new->linkContent, s->linkContent, nlink*sizeof(short)) == 0) {
+                alredyPresent = (loss>0 ? new->obsIndex == s->obsIndex : true);
+                if (alredyPresent) {
+                    freeBehState(new); // Questa istruzione previene la duplicazione in memoria di stati con stessa semantica
+                    new = s;  // Non è solo una questione di prestazioni, ma di mantenimento relazione biunivoca ptr <-> id
                     break;
                 }
             }
         }
     }
-    if (giaPresente) { // Già c'era lo stato, ma la transizione non è detto
-        struct ltrans * trans = precedente->transitions;
-        nuovo->id = s->id;
+    if (alredyPresent) { // Già c'era lo stato, ma la transizione non è detto
+        struct ltrans * trans = from->transitions;
+        new->id = s->id;
         while (trans != NULL) {
-            if (trans->t->to == nuovo && trans->t->t->id == mezzo->id) return false;
+            if (trans->t->to == new && trans->t->t->id == mezzo->id) return false;
             trans = trans->next;
         }
     } else { // Se lo stato è nuovo, ovviamente lo è anche la transizione che ci arriva
         alloc1(b, 's');
-        nuovo->id = b->nStates;
-        b->states[b->nStates++] = nuovo;
+        new->id = b->nStates;
+        b->states[b->nStates++] = new;
     }
     if (mezzo != NULL) { // Lo stato iniziale, ad esempio ha NULL
         BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
-        nuovaTransRete->to = nuovo;
-        nuovaTransRete->from = precedente;
+        nuovaTransRete->to = new;
+        nuovaTransRete->from = from;
         nuovaTransRete->t = mezzo;
         nuovaTransRete->regex = NULL;
 
         struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
         nuovaLTr->t = nuovaTransRete;
-        nuovaLTr->next = nuovo->transitions;
-        nuovo->transitions = nuovaLTr;
+        nuovaLTr->next = new->transitions;
+        new->transitions = nuovaLTr;
         
-        if (nuovo != precedente) {
+        if (new != from) {
             nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->next = precedente->transitions;
-            precedente->transitions = nuovaLTr;
+            nuovaLTr->next = from->transitions;
+            from->transitions = nuovaLTr;
         }
 
         b->nTrans++;
     }
-    return !giaPresente;
+    b->containsFinalStates |= (new->flags & FLAG_FINAL);
+    return !alredyPresent;
 }
 
 void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, int*RESTRICT obs, unsigned short loss) {
@@ -140,10 +141,10 @@ void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, int*
         unsigned short nT = c->nTrans;
         if (nT == 0) continue;
         for (t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
-            if (isTransEnabled(base, c, t, obs, loss)) {                                    // Checks okay, execution
+            if (isTransEnabled(base, c, t, obs, loss)) {                                // Checks okay, execution
                 BehState * newState = calculateDestination(base, t, c, obs, loss);
-                bool avanzamento = enlargeBehavioralSpace(b, base, newState, t, loss);      // Let's insert the new BehState & BehTrans in the BehSpace
-                if (avanzamento) generateBehavioralSpace(b, newState, obs, loss);           // If the BehSpace wasn't enlarged (state alredy present) we cut exploration, otherwise recursive call
+                bool added = enlargeBehavioralSpace(b, base, newState, t, loss);        // Let's insert the new BehState & BehTrans in the BehSpace
+                if (added) generateBehavioralSpace(b, newState, obs, loss);             // If the BehSpace wasn't enlarged (state alredy present) we cut exploration, otherwise recursive call
             }
         }
     }
@@ -185,14 +186,15 @@ void prune(BehSpace *RESTRICT b) {
     free(ok);
 }
 
-void decorateFaultSpace(FaultSpace * f) {
+void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
     bool mask[f->b->nStates];
     memset(mask, true, f->b->nStates);
     BehSpace *duplicated = dup(f->b, mask, false, NULL);
-    f->diagnosis = diagnostics(duplicated, true);
+    f->diagnosis = diagnostics(duplicated, 2);
     f->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*f->b->nTrans/5);
     bool firstShot=true;
     for (unsigned int k=0; k<f->b->nStates; k++) {
+        if (onlyFinals && !(f->b->states[k]->flags & FLAG_FINAL)) continue;
         if (firstShot) {
             firstShot = false;
             if (f->diagnosis[k] != NULL && f->diagnosis[k]->strlen>0) {
@@ -223,7 +225,7 @@ void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs
             faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i, ok);
 }
 
-FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs) {
+FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs, bool decorateOnlyFinals) {
     unsigned int k, index=0;
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     map->idMapFromOrigin = calloc(b->nStates, sizeof(int));
@@ -268,13 +270,13 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     for (k=0; k<b->nStates; k++)
         if (map->idMapFromOrigin[k] != -1) map->idMapToOrigin[map->idMapFromOrigin[k]] = k;
     
-    decorateFaultSpace(ret);
+    decorateFaultSpace(ret, decorateOnlyFinals);
     return ret;
 }
 
 doC11(int faultJob(void *RESTRICT params) {
     struct FaultSpaceParams*RESTRICT ps = (struct FaultSpaceParams*) params;
-    ps->ret[0] = faultSpace(ps->map, ps->b, ps->s, ps->obsTrs);
+    ps->ret[0] = faultSpace(ps->map, ps->b, ps->s, ps->obsTrs, ps->decorateOnlyFinals);
     return 0;
 })
 
@@ -282,7 +284,7 @@ doC11(int faultJob(void *RESTRICT params) {
     int nSpaces=0;
     BehTrans *** obsTrs;
     FaultSpace ** ret = faultSpaces(b, &nSpaces, &obsTrs);*/
-FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs) {
+FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b, unsigned int *RESTRICT nSpaces, BehTrans ****RESTRICT obsTrs, bool decorateOnlyFinals) {
     BehState * s;
     unsigned int i, j=0;
     *nSpaces = 1;
@@ -301,7 +303,7 @@ FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b,
         (*maps)[i] = malloc(sizeof(FaultSpaceMaps));
         (*obsTrs)[i] = calloc(b->nTrans, sizeof(BehTrans**));
     }
-    ret[0] = faultSpace((*maps)[0], b, b->states[0], (*obsTrs)[0]);
+    ret[0] = faultSpace((*maps)[0], b, b->states[0], (*obsTrs)[0], decorateOnlyFinals);
     doC11(
         thrd_t thr[*nSpaces];
         struct FaultSpaceParams params[*nSpaces];
@@ -310,13 +312,14 @@ FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b,
         foreachdecl(lt, s->transitions) {
             if (lt->t->to == s && lt->t->t->obs != 0) {
                 j++;
-                doC99(ret[j] = faultSpace((*maps)[j], b, s, (*obsTrs)[j]);)
+                doC99(ret[j] = faultSpace((*maps)[j], b, s, (*obsTrs)[j], decorateOnlyFinals);)
                 doC11(
                     params[j].ret = &ret[j];
                     params[j].b = b;
                     params[j].map = (*maps)[j];
                     params[j].s = s;
                     params[j].obsTrs = (*obsTrs)[j];
+                    params[j].decorateOnlyFinals = decorateOnlyFinals;
                     thrd_create(&(thr[j]), faultJob, &(params[j]));
                 )
                 break;
@@ -330,7 +333,7 @@ FaultSpace ** faultSpaces(FaultSpaceMaps ***RESTRICT maps, BehSpace *RESTRICT b,
     return ret;
 }
 
-FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base) {
+FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base, bool diagnoser) {
     int fakeObs[1] = {-1};
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     context = ret;
@@ -339,7 +342,7 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base) {
     ret->b = newBehSpace();
     enlargeBehavioralSpace(ret->b, NULL, base, NULL, 0);
     generateBehavioralSpace(ret->b, base, fakeObs, 1);  // FakeObs will prevent from expanding in any observable direction
-    decorateFaultSpace(ret);
+    decorateFaultSpace(ret, diagnoser);
     context = NULL;
     expWorkingOn = NULL;
     buildingTransCatalogue = false;

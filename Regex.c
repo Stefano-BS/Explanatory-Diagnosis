@@ -41,6 +41,17 @@ Regex * regexCpy(Regex *RESTRICT src) {
     return ret;
 }
 
+void regexCompile(Regex * r, unsigned short fault) {
+    if (fault>25) {
+        sprintf(r->regex, "%hu", fault);
+        r->strlen = 1+(unsigned int)ceilf(log10f((float)(fault+1)));;
+    }
+    else {r->regex[0] = 96 + fault;
+        r->regex[1] = 0;
+        r->strlen = 1;
+    }
+}
+
 INLINE(bool endsWith(Regex * s1, Regex *s2)) {
     return s1->strlen > s2->strlen ?
           strcmp(s1->regex+s1->strlen-s2->strlen, s2->regex)==0 : false;
@@ -215,7 +226,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 d->bracketed = true;
                 d->altDecomposable= s2->altDecomposable;
             }
-            else if ((s1->bracketed || s1->brkBrk4Alt) && (s2->bracketed || s2->brkBrk4Alt)) {
+            else if ((s1->bracketed || s1->brkBrk4Alt) && (s2->bracketed || s2->brkBrk4Alt)) { // Both s1 and s2 don't need brackets -> s1|s2
                 d->bracketed = false;
                 d->brkBrk4Alt = true;
                 if (d->altDecomposable==0) d->altDecomposable=1;
@@ -238,7 +249,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 }
                 else sprintf(regexBuf, "%s|%s", s1->regex, s2->regex);
             }
-            else if ((s1->bracketed || s1->brkBrk4Alt) && !s2->bracketed) {
+            else if ((s1->bracketed || s1->brkBrk4Alt) && !s2->bracketed) { // s2 needs brackets -> s1|(s2)
                 d->bracketed = false;
                 d->brkBrk4Alt = true;
                 if (d->altDecomposable==0) d->altDecomposable=1;
@@ -251,7 +262,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 }
                 else sprintf(regexBuf, "%s|(%s)", s1->regex, s2->regex);
             }
-            else if (!s1->bracketed && (s2->bracketed || s2->brkBrk4Alt)) {
+            else if (!s1->bracketed && (s2->bracketed || s2->brkBrk4Alt)) { // s1 needs brackets -> s2|(s1)
                 d->bracketed = false;
                 d->brkBrk4Alt = true;
                 if (d->altDecomposable==0) d->altDecomposable=1;
@@ -263,7 +274,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                     s2->strlen = solLen;
                 }
                 else sprintf(regexBuf, "(%s)|%s", s1->regex, s2->regex);
-            } else {
+            } else {                                                        // Both need brackets -> (s1)|(s2)
                 if (d->altDecomposable==0) d->altDecomposable=1;
                 sprintf(regexBuf, "(%s)|(%s)", s1->regex, s2->regex);
                 solLen = strl1+strl2+5;
@@ -271,7 +282,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
                 d->brkBrk4Alt = true;
             }
         }
-        else if (strl1 > 0 && strl2==0) {
+        else if (strl1 > 0 && strl2==0) { // s1|ε
             if (s1->altDecomposable) d->altDecomposable=2;
             solution = regexBuf;
             if (s1->concrete) {
@@ -292,11 +303,12 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
             }
             else {
                 solLen = strl1;
-                strcpy(regexBuf, s1->regex);
+                if (d->regex == s1->regex) solution = s1->regex;
+                else strcpy(regexBuf, s1->regex);
                 d->bracketed = s1->bracketed;
             }
             d->concrete = false;
-        } else if (strl2 > 0) {
+        } else if (strl2 > 0) { // ε|s2
             if (s2->altDecomposable) d->altDecomposable=2;
             solution = regexBuf;
             if (s2->concrete) {
@@ -324,7 +336,7 @@ void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
             }
             d->concrete = false;
         }
-        else {
+        else { // ε|ε
             doC11(mtx_unlock(&mutex);)
             if (d->regex == NULL) {
                 d->regex = calloc(REGEX, 1);

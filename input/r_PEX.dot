@@ -1,0 +1,51 @@
+digraph "EXPinput/r" {
+node [style=filled fillcolor=white]
+subgraph cluster0 {
+style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S0 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S1 [label=""];
+C0S0 -> C0S0 [label=t4]
+C0S0 -> C0S1 [label=t1a]
+C0S1 -> C0S1 [label=t4]
+C0S1 -> C0S0 [label=t2]
+}
+subgraph cluster1 {
+style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon width=0.3 height=0.3]; C1S0 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C1S1 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C1S2 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C1S3 [label=""];
+C1S0 -> C1S3 [label=t3b]
+C1S0 -> C1S1 [label=t2]
+C1S1 -> C1S2 [label=t3b]
+C1S1 -> C1S0 [label=t1a]
+C1S2 -> C1S2 [label=t4]
+C1S2 -> C1S3 [label=t1a]
+C1S3 -> C1S3 [label=t4]
+C1S3 -> C1S2 [label=t2]
+}
+subgraph cluster2 {
+style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
+edge[color=darkgray fontcolor=darkgray]
+node [shape=doubleoctagon width=0.3 height=0.3]; C2S0 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C2S1 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C2S2 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C2S3 [label=""];
+C2S0 -> C2S3 [label=t3b]
+C2S0 -> C2S1 [label=t1a]
+C2S1 -> C2S2 [label=t3b]
+C2S1 -> C2S0 [label=t2]
+C2S2 -> C2S2 [label=t4]
+C2S2 -> C2S3 [label=t2]
+C2S3 -> C2S3 [label=t4]
+C2S3 -> C2S2 [label=t1a]
+}
+C1S3 -> C1S0 [style=dashed arrowhead=vee label="O1c (a*ba)|(a*ab)a*"]
+C0S1 -> C1S0 [style=dashed arrowhead=vee label="O1c aa*"]
+C2S3 -> C2S0 [style=dashed arrowhead=vee label="O1c a+ba*"]
+C1S2 -> C2S0 [style=dashed arrowhead=vee label="O1c (a*ba)|(a*ab)a*|(a*b)"]
+C0S0 -> C2S0 [style=dashed arrowhead=vee label="O1c aa*"]
+C2S2 -> C1S0 [style=dashed arrowhead=vee label="O1c a+ba*a"]
+}

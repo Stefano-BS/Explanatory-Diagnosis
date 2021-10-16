@@ -4,14 +4,14 @@ subgraph cluster2 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
 node [shape=circle];
 C2_0 -> C2_1 [label="t1O2"];
-C2_1 -> C2_0 [label="t2R1"];
+C2_1 -> C2_0 [label="t2r"];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C3_0;
 node [shape=circle];
 C3_0 -> C3_1 [label="t3O3"];
 C3_1 -> C3_0 [label="t4"];
-C3_1 -> C3_1 [label="t5R2"];
+C3_1 -> C3_1 [label="t5f"];
 }
 C3_0 -> C2_0 [ltail=cluster3 lhead=cluster2 label="L2{}"];
 C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L3{}"];

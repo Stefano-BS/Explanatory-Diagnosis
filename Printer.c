@@ -68,8 +68,9 @@ void printDES(BehState * attuale, bool testuale) {
             if (testuale) printf(MSG_TRANS_DESCRIPTION, t->id, t->from, t->to, t->obs, t->fault);
             else {
                 fprintf(file, "C%d_%d -> C%d_%d [label=\"t%d", c->id, t->from, c->id, t->to, t->id);
-                if (t->obs>0) fprintf(file, "O%d", t->obs);
-                if (t->fault>0) fprintf(file, "R%d", t->fault);
+                if (t->obs>0) fprintf(file, "O%hu", t->obs);
+                if (t->fault>0 && t->fault<=25) fprintf(file, "%c", 96 + t->fault);
+                else if (t->fault>25) fprintf(file, "R%hu", t->fault);
                 fprintf(file, "\"];\n");
             }
             if (testuale & (t->idIncomingEvent == VUOTO)) printf(MSG_TRANS_DESCRIPTION2);
@@ -139,17 +140,19 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
                     if (rename) sprintf(ret+position, "C%dS%d -> C%dS%d [label=t%d", toString, i, toString, trans->t->to->id, trans->t->t->id);
                     else sprintf(ret+position, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
                     position += strlen(ret+position);
-                    if (trans->t->t->obs>0) sprintf(ret+position, "O%d", trans->t->t->obs);
+                    if (trans->t->t->obs>0) sprintf(ret+position, "O%hu", trans->t->t->obs);
                     position += strlen(ret+position);
-                    if (trans->t->t->fault>0) sprintf(ret+position, "R%d", trans->t->t->fault);
+                    if (trans->t->t->fault>0 && trans->t->t->fault<=25) sprintf(ret+position, "%c", 96 + trans->t->t->fault);
+                    else if (trans->t->t->fault>25) sprintf(ret+position, "R%hu", trans->t->t->fault);
                     position += strlen(ret+position);
                     sprintf(ret+position, "]\n");
                     position += strlen(ret+position);
                 } else {
                     if (rename) fprintf(file, "S%d -> S%d [label=t%d", i, trans->t->to->id, trans->t->t->id);
                     else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
-                    if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
-                    if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
+                    if (trans->t->t->obs>0) fprintf(file, "O%hu", trans->t->t->obs);
+                    if (trans->t->t->fault>0 && trans->t->t->fault<=25) fprintf(file, "%c", 96 + trans->t->t->fault);
+                    else if (trans->t->t->fault>25) fprintf(file, "R%hu", trans->t->t->fault);
                     fprintf(file, "]\n");
                 }
             }
@@ -212,8 +215,9 @@ void printExplainer(Explainer * exp) {
                 if (trans->t->from == s) {
                     if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[j], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
                     else fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, j, i, trans->t->to->id, trans->t->t->id);
-                    if (trans->t->t->obs>0) fprintf(file, "O%d", trans->t->t->obs);
-                    if (trans->t->t->fault>0) fprintf(file, "R%d", trans->t->t->fault);
+                    if (trans->t->t->obs>0) fprintf(file, "O%hu", trans->t->t->obs);
+                    if (trans->t->t->fault>0 && trans->t->t->fault<=25) fprintf(file, "%c", 96 + trans->t->t->fault);
+                    else if (trans->t->t->fault>25) fprintf(file, "R%hu", trans->t->t->fault);
                     fprintf(file, "]\n");
                 }
             }
@@ -230,9 +234,10 @@ void printExplainer(Explainer * exp) {
         }
         if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
             fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
-        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
+        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%hu",
             fromId, t->fromStateId, toId, t->toStateId, t->obs);
-        if (t->fault>0) fprintf(file, "R%d", t->fault);
+        if (t->fault>0 && t->fault<=25) fprintf(file, "%c", 96 + t->fault);
+        else if (t->fault>25) fprintf(file, "R%hu", t->fault);
         if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
         else fprintf(file, " %s\"]\n", t->regex->regex);
     }

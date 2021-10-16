@@ -249,12 +249,14 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
     BehSpace *dup = calloc(1, sizeof(BehSpace));    // Not using newBehSpace since knowing in advance exact target size
     dup->nStates = ns;                              // lets avoid realloc process and avoid wasting space
     dup->sizeofS = ns;
-    dup->states = calloc(ns, sizeof(BehState *));
+    dup->states = malloc(ns*sizeof(BehState *));
 
     BehState * s, * new;
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {    // Preallocate states to have valid pointers
-        if (mask[i]) dup->states[(*map)[i]] = calloc(1, sizeof(BehState));
-    }
+    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i])
+        if (mask[i]) {
+            dup->states[(*map)[i]] = calloc(1, sizeof(BehState));   // Preallocate states to have valid pointers
+            dup->containsFinalStates |= (s->flags & FLAG_FINAL);    // Calculate containing final states
+        }
     for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
         if (mask[i]) {
             new = dup->states[(*map)[i]];  // State information copy...

@@ -3,11 +3,11 @@
 bool **RESTRICT ok;
 Regex *temp = NULL;
 
-Explainer * makeExplainer(BehSpace *b) {
+Explainer * makeExplainer(BehSpace *b, bool diagnoser) {
     unsigned int i;
     BehTrans ***obsTrs;
     Explainer * exp = calloc(1, sizeof(Explainer));
-    exp->faults = faultSpaces(&(exp->maps), b, &(exp->nFaultSpaces), &obsTrs);
+    exp->faults = faultSpaces(&(exp->maps), b, &(exp->nFaultSpaces), &obsTrs, diagnoser);
     exp->sizeofFaults = exp->nFaultSpaces;
     FaultSpace *currentFault;
     for (currentFault=exp->faults[i=0]; i<exp->nFaultSpaces; currentFault=exp->faults[++i]) {
@@ -57,7 +57,7 @@ Explainer * makeExplainer(BehSpace *b) {
     return exp;
 }
 
-Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
+Explainer * makeLazyExplainer(Explainer *exp, BehState* base, bool diagnoser) {
     if (exp == NULL) {
         exp = calloc(1, sizeof(Explainer));
         unsigned int i, j, behSizeEsteem=0;
@@ -76,7 +76,7 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
         catalog.tList = calloc(catalog.length+1, sizeof(struct tList*));
     }
     alloc1(exp, 'f');                                           // Build the fault space rooted in base
-    FaultSpace * newFault = makeLazyFaultSpace(exp, base);
+    FaultSpace * newFault = makeLazyFaultSpace(exp, base, diagnoser);
     debugif(DEBUG_MON, printlog("Placing fault %p in position %d\n", newFault, exp->nFaultSpaces);)
     exp->faults[exp->nFaultSpaces++] = newFault;
     // Deal with transitions: save them right away with wild pointers, or keep a list of them?
@@ -140,7 +140,7 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base) {
     return exp;
 }
 
-void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
+void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs, bool diagnoser) {
     debugif(DEBUG_MON, printlog("Building on obs %d from fault %p\n", obs, fault);)
     //  for all x ∈ fault, (x, t, x') ∈ X* do
     //      Let fault' denote the fault space of x'
@@ -157,7 +157,7 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
                 unsigned int j;
                 for (BehState *x=fault->b->states[j=0]; j<fault->b->nStates; x=fault->b->states[++j]) {
                     if (behStateCompareTo(x, pt->t->from)) {
-                        makeLazyExplainer(exp, pt->t->to); // Not removing here the tList record because it will be removed inside makeLazyExplainer
+                        makeLazyExplainer(exp, pt->t->to, diagnoser); // Not removing here the tList record because it will be removed inside makeLazyExplainer
                         goto NEXT;
                     }
                 }
@@ -168,7 +168,7 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs) {
 }
 
 
-INLINE(void calcLout(MonitorState *RESTRICT const mu, short fault, FaultSpace * ptr)) {
+void calcLout(MonitorState *RESTRICT const mu, short fault, FaultSpace * ptr) {
     if (fault < 0) {
         for (fault=0; fault<mu->nExpStates; fault++)
             if (mu->expStates[fault] == ptr) break;
@@ -188,11 +188,12 @@ INLINE(void calcLout(MonitorState *RESTRICT const mu, short fault, FaultSpace * 
         }
 }
 
-INLINE(void calcLmu(MonitorState *RESTRICT const mu)) {
+void calcLmu(MonitorState *RESTRICT const mu, bool diagnoser) {
     int j;
     if (mu->lmu != NULL) freeRegex(mu->lmu);
     mu->lmu = emptyRegex(0);
     for (j=0; j< mu->nExpStates; j++) {
+        if (diagnoser && !mu->expStates[j]->b->containsFinalStates) continue;
         //calcLout(mu, j, NULL);
         regexMake(mu->lin[j], mu->lout[j], temp, 'c', NULL);
         if (j>0) regexMake(mu->lmu, temp, mu->lmu, 'a', NULL);
@@ -296,13 +297,13 @@ void pruneMonitoring(Monitoring * monitor) {
         if (somePruned) recalcLmu[i-1] = recalcLmu[i] = true; // Prune a state in μi causes recalc of L(μi) as well as of L(μi-1) because Lout in its states might change
     }
     for (i=0; i<mlen; i++) {
-        if (recalcLmu[i]) calcLmu(monitor->mu[i]);
+        if (recalcLmu[i]) calcLmu(monitor->mu[i], false);
         free(ok[i]);
     }
     free(ok);
 }
 
-Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, unsigned short loss, bool lazy) {
+Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, unsigned short loss, bool lazy, bool diagnoser) {
     assert((monitor == NULL && loss == 0) || (monitor->length == loss));
     if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
@@ -317,7 +318,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     //  end for
     if (lazy) {
         for (FaultSpace * fault=mu->expStates[i=0]; i<mu->nExpStates; fault=mu->expStates[++i])
-            buildFaultsReachedWithObs(exp, fault, obs[loss-1]);
+            buildFaultsReachedWithObs(exp, fault, obs[loss-1], diagnoser);
 
         debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
         debugif(DEBUG_MON, for(unsigned int l=0; l<catalog.length; l++) {
@@ -348,7 +349,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 MonitorTrans *RESTRICT mt = calloc(1, sizeof(MonitorTrans));
                 mt->from = mu_s;
                 mt->to = dest;
-                mt->l = regexCpy(te->regex); // copy necessary?
+                mt->l = te->regex ? regexCpy(te->regex) : emptyRegex(0); // copy necessary?
                 mt->lp = emptyRegex(0);
                 Regex * fault = empty;
                 if (loss>1) {
@@ -366,8 +367,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
                 }
                 if (te->fault) {
                     fault = emptyRegex(0);
-                    sprintf(fault->regex, "r%hu", te->fault);
-                    fault->strlen = 1+(int)ceilf(log10f(te->fault+1));
+                    regexCompile(fault, te->fault);
                     fault->concrete = true;
                 }
                 regexMake(mt->lp, mt->l, mt->lp, 'c', NULL);
@@ -403,7 +403,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     // Extend E by L(µ') based on Def. 7
     for (i=0; i< newmu->nExpStates; i++)
         newmu->lout[i] = regexCpy(newmu->expStates[i]->alternativeOfDiagnoses);
-    calcLmu(newmu);
+    calcLmu(newmu, diagnoser);
     // X ← the set of states in µ that are not exited by any arc
     // while X != ∅
     //      Remove from µ the states in X and their entering arcs
@@ -416,6 +416,6 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     // Update L(µ) in E based on Def. 7
     for (i=0; i< mu->nExpStates; i++)   // Because even if no pruning was done, the ex last µ
         calcLout(mu, i, NULL);          // still has L(µ) built on Louts made for a last µ
-    calcLmu(mu);
+    calcLmu(mu, false);
     return monitor;
 }

@@ -34,7 +34,7 @@
 #define DEBUG_MON           1 << 4
 #define DEBUG_DIAG          1 << 5
 
-#define beginTimer                  gettimeofday(&beginT, NULL); //timer = clock();
+#define beginTimer                  gettimeofday(&beginT, NULL); beginC = clock();
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    struct ltrans * lnode; foreachtr(lnode, from)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
@@ -125,8 +125,8 @@ struct ltrans {
 
 typedef struct {
     BehState **RESTRICT states;
-    size_t sizeofS;
-    unsigned int nStates, nTrans;
+    unsigned int sizeofS, nStates, nTrans;
+    bool containsFinalStates;
 } BehSpace;
 
 // EXPLAINER AND MONITORNING
@@ -177,6 +177,7 @@ struct FaultSpaceParams {
     FaultSpaceMaps *RESTRICT map;
     BehState *RESTRICT s;
     BehTrans **RESTRICT obsTrs;
+    bool decorateOnlyFinals;
 };
 
 // Global variables
@@ -221,19 +222,21 @@ void printMonitoring(Monitoring *, Explainer *);
 // SpaceMaker.c
 BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
 void prune(BehSpace *);
-FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **);
-FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****);
-FaultSpace * makeLazyFaultSpace(Explainer *, BehState *);
-// Diagnoser.c
+FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool);
+FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool);
+FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool);
+// Regex.c
 void freeRegex(Regex *);
 Regex * emptyRegex(unsigned int);
 Regex * regexCpy(Regex *);
+void regexCompile(Regex *, unsigned short);
 void regexMake(Regex*, Regex*, Regex*, char, Regex *);
-Regex** diagnostics(BehSpace *, bool);
+// Candidates.c
+Regex** diagnostics(BehSpace *, char);
 // Explainer.c
-Explainer * makeExplainer(BehSpace *);
-Explainer * makeLazyExplainer(Explainer *, BehState *);
-Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, bool);
+Explainer * makeExplainer(BehSpace *, bool);
+Explainer * makeLazyExplainer(Explainer *, BehState *, bool);
+Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, bool, bool);
 
 #ifndef LANG
     #define LANG 'e'
@@ -246,19 +249,19 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\____/\\__/\\____/_/   \\___/  /_/  |_\\____/\\__/\\____/_/ /_/ /_/_/\n"
     #define MSG_MENU_INTRO "\nMenu\tx: Esci\n\ts: Impostazioni\n"
     #define MSG_MENU_C "\tc: Genera Spazio Comportamentale\n"
-    #define MSG_MENU_O "\to: Genera Spazio Comportamentale relativo ad osservazione completa\n"
-    #define MSG_MENU_D "\td: Calcola una diagnosi su questa osservazione completa\n"
-    #define MSG_MENU_E "\te: Genera un Diagnosticatore\n"
+    #define MSG_MENU_O "\to: Calcola una diagnosi a posteriori relativa ad un'osservazione\n"
+    #define MSG_MENU_D "\td: Genera un Diagnosticatore\n"
+    #define MSG_MENU_E "\te: Genera un Esplicatore\n"
     #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
-    #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra del Diagnosticatore)\n"
+    #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra dell'Esplicatore/Diagnosticatore)\n"
     #define MSG_MENU_I "\ti: Fornire la descrizione del Sistema a Eventi Discreti in ingresso\n"
     #define MSG_MENU_K "\tk: Generare automaticamente un Sistema a Eventi Discreti\n"
     #define MSG_MENU_END "Scelta: "
     #define MSG_OBS "Fornire la sequenza di etichette. Per ogni numero, a capo o spazio, per terminare usa un carattere non numerico\n"
     #define MSG_DEF_AUTOMA "Indicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
-    #define MSG_PARS_DONE "Parsing effettuato...\n"
+    #define MSG_PARS_DONE "Scansione effettuata...\n"
     #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
     #define MSG_BENCH "Cronometrare le esecuzioni? (s/n)? "
@@ -299,7 +302,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST6 "\tmemcmp stato a: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp stato da: %d\n"
     #define MSG_MEMTEST8 "Trovata TransExpl da/per chiusura inesistente\n"
-    #define MSG_MEMTEST9 "Diagnosticatore: %d chiusure e %d transizioni\n"
+    #define MSG_MEMTEST9 "Esplicatore: %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST10 "La transizione %d non è osservabile\n"
     #define MSG_MEMTEST11 "La chiusura %d ha mapToOrigin -1 in posizione %d\n"
     #define MSG_MEMTEST12 "Chiusura %d: trovato che mapFrom[mapTo[%d]] != %d\n"
@@ -311,9 +314,10 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
-    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Diagnosticatore parziale stampato. Potrebbe mostrare, rispetto al Diagnosticatore completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
+    #define MSG_LAZY_DIAG_EXP "Esplicatore pigro (s) o Diagnosticatore pigro (n)? "
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Esplicatore/Diagnosticatore parziale stampato. Potrebbe mostrare, rispetto al Esplicatore/Diagnosticatore completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
     #define MSG_BEFORE_EXIT "\a\nTerminare? "
-    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
+    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs, Tempo CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
 #elif LANG=='e'
     #define INPUT_Y 'y'
     #define MSG_YES "yes"
@@ -321,12 +325,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define LOGO "  ___        _                        _          _____                    _             \n / _ \\      | |                      | |        |  ___|                  | |            \n/ /_\\ \\_   _| |_ ___  _ __ ___   __ _| |_ __ _  | |____  _____  ___ _   _| |_ ___  _ __ \n|  _  | | | | __/ _ \\| '_ ` _ \\ / _` | __/ _` | |  __\\ \\/ / _ \\/ __| | | | __/ _ \\| '__|\n| | | | |_| | || (_) | | | | | | (_| | || (_| | | |___>  <  __/ (__| |_| | || (_) | |   \n\\_| |_/\\__,_|\\__\\___/|_| |_| |_|\\__,_|\\__\\__,_| \\____/_/\\_\\___|\\___|\\__,_|\\__\\___/|_|\n"
     #define MSG_MENU_INTRO "\nMenu\tx: Exit\n\ts: Settings\n"
     #define MSG_MENU_C "\tc: Generate Behavioral Space\n"
-    #define MSG_MENU_O "\to: Generate Behavioral Space relative to a full observation\n"
-    #define MSG_MENU_D "\td: Calculate diagnosis over this full observation\n"
+    #define MSG_MENU_O "\to: Calculate a posteriori diagnosis relative to an observation\n"
+    #define MSG_MENU_D "\td: Generate Diagnoser\n"
     #define MSG_MENU_E "\te: Generate Explainer\n"
     #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral Space from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
-    #define MSG_MENU_L "\tl: Start monitoring procedure (lazy Explainer compilation)\n"
+    #define MSG_MENU_L "\tl: Start monitoring procedure (lazy Explainer/Diagnoser compilation)\n"
     #define MSG_MENU_I "\ti: Provide DES input description\n"
     #define MSG_MENU_K "\tk: Generate automatically a DES\n"
     #define MSG_MENU_END "Your choice: "
@@ -386,13 +390,84 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
-    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy Explainer printed. Note that it may contain (in comparison to the full Explainer) more states and transitions (within fault spaces) due to unfeasible pruning.\n"
+    #define MSG_LAZY_DIAG_EXP "Lazy Explainer (y) or lazy Diagnoser (n)? "
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy Explainer/Diagnoser printed. Note that it may contain (in comparison to the full Explainer/Diagnoser) more states and transitions (within fault spaces) due to unfeasible pruning.\n"
     #define MSG_BEFORE_EXIT "\a\nExit? "
-    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000);}
+    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs, CPU time: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
+#elif LANG == 's'
+    #define INPUT_Y 's'
+    #define MSG_YES "si"
+    #define MSG_NO "no"
+    #define LOGO " _____ _                 _              _             _         ___        _                   _\n|  ___(_)               | |            | |           | |       / _ \\      | |                 | |\n| |__  _  ___  ___ _   _| |_ __ _ _ __ | |_ ___    __| | ___  / /_\\ \\_   _| |_ _ __ ___   __ _| |_ __ _ ___ \n|  __|| |/ _ \\/ __| | | | __/ _` | '_ \\| __/ _ \\  / _` |/ _ \\ |  _  | | | | __| '_ ` _ \\ / _` | __/ _` / __|\n| |___| |  __/ (__| |_| | || (_| | | | | ||  __/ | (_| |  __/ | | | | |_| | |_| | | | | | (_| | || (_| \\__ \\\n\\____/| |\\___|\\___|\\__,_|\\__\\__,_|_| |_|\\__\\___|  \\__,_|\\___| \\_| |_/\\__,_|\\__|_| |_| |_|\\__,_|\\__\\__,_|___/\n     _/ |\n    |__/\n"
+    #define MSG_MENU_INTRO "\nMenù\tx: Salida\n\ts: Configuración\n"
+    #define MSG_MENU_C "\tc: Generar Espacio de Comportamiento\n"
+    #define MSG_MENU_O "\to: Calcula un diagnóstico a posteriori de una observación\n"
+    #define MSG_MENU_D "\td: Generar un Diagnosticador\n"
+    #define MSG_MENU_E "\te: Generar un Explicativo\n"
+    #define MSG_MENU_FG "\tf: Cargar Espacio de Comportamiento desde archivo\n\tg: Cargar Espacio de Comportamiento desde archivo (estados renombrados)\n"
+    #define MSG_MENU_M "\tm: Iniciar el proceso de monitoreo\n"
+    #define MSG_MENU_L "\tl: Iniciar el proceso de monitoreo (compilación perezosa del Explicador o Diagnosticador)\n"
+    #define MSG_MENU_I "\ti: Proporcionar una descripción del sistema de eventos discretos entrante\n"
+    #define MSG_MENU_K "\tk: Generar automáticamente un sistema de eventos discretos\n"
+    #define MSG_MENU_END "Elección: "
+    #define MSG_OBS "Proporcione la secuencia de etiquetas. Para cada número, retorno de carro o espacio, utilice un carácter no numérico para finalizar\n"
+    #define MSG_DEF_AUTOMA "Indique el archivo que contiene la definición del autómata: "
+    #define MSG_NO_FILE "Archivo \"%s\" inexistente!\n"
+    #define MSG_PARS_DONE "Escaneo realizado...\n"
+    #define MSG_NET_PARAMS "Proporcione los parámetros que debe seguir el generador: ingrese una lista intercalada con espacios. Las proporciones son fraccionarias, las otras son enteros cortos sin signo.\nNúmero de componentes, Estados medios por componente, Fracción de conexión interna, Fracción de conexión externa (enlaces), Fracción de observabilidad, Fracción de relevancia, Rango de observabilidad, Rango de relevancia, Fracción de eventos, Rango de eventos\n"
+    #define MSG_DOT "Guardar gráficos como .dot (s), imprimir texto (t) o sin salida (n)? "
+    #define MSG_BENCH "Cronometrar ejecuciones? (s/n)? "
+    #define MSG_DOT_INPUT "Indicar el archivo dot generado que contiene el Espacio de Comportamiento: "
+    #define MSG_INPUT_NOT_OBSERVATION "El espacio no corresponde a una observación lineal, por lo tanto no se recomienda utilizarlo para el diagnóstico.\n"
+    #define MSG_INPUT_UNKNOWN_TYPE "No es posible determinar si el espacio importado se deriva de una observación lineal: hacer un diagnóstico solo si es así.\n"
+    #define MSG_GEN_SC "Generación espacio de comportamiento...\n"
+    #define MSG_POTA "Realizar podas (s/n)? "
+    #define MSG_POTA_RES "Podadas %d estados y %d transiciones\n"
+    #define MSG_SC_RES "Espacio generado: contiene %d estados y %d transiciones\n"
+    #define MSG_RENAME_STATES "Cambiar el nombre de los estados con su identificador (s/n)? "
+    #define MSG_DIAG_EXEC "Realizo diagnósticos... \n"
+    #define MSG_ACTUAL_STRUCTURES "\nEstructuras de datos actuales:\n"
+    #define MSG_COMP_DESCRIPTION "Componente id:%d, tienes %d estados (activo: %d) y %d transiciones:\n"
+    #define MSG_TRANS_DESCRIPTION "\tTransicione id:%d va desde %d a %d, observable: %d, defectuosa: %d,"
+    #define MSG_TRANS_DESCRIPTION2 " no hay eventos entrantes,"
+    #define MSG_TRANS_DESCRIPTION3 " evento entrante: %d en el enlace %d,"
+    #define MSG_TRANS_DESCRIPTION4 " sin eventos salientes.\n"
+    #define MSG_TRANS_DESCRIPTION5 " eventos salientes:\n"
+    #define MSG_TRANS_DESCRIPTION6 "\t\tEvento %d en el enlace id:%d\n"
+    #define MSG_LINK_DESCRIPTION1 "Enlace id:%d, vacío, conecta %d a %d\n"
+    #define MSG_LINK_DESCRIPTION2 "Enlace id:%d, contiene el evento %d, conecta %d a %d\n"
+    #define MSG_END_STATE_DESC "Fin del contenido. Estado final: %s\n"
+    #define MSG_SOBSTITUTION_LIST "Lista de sustituciones de nombres de estado:\n"
+    #define MSG_PARSERR_NOENDLINE "Línea %d - Terminador de línea esperado\n"
+    #define MSG_PARSERR_TOKEN "Línea %d - Carácter inesperado: %c (esperado: %c)\n"
+    #define MSG_PARSERR_LINE "Línea incorrecta: %s\n"
+    #define MSG_PARSERR_TRANS_NOT_FOUND "Error: transición %d no encontrado\n"
+    #define MSG_COMP_NOT_FOUND "Error: componente con id %d no encontrado\n"
+    #define MSG_LINK_NOT_FOUND "Error: enlace con id %d no encontrado\n"
+    #define MSG_MEMERR "Error de asignación de memoria!\n"
+    #define MSG_STATE_ANOMALY "Anomalía en el estado %d\n"
+    #define MSG_MEMTEST1 "Espacio de Comportamiento: %d estados y %d transiciones\n"
+    #define MSG_MEMTEST2 "El estado %d no es coherente con su identificador %d\n"
+    #define MSG_MEMTEST3 "El estado %d tiene tr de id %d a id %d\n"
+    #define MSG_MEMTEST4 "El estado id %d, cerca %p tiene una transición que no apunta a sí misma: "
+    #define MSG_MEMTEST5 "de %p (id %d) a %p (id %d)\n"
+    #define MSG_MEMTEST6 "\tmemcmp estado a: %d\n"
+    #define MSG_MEMTEST7 "\tmemcmp estado de: %d\n"
+    #define MSG_MEMTEST8 "Encontró una TransExpl da/a cierre inexistente\n"
+    #define MSG_MEMTEST9 "Explicador: %d cierres y %d transiciones\n"
+    #define MSG_MEMTEST10 "La transición %d no es observable\n"
+    #define MSG_MEMTEST11 "El cierre %d tiene mapToOrigin -1 in en lugar %d\n"
+    #define MSG_MEMTEST12 "Cierre %d: encontró que mapFrom[mapTo[%d]] != %d\n"
+    #define MSG_MEMTEST13 "Monitorización: %u estados\n"
+    #define MSG_MEMTEST14 "Estado de monitoreo %d: %d cierres y %d transiciones\n"
+    #define MSG_MEMTEST15 "Detectado en el estado de monitoreo %d un cierre sin arcos salientes\n"
+    #define MSG_MEMTEST16 "Detectado en el estado de monitoreo %d un cierre sin arcos entrantes\n"
+    #define MSG_EXP_FAULT_NOT_FOUND "No se pudo encontrar un cierre objetivo de una transición\n"
+    #define MSG_MONITORING_RESULT "\nTraza de diagnósticos:\n"
+    #define MSG_NEXT_OBS "Proporcione la siguiente observación: "
+    #define MSG_LAZY_DIAG_EXP "Explicador perezoso (s) o Diagnosticador perezoso (n)? "
+    #define MSG_IMPOSSIBLE_OBS "La última observación dada no es consistente con las estructuras de datos\n"
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Explicador/Diagnosticador parcial impreso. Podría mostrar, en comparación con el Explicador/Diagnosticador completo, más estados y transiciones (internas a los cierres) debido a la poda imposible.\n"
+    #define MSG_BEFORE_EXIT "\a\nInterrumpir? "
+    #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTiempo: %lfs, Tiempo de CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
 #endif
-
-/*
-#define endTimer if (benchmark) printf("\tTime: %fs\n", ((float)(clock() - timer))/CLOCKS_PER_SEC);
-#define MSG_DIAG "Eseguire una diagnosi su questa osservazione (s/n)? "
-#define MSG_DIAG "Calculate a diagnosis upon this observation (y/n)? "
-*/
