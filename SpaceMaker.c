@@ -172,9 +172,8 @@ void prune(BehSpace *RESTRICT b) {
     unsigned int i;
     ok = calloc(b->nStates, sizeof(bool));
     ok[0] = true;
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
+    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i])
         if (s->flags & FLAG_FINAL) pruneRec(s);
-    }
     
     for (i=0; i<b->nStates; i++) {
         if (!ok[i]) {
@@ -347,4 +346,18 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base, bool diagno
     expWorkingOn = NULL;
     buildingTransCatalogue = false;
     return ret;
+}
+
+BehSpace * uncompiledMonitoring(BehSpace * b, int * obs, unsigned short loss) {
+    for (unsigned int i=0; i<b->nStates; i++)
+        b->states[i]->flags &= !FLAG_FINAL;
+    for (unsigned int i=0; i<b->nStates; i++)
+        generateBehavioralSpace(b, b->states[i], obs, loss);
+    if (loss) prune(b);
+    else for (unsigned int i=0; i<b->nStates; i++) {
+        b->states[i]->flags = FLAG_FINAL;
+        for (unsigned short j=0; j<nlink; j++)
+            b->states[i]->flags &= (b->states[i]->linkContent[i] == VUOTO);
+    }
+    return b;
 }

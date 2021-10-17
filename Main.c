@@ -21,6 +21,7 @@ char getCommand(void) {
 
 static void beforeExit(int signo) {
     printf(MSG_BEFORE_EXIT);
+    printf("(%d) ", signo);
     char close = getCommand();
     if (close == INPUT_Y) exit(0);
     signal(SIGINT, beforeExit);
@@ -74,7 +75,7 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
             unsigned short i;
             for (i=0; i<=loss; i++)
                 if (monitor->mu[i]->lmu->regex[0]=='\0') printf("%lc%d:\t%lc\n", mu, i, eps);
-                else printf("%lc%d:\t%.1000s\n", mu, i, monitor->mu[i]->lmu->regex);
+                else printf("%lc%d:\t%.5000s\n", mu, i, monitor->mu[i]->lmu->regex);
         })
 
         if (dot==INPUT_Y) printMonitoring(monitor, explainer);
@@ -116,6 +117,7 @@ void menu(void) {
             allow_m = in & sc & (exp | diag),
             allow_d = in & sc & !diag & !exp,
             allow_l = in & !exp & !diag,
+            allow_n = in & !exp & !diag,
             allow_i = !in;
         
         if (doneSomething) {
@@ -127,6 +129,7 @@ void menu(void) {
             if (allow_m) printf(MSG_MENU_M);
             if (allow_d) printf(MSG_MENU_D);
             if (allow_l) printf(MSG_MENU_L);
+            if (allow_n) printf(MSG_MENU_N);
             if (allow_i) printf(MSG_MENU_I);
             if (allow_i) printf(MSG_MENU_K);
             printf(MSG_MENU_END);
@@ -215,9 +218,15 @@ void menu(void) {
             printf(MSG_DIAG_EXEC);
             beginTimer
             interruptable(
-                Regex * diagnosis = diagnostics(b, 0)[0];
-                if (diagnosis->regex[0] == '\0') printf("%lc\n", eps);
-                else printf("%.10000s\n", diagnosis->regex);
+                Regex ** diagnosis = diagnostics(b, 0);
+                if (diagnosis) {
+                    if (diagnosis[0]->regex[0] == '\0') printf("%lc\n", eps);
+                    else {
+                        printf("%.10000s\n", diagnosis[0]->regex);
+                        freeRegex(diagnosis[0]);
+                    }
+                }
+                else printf("%lc\n", eps);
                 freeBehSpace(b);
                 b = NULL;
                 sc = false;
@@ -281,6 +290,62 @@ void menu(void) {
                 printExplainer(explainer);
                 printf(MSG_LAZY_EXPLAINER_DIFFERENCES);
             }
+        }
+        else if (op=='n' && allow_n) {
+            if (b != NULL) {freeBehSpace(b); b=NULL;}
+            sc = false;
+            beginTimer
+            int fakeObs[1] = {-1};
+            b = BehavioralSpace(generateBehState(NULL, NULL), fakeObs, 1);
+            char digitazione[10];
+            int oss, *obs=NULL, sizeofObs=0;
+            unsigned short loss = 0;
+            printf(MSG_OBS);
+            while (true) {
+                interruptable(
+                    bool mask[b->nStates];
+                    memset(mask, true, b->nStates);
+                    BehSpace * duplicated = dup(b, mask, false, NULL);
+                    prune(duplicated);
+                    Regex ** diagnosis = diagnostics(duplicated, 0);
+                    endTimer
+                    if (diagnosis) {
+                        if (diagnosis[0]->regex[0] == '\0') printf("%lc\n", eps);
+                        else {
+                            printf("%.10000s\n", diagnosis[0]->regex);
+                            ndebugif(DEBUG_MON, freeRegex(diagnosis[0]));
+                        }
+                    }
+                    else printf("%lc\n", eps);
+                    freeBehSpace(duplicated);
+                    debugif(DEBUG_MON, 
+                        if (diagnosis && diagnosis[0]->regex[0] != '\0') {
+                            BehSpace* sp = BehavioralSpace(NULL, loss ? obs : fakeObs, loss ? loss : 1);
+                            prune(sp);
+                            Regex ** diag2 = diagnostics(sp, 0);
+                            char * diag = diag2? diag2[0]->regex : "";
+                            printf("%s\n", diag);
+                            printlog("Diag equals: %s\n", strcmp(diagnosis[0]->regex, diag) ? "false" : "true");
+                    })
+                )
+                printf(MSG_NEXT_OBS);
+                scanf("%9s", digitazione);
+                oss = atoi(digitazione);
+                if (oss <= 0) break;
+                if (loss+1 > sizeofObs) {
+                    sizeofObs += 5;
+                    obs = realloc(obs, sizeofObs*sizeof(int));
+                }
+                obs[loss++] = oss;
+                interruptable({
+                    beginTimer
+                    b = uncompiledMonitoring(b, obs, loss);
+                })
+            }
+            printf(MSG_IMPOSSIBLE_OBS);
+            freeBehSpace(b);
+            b = NULL;
+            free(obs);
         }
         else {
             printf("\a");

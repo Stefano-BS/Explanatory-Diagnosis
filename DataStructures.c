@@ -153,7 +153,7 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
     else memset(s->componentStatus, 0, ncomp*sizeof(short));
     s->flags = FLAG_FINAL;
-    for (int i=0; i<nlink; i++)
+    for (unsigned short i=0; i<nlink; i++)
         s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
     return s;
 }
@@ -232,7 +232,7 @@ void freeBehState(BehState *s) {
 /* Call like:
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
-    BehSpace * duplicated = dup(b, mask, false); */
+    BehSpace * duplicated = dup(b, mask, false, NULL); */
 BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT map) {
     unsigned int i;
     int ns = 0;

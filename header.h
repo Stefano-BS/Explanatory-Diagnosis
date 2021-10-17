@@ -49,11 +49,13 @@
 #if DEBUG_MODE
     #define printlog(...)           printf(__VA_ARGS__)
     #define debugif(mode, action)   if ((DEBUG_MODE & mode) == mode) action;
+    #define ndebugif(...)
     #define INLINE(f)               f
     #define RESTRICT
 #else
     #define printlog(...)
     #define debugif(...)
+    #define ndebugif(mode, action)  if ((DEBUG_MODE & mode) == 0) action;
     #define INLINE(f)               inline f __attribute__((always_inline)); inline f
     #define RESTRICT                restrict
     #define NDEBUG
@@ -129,7 +131,7 @@ typedef struct {
     bool containsFinalStates;
 } BehSpace;
 
-// EXPLAINER AND MONITORNING
+// EXPLAINER AND DIAGNOSER
 typedef struct {
     int *RESTRICT idMapToOrigin, * idMapFromOrigin, *RESTRICT exitStates;
 } FaultSpaceMaps;
@@ -153,6 +155,7 @@ typedef struct {
     unsigned int nFaultSpaces, nTrans, sizeofTrans, sizeofFaults;
 } Explainer;
 
+// MONITORING
 typedef struct {
     FaultSpace * from, * to;
     Regex *l, *lp;
@@ -225,6 +228,7 @@ void prune(BehSpace *);
 FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool);
 FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool);
 FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool);
+BehSpace * uncompiledMonitoring(BehSpace *, int *, unsigned short);
 // Regex.c
 void freeRegex(Regex *);
 Regex * emptyRegex(unsigned int);
@@ -242,19 +246,33 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define LANG 'e'
 #endif
 
+#ifdef ABBR
+    #define ABBR_BEH "χ"
+    #define ABBR_EXP "𝓔"
+    #define ABBR_DIAG "𝓓"
+    #define ABBR_MON "𝜧"
+#endif
+
 #if LANG == 'i'
+    #ifndef ABBR
+        #define ABBR_BEH "Spazio Comportamentale"
+        #define ABBR_EXP "Esplicatore"
+        #define ABBR_DIAG "Diagnosticatore"
+        #define ABBR_MON "Monitoraggio"
+    #endif
     #define INPUT_Y 's'
     #define MSG_YES "si"
     #define MSG_NO "no"
     #define LOGO "    ______                     __                     ___         __                  _\n   / ____/_______  _______  __/ /_____  ________     /   | __  __/ /_____  ____ ___  (_)\n  / __/ / ___/ _ \\/ ___/ / / / __/ __ \\/ ___/ _ \\   / /| |/ / / / __/ __ \\/ __ `__ \\/ /\n / /___(__  )  __/ /__/ /_/ / /_/ /_/ / /  /  __/  / ___ / /_/ / /_/ /_/ / / / / / / /\n/_____/____/\\___/\\___/\\____/\\__/\\____/_/   \\___/  /_/  |_\\____/\\__/\\____/_/ /_/ /_/_/\n"
     #define MSG_MENU_INTRO "\nMenu\tx: Esci\n\ts: Impostazioni\n"
-    #define MSG_MENU_C "\tc: Genera Spazio Comportamentale\n"
+    #define MSG_MENU_C "\tc: Genera " ABBR_BEH "\n"
     #define MSG_MENU_O "\to: Calcola una diagnosi a posteriori relativa ad un'osservazione\n"
-    #define MSG_MENU_D "\td: Genera un Diagnosticatore\n"
-    #define MSG_MENU_E "\te: Genera un Esplicatore\n"
-    #define MSG_MENU_FG "\tf: Carica Spazio Comportamentale da file\n\tg: Carica Spazio Comportamentale da file (stati rinominati)\n"
+    #define MSG_MENU_D "\td: Genera un "ABBR_DIAG"\n"
+    #define MSG_MENU_E "\te: Genera un "ABBR_EXP"\n"
+    #define MSG_MENU_FG "\tf: Carica " ABBR_BEH " da file\n\tg: Carica " ABBR_BEH " da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
-    #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra dell'Esplicatore/Diagnosticatore)\n"
+    #define MSG_MENU_N "\tn: Avvia processo di monitoraggio (senza conoscenza compilata)\n"
+    #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra dell'"ABBR_EXP"/"ABBR_DIAG")\n"
     #define MSG_MENU_I "\ti: Fornire la descrizione del Sistema a Eventi Discreti in ingresso\n"
     #define MSG_MENU_K "\tk: Generare automaticamente un Sistema a Eventi Discreti\n"
     #define MSG_MENU_END "Scelta: "
@@ -265,10 +283,10 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
     #define MSG_BENCH "Cronometrare le esecuzioni? (s/n)? "
-    #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo spazio comportamentale: "
+    #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
     #define MSG_INPUT_UNKNOWN_TYPE "Non e' possibile stabilire se lo spazio importato sia derivante da un'osservazione lineare: eseguire una diagnosi solo in caso affermativo\n"
-    #define MSG_GEN_SC "Generazione spazio comportamentale...\n"
+    #define MSG_GEN_SC "Generazione "ABBR_BEH"...\n"
     #define MSG_POTA "Effettuare potatura (s/n)? "
     #define MSG_POTA_RES "Potati %d stati e %d transizioni\n"
     #define MSG_SC_RES "Generato lo spazio: conta %d stati e %d transizioni\n"
@@ -294,7 +312,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Errore: link con id %d non trovato\n"
     #define MSG_MEMERR "Errore di allocazione memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalia nello stato %d\n"
-    #define MSG_MEMTEST1 "Spazio Comportamentale: %d stati e %d transizioni\n"
+    #define MSG_MEMTEST1 ABBR_BEH ": %d stati e %d transizioni\n"
     #define MSG_MEMTEST2 "Lo stato %d non è coerente col proprio id %d\n"
     #define MSG_MEMTEST3 "Lo stato %d ha tr dall'id %d all'id %d\n"
     #define MSG_MEMTEST4 "Lo stato id %d, presso %p ha transizione che non punta a sé: "
@@ -302,35 +320,42 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST6 "\tmemcmp stato a: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp stato da: %d\n"
     #define MSG_MEMTEST8 "Trovata TransExpl da/per chiusura inesistente\n"
-    #define MSG_MEMTEST9 "Esplicatore: %d chiusure e %d transizioni\n"
+    #define MSG_MEMTEST9 ABBR_EXP": %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST10 "La transizione %d non è osservabile\n"
     #define MSG_MEMTEST11 "La chiusura %d ha mapToOrigin -1 in posizione %d\n"
     #define MSG_MEMTEST12 "Chiusura %d: trovato che mapFrom[mapTo[%d]] != %d\n"
-    #define MSG_MEMTEST13 "Monitoraggio: %u stati\n"
+    #define MSG_MEMTEST13 ABBR_MON": %u stati\n"
     #define MSG_MEMTEST14 "Stato di monitoraggio %d: %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
     #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
-    #define MSG_MONITORING_RESULT "\nTraccia delle diagnosi:\n"
+    #define MSG_MONITORING_RESULT "\n"ABBR_MON" (traccia delle diagnosi):\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
-    #define MSG_LAZY_DIAG_EXP "Esplicatore pigro (s) o Diagnosticatore pigro (n)? "
-    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Esplicatore/Diagnosticatore parziale stampato. Potrebbe mostrare, rispetto al Esplicatore/Diagnosticatore completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
+    #define MSG_LAZY_DIAG_EXP ABBR_EXP" pigro (s) o "ABBR_DIAG" pigro (n)? "
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES ABBR_EXP"/"ABBR_DIAG" parziale stampato. Potrebbe mostrare, rispetto al "ABBR_EXP"/"ABBR_DIAG" completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
     #define MSG_BEFORE_EXIT "\a\nTerminare? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs, Tempo CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
 #elif LANG=='e'
+    #ifndef ABBR
+        #define ABBR_BEH "Behavioral Space"
+        #define ABBR_EXP "Explainer"
+        #define ABBR_DIAG "Diagnoser"
+        #define ABBR_MON "Monitoring"
+    #endif
     #define INPUT_Y 'y'
     #define MSG_YES "yes"
     #define MSG_NO "no"
     #define LOGO "  ___        _                        _          _____                    _             \n / _ \\      | |                      | |        |  ___|                  | |            \n/ /_\\ \\_   _| |_ ___  _ __ ___   __ _| |_ __ _  | |____  _____  ___ _   _| |_ ___  _ __ \n|  _  | | | | __/ _ \\| '_ ` _ \\ / _` | __/ _` | |  __\\ \\/ / _ \\/ __| | | | __/ _ \\| '__|\n| | | | |_| | || (_) | | | | | | (_| | || (_| | | |___>  <  __/ (__| |_| | || (_) | |   \n\\_| |_/\\__,_|\\__\\___/|_| |_| |_|\\__,_|\\__\\__,_| \\____/_/\\_\\___|\\___|\\__,_|\\__\\___/|_|\n"
     #define MSG_MENU_INTRO "\nMenu\tx: Exit\n\ts: Settings\n"
-    #define MSG_MENU_C "\tc: Generate Behavioral Space\n"
+    #define MSG_MENU_C "\tc: Generate "ABBR_BEH"\n"
     #define MSG_MENU_O "\to: Calculate a posteriori diagnosis relative to an observation\n"
-    #define MSG_MENU_D "\td: Generate Diagnoser\n"
-    #define MSG_MENU_E "\te: Generate Explainer\n"
-    #define MSG_MENU_FG "\tf: Load Behavioral Space from file\n\tg: Load Behavioral Space from file (states renamed)\n"
+    #define MSG_MENU_D "\td: Generate "ABBR_DIAG"\n"
+    #define MSG_MENU_E "\te: Generate "ABBR_EXP"\n"
+    #define MSG_MENU_FG "\tf: Load "ABBR_BEH" from file\n\tg: Load "ABBR_BEH" from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
-    #define MSG_MENU_L "\tl: Start monitoring procedure (lazy Explainer/Diagnoser compilation)\n"
+    #define MSG_MENU_N "\tn: Start monitoring procedure (without compiled knowledge)\n"
+    #define MSG_MENU_L "\tl: Start monitoring procedure (lazy "ABBR_EXP"/"ABBR_DIAG" compilation)\n"
     #define MSG_MENU_I "\ti: Provide DES input description\n"
     #define MSG_MENU_K "\tk: Generate automatically a DES\n"
     #define MSG_MENU_END "Your choice: "
@@ -341,10 +366,10 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma, Event ratio, Event gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
     #define MSG_BENCH "Measure execution time? (y/n)? "
-    #define MSG_DOT_INPUT "Input .dot file describing the behavioral space: "
+    #define MSG_DOT_INPUT "Input .dot file describing the "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
     #define MSG_INPUT_UNKNOWN_TYPE "It is not possible to establish if this space is the result of linear observation: execute a diagnosis just in that case\n"
-    #define MSG_GEN_SC "Calculating space...\n"
+    #define MSG_GEN_SC "Calculating "ABBR_BEH"...\n"
     #define MSG_POTA "Prune (y/n)? "
     #define MSG_POTA_RES "%d states and %d transitions pruned\n"
     #define MSG_SC_RES "Space generated: total %d states, %d transitions\n"
@@ -370,7 +395,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: link with id %d not found\n"
     #define MSG_MEMERR "Unable to alloc memory!\n"
     #define MSG_STATE_ANOMALY "Anomaly in state %d\n"
-    #define MSG_MEMTEST1 "Behavioral Space: %d states and %d transitions\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d states and %d transitions\n"
     #define MSG_MEMTEST2 "State %d is not coherent with its id %d\n"
     #define MSG_MEMTEST3 "State %d has transition from id %d to id %d\n"
     #define MSG_MEMTEST4 "State id %d, located at %p has transition not pointing to itself: "
@@ -378,35 +403,42 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST6 "\tmemcmp state to: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp state from: %d\n"
     #define MSG_MEMTEST8 "Found TransExpl from/to non existent fault space\n"
-    #define MSG_MEMTEST9 "Explainer: %d fault spaces and %d transitions\n"
+    #define MSG_MEMTEST9 ABBR_EXP": %d fault spaces and %d transitions\n"
     #define MSG_MEMTEST10 "Transition %d is not observable\n"
     #define MSG_MEMTEST11 "Fault %d has mapToOrigin -1 in position %d\n"
     #define MSG_MEMTEST12 "Fault %d: found mapFrom[mapTo[%d]] != %d\n"
-    #define MSG_MEMTEST13 "Monitoring: %u states\n"
-    #define MSG_MEMTEST14 "Monitoring State %d: %d fault spaces and %d transitions\n"
-    #define MSG_MEMTEST15 "Found that in Monitoring State %d there's a fault state non exited by any arc\n"
-    #define MSG_MEMTEST16 "Found that in Monitoring State %d there's a fault state not reached by any arc\n"
+    #define MSG_MEMTEST13 ABBR_MON": %u states\n"
+    #define MSG_MEMTEST14 ABBR_MON" State %d: %d fault spaces and %d transitions\n"
+    #define MSG_MEMTEST15 "Found that in "ABBR_MON" State %d there's a fault state non exited by any arc\n"
+    #define MSG_MEMTEST16 "Found that in "ABBR_MON" State %d there's a fault state not reached by any arc\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
-    #define MSG_LAZY_DIAG_EXP "Lazy Explainer (y) or lazy Diagnoser (n)? "
-    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy Explainer/Diagnoser printed. Note that it may contain (in comparison to the full Explainer/Diagnoser) more states and transitions (within fault spaces) due to unfeasible pruning.\n"
+    #define MSG_LAZY_DIAG_EXP "Lazy "ABBR_EXP" (y) or lazy "ABBR_DIAG" (n)? "
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy "ABBR_EXP"/"ABBR_DIAG" printed. Note that it may contain (in comparison to the full "ABBR_EXP"/"ABBR_DIAG") more states and transitions (within fault spaces) due to unfeasible pruning.\n"
     #define MSG_BEFORE_EXIT "\a\nExit? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs, CPU time: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
 #elif LANG == 's'
+    #ifndef ABBR
+        #define ABBR_BEH "Espacio de Comportamiento"
+        #define ABBR_EXP "Explicador"
+        #define ABBR_DIAG "Diagnosticador"
+        #define ABBR_MON "Monitorización"
+    #endif
     #define INPUT_Y 's'
     #define MSG_YES "si"
     #define MSG_NO "no"
     #define LOGO " _____ _                 _              _             _         ___        _                   _\n|  ___(_)               | |            | |           | |       / _ \\      | |                 | |\n| |__  _  ___  ___ _   _| |_ __ _ _ __ | |_ ___    __| | ___  / /_\\ \\_   _| |_ _ __ ___   __ _| |_ __ _ ___ \n|  __|| |/ _ \\/ __| | | | __/ _` | '_ \\| __/ _ \\  / _` |/ _ \\ |  _  | | | | __| '_ ` _ \\ / _` | __/ _` / __|\n| |___| |  __/ (__| |_| | || (_| | | | | ||  __/ | (_| |  __/ | | | | |_| | |_| | | | | | (_| | || (_| \\__ \\\n\\____/| |\\___|\\___|\\__,_|\\__\\__,_|_| |_|\\__\\___|  \\__,_|\\___| \\_| |_/\\__,_|\\__|_| |_| |_|\\__,_|\\__\\__,_|___/\n     _/ |\n    |__/\n"
     #define MSG_MENU_INTRO "\nMenù\tx: Salida\n\ts: Configuración\n"
-    #define MSG_MENU_C "\tc: Generar Espacio de Comportamiento\n"
+    #define MSG_MENU_C "\tc: Generar "ABBR_BEH"\n"
     #define MSG_MENU_O "\to: Calcula un diagnóstico a posteriori de una observación\n"
-    #define MSG_MENU_D "\td: Generar un Diagnosticador\n"
-    #define MSG_MENU_E "\te: Generar un Explicativo\n"
-    #define MSG_MENU_FG "\tf: Cargar Espacio de Comportamiento desde archivo\n\tg: Cargar Espacio de Comportamiento desde archivo (estados renombrados)\n"
+    #define MSG_MENU_D "\td: Generar un "ABBR_DIAG"\n"
+    #define MSG_MENU_E "\te: Generar un "ABBR_EXP"\n"
+    #define MSG_MENU_FG "\tf: Cargar "ABBR_BEH" desde archivo\n\tg: Cargar "ABBR_BEH" desde archivo (estados renombrados)\n"
     #define MSG_MENU_M "\tm: Iniciar el proceso de monitoreo\n"
-    #define MSG_MENU_L "\tl: Iniciar el proceso de monitoreo (compilación perezosa del Explicador o Diagnosticador)\n"
+    #define MSG_MENU_N "\tn: Iniciar el proceso de monitoreo (sin conoscimiento compilado)\n"
+    #define MSG_MENU_L "\tl: Iniciar el proceso de monitoreo (compilación perezosa del "ABBR_EXP" o "ABBR_DIAG")\n"
     #define MSG_MENU_I "\ti: Proporcionar una descripción del sistema de eventos discretos entrante\n"
     #define MSG_MENU_K "\tk: Generar automáticamente un sistema de eventos discretos\n"
     #define MSG_MENU_END "Elección: "
@@ -417,10 +449,10 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_PARAMS "Proporcione los parámetros que debe seguir el generador: ingrese una lista intercalada con espacios. Las proporciones son fraccionarias, las otras son enteros cortos sin signo.\nNúmero de componentes, Estados medios por componente, Fracción de conexión interna, Fracción de conexión externa (enlaces), Fracción de observabilidad, Fracción de relevancia, Rango de observabilidad, Rango de relevancia, Fracción de eventos, Rango de eventos\n"
     #define MSG_DOT "Guardar gráficos como .dot (s), imprimir texto (t) o sin salida (n)? "
     #define MSG_BENCH "Cronometrar ejecuciones? (s/n)? "
-    #define MSG_DOT_INPUT "Indicar el archivo dot generado que contiene el Espacio de Comportamiento: "
+    #define MSG_DOT_INPUT "Indicar el archivo dot generado que contiene el "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "El espacio no corresponde a una observación lineal, por lo tanto no se recomienda utilizarlo para el diagnóstico.\n"
     #define MSG_INPUT_UNKNOWN_TYPE "No es posible determinar si el espacio importado se deriva de una observación lineal: hacer un diagnóstico solo si es así.\n"
-    #define MSG_GEN_SC "Generación espacio de comportamiento...\n"
+    #define MSG_GEN_SC "Generación "ABBR_BEH"...\n"
     #define MSG_POTA "Realizar podas (s/n)? "
     #define MSG_POTA_RES "Podadas %d estados y %d transiciones\n"
     #define MSG_SC_RES "Espacio generado: contiene %d estados y %d transiciones\n"
@@ -446,7 +478,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: enlace con id %d no encontrado\n"
     #define MSG_MEMERR "Error de asignación de memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalía en el estado %d\n"
-    #define MSG_MEMTEST1 "Espacio de Comportamiento: %d estados y %d transiciones\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d estados y %d transiciones\n"
     #define MSG_MEMTEST2 "El estado %d no es coherente con su identificador %d\n"
     #define MSG_MEMTEST3 "El estado %d tiene tr de id %d a id %d\n"
     #define MSG_MEMTEST4 "El estado id %d, cerca %p tiene una transición que no apunta a sí misma: "
@@ -454,20 +486,20 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST6 "\tmemcmp estado a: %d\n"
     #define MSG_MEMTEST7 "\tmemcmp estado de: %d\n"
     #define MSG_MEMTEST8 "Encontró una TransExpl da/a cierre inexistente\n"
-    #define MSG_MEMTEST9 "Explicador: %d cierres y %d transiciones\n"
+    #define MSG_MEMTEST9 ABBR_EXP": %d cierres y %d transiciones\n"
     #define MSG_MEMTEST10 "La transición %d no es observable\n"
     #define MSG_MEMTEST11 "El cierre %d tiene mapToOrigin -1 in en lugar %d\n"
     #define MSG_MEMTEST12 "Cierre %d: encontró que mapFrom[mapTo[%d]] != %d\n"
-    #define MSG_MEMTEST13 "Monitorización: %u estados\n"
+    #define MSG_MEMTEST13 ABBR_MON": %u estados\n"
     #define MSG_MEMTEST14 "Estado de monitoreo %d: %d cierres y %d transiciones\n"
     #define MSG_MEMTEST15 "Detectado en el estado de monitoreo %d un cierre sin arcos salientes\n"
     #define MSG_MEMTEST16 "Detectado en el estado de monitoreo %d un cierre sin arcos entrantes\n"
     #define MSG_EXP_FAULT_NOT_FOUND "No se pudo encontrar un cierre objetivo de una transición\n"
     #define MSG_MONITORING_RESULT "\nTraza de diagnósticos:\n"
     #define MSG_NEXT_OBS "Proporcione la siguiente observación: "
-    #define MSG_LAZY_DIAG_EXP "Explicador perezoso (s) o Diagnosticador perezoso (n)? "
+    #define MSG_LAZY_DIAG_EXP ABBR_EXP" perezoso (s) o "ABBR_DIAG" perezoso (n)? "
     #define MSG_IMPOSSIBLE_OBS "La última observación dada no es consistente con las estructuras de datos\n"
-    #define MSG_LAZY_EXPLAINER_DIFFERENCES "Explicador/Diagnosticador parcial impreso. Podría mostrar, en comparación con el Explicador/Diagnosticador completo, más estados y transiciones (internas a los cierres) debido a la poda imposible.\n"
+    #define MSG_LAZY_EXPLAINER_DIFFERENCES ABBR_EXP"/"ABBR_DIAG" parcial impreso. Podría mostrar, en comparación con el "ABBR_EXP"/"ABBR_DIAG" completo, más estados y transiciones (internas a los cierres) debido a la poda imposible.\n"
     #define MSG_BEFORE_EXIT "\a\nInterrumpir? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTiempo: %lfs, Tiempo de CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
 #endif

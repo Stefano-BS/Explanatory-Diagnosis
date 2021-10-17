@@ -15,6 +15,7 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
 }
 
 Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
+    if (mode != 2 && !b->containsFinalStates) return NULL;
     unsigned int i=0, j=0, nMarker = b->nStates+2;
     int markerMap[nMarker], k;
     if (mode==2){
@@ -22,8 +23,10 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
             markerMap[i] = i; // Including α and ω
     }
     else if (mode==1) {
-        for (; i<nMarker; i++) 
-            markerMap[i] = (b->states[i]->flags & FLAG_FINAL)*i;
+        markerMap[0] = 0;
+        for (; i<b->nStates; i++) 
+            markerMap[i+1] = (b->states[i]->flags & FLAG_FINAL)*(i+1);
+        markerMap[nMarker-1] = 0;
     }
     Regex ** ret = calloc(mode? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
@@ -208,8 +211,10 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
                 }
             }
             if (azioneEffettuataSuQuestoStato) {
-                debugif(DEBUG_DIAG, printlog("Cut %d\n", markerMap[i]))
-                memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+                if (mode) {
+                    debugif(DEBUG_DIAG, printlog("Cut %d\n", markerMap[i]))
+                    memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+                }
                 foreachdecl(trans, stemp->transitions)
                     freeRegex(trans->t->regex);
                 removeBehState(b, stemp);
