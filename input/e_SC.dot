@@ -8,6 +8,8 @@ node [fillcolor="#FFFFFF"]; R01_L23 ;
 node [fillcolor="#FFFFFF"]; R00_L2e ;
 node [fillcolor="#FFFFFF"]; R10_Le3 ;
 node [fillcolor="#FFFFFF"]; R11_L23 ;
+node [fillcolor="#FFFFFF"]; R10_L2e ;
+node [fillcolor="#FFFFFF"]; R00_L23 ;
 node [fillcolor="#FFFFFF"]; R11_L2e ;
 node [style=filled fillcolor="#FFEEEE"]; R11_Lee ;
 node [fillcolor="#FFFFFF"]; R01_Le3 ;
@@ -24,6 +26,8 @@ R01_L23 -> R00_L2e [label=t4]
 R00_L2e -> R10_Le3 [label=t1O2]
 R10_Le3 -> R11_L23 [label=t3O3]
 R11_L23 -> R11_L2e [label=t5f]
+R11_L23 -> R10_L2e [label=t4]
+R10_L2e -> R00_L23 [label=t2r]
 R11_L2e -> R01_L23 [label=t2r]
 R11_Lee -> R01_Le3 [label=t2r]
 R01_Le3 -> R01_Lee [label=t5f]

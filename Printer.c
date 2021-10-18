@@ -1,7 +1,6 @@
 #include "header.h"
 
-inline char* stateName(BehState *, bool) __attribute__((always_inline));
-inline char* stateName(BehState *s, bool showObs) {
+INLINE(char* stateName(BehState *s, bool showObs)) {
     unsigned int j, v;
     char* nome = malloc(30), *puntatore = nome;
     sprintf(puntatore++, "R");
@@ -253,7 +252,7 @@ unsigned int findInExplainer(Explainer *exp, FaultSpace *f) {
     return i;
 }
 
-void printMonitoring(Monitoring * m, Explainer *exp) {
+void printMonitoring(Monitoring * m, Explainer *exp, bool diagnoserStyle) {
     unsigned int i, j, temp;
     char nomeFileDot[strlenInputDES+9], nomeFileSvg[strlenInputDES+9];
     char * command = malloc(44+strlenInputDES*2);
@@ -263,8 +262,9 @@ void printMonitoring(Monitoring * m, Explainer *exp) {
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"MON%s\" {\nrankdir=LR\nnode [style=filled fillcolor=white]\n", inputDES);
     MonitorState * mu;
+    char *style = diagnoserStyle ? "FFF0DD" : "FFF9DD";
     for (mu=m->mu[i=0]; i<m->length; mu=m->mu[++i]) {
-        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFF9DD\" node [style=\"rounded,filled\" shape=box fillcolor=\"#FFFFFF\"]\n", i);
+        fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#%s\" node [style=\"rounded,filled\" shape=box fillcolor=\"#FFFFFF\"]\n", i, style);
         if (mu->lmu->regex[0] == '\0') fprintf(file, "label=ε\n");
         else fprintf(file, "label=\"%s\"\n", mu->lmu->regex);
         for (j=0; j<mu->nExpStates; j++) {

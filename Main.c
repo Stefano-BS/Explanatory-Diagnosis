@@ -71,14 +71,14 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
     unsigned short loss = 0;
     while (true) {
         interruptable({
-            printf(MSG_MONITORING_RESULT);
-            unsigned short i;
-            for (i=0; i<=loss; i++)
+            if (!diagnoser) printf(MSG_MONITORING_RESULT);
+            unsigned short i = diagnoser ? loss : 0;
+            for (; i<=loss; i++)
                 if (monitor->mu[i]->lmu->regex[0]=='\0') printf("%lc%d:\t%lc\n", mu, i, eps);
                 else printf("%lc%d:\t%.5000s\n", mu, i, monitor->mu[i]->lmu->regex);
         })
 
-        if (dot==INPUT_Y) printMonitoring(monitor, explainer);
+        if (dot==INPUT_Y) printMonitoring(monitor, explainer, diagnoser);
         printf(MSG_NEXT_OBS);
         RETRY: scanf("%9s", digitazione);
         oss = atoi(digitazione);

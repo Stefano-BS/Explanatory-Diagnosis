@@ -36,7 +36,7 @@
 
 #define beginTimer                  gettimeofday(&beginT, NULL); beginC = clock();
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
-#define foreachdecl(lnode, from)    struct ltrans * lnode; foreachtr(lnode, from)
+#define foreachdecl(lnode, from)    for(struct ltrans *lnode=from; lnode!=NULL; lnode = lnode->next)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
 #ifndef M_PI
     #define M_PI                    m_pi
@@ -221,7 +221,7 @@ int netMake(unsigned short, unsigned short, float, float, float, float, unsigned
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
 void printExplainer(Explainer *);
-void printMonitoring(Monitoring *, Explainer *);
+void printMonitoring(Monitoring *, Explainer *, bool);
 // SpaceMaker.c
 BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
 void prune(BehSpace *);

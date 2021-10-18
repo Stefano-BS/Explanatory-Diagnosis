@@ -212,14 +212,13 @@ void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
 void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs, bool *ok) {
     ok[base->id] = true;
     unsigned int i=0;
-    foreachdecl(lt, base->transitions) {
+    foreachdecl(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs != 0) {
             while (obsStates[i] != -1) i++;
             obsStates[i] = base->id;
             obsTrs[i] = lt->t;
         }
-    }
-    foreachtr(lt, base->transitions)
+    foreachdecl(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs == 0 && !ok[lt->t->to->id])
             faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i, ok);
 }

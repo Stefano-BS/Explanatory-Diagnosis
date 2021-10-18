@@ -411,11 +411,12 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     //      µ ← the node preceding µ in M
     //      X ← the set of states in µ that are not exited by any arc
     // end while
-    pruneMonitoring(monitor);
+    if (!diagnoser) pruneMonitoring(monitor);
     debugif(DEBUG_MEMCOH, monitoringCoherenceTest(monitor))
     // Update L(µ) in E based on Def. 7
-    for (i=0; i< mu->nExpStates; i++)   // Because even if no pruning was done, the ex last µ
-        calcLout(mu, i, NULL);          // still has L(µ) built on Louts made for a last µ
+    if (!diagnoser)
+        for (i=0; i< mu->nExpStates; i++)   // Because even if no pruning was done, the ex last µ
+            calcLout(mu, i, NULL);          // still has L(µ) built on Louts made for a last µ
     calcLmu(mu, false);
     return monitor;
 }
