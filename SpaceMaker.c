@@ -8,7 +8,8 @@ Explainer * expWorkingOn = NULL;
 BehSpaceCatalog catalog;
 
 BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RESTRICT obs, unsigned short loss) {
-    short newComponentStatus[ncomp], newLinkContent[nlink];
+    short * newComponentStatus = malloc(ncomp*sizeof(short));
+    short * newLinkContent = malloc(nlink*sizeof(short));
     memcpy(newLinkContent, base->linkContent, nlink*sizeof(short));
     memcpy(newComponentStatus, base->componentStatus, ncomp*sizeof(short));
     if (t->idIncomingEvent != VUOTO)                                                // Incoming event consumption

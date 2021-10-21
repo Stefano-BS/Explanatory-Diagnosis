@@ -146,12 +146,13 @@ INLINE(bool behStateCompareTo(BehState * s1, BehState * s2)) {
 BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT componentStatus) {
     BehState *s = calloc(1, sizeof(BehState));
     s->id = VUOTO;
-    s->componentStatus = malloc(ncomp*sizeof(short));
-    s->linkContent = malloc(nlink*sizeof(short));
-    if (linkContent != NULL) memcpy(s->linkContent, linkContent, nlink*sizeof(short));
-    else memset(s->linkContent, VUOTO, nlink*sizeof(short));
-    if (componentStatus != NULL) memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
-    else memset(s->componentStatus, 0, ncomp*sizeof(short));
+    if (linkContent != NULL) s->linkContent = linkContent; //memcpy(s->linkContent, linkContent, nlink*sizeof(short));
+    else {
+        s->linkContent = malloc(nlink*sizeof(short));
+        memset(s->linkContent, VUOTO, nlink*sizeof(short));
+    }
+    if (componentStatus != NULL) s->componentStatus = componentStatus; //memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
+    else s->componentStatus = calloc(ncomp, sizeof(short));
     s->flags = FLAG_FINAL;
     for (unsigned short i=0; i<nlink; i++)
         s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set

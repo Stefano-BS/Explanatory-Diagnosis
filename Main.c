@@ -5,6 +5,7 @@ double m_pi;
 
 Regex* empty;
 unsigned int strlenInputDES;
+unsigned long long seed;
 char * inputDES = "";
 char * comBuf = "";
 char dot = '\0';
@@ -152,14 +153,21 @@ void menu(void) {
         }
         else if (op == 'k' && allow_i) {
             in = true;
+            printf(MSG_NET_SEED);
+            scanf("%llu", &seed);
             printf(MSG_NET_PARAMS);
             unsigned short nofComp, compSize, obsGamma, faultGamma, eventGamma;
             float connectionRatio, linkRatio, obsRatio, faultRatio, eventRatio;
             scanf(" %hu %hu %f %f %f %f %hu %hu %f %hu", &nofComp, &compSize, &connectionRatio, &linkRatio, &obsRatio, &faultRatio, &obsGamma, &faultGamma, &eventRatio,&eventGamma);
-            int seed = netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma, eventRatio , eventGamma);
+            if (seed == 0) {
+                time_t t;
+                seed = time(&t);
+            }
+            netMake(nofComp, compSize, connectionRatio, linkRatio, obsRatio, faultRatio, obsGamma, faultGamma, eventRatio , eventGamma);
             if (dot!='n') {
-                inputDES = malloc(20);
-                sprintf(inputDES, "gen/Seed%d", seed);
+                strlenInputDES = 18;
+                inputDES = malloc(19);
+                sprintf(inputDES, "gen/Seed%llu", seed);
                 BehState * tmp = generateBehState(NULL, NULL);
                 printDES(tmp, dot != INPUT_Y);
                 freeBehState(tmp);
@@ -355,7 +363,6 @@ void menu(void) {
 }
 
 int main(int argc, char *argv[]) {
-    m_pi = acos(-1.0);
     doC11(bool changedStdOut = false;)
     setlocale(LC_ALL, "");
     if (argc >1) {

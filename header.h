@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <signal.h>
 #include <locale.h>
+#include <stdarg.h>
 #if __STDC_VERSION__ >= 201112L
     #include <threads.h>
     #define doC11(...) __VA_ARGS__
@@ -184,6 +185,7 @@ struct FaultSpaceParams {
 };
 
 // Global variables
+extern unsigned long long seed;
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
@@ -216,7 +218,7 @@ void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
 BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
-int netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
+void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
 char* printBehSpace(BehSpace *, bool, bool, int);
@@ -280,6 +282,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_DEF_AUTOMA "Indicare il file che contiene la definizione dell'automa: "
     #define MSG_NO_FILE "File \"%s\" inesistente!\n"
     #define MSG_PARS_DONE "Scansione effettuata...\n"
+    #define MSG_NET_SEED "Inserisci il seme per la generazione (0 per utilizzare il tempo di sistema): "
     #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
     #define MSG_BENCH "Cronometrare le esecuzioni? (s/n)? "
@@ -363,6 +366,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_DEF_AUTOMA "Where does automata's definition file locate: "
     #define MSG_NO_FILE "File \"%s\" not found!\n"
     #define MSG_PARS_DONE "Parsing done...\n"
+    #define MSG_NET_SEED "Insert the generator seed (0 to use system time): "
     #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma, Event ratio, Event gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
     #define MSG_BENCH "Measure execution time? (y/n)? "
@@ -446,6 +450,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_DEF_AUTOMA "Indique el archivo que contiene la definición del autómata: "
     #define MSG_NO_FILE "Archivo \"%s\" inexistente!\n"
     #define MSG_PARS_DONE "Escaneo realizado...\n"
+    #define MSG_NET_SEED "Introducir la semilla para la generación (0 para utilizar el tiempo del sistema): "
     #define MSG_NET_PARAMS "Proporcione los parámetros que debe seguir el generador: ingrese una lista intercalada con espacios. Las proporciones son fraccionarias, las otras son enteros cortos sin signo.\nNúmero de componentes, Estados medios por componente, Fracción de conexión interna, Fracción de conexión externa (enlaces), Fracción de observabilidad, Fracción de relevancia, Rango de observabilidad, Rango de relevancia, Fracción de eventos, Rango de eventos\n"
     #define MSG_DOT "Guardar gráficos como .dot (s), imprimir texto (t) o sin salida (n)? "
     #define MSG_BENCH "Cronometrar ejecuciones? (s/n)? "
