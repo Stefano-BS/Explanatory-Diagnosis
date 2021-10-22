@@ -185,16 +185,17 @@ struct FaultSpaceParams {
 };
 
 // Global variables
+extern double m_pi;
 extern unsigned long long seed;
+extern char outGraphType[6];
+extern char * inputDES;
+extern unsigned int strlenInputDES;
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
-extern char * inputDES;
-extern unsigned int strlenInputDES;
 extern Regex* empty;
 extern const unsigned short eps, mu;
 extern BehSpaceCatalog catalog;
-extern double m_pi;
 
 // DataStructures.c
 Component * newComponent(void);
@@ -285,6 +286,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_SEED "Inserisci il seme per la generazione (0 per utilizzare il tempo di sistema): "
     #define MSG_NET_PARAMS "Fornire i parametri che il generatore dovrebbe seguire: inserire una lista intervallata da spazi. I rapporti sono frazionari, gli altri sono interi brevi senza segno.\nNumero di componenti, Media stati per componente, Rapporto di connessione interna, Rapporto di connessione esterna (Links), Rapporto di osservabilità, Rapporto di rilevanza, Gamma osservabilità, Gamma rilevanza, Rapporto eventi, Gamma eventi\n"
     #define MSG_DOT "Salvare i grafi come .dot (s), stampare testo (t) o nessun'uscita (n)? "
+    #define MSG_GRAPH_FORMAT "Scegliere il formato di generazione di Graphviz (attuale: %s): "
     #define MSG_BENCH "Cronometrare le esecuzioni? (s/n)? "
     #define MSG_DOT_INPUT "Indicare il file dot generato contenete lo "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "Lo spazio non corrisponde ad un'osservazione lineare, pertanto non si consiglia un suo utilizzo per diagnosi\n"
@@ -369,6 +371,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_SEED "Insert the generator seed (0 to use system time): "
     #define MSG_NET_PARAMS "Provide the parameter the DES generator should follow: insert a list with numbers separated by spaces. Ratios are floats, the rest are unsigned short integers.\nNumber of components, Average component states number, Connection ratio inside components, Connection ratio between components (Links), Observability ratio, Faulty ratio, Observability gamma, Faulty gamma, Event ratio, Event gamma\n"
     #define MSG_DOT "Save graphs as .dot (y), print as text (t), or no output (n)? "
+    #define MSG_GRAPH_FORMAT "Choose Graphviz printing format (current: %s): "
     #define MSG_BENCH "Measure execution time? (y/n)? "
     #define MSG_DOT_INPUT "Input .dot file describing the "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "This space is not the result of a linear observation, thus it is not recommended a diagnosis on that\n"
@@ -453,6 +456,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_NET_SEED "Introducir la semilla para la generación (0 para utilizar el tiempo del sistema): "
     #define MSG_NET_PARAMS "Proporcione los parámetros que debe seguir el generador: ingrese una lista intercalada con espacios. Las proporciones son fraccionarias, las otras son enteros cortos sin signo.\nNúmero de componentes, Estados medios por componente, Fracción de conexión interna, Fracción de conexión externa (enlaces), Fracción de observabilidad, Fracción de relevancia, Rango de observabilidad, Rango de relevancia, Fracción de eventos, Rango de eventos\n"
     #define MSG_DOT "Guardar gráficos como .dot (s), imprimir texto (t) o sin salida (n)? "
+    #define MSG_GRAPH_FORMAT "Elige el formato de impresión de Graphviz (actual: %s): "
     #define MSG_BENCH "Cronometrar ejecuciones? (s/n)? "
     #define MSG_DOT_INPUT "Indicar el archivo dot generado que contiene el "ABBR_BEH": "
     #define MSG_INPUT_NOT_OBSERVATION "El espacio no corresponde a una observación lineal, por lo tanto no se recomienda utilizarlo para el diagnóstico.\n"

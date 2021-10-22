@@ -1,35 +1,35 @@
 digraph "SCinput/e" {
-node [style=filled fillcolor="#FFEEEE"]; R00_Lee ;
-node [fillcolor="#FFFFFF"]; R01_L2e ;
-node [fillcolor="#FFFFFF"]; R11_Le3 ;
-node [style=filled fillcolor="#FFEEEE"]; R10_Lee ;
-node [fillcolor="#FFFFFF"]; R00_Le3 ;
-node [fillcolor="#FFFFFF"]; R01_L23 ;
-node [fillcolor="#FFFFFF"]; R00_L2e ;
-node [fillcolor="#FFFFFF"]; R10_Le3 ;
-node [fillcolor="#FFFFFF"]; R11_L23 ;
-node [fillcolor="#FFFFFF"]; R10_L2e ;
-node [fillcolor="#FFFFFF"]; R00_L23 ;
-node [fillcolor="#FFFFFF"]; R11_L2e ;
-node [style=filled fillcolor="#FFEEEE"]; R11_Lee ;
-node [fillcolor="#FFFFFF"]; R01_Le3 ;
-node [style=filled fillcolor="#FFEEEE"]; R01_Lee ;
-R00_Lee -> R01_L2e [label=t3O3]
-R01_L2e -> R11_Le3 [label=t1O2]
-R11_Le3 -> R11_Lee [label=t5f]
-R11_Le3 -> R10_Lee [label=t4]
-R10_Lee -> R11_L2e [label=t3O3]
-R10_Lee -> R00_Le3 [label=t2r]
-R00_Le3 -> R01_L23 [label=t3O3]
-R01_L23 -> R01_L2e [label=t5f]
-R01_L23 -> R00_L2e [label=t4]
-R00_L2e -> R10_Le3 [label=t1O2]
-R10_Le3 -> R11_L23 [label=t3O3]
-R11_L23 -> R11_L2e [label=t5f]
-R11_L23 -> R10_L2e [label=t4]
-R10_L2e -> R00_L23 [label=t2r]
-R11_L2e -> R01_L23 [label=t2r]
-R11_Lee -> R01_Le3 [label=t2r]
-R01_Le3 -> R01_Lee [label=t5f]
-R01_Le3 -> R00_Lee [label=t4]
+node [style=filled fillcolor="#FFEEEE"]; S0 ;
+node [fillcolor="#FFFFFF"]; S1 ;
+node [fillcolor="#FFFFFF"]; S2 ;
+node [style=filled fillcolor="#FFEEEE"]; S3 ;
+node [fillcolor="#FFFFFF"]; S4 ;
+node [fillcolor="#FFFFFF"]; S5 ;
+node [fillcolor="#FFFFFF"]; S6 ;
+node [fillcolor="#FFFFFF"]; S7 ;
+node [fillcolor="#FFFFFF"]; S8 ;
+node [fillcolor="#FFFFFF"]; S9 ;
+node [fillcolor="#FFFFFF"]; S10 ;
+node [fillcolor="#FFFFFF"]; S11 ;
+node [style=filled fillcolor="#FFEEEE"]; S12 ;
+node [fillcolor="#FFFFFF"]; S13 ;
+node [style=filled fillcolor="#FFEEEE"]; S14 ;
+S0 -> S1 [label=t3O3]
+S1 -> S2 [label=t1O2]
+S2 -> S12 [label=t5f]
+S2 -> S3 [label=t4]
+S3 -> S11 [label=t3O3]
+S3 -> S4 [label=t2r]
+S4 -> S5 [label=t3O3]
+S5 -> S1 [label=t5f]
+S5 -> S6 [label=t4]
+S6 -> S7 [label=t1O2]
+S7 -> S8 [label=t3O3]
+S8 -> S11 [label=t5f]
+S8 -> S9 [label=t4]
+S9 -> S10 [label=t2r]
+S11 -> S5 [label=t2r]
+S12 -> S13 [label=t2r]
+S13 -> S14 [label=t5f]
+S13 -> S0 [label=t4]
 }

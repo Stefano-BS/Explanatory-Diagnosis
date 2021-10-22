@@ -3,695 +3,540 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="g?|(ge)|(gea)|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((ga)|(ag))|((ga)|(ag))|(ga)|(ag)|a|a|a|a|a|a"
+label="a?"
 M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag)))))|(ge)|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))|g|g|g|((ga)|(ag))|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|g|((ga)|(ag))|(ge)|g|a|c|c|a|a|c|c|a)?|a|a|a|c|c|a|a|c|(a|c)|c|a|a|a)|((((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age)|(ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag)|(ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag)|(ge)|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))|g|g|g|((ga)|(ag))|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|g|((ga)|(ag))|(ge)|g|a|c|a|c)?|a|a)|(g(((ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|a|c|a|c|e|e|e|((ea)|(ae)))?|a|e|e|((ea)|(ae))|a|e)|(g(((ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|a|c|a|c|e|e|e|((ea)|(ae)))?|a|e|e|((ea)|(ae))|a)|(gea|c?|a|a)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e?)|((ga)|(ag)e?)|(gea|c?|a|a)|(gea)|((ga)|(ag)e?)|((((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ge)|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|g|g|((ga)|(ag))|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(age)))|g|g|((ga)|(ag))|a|c|a|c)?|a|a)|(a(ge)?)|(a(ge)?)|(a(ge)?)|((((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg))))))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)))))|(ge)|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea)))|g|g|g|((ga)|(ag))|(ge)|(ge)|((gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea))|g|g|((ga)|(ag))|a|c|a|c)?|a|a|a|c|a|c|a|a)|(a(ge)?)|(a(ge)?)|(a(ge)?)"
-M1S35 [label=35];
-M1S65 [label=65];
-M1S66 [label=66];
-M1S62 [label=62];
-M1S63 [label=63];
-M1S44 [label=44];
-M1S29 [label=29];
-M1S32 [label=32];
-M1S28 [label=28];
-M1S67 [label=67];
-M1S48 [label=48];
-M1S34 [label=34];
-M1S61 [label=61];
-M1S31 [label=31];
-M1S27 [label=27];
-M1S33 [label=33];
-M1S59 [label=59];
+label="(((gfe)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|(agefe)|(gaefe)|(gfeae)|(g(aefe)
+|(feae))|(ag)|(ga)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)
+|(g(aefe)|(feae)))?|(age)|(gae)|(gfea)|(gfe)|c|(agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(ag)|(ga)|(g
+f)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea))|a|(agea)|(gaea)|(agefea)|(acea)|(caea)|(gaefea)|(gf
+eaea)|(g(aefea)|(feaea))|(agef)|(gaef)|(gfea)|(g(aef)|(fea))|(gfea)|(ag)|(ga)|(agefea)|(gaefea)|(gfe
+aea)|(g(aefea)|(feaea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(gf)|a|g|(agea)|(gaea)|
+(gfea)|(ag)|(ga)|(age)|(gae)|(ac)|(ca)|(gfea)|(gfe)|(agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|(a
+gefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(gf)|(agef)|(gaef)|(gfea)|(g(aef)|(fea))|g|(agefe
+)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea))|(ag)|(ga)|(gfe)|(ag
+efea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|a|(agea)|(gaea)|(gf)|(ag)|(ga)|(agef)|(gaef
+)|(gfea)|(g(aef)|(fea))|(ac)|(ca)|(gfea)|(age)|(gae)|(agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|(
+gfea))|((((agefea)|(acea)|(caea)|(gaefea)|(gfeaea))|(agefe)|(gaefe)|(gfeae)|(ag)|(ga)|(agef)|(ac)|(c
+a)|(gaef)|(gfea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae))?|(age)|(gae)|(gfea)|(gfe)|c|(agefe)|(gaefe)|(g
+feae)|(ag)|(ga)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(agea)|(gaea)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea
+)|(agef)|(gaef)|(gfea)|(ag)|(ga)|(agefea)|(gaefea)|(gfeaea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(gf)
+|a|(agea)|(gaea)|(gfea)|(ag)|(ga)|(age)|(gae)|(ac)|(ca)|(gfea)|(agefea)|(gaefea)|(gfeaea)|(agefe)|(a
+ce)|(cae)|(gaefe)|(gfeae)|(agef)|(gaef)|(gfea)|g|(agefe)|(gaefe)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gf
+ea)|(ag)|(ga)|(gfe)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|a|(agea)|(gaea)|(gf)|(agef)|(gaef)|(gfe
+a)|(ac)|(ca)|(gfea)|(age)|(gae)|(agefea)|(gaefea)|(gfeaea))|(a((gefea)|(gea)|g|(gefe)|(gef))?|(gea)|
+(gef)|(ge)|(gefea))|(((gfe)|(agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea
+))|(agefea)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea))|(agefe)|(ace)|(ca
+e)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae))|(ag)|(ga)|(agef)|(ac)|(a(gef)|c)|(a(ge
+f)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef)|c)|(agef)|(agef)|(agef)|(c
+a))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|((agef
+e)|(ace)|(cae))|(gaefe)|(gfeae)|((a(gefe)|(ce))|(agefe)|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)|(gfeae
+))|(g(aefe)|(feae)))?|(age)|(gae)|(ac)|(ca)|(gfea)|(gfe)|c|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((age
+fe)|(gaefe)|(gfeae))|(g(aefe)|(feae))|(ag)|(ga)|(gf)|(agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)
+|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(age
+f)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea))|a|(agea)|(gaea)|(agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(
+cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea
+))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea
+)|(feaea))|(agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea))|(gfea)|(ag)|(ga)|(ag
+efea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea))|(agefe)|(ace)|
+(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(gaefe)|(gfeae)|(
+((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|(gfeae))|(g(ae
+fe)|(feae))|(gf)|a|g|(agea)|(gaea)|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|(gae)|(((ac)|(ca))|(gfea))|(ac)|
+(ca)|(gfea)|(gfe)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(f
+eaea))|(agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(ca
+e))|(gaefe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(
+gfeae)|(gfeae))|(g(aefe)|(feae))|(gf)|(agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|
+(fea))|g|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae))|(agef)|(ac)|
+(a(gef)|c)|(ca)|((agef)|(ac)|(ca))|(gaef)|(gfea)|((a(gef)|c)|(agef)|((agef)|(ac)|(ca))|(gaef)|(gfea)
+|(gfea))|(g(aef)|(fea))|(ag)|(ga)|(gfe)|c|(agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|(
+(a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(a
+gefea)|(agefea)|(caea))|(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea))|a|(
+agea)|(gaea)|(gf)|(ag)|(ga)|(agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea))|(((
+ac)|(ca))|(gfea))|(ac)|(ca)|(gfea)|(age)|(gae)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(g
+aefea)|(gfeaea))|(g(aefea)|(feaea))|(gfea)|a|a|a)|(((((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(c
+aea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea))|(agefe)|(ace)|(cae)|(gaefe
+)|(gfeae)|(ag)|(ga)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)
+|(gfea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae))?|(age)|(gae)|(ac)|(ca)|(gfea)|(gfe)|c|(agefe)|(ace)|(ca
+e)|(gaefe)|(gfeae)|(ag)|(ga)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gae
+f)|(gfea)|(gfea)|(agea)|(gaea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|
+(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(ag)|(ga)|(agefea)
+|(acea)|(caea)|(gaefea)|(gfeaea)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gef
+e)|(ce))|(cae)|(gaefe)|(gfeae)|(gfeae)|(gf)|a|(agea)|(gaea)|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|(gae)|(
+ac)|(ca)|(gfea)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(ca
+e))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|g|(age
+fe)|(ace)|(cae)|(gaefe)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(ag)|(ga)|(gfe)|c|((a(gefea)|(cea))|(
+agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)
+|a|(agea)|(gaea)|(gf)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(ac)|(ca)|(gfea)|(age)|(gae)|(agefea)|(acea)|(c
+aea)|(gaefea)|(gfeaea)|a|a)|(a((gefea)|(gea)|g|(gefe)|(gef))?|(gea)|(gef)|(ge)|(gefea))"
+M1S1 [label=1];
 M1S2 [label=2];
 M1S3 [label=3];
-M1S1 [label=1];
+M1S4 [label=4];
+M1S5 [label=5];
+M1S6 [label=6];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))))|(age)|(age)|(age))|(((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge))))|(age)|(age)|(age))|(((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))|(ag)|(ag)|(ag)e?)|(((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))|(ag)|(ag)|(ag)e?)|(gea?)|(gea?)|(gea?)|(((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(age)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea))))|(g(e|((ea)|(ae)))?|a|e)|(g(e|((ea)|(ae)))?|a|e)|(g(e|((ea)|(ae)))?|a)|((ga)|(ag)e?)|(gea|c?)|(ge(a|c)?)|(((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(age)))|(age)|((gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea)))|(g((((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|a|c|e)?|e)|(g(((ea|c)|(ea|c)|((ea)|(ae)|(ce)))|a|c|e|e)?|e)|((ga)|(ag)e?)|(gea|c?)|(g((((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|a|c|e)?|e)|(a|c|c|a(ge)?)|(a|c|c|a(ge)?)|(((ge)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|((ga)|(ag)))?|a)|(((ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|((ga)|(ag)))?|a)|(((ge)|((gea)|(g(ea)|(ae))|((gea)|(age)))|g|((ga)|(ag)))?|a)|(a(ge)?)|(((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(ge)|(ge)|g|g|(ge)|g|a|c)?|(((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge)))))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(ge)|(ge)|g|g|(ge)|g|a|c)?|(a(ge)?)|(((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(ge)|(ge)|g|g|(ge)|g|a|c)?|(a|c|c|a(ge)?)|(a|c|(a|c)|c|a(ge)?)|(((ge)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|((ga)|(ag)))?|a|a)|(((ge)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|g|((ga)|(ag)))?|a|a)|(((ge)|((gea)|(g(ea)|(ae))|((gea)|(age)))|g|((ga)|(ag)))?|a|a)|(a(ge)?)|((((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg))))|(ge)|(ge)|g|g|(ge)|g|a|c)?|a|c)|((((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))))))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))))|(ge)|(ge)|g|g|(ge)|g|a|c)?|a|c)|(a(ge)?)|((((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg))))|(ge)|(ge)|g|g|(ge)|g|a|c)?|a|c)"
-M2S25 [label=25];
-M2S17 [label=17];
-M2S20 [label=20];
-M2S16 [label=16];
-M2S60 [label=60];
-M2S47 [label=47];
-M2S43 [label=43];
-M2S26 [label=26];
-M2S54 [label=54];
-M2S46 [label=46];
-M2S42 [label=42];
-M2S22 [label=22];
-M2S64 [label=64];
-M2S51 [label=51];
-M2S30 [label=30];
-M2S56 [label=56];
-M2S50 [label=50];
-M2S24 [label=24];
-M2S68 [label=68];
-M2S58 [label=58];
-M2S19 [label=19];
-M2S15 [label=15];
-M2S53 [label=53];
-M2S45 [label=45];
-M2S41 [label=41];
-M2S21 [label=21];
-M2S55 [label=55];
-M2S49 [label=49];
-M2S23 [label=23];
-M2S57 [label=57];
+label="(gfea?|(ae)|(aea))|(((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))|((agefea)|(acea)|(
+a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(gaefea
+)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(agefea)|(gaefea)|
+(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea
+)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)))|(((agefe)|(gaefe)|(gfeae)|(g(aefe)|(fe
+ae)))|((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)))|((agefe)|(ace
+)|(cae)|(gaefe)|(gfeae))a?)|((ag)|(ga)e?|(ea)|(ef)|(efe)|(efea))|(((agef)|(ac)|(ca)|(gaef)|(gfea)|(g
+(aef)|(fea)))|((agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|
+(gfea)|(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)
+))|(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea))e?|(ea))
+|(((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)))|((agefe)|(ace)|(a(gefe)|(ce))|(cae)|((agefe
+)|(ace)|(cae))|(gaefe)|(gfeae)|((a(gefe)|(ce))|(agefe)|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)|(gfeae)
+)|(g(aefe)|(feae)))|((agefe)|(ace)|(cae)|(gaefe)|(gfeae))a?)|(a?|(ag)|(ga)|(age)|(gae)|(agea)|(gaea)
+|(age)|(gae)|(agef)|(gaef)|(gfea)|(agefe)|(gaefe)|(gfeae)|(agefea)|(gaefea)|(gfeaea)|(agefea)|(acea)
+|(caea)|(gaefea)|(gfeaea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(agef)|
+(gaef)|(gfea)|(agefe)|(gaefe)|(gfeae)|(agefea)|(gaefea)|(gfeaea)|(agefea)|(acea)|(caea)|(gaefea)|(gf
+eaea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(ag)|(ga)|(ac)|(ca)|(gfea)|
+(agef)|(ac)|(ca)|(gaef)|(gfea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|
+(gae)|(agef)|(gaef)|(gfea)|(agefe)|(gaefe)|(gfeae)|(gfe)|c|g|(gf))|((age)|(gae)a?|f|(fe)|(fea))|((ac
+)|(ca)|(gfea)e?|(ea))|((gfe)|ca?|(ae)|(aea))|(((agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)))|((agefe)|(a
+ce)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)))|((agefe)|(ace)|(cae)|(gaefe)|(
+gfeae))a?)|((ag)|(ga)e?|(ea)|(ef)|(efe)|(efea))|(gfe?|(ea)|(eae)|(eaea))|(((agef)|(ac)|(ca)|(gaef)|(
+gfea)|(g(aef)|(fea)))|((agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))
+|(gaef)|(gfea)|(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(ae
+f)|(fea)))|(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea))
+e?|(ea))|(ag?|(ge)|(gea)|(gef)|(gefe)|(gefea)|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(gefea)|(cea)|(gefe)
+|(ce)|(gef)|c|(gefe)|(ce))|((agea)|(gaea))|(((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(fea
+ea)))|((agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|
+(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(
+cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))|(((a(gefea)|(cea))|(agefea)|(agefea)|
+(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)))|(((agef)|(gaef
+)|(gfea)|(g(aef)|(fea)))|((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)))|((ag
+ef)|(ac)|(ca)|(gaef)|(gfea))e?|(ea))|(gfeae?|(ea))|((ag)|(ga)e?|(ea)|(ef)|(efe)|(efea))|(((agefea)|(
+gaefea)|(gfeaea)|(g(aefea)|(feaea)))|((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(g
+feaea))|(g(aefea)|(feaea)))|((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)))|(((agefe)|(ace)|(cae)|(gaefe
+)|(gfeae)|(g(aefe)|(feae)))|((agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agef
+e)|(agefe)|(agefe)|(cae))|(gaefe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(
+ce))|(agefe)|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(feae)))|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(ca
+e))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(gfeae))a?)|(gfe?|(ea)|(eae)|(eaea))|(ag?|(ge
+)|(gea)|(gef)|(gefe)|(gefea)|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(ge
+fe)|(ce))|(ga?|(ae)|(aea)|(aef)|(fea)|(aefe)|(feae)|(aefea)|(feaea)|(aefe)|(feae)|(aef)|(fea)|(aefe)
+|(feae)|(aefea)|(feaea)|(aefe)|(feae)|(aef)|(fea)|(aefe)|(feae)|(aef)|(fea)|f|(fe)|(fea)|(fea)|(fea)
+|(fea)|(fe)|f|f|(fe)|(fea)|(fea)|(fe)|f)|((agea)|(gaea))|((ac)|(ca)|(gfea)e?|(ea))|((ag)|(ga)e?|(ea)
+|(ef)|(efe)|(efea))|((age)|(gae)a?|f|(fe)|(fea)|(fea)|(fea)|(fea)|(fe)|f|f|(fe)|(fea)|(fea)|(fe)|f|f
+|(fe)|(fe)|f)|((((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea)e?|(ea))|(gfea?|(ae)|(aea))|(((agefea)|(gaefea)|
+(gfeaea)|(g(aefea)|(feaea)))|((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|
+(g(aefea)|(feaea)))|((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)))|(((agefe)|(ace)|(cae)|(gaefe)|(gfeae
+)|(g(aefe)|(feae)))|((agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agef
+e)|(agefe)|(cae))|(gaefe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(ag
+efe)|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(feae)))|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(age
+fe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(gfeae))a?)|(gfe?|(ea)|(eae)|(eaea))|(((agef)|(gaef)|
+(gfea)|(g(aef)|(fea)))|((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)))|((agef
+)|(ac)|(ca)|(gaef)|(gfea))e?|(ea))|(ga?|(ae)|(aea)|(aef)|(fea)|(aefe)|(feae)|(aefea)|(feaea)|(aefe)|
+(feae)|(aef)|(fea)|(aefe)|(feae)|(aefea)|(feaea)|(aefe)|(feae)|(aef)|(fea)|(aefe)|(feae)|(aef)|(fea)
+|f|(fe))|(((agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)))|((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(
+gaefe)|(gfeae))|(g(aefe)|(feae)))|((agefe)|(ace)|(cae)|(gaefe)|(gfeae))a?)|(((agef)|(ac)|(ca)|(gaef)
+|(gfea)|(g(aef)|(fea)))|((agef)|(ac)|(a(gef)|c)|(ca)|((agef)|(ac)|(ca))|(gaef)|(gfea)|((a(gef)|c)|(a
+gef)|((agef)|(ac)|(ca))|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)))|((agef)|(ac)|(ca)|(gaef)|(gfea))e?|(ea
+))|((ag)|(ga)e?|(ea)|(ef)|(efe)|(efea))|((gfe)|ca?|(ae)|(aea))|(((agefea)|(acea)|(caea)|(gaefea)|(gf
+eaea)|(g(aefea)|(feaea)))|((agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea)
+)|(agefea)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)
+|(caea))|(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))|(((a(gefea)|(cea)
+)|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfea
+ea)))|(ag?|(ge)|(gea)|(gef)|(gefe)|(gefea))|((agea)|(gaea))|(gfe?|(ea)|(eae)|(eaea))|((ag)|(ga)e?|(e
+a)|(ef)|(efe)|(efea))|(((agef)|(gaef)|(gfea)|(g(aef)|(fea)))|((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)
+|(gaef)|(gfea))|(g(aef)|(fea)))|((agef)|(ac)|(ca)|(gaef)|(gfea))e?|(ea))|(a?|(ag)|(ga)|(age)|(gae)|(
+agea)|(gaea)|(age)|(gae)|(agef)|(gaef)|(gfea)|(g(aef)|(fea))|(agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)
+)|(agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(
+feaea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|
+(fea))|(agef)|(gaef)|(gfea)|(g(aef)|(fea))|(agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(agefea)|(gaefea
+)|(gfeaea)|(g(aefea)|(feaea))|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea))|(agefe)|(a
+ce)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae))|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea))|(ag)|(ga)|(
+ac)|(ca)|(gfea)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g
+(aefe)|(feae))|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|(gae)|(agef)|(gaef)|(gfea)|(g(aef)|(fea))|(agefe)|(g
+aefe)|(gfeae)|(g(aefe)|(feae))|(ag)|(ga)|(gfe)|c|g|(gf)|(gfe)|(gfea)|(gfea)|(gf)|g|(gf)|(gfe)|(gfea)
+|(gfea)|(gfe)|(gf))|((((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea)e?|(ea))|((age)|(gae)a?|f|(fe)|(fea)|(fea)
+|(fea)|(fea)|(fe)|f|f|(fe)|(fea)|(fea)|(fe)|f)|(((agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))|((ag
+efea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)))|((agefea)|(ac
+ea)|(caea)|(gaefea)|(gfeaea)))|(gfeae?|(ea))|(ag?|(ge)|(gea)|(gef)|(gefe)|(gefea))|(ag?|(ge)|(gea)|(
+gef)|c|(gefe)|(ce)|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(gefe)|(ce)|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(
+gefe)|(ce)|(gef)|c|g|g|(ge))|(a?|(ag)|(ga)|(age)|(gae)|(agea)|(gaea)|(age)|(gae)|(agef)|(ac)|(ca)|(g
+aef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaef
+e)|(gfeae))|(g(aefe)|(feae))|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(
+g(aefea)|(feaea))|(agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea
+)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|
+(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea))|(agefe)|(ace)|(a(gefe)|(ce)
+)|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(gaefe)|(gfeae)|(((a(gefe)|(ce
+))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(feae))|(
+agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef)
+|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea))|(agef)|(ac)|(c
+a)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea))|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|
+(gaefe)|(gfeae))|(g(aefe)|(feae))|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeae
+a))|(g(aefea)|(feaea))|(agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(a
+gefea)|(agefea)|(agefea)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(ca
+ea))|(a(gefea)|(cea))|(agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea))|(agefe)|(ace)|(a(gefe)
+|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(gaefe)|(gfeae)|(((a(gefe
+)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(fea
+e))|(agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a
+(gef)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea))|(ag)|(ga)
+|(ac)|(ca)|(gfea)|(agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea))|(agefe)|(ace)
+|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)
+|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)|((a(gefe)|(ce))|(agefe)|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)
+|(gfeae))|(g(aefe)|(feae))|(agef)|(ac)|(a(gef)|c)|(ca)|((agef)|(ac)|(ca))|(gaef)|(gfea)|((a(gef)|c)|
+(agef)|((agef)|(ac)|(ca))|(gaef)|(gfea)|(gfea))|(g(aef)|(fea))|(ac)|(ca)|(gfea)|(((ac)|(ca))|(gfea))
+|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|(gae)|(ag)|(ga)|(gfe)|c|(gfe)|c|g|(gf)|(gf)|g|(gf)|(gfe)|(gfea)|(g
+fea)|(gfe)|(gf))|(a?|(ag)|(ga)|(age)|(gae)|(agea)|(gaea)|(age)|(gae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|
+(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((a(gefea)|(cea))|(agef
+ea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)|((a
+(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea)|(
+gfeaea)|(gfeaea)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(
+gaefe)|(gfeae)|(gfeae)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gf
+ea)|(gfea)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(agefea)|(acea)|(caea)
+|(gaefea)|(gfeaea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(c
+ea))|(caea)|(gaefea)|(gfeaea)|(gfeaea)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|
+(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(gfeae)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(g
+ef)|c)|(ca)|(gaef)|(gfea)|(gfea)|(ag)|(ga)|(ac)|(ca)|(gfea)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(agefe)|(
+ace)|(cae)|(gaefe)|(gfeae)|(agef)|(ac)|(ca)|(gaef)|(gfea)|(ac)|(ca)|(gfea)|(ag)|(ga)|(age)|(gae)|(gf
+e)|c|g|(gf)|(gf))|(ag?|(ge)|(gea)|(gef)|c|(gefe)|(ce)|(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(gefe)|(ce)|
+(gefea)|(cea)|(gefe)|(ce)|(gef)|c|(gefe)|(ce)|(gef)|c|g|g|(ge)|g)"
+M2S7 [label=7];
+M2S8 [label=8];
+M2S9 [label=9];
+M2S10 [label=10];
+M2S11 [label=11];
+M2S12 [label=12];
 M2S13 [label=13];
 M2S14 [label=14];
-M2S52 [label=52];
-M2S39 [label=39];
-M2S40 [label=40];
-M2S12 [label=12];
+M2S15 [label=15];
+M2S16 [label=16];
+M2S17 [label=17];
+M2S18 [label=18];
+M2S19 [label=19];
+M2S20 [label=20];
+M2S21 [label=21];
+M2S22 [label=22];
+M2S23 [label=23];
+M2S24 [label=24];
+M2S25 [label=25];
+M2S26 [label=26];
+M2S27 [label=27];
+M2S28 [label=28];
+M2S29 [label=29];
+M2S30 [label=30];
+M2S31 [label=31];
+M2S32 [label=32];
+M2S33 [label=33];
+M2S34 [label=34];
+M2S35 [label=35];
+M2S36 [label=36];
 M2S37 [label=37];
 M2S38 [label=38];
-M2S11 [label=11];
-M2S36 [label=36];
+M2S39 [label=39];
+M2S40 [label=40];
+M2S41 [label=41];
+M2S42 [label=42];
+M2S43 [label=43];
+M2S44 [label=44];
+M2S45 [label=45];
+M2S46 [label=46];
+M2S47 [label=47];
+M2S48 [label=48];
+M2S49 [label=49];
+M2S50 [label=50];
+M2S51 [label=51];
+M2S52 [label=52];
+M2S53 [label=53];
+M2S54 [label=54];
+M2S55 [label=55];
+M2S56 [label=56];
+M2S57 [label=57];
+M2S58 [label=58];
+M2S59 [label=59];
+M2S60 [label=60];
+M2S61 [label=61];
+M2S62 [label=62];
 }
-subgraph cluster3 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))))|(age)|(age)|(age))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge))))|(age)|(age)|(age)|(((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))|(ag)|(ag)|(ag)e)|(((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))|(ag)|(ag)|(ag)e)|(gea)|(gea)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(age)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea)))|(g(ea)|(ae))|(g(ea)|(ae))|(g(ea)|(ae))|((ga)|(ag)e)|(gea|c)|(gea|c)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(age)))|(age)|((gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((ga)|(ag)e)|(gea|c)|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(a|c|c|age)|(a|c|c|age)|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(age)))|(age)|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge)))))|(age)|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(a|c|c|age)|(a|c|(a|c)|c|age)|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(age)))|(age)|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))))))|(age)|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))(a|c)?)|((((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))|(ag)|(ag)|(ag))|((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))|(ag)|(ag)|(ag)|(ga)|(ga)|(ga)|((ga)|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|(ga|c)|(a|c|c|ag)|(a|c|c|ag)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg))))|(ag)|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(a|c|c|ag)|(a|c|(a|c)|c|ag)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg)))))|(ag)|((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))))e?|(ea)|a|c)|(ge((aa)|(a|ca)|(ac))?|a|c|a|a|a|c|a|c)|(ge((a|ca)|(ac))?|(a|c)|a|a|a|a|c)|(ge((a|ca)|(ac))?|a|c|a|a|a|c|a|c)|(ga|c?|((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))|((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea))|((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce))|a|c|a|a|(ea)|(ea)|(ea)|e|e|e|e|e|e|e|((aa)|(aa|c)|(ca)))|(ga|c?|(ea|c)|(((ea)|(ae))|(ae)|(ce))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea))|(ea|c)|(ea|c)|((ea)|(ae)|(ce))|a|a|a|(ea)|(ea)|(ea)|e|e|e|e|e|(aa)|(aa|c)|(ca)|e|e)|(ga|c?|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|(((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|a|c|a|a|(ea)|(ea)|(ea)|e|e|e|e|e|e|e|((aa)|(aa|c)|(ca)))|(a|c|c|a|a|c|(a|c)|c|a((ga|c)|(a|cg)|(ga))?|g|g|(ge)|(gea)|(ge)|g|g|(a|c)|g)|(((g(aa)|(aa|c)|(ca))|((aa)|(aa|c)|(ca)g)|(((gaa)|(aga))|(g(aa)|(aa|c)|(ca))|(((gaa)|(aga))|(aga|c)|(aga)|(cga))))?|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|(g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(cgea)|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)|a|c|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|a|((ga)|(ag))|a|((ga)|(ag))|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|g|(ge)|(ge)|g|((aa)|(aa|c)|(ca))|g)|(((g(aa)|(aa|c)|(ca))|((aa)|(aa|c)|(ca)g)|(((gaa)|(aga))|(aga|c)|(aga)|(cga)))?|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|a|c|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|(geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|a|((ga)|(ag))|a|((ga)|(ag))|a|(ga)|(ag)|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|((aa)|(aa|c)|(ca))|g|(ge)|(ge))|(((g(aa)|(aa|c)|(ca))|((aa)|(aa|c)|(ca)g)|(g(aa)|(aa|c)|(ca))|(((gaa)|(aga))|(g(aa)|(aa|c)|(ca))|(((gaa)|(aga))|(aga|c)|(aga)|(cga))))?|a|c|(ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|a|c|(ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|((g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(cgea))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|a|c|(ga|c)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|a|((ga)|(ag))|a|((ga)|(ag))|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|g|(ge)|(ge)|g|g|((aa)|(aa|c)|(ca))|g)|(a|c|c|a|a|c|(a|c)|c|a(a|c)?|(a|c)|(ga|c)|(((ga)|(ag))|(cg))|((ga)|(ag)|(a|cg))|g|g|(ge)|(gea)|(ge)|g|g|g)|(a?|a|c|((aa)|((a|ca)|(ac)))|((aa)|(aa|c)|(ca))|(((aa)|(aa|c)|(ca))|((aa)|(aa|c)|(aa)|(a|ca)|(a|ca)|((a|ca)|(ac))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|(cga)|(c(ga)|(ag)))|(((gaa)|((aga)|(a(ga)|(ag))))|(((gaa)|((aga)|(a(ga)|(ag))))|(gaa)|((aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(aga)|(aag)))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|((gaa)|((aga)|(a(ga)|(ag)))|((aga)|(a(ga)|(ag))|(aga)|(aag))|((aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(aga)|(aag))|(aga|c)|(a((ga)|(ag))|(cg))|(aga)|(a(ga)|(ag))|(a|cga)|(a|c(ga)|(ag))|(a|cga)|(a|cag)|((a|ca)|(ac)g)))|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg))))))))|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|((ag)|(a|cg))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|((age)|(a|cge))|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|((g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(cgea))|(g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|(geaa)|(gaea)|((agea)|(a|cgea))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))))|a|c|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(a|cg)))))|((ga)|(ag))|((ga)|(ag))|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|g|(ge)|(ge)|g|g)|(a?|a|c|((aa)|((a|ca)|(ac)))|((aa)|(aa|c)|(ca))|((aa)|(aa|c)|((aa)|(a|ca)|((a|ca)|(ac))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|((gaa)|((aga)|(a(ga)|(ag)))|((aga)|(a(ga)|(ag))|(aga)|(aag))|((aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(aga)|(aag))|(aga|c)|(a((ga)|(ag))|(cg))|(aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(a|cga)|(a|cag)|((a|ca)|(ac)g))|a|c|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)))))))|a|c|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|((ag)|(a|cg)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|((age)|(a|cge))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|(geaa)|(gaea)|((agea)|(a|cgea))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))))|((ga)|(ag))|((ga)|(ag))|(ga)|(ag)|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|g|(ge)|(ge))|(a?|a|c|((aa)|((a|ca)|(ac)))|((aa)|(aa|c)|(ca))|((aa)|(aa|c)|(ca))|(((aa)|(aa|c)|(ca))|((aa)|(aa|c)|(aa)|(a|ca)|(a|ca)|((a|ca)|(ac))))|(g(aa)|(aa|c)|(ca))|((g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|(cga)|(c(ga)|(ag))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|(cga)|(c(ga)|(ag)))|(((gaa)|((aga)|(a(ga)|(ag))))|(((gaa)|((aga)|(a(ga)|(ag))))|(gaa)|((aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(aga)|(aag)))|(g(aa)|(aa|c)|(ca))|(((gaa)|((aga)|(a(ga)|(ag))))|(aga|c)|(a((ga)|(ag))|(cg))|(cga)|(cag))|((gaa)|((aga)|(a(ga)|(ag)))|((aga)|(a(ga)|(ag))|(aga)|(aag))|((aga)|(a(ga)|(ag))|(aga)|(a(ga)|(ag))|(aga)|(aag))|(aga|c)|(a((ga)|(ag))|(cg))|(aga)|(a(ga)|(ag))|(a|cga)|(a|c(ga)|(ag))|(a|cga)|(a|cag)|((a|ca)|(ac)g)))|a|c|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg))))))))|a|c|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|((ag)|(a|cg))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|((age)|(a|cge))|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|((g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|((g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(cgea)))|(g((eaa)|(aea))|(e(aa)|(ac)|(ca))|(((eaa)|(aea))|(aea)|(cea)))|((g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(cgea))|(g(eaa)|(aea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea)))|(ge(aa)|(ac)|(ca))|(g((eaa)|(aea))|(aea)|(cea))|((geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|((agea)|(cgea)))|(geaa)|(g(eaa)|(aea))|((geaa)|(gaea)|(agea))|(geaa)|(gaea)|((agea)|(a|cgea))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))))|a|c|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(a|cg)))))|((ga)|(ag))|((ga)|(ag))|(gea)|(gea)|(gea)|g|(ge)|g|g|g|g|(ge)|(ge)|g|(ge)|(ge)|g|(ge)|(ge)|g|g|g)"
-M3S18 [label=18];
-M3S10 [label=10];
-M3S44 [label=44];
-M3S29 [label=29];
-M3S48 [label=48];
-M3S32 [label=32];
-M3S28 [label=28];
-M3S34 [label=34];
-M3S9 [label=9];
-M3S31 [label=31];
-M3S27 [label=27];
-M3S33 [label=33];
-M3S4 [label=4];
-M3S2 [label=2];
-M3S3 [label=3];
-M3S1 [label=1];
-}
-M0S0 -> M1S35 [label="(ε, ε)"]
-M0S0 -> M1S65 [label="(ε, ε)"]
-M0S0 -> M1S66 [label="(g, g)"]
-M0S0 -> M1S62 [label="(g, g)"]
-M0S0 -> M1S63 [label="(ge, ge)"]
-M0S0 -> M1S44 [label="(gea, gea)"]
-M0S0 -> M1S29 [label="((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)), (gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))"]
-M0S0 -> M1S32 [label="((ga)|(ag), (ga)|(ag))"]
-M0S0 -> M1S28 [label="((ga)|(ag), (ga)|(ag))"]
-M0S0 -> M1S67 [label="(ge, ge)"]
-M0S0 -> M1S48 [label="(gea, gea)"]
-M0S0 -> M1S34 [label="((ga)|(ag), (ga)|(ag))"]
-M0S0 -> M1S61 [label="(ε, ε)"]
-M0S0 -> M1S31 [label="(a, a)"]
-M0S0 -> M1S27 [label="(a, a)"]
-M0S0 -> M1S33 [label="(a, a)"]
-M0S0 -> M1S59 [label="(ε, ε)"]
-M0S0 -> M1S2 [label="(a, a)"]
+M0S0 -> M1S1 [label="(ε, ε)"]
+M0S0 -> M1S2 [label="(ε, ε)"]
 M0S0 -> M1S3 [label="(a, a)"]
-M0S0 -> M1S1 [label="(a, a)"]
-M1S35 -> M2S25 [label="((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))), (gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))))"]
-M1S35 -> M2S17 [label="((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age))), (gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age))))"]
-M1S35 -> M2S20 [label="((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))), (ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))"]
-M1S35 -> M2S16 [label="((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))), (ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))"]
-M1S35 -> M2S60 [label="(ge, ge)"]
-M1S35 -> M2S47 [label="(ge, ge)"]
-M1S35 -> M2S43 [label="(ge, ge)"]
-M1S35 -> M2S26 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))"]
-M1S35 -> M2S54 [label="(g, g)"]
-M1S35 -> M2S46 [label="(g, g)"]
-M1S35 -> M2S42 [label="(g, g)"]
-M1S35 -> M2S22 [label="((ga)|(ag), (ga)|(ag))"]
-M1S35 -> M2S64 [label="(ge, ge)"]
-M1S35 -> M2S51 [label="(ge, ge)"]
-M1S35 -> M2S30 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))"]
-M1S35 -> M2S56 [label="(g, g)"]
-M1S35 -> M2S50 [label="(g, g)"]
-M1S35 -> M2S24 [label="((ga)|(ag), (ga)|(ag))"]
-M1S35 -> M2S68 [label="(ge, ge)"]
-M1S35 -> M2S58 [label="(g, g)"]
-M1S35 -> M2S19 [label="(a|c|c|a, a|c|c|a)"]
-M1S35 -> M2S15 [label="(a|c|c|a, a|c|c|a)"]
-M1S35 -> M2S53 [label="(ε, ε)"]
-M1S35 -> M2S45 [label="(ε, ε)"]
-M1S35 -> M2S41 [label="(ε, ε)"]
-M1S35 -> M2S21 [label="(a, a)"]
-M1S35 -> M2S55 [label="(ε, ε)"]
-M1S35 -> M2S49 [label="(ε, ε)"]
-M1S35 -> M2S23 [label="(a, a)"]
-M1S35 -> M2S57 [label="(ε, ε)"]
-M1S35 -> M2S13 [label="(a|c|c|a, a|c|c|a)"]
-M1S35 -> M2S14 [label="(a|c|(a|c)|c|a, a|c|(a|c)|c|a)"]
-M1S35 -> M2S52 [label="(ε, ε)"]
-M1S35 -> M2S39 [label="(ε, ε)"]
-M1S35 -> M2S40 [label="(ε, ε)"]
-M1S35 -> M2S12 [label="(a, a)"]
-M1S35 -> M2S37 [label="(ε, ε)"]
-M1S35 -> M2S38 [label="(ε, ε)"]
-M1S35 -> M2S11 [label="(a, a)"]
-M1S35 -> M2S36 [label="(ε, ε)"]
-M1S65 -> M2S25 [label="((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)), (gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))"]
-M1S65 -> M2S17 [label="((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age), (gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))"]
-M1S65 -> M2S20 [label="((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag), (ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))"]
-M1S65 -> M2S16 [label="((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag), (ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))"]
-M1S65 -> M2S60 [label="(ge, ge)"]
-M1S65 -> M2S47 [label="(ge, ge)"]
-M1S65 -> M2S43 [label="(ge, ge)"]
-M1S65 -> M2S26 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))"]
-M1S65 -> M2S54 [label="(g, g)"]
-M1S65 -> M2S46 [label="(g, g)"]
-M1S65 -> M2S42 [label="(g, g)"]
-M1S65 -> M2S22 [label="((ga)|(ag), (ga)|(ag))"]
-M1S65 -> M2S64 [label="(ge, ge)"]
-M1S65 -> M2S51 [label="(ge, ge)"]
-M1S65 -> M2S30 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))"]
-M1S65 -> M2S56 [label="(g, g)"]
-M1S65 -> M2S50 [label="(g, g)"]
-M1S65 -> M2S24 [label="((ga)|(ag), (ga)|(ag))"]
-M1S65 -> M2S68 [label="(ge, ge)"]
-M1S65 -> M2S58 [label="(g, g)"]
-M1S65 -> M2S19 [label="(a|c, a|c)"]
-M1S65 -> M2S15 [label="(a|c, a|c)"]
-M1S65 -> M2S53 [label="(ε, ε)"]
-M1S65 -> M2S45 [label="(ε, ε)"]
-M1S65 -> M2S41 [label="(ε, ε)"]
-M1S65 -> M2S21 [label="(a, a)"]
-M1S65 -> M2S55 [label="(ε, ε)"]
-M1S65 -> M2S49 [label="(ε, ε)"]
-M1S65 -> M2S23 [label="(a, a)"]
-M1S65 -> M2S57 [label="(ε, ε)"]
-M1S66 -> M2S25 [label="((ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)), g(ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))"]
-M1S66 -> M2S17 [label="((ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))), g(ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))"]
-M1S66 -> M2S20 [label="(a|c, ga|c)"]
-M1S66 -> M2S16 [label="(a|c, ga|c)"]
-M1S66 -> M2S60 [label="(e, ge)"]
-M1S66 -> M2S47 [label="(e, ge)"]
-M1S66 -> M2S43 [label="(e, ge)"]
-M1S66 -> M2S26 [label="((ea)|(ae), g(ea)|(ae))"]
-M1S66 -> M2S54 [label="(ε, g)"]
-M1S66 -> M2S46 [label="(ε, g)"]
-M1S66 -> M2S42 [label="(ε, g)"]
-M1S66 -> M2S22 [label="(a, ga)"]
-M1S66 -> M2S64 [label="(e, ge)"]
-M1S66 -> M2S51 [label="(e, ge)"]
-M1S66 -> M2S30 [label="((ea)|(ae), g(ea)|(ae))"]
-M1S66 -> M2S56 [label="(ε, g)"]
-M1S66 -> M2S50 [label="(ε, g)"]
-M1S66 -> M2S24 [label="(a, ga)"]
-M1S66 -> M2S68 [label="(e, ge)"]
-M1S66 -> M2S58 [label="(ε, g)"]
-M1S62 -> M2S25 [label="((ea|c)|(ea|c)|((ea)|(ae)|(ce)), g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))"]
-M1S62 -> M2S17 [label="((ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce)), g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce)))"]
-M1S62 -> M2S20 [label="(a|c, ga|c)"]
-M1S62 -> M2S16 [label="(a|c, ga|c)"]
-M1S62 -> M2S60 [label="(e, ge)"]
-M1S62 -> M2S47 [label="(e, ge)"]
-M1S62 -> M2S43 [label="(e, ge)"]
-M1S62 -> M2S26 [label="((ea)|(ae), g(ea)|(ae))"]
-M1S62 -> M2S54 [label="(ε, g)"]
-M1S62 -> M2S46 [label="(ε, g)"]
-M1S62 -> M2S42 [label="(ε, g)"]
-M1S62 -> M2S22 [label="(a, ga)"]
-M1S62 -> M2S64 [label="(e, ge)"]
-M1S62 -> M2S51 [label="(e, ge)"]
-M1S62 -> M2S30 [label="((ea)|(ae), g(ea)|(ae))"]
-M1S62 -> M2S56 [label="(ε, g)"]
-M1S62 -> M2S50 [label="(ε, g)"]
-M1S62 -> M2S24 [label="(a, ga)"]
-M1S63 -> M2S25 [label="(a|c, gea|c)"]
-M1S63 -> M2S17 [label="(a|c, gea|c)"]
-M1S63 -> M2S60 [label="(ε, ge)"]
-M1S63 -> M2S47 [label="(ε, ge)"]
-M1S63 -> M2S43 [label="(ε, ge)"]
-M1S63 -> M2S26 [label="(a, gea)"]
-M1S63 -> M2S64 [label="(ε, ge)"]
-M1S63 -> M2S51 [label="(ε, ge)"]
-M1S63 -> M2S30 [label="(a, gea)"]
-M1S44 -> M2S25 [label="(ε, gea)"]
-M1S44 -> M2S17 [label="(ε, gea)"]
-M1S44 -> M2S26 [label="(ε, gea)"]
-M1S44 -> M2S30 [label="(ε, gea)"]
-M1S29 -> M2S25 [label="(ε, (gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))"]
-M1S29 -> M2S17 [label="(ε, (gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))"]
-M1S29 -> M2S26 [label="(ε, (gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))"]
-M1S29 -> M2S30 [label="(ε, (gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))"]
-M1S32 -> M2S25 [label="(e, (ga)|(ag)e)"]
-M1S32 -> M2S17 [label="(e, (ga)|(ag)e)"]
-M1S32 -> M2S20 [label="(ε, (ga)|(ag))"]
-M1S32 -> M2S16 [label="(ε, (ga)|(ag))"]
-M1S32 -> M2S26 [label="(e, (ga)|(ag)e)"]
-M1S32 -> M2S22 [label="(ε, (ga)|(ag))"]
-M1S32 -> M2S30 [label="(e, (ga)|(ag)e)"]
-M1S32 -> M2S24 [label="(ε, (ga)|(ag))"]
-M1S28 -> M2S25 [label="(e, (ga)|(ag)e)"]
-M1S28 -> M2S17 [label="(e, (ga)|(ag)e)"]
-M1S28 -> M2S20 [label="(ε, (ga)|(ag))"]
-M1S28 -> M2S16 [label="(ε, (ga)|(ag))"]
-M1S28 -> M2S26 [label="(e, (ga)|(ag)e)"]
-M1S28 -> M2S22 [label="(ε, (ga)|(ag))"]
-M1S28 -> M2S30 [label="(e, (ga)|(ag)e)"]
-M1S28 -> M2S24 [label="(ε, (ga)|(ag))"]
-M1S67 -> M2S25 [label="(a|c, gea|c)"]
-M1S67 -> M2S17 [label="(a|c, gea|c)"]
-M1S67 -> M2S60 [label="(ε, ge)"]
-M1S67 -> M2S47 [label="(ε, ge)"]
-M1S67 -> M2S43 [label="(ε, ge)"]
-M1S67 -> M2S26 [label="(a, gea)"]
-M1S67 -> M2S64 [label="(ε, ge)"]
-M1S67 -> M2S51 [label="(ε, ge)"]
-M1S67 -> M2S30 [label="(a, gea)"]
-M1S67 -> M2S68 [label="(ε, ge)"]
-M1S48 -> M2S25 [label="(ε, gea)"]
-M1S48 -> M2S17 [label="(ε, gea)"]
-M1S48 -> M2S26 [label="(ε, gea)"]
-M1S48 -> M2S30 [label="(ε, gea)"]
-M1S34 -> M2S25 [label="(e, (ga)|(ag)e)"]
-M1S34 -> M2S17 [label="(e, (ga)|(ag)e)"]
-M1S34 -> M2S20 [label="(ε, (ga)|(ag))"]
-M1S34 -> M2S16 [label="(ε, (ga)|(ag))"]
-M1S34 -> M2S26 [label="(e, (ga)|(ag)e)"]
-M1S34 -> M2S22 [label="(ε, (ga)|(ag))"]
-M1S34 -> M2S30 [label="(e, (ga)|(ag)e)"]
-M1S34 -> M2S24 [label="(ε, (ga)|(ag))"]
-M1S61 -> M2S25 [label="((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))), (gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))))"]
-M1S61 -> M2S17 [label="((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge))), (gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge))))"]
-M1S61 -> M2S20 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))"]
-M1S61 -> M2S16 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))"]
-M1S61 -> M2S60 [label="(ge, ge)"]
-M1S61 -> M2S47 [label="(ge, ge)"]
-M1S61 -> M2S43 [label="(ge, ge)"]
-M1S61 -> M2S26 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))"]
-M1S61 -> M2S54 [label="(g, g)"]
-M1S61 -> M2S46 [label="(g, g)"]
-M1S61 -> M2S42 [label="(g, g)"]
-M1S61 -> M2S22 [label="((ga)|(ag), (ga)|(ag))"]
-M1S61 -> M2S64 [label="(ge, ge)"]
-M1S61 -> M2S51 [label="(ge, ge)"]
-M1S61 -> M2S30 [label="((gea)|(g(ea)|(ae))|((gea)|(age)), (gea)|(g(ea)|(ae))|((gea)|(age)))"]
-M1S61 -> M2S56 [label="(g, g)"]
-M1S61 -> M2S50 [label="(g, g)"]
-M1S61 -> M2S24 [label="((ga)|(ag), (ga)|(ag))"]
-M1S61 -> M2S19 [label="(a|c, a|c)"]
-M1S61 -> M2S15 [label="(a|c, a|c)"]
-M1S61 -> M2S53 [label="(ε, ε)"]
-M1S61 -> M2S45 [label="(ε, ε)"]
-M1S61 -> M2S41 [label="(ε, ε)"]
-M1S61 -> M2S21 [label="(a, a)"]
-M1S61 -> M2S55 [label="(ε, ε)"]
-M1S61 -> M2S49 [label="(ε, ε)"]
-M1S61 -> M2S23 [label="(a, a)"]
-M1S31 -> M2S25 [label="(ge, age)"]
-M1S31 -> M2S17 [label="(ge, age)"]
-M1S31 -> M2S20 [label="(g, ag)"]
-M1S31 -> M2S16 [label="(g, ag)"]
-M1S31 -> M2S26 [label="(ge, age)"]
-M1S31 -> M2S22 [label="(g, ag)"]
-M1S31 -> M2S30 [label="(ge, age)"]
-M1S31 -> M2S24 [label="(g, ag)"]
-M1S31 -> M2S19 [label="(ε, a)"]
-M1S31 -> M2S15 [label="(ε, a)"]
-M1S31 -> M2S21 [label="(ε, a)"]
-M1S31 -> M2S23 [label="(ε, a)"]
-M1S27 -> M2S25 [label="(ge, age)"]
-M1S27 -> M2S17 [label="(ge, age)"]
-M1S27 -> M2S20 [label="(g, ag)"]
-M1S27 -> M2S16 [label="(g, ag)"]
-M1S27 -> M2S26 [label="(ge, age)"]
-M1S27 -> M2S22 [label="(g, ag)"]
-M1S27 -> M2S30 [label="(ge, age)"]
-M1S27 -> M2S24 [label="(g, ag)"]
-M1S27 -> M2S19 [label="(ε, a)"]
-M1S27 -> M2S15 [label="(ε, a)"]
-M1S27 -> M2S21 [label="(ε, a)"]
-M1S27 -> M2S23 [label="(ε, a)"]
-M1S33 -> M2S25 [label="(ge, age)"]
-M1S33 -> M2S17 [label="(ge, age)"]
-M1S33 -> M2S20 [label="(g, ag)"]
-M1S33 -> M2S16 [label="(g, ag)"]
-M1S33 -> M2S26 [label="(ge, age)"]
-M1S33 -> M2S22 [label="(g, ag)"]
-M1S33 -> M2S30 [label="(ge, age)"]
-M1S33 -> M2S24 [label="(g, ag)"]
-M1S33 -> M2S19 [label="(ε, a)"]
-M1S33 -> M2S15 [label="(ε, a)"]
-M1S33 -> M2S21 [label="(ε, a)"]
-M1S33 -> M2S23 [label="(ε, a)"]
-M1S59 -> M2S25 [label="((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))), (gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))))"]
-M1S59 -> M2S17 [label="((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge))), (gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge))))"]
-M1S59 -> M2S20 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))"]
-M1S59 -> M2S16 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))"]
-M1S59 -> M2S60 [label="(ge, ge)"]
-M1S59 -> M2S47 [label="(ge, ge)"]
-M1S59 -> M2S43 [label="(ge, ge)"]
-M1S59 -> M2S26 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea)), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea)))"]
-M1S59 -> M2S54 [label="(g, g)"]
-M1S59 -> M2S46 [label="(g, g)"]
-M1S59 -> M2S42 [label="(g, g)"]
-M1S59 -> M2S22 [label="((ga)|(ag), (ga)|(ag))"]
-M1S59 -> M2S64 [label="(ge, ge)"]
-M1S59 -> M2S51 [label="(ge, ge)"]
-M1S59 -> M2S30 [label="((gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea), (gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea))"]
-M1S59 -> M2S56 [label="(g, g)"]
-M1S59 -> M2S50 [label="(g, g)"]
-M1S59 -> M2S24 [label="((ga)|(ag), (ga)|(ag))"]
-M1S59 -> M2S19 [label="(a|c, a|c)"]
-M1S59 -> M2S15 [label="(a|c, a|c)"]
-M1S59 -> M2S53 [label="(ε, ε)"]
-M1S59 -> M2S45 [label="(ε, ε)"]
-M1S59 -> M2S41 [label="(ε, ε)"]
-M1S59 -> M2S21 [label="(a, a)"]
-M1S59 -> M2S55 [label="(ε, ε)"]
-M1S59 -> M2S49 [label="(ε, ε)"]
-M1S59 -> M2S23 [label="(a, a)"]
-M1S59 -> M2S13 [label="(a|c, a|c)"]
-M1S59 -> M2S14 [label="(a|c, a|c)"]
-M1S59 -> M2S52 [label="(ε, ε)"]
-M1S59 -> M2S39 [label="(ε, ε)"]
-M1S59 -> M2S40 [label="(ε, ε)"]
-M1S59 -> M2S12 [label="(a, a)"]
-M1S59 -> M2S37 [label="(ε, ε)"]
-M1S59 -> M2S38 [label="(ε, ε)"]
-M1S59 -> M2S11 [label="(a, a)"]
-M1S2 -> M2S25 [label="(ge, age)"]
-M1S2 -> M2S17 [label="(ge, age)"]
-M1S2 -> M2S20 [label="(g, ag)"]
-M1S2 -> M2S16 [label="(g, ag)"]
-M1S2 -> M2S26 [label="(ge, age)"]
-M1S2 -> M2S22 [label="(g, ag)"]
-M1S2 -> M2S30 [label="(ge, age)"]
-M1S2 -> M2S24 [label="(g, ag)"]
-M1S2 -> M2S19 [label="(ε, a)"]
-M1S2 -> M2S15 [label="(ε, a)"]
-M1S2 -> M2S21 [label="(ε, a)"]
-M1S2 -> M2S23 [label="(ε, a)"]
-M1S2 -> M2S13 [label="(ε, a)"]
-M1S2 -> M2S14 [label="(ε, a)"]
-M1S2 -> M2S12 [label="(ε, a)"]
-M1S2 -> M2S11 [label="(ε, a)"]
-M1S3 -> M2S25 [label="(ge, age)"]
-M1S3 -> M2S17 [label="(ge, age)"]
-M1S3 -> M2S20 [label="(g, ag)"]
-M1S3 -> M2S16 [label="(g, ag)"]
-M1S3 -> M2S26 [label="(ge, age)"]
-M1S3 -> M2S22 [label="(g, ag)"]
-M1S3 -> M2S30 [label="(ge, age)"]
-M1S3 -> M2S24 [label="(g, ag)"]
-M1S3 -> M2S19 [label="(ε, a)"]
-M1S3 -> M2S15 [label="(ε, a)"]
-M1S3 -> M2S21 [label="(ε, a)"]
-M1S3 -> M2S23 [label="(ε, a)"]
-M1S3 -> M2S13 [label="(ε, a)"]
-M1S3 -> M2S14 [label="(ε, a)"]
-M1S3 -> M2S12 [label="(ε, a)"]
-M1S3 -> M2S11 [label="(ε, a)"]
-M1S1 -> M2S25 [label="(ge, age)"]
-M1S1 -> M2S17 [label="(ge, age)"]
-M1S1 -> M2S20 [label="(g, ag)"]
-M1S1 -> M2S16 [label="(g, ag)"]
-M1S1 -> M2S26 [label="(ge, age)"]
-M1S1 -> M2S22 [label="(g, ag)"]
-M1S1 -> M2S30 [label="(ge, age)"]
-M1S1 -> M2S24 [label="(g, ag)"]
-M1S1 -> M2S19 [label="(ε, a)"]
-M1S1 -> M2S15 [label="(ε, a)"]
-M1S1 -> M2S21 [label="(ε, a)"]
-M1S1 -> M2S23 [label="(ε, a)"]
-M1S1 -> M2S13 [label="(ε, a)"]
-M1S1 -> M2S14 [label="(ε, a)"]
-M1S1 -> M2S12 [label="(ε, a)"]
-M1S1 -> M2S11 [label="(ε, a)"]
-M2S25 -> M3S18 [label="(ε, ((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge)))|((gea)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(age)))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge)))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|((gea)|(cge))))|(age)|(age)|(age))"]
-M2S17 -> M3S18 [label="(ε, ((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|((age)|(a|cge)|(a|cge)|(a|cge)|(a|cge)|(age))))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge)|(age))))|((gea|c)|(gea|c)|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge)))|(age))|(g(ea|c)|(ea|c)|(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce))))|(g(ea|c)|(ea|c)|(((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce)))|(gea|c)|(gea)|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|(gea|c)|(gea)|((ga)|(ag)e)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge))))|(age)|(age)|(age)|((gea|c)|(gea|c)|(g((ea)|(ae))|(((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|((age)|(cge)))|((gea)|(g(ea)|(ae))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(age))|(age)|(g((ea)|(ae))|(ea|c)|(((ea)|(ae))|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|(gea|c)|(g((ea)|(ae))|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|((age)|(cge)))|(gea)|(g(ea)|(ae))|((gea)|(gae)|(age))|(gea)|(gae)|(((age)|(a|cge))|(cge))))|(age)|(age)|(age))"]
-M2S20 -> M3S18 [label="(e, ((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))|(ag)|(ag)|(ag)e)"]
-M2S20 -> M3S10 [label="(ε, ((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag)))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((cg)|(ag)))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg))))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(((ga)|(ag))|(cg)))|(((ga)|(ag))|((ga)|(ag))|(((ga)|(ag))|(((ga)|(ag))|(ga)|((ag)|(cg)))))))|(ag)|(ag)|(ag))"]
-M2S16 -> M3S18 [label="(e, ((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))|(ag)|(ag)|(ag)e)"]
-M2S16 -> M3S10 [label="(ε, ((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|((ag)|(a|cg)|(a|cg)|(a|cg)|(ag))))))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg)|(ag))))))|((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg)))|(ag))|(ga|c)|(ga|c)|((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg))))|(ag)|(ag)|(ag)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|((ag)|(cg)))|(((ga)|(ag))|((ga)|(ag))|(ag)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|((ag)|(cg)))|(((ga)|(ag))|(ga)|(((ag)|(a|cg))|(cg))))))|(ag)|(ag)|(ag))"]
-M2S60 -> M3S44 [label="(ε, ge)"]
-M2S60 -> M3S29 [label="(ε, ge)"]
-M2S60 -> M3S18 [label="(a, gea)"]
-M2S60 -> M3S48 [label="(ε, ge)"]
-M2S47 -> M3S44 [label="(ε, ge)"]
-M2S47 -> M3S29 [label="(ε, ge)"]
-M2S47 -> M3S18 [label="(a, gea)"]
-M2S47 -> M3S48 [label="(ε, ge)"]
-M2S43 -> M3S44 [label="(ε, ge)"]
-M2S43 -> M3S29 [label="(ε, ge)"]
-M2S43 -> M3S18 [label="(a, gea)"]
-M2S26 -> M3S18 [label="(ε, ((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(age)|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|(age)|(gea))))"]
-M2S54 -> M3S44 [label="(e, ge)"]
-M2S54 -> M3S29 [label="(e, ge)"]
-M2S54 -> M3S18 [label="((ea)|(ae), g(ea)|(ae))"]
-M2S54 -> M3S32 [label="(ε, g)"]
-M2S54 -> M3S28 [label="(ε, g)"]
-M2S54 -> M3S10 [label="(a, ga)"]
-M2S54 -> M3S48 [label="(e, ge)"]
-M2S54 -> M3S34 [label="(ε, g)"]
-M2S46 -> M3S44 [label="(e, ge)"]
-M2S46 -> M3S29 [label="(e, ge)"]
-M2S46 -> M3S18 [label="((ea)|(ae), g(ea)|(ae))"]
-M2S46 -> M3S32 [label="(ε, g)"]
-M2S46 -> M3S28 [label="(ε, g)"]
-M2S46 -> M3S10 [label="(a, ga)"]
-M2S46 -> M3S48 [label="(e, ge)"]
-M2S46 -> M3S34 [label="(ε, g)"]
-M2S42 -> M3S44 [label="(e, ge)"]
-M2S42 -> M3S29 [label="(e, ge)"]
-M2S42 -> M3S18 [label="((ea)|(ae), g(ea)|(ae))"]
-M2S42 -> M3S32 [label="(ε, g)"]
-M2S42 -> M3S28 [label="(ε, g)"]
-M2S42 -> M3S10 [label="(a, ga)"]
-M2S22 -> M3S18 [label="(e, (ga)|(ag)e)"]
-M2S22 -> M3S10 [label="(ε, (ga)|(ag))"]
-M2S64 -> M3S18 [label="(a|c, gea|c)"]
-M2S64 -> M3S44 [label="(ε, ge)"]
-M2S64 -> M3S29 [label="(ε, ge)"]
-M2S64 -> M3S48 [label="(ε, ge)"]
-M2S51 -> M3S18 [label="(a|c, gea|c)"]
-M2S51 -> M3S44 [label="(ε, ge)"]
-M2S51 -> M3S29 [label="(ε, ge)"]
-M2S51 -> M3S48 [label="(ε, ge)"]
-M2S30 -> M3S18 [label="(ε, ((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(g(ea)|(ae))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(gae)|(age)))|((ga)|(ag)e)|((ga)|(ag)e)|((ga)|(ag)e)|((gea)|(g(ea)|(ae))|((gea)|(age)))|(age)|((gea)|(g(ea)|(ae))|((gea)|(age))|(age)|(gea)))"]
-M2S56 -> M3S18 [label="(((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)), g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))"]
-M2S56 -> M3S10 [label="(a|c, ga|c)"]
-M2S56 -> M3S44 [label="(e, ge)"]
-M2S56 -> M3S29 [label="(e, ge)"]
-M2S56 -> M3S32 [label="(ε, g)"]
-M2S56 -> M3S28 [label="(ε, g)"]
-M2S56 -> M3S48 [label="(e, ge)"]
-M2S56 -> M3S34 [label="(ε, g)"]
-M2S50 -> M3S18 [label="((ea|c)|(ea|c)|((ea)|(ae)|(ce)), g(ea|c)|(ea|c)|((ea)|(ae)|(ce)))"]
-M2S50 -> M3S10 [label="(a|c, ga|c)"]
-M2S50 -> M3S44 [label="(e, ge)"]
-M2S50 -> M3S29 [label="(e, ge)"]
-M2S50 -> M3S32 [label="(ε, g)"]
-M2S50 -> M3S28 [label="(ε, g)"]
-M2S50 -> M3S48 [label="(e, ge)"]
-M2S50 -> M3S34 [label="(ε, g)"]
-M2S24 -> M3S18 [label="(e, (ga)|(ag)e)"]
-M2S24 -> M3S10 [label="(ε, (ga)|(ag))"]
-M2S68 -> M3S18 [label="(a|c, gea|c)"]
-M2S68 -> M3S44 [label="(ε, ge)"]
-M2S68 -> M3S29 [label="(ε, ge)"]
-M2S68 -> M3S48 [label="(ε, ge)"]
-M2S58 -> M3S18 [label="(((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)), g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))"]
-M2S58 -> M3S10 [label="(a|c, ga|c)"]
-M2S58 -> M3S44 [label="(e, ge)"]
-M2S58 -> M3S29 [label="(e, ge)"]
-M2S58 -> M3S32 [label="(ε, g)"]
-M2S58 -> M3S28 [label="(ε, g)"]
-M2S58 -> M3S48 [label="(e, ge)"]
-M2S58 -> M3S34 [label="(ε, g)"]
-M2S19 -> M3S18 [label="(ge, a|c|c|age)"]
-M2S19 -> M3S10 [label="(g, a|c|c|ag)"]
-M2S19 -> M3S9 [label="(ε, a|c|c|a)"]
-M2S15 -> M3S18 [label="(ge, a|c|c|age)"]
-M2S15 -> M3S10 [label="(g, a|c|c|ag)"]
-M2S15 -> M3S9 [label="(ε, a|c|c|a)"]
-M2S53 -> M3S44 [label="(ge, ge)"]
-M2S53 -> M3S29 [label="(ge, ge)"]
-M2S53 -> M3S18 [label="((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))), (g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))))"]
-M2S53 -> M3S32 [label="(g, g)"]
-M2S53 -> M3S28 [label="(g, g)"]
-M2S53 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S53 -> M3S48 [label="(ge, ge)"]
-M2S53 -> M3S34 [label="(g, g)"]
-M2S53 -> M3S31 [label="(ε, ε)"]
-M2S53 -> M3S27 [label="(ε, ε)"]
-M2S53 -> M3S9 [label="(a, a)"]
-M2S53 -> M3S33 [label="(ε, ε)"]
-M2S45 -> M3S44 [label="(ge, ge)"]
-M2S45 -> M3S29 [label="(ge, ge)"]
-M2S45 -> M3S18 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))"]
-M2S45 -> M3S32 [label="(g, g)"]
-M2S45 -> M3S28 [label="(g, g)"]
-M2S45 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S45 -> M3S48 [label="(ge, ge)"]
-M2S45 -> M3S34 [label="(g, g)"]
-M2S45 -> M3S31 [label="(ε, ε)"]
-M2S45 -> M3S27 [label="(ε, ε)"]
-M2S45 -> M3S9 [label="(a, a)"]
-M2S45 -> M3S33 [label="(ε, ε)"]
-M2S41 -> M3S44 [label="(ge, ge)"]
-M2S41 -> M3S29 [label="(ge, ge)"]
-M2S41 -> M3S18 [label="((gea)|(g(ea)|(ae))|((gea)|(age)), (gea)|(g(ea)|(ae))|((gea)|(age)))"]
-M2S41 -> M3S32 [label="(g, g)"]
-M2S41 -> M3S28 [label="(g, g)"]
-M2S41 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S41 -> M3S31 [label="(ε, ε)"]
-M2S41 -> M3S27 [label="(ε, ε)"]
-M2S41 -> M3S9 [label="(a, a)"]
-M2S21 -> M3S18 [label="(ge, age)"]
-M2S21 -> M3S10 [label="(g, ag)"]
-M2S21 -> M3S9 [label="(ε, a)"]
-M2S55 -> M3S18 [label="((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge), (g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))"]
-M2S55 -> M3S10 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))"]
-M2S55 -> M3S44 [label="(ge, ge)"]
-M2S55 -> M3S29 [label="(ge, ge)"]
-M2S55 -> M3S32 [label="(g, g)"]
-M2S55 -> M3S28 [label="(g, g)"]
-M2S55 -> M3S48 [label="(ge, ge)"]
-M2S55 -> M3S34 [label="(g, g)"]
-M2S55 -> M3S9 [label="(a|c, a|c)"]
-M2S55 -> M3S31 [label="(ε, ε)"]
-M2S55 -> M3S27 [label="(ε, ε)"]
-M2S55 -> M3S33 [label="(ε, ε)"]
-M2S49 -> M3S18 [label="((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge)))), (gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge)))))"]
-M2S49 -> M3S10 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg))))"]
-M2S49 -> M3S44 [label="(ge, ge)"]
-M2S49 -> M3S29 [label="(ge, ge)"]
-M2S49 -> M3S32 [label="(g, g)"]
-M2S49 -> M3S28 [label="(g, g)"]
-M2S49 -> M3S48 [label="(ge, ge)"]
-M2S49 -> M3S34 [label="(g, g)"]
-M2S49 -> M3S9 [label="(a|c, a|c)"]
-M2S49 -> M3S31 [label="(ε, ε)"]
-M2S49 -> M3S27 [label="(ε, ε)"]
-M2S49 -> M3S33 [label="(ε, ε)"]
-M2S23 -> M3S18 [label="(ge, age)"]
-M2S23 -> M3S10 [label="(g, ag)"]
-M2S23 -> M3S9 [label="(ε, a)"]
-M2S57 -> M3S18 [label="((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)), (g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))"]
-M2S57 -> M3S10 [label="((ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)), (ga|c)|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))"]
-M2S57 -> M3S44 [label="(ge, ge)"]
-M2S57 -> M3S29 [label="(ge, ge)"]
-M2S57 -> M3S32 [label="(g, g)"]
-M2S57 -> M3S28 [label="(g, g)"]
-M2S57 -> M3S48 [label="(ge, ge)"]
-M2S57 -> M3S34 [label="(g, g)"]
-M2S57 -> M3S9 [label="(a|c, a|c)"]
-M2S57 -> M3S31 [label="(ε, ε)"]
-M2S57 -> M3S27 [label="(ε, ε)"]
-M2S57 -> M3S33 [label="(ε, ε)"]
-M2S13 -> M3S18 [label="(ge, a|c|c|age)"]
-M2S13 -> M3S10 [label="(g, a|c|c|ag)"]
-M2S13 -> M3S9 [label="(ε, a|c|c|a)"]
-M2S13 -> M3S4 [label="(ε, a|c|c|a)"]
-M2S14 -> M3S18 [label="(ge, a|c|(a|c)|c|age)"]
-M2S14 -> M3S10 [label="(g, a|c|(a|c)|c|ag)"]
-M2S14 -> M3S9 [label="(ε, a|c|(a|c)|c|a)"]
-M2S14 -> M3S4 [label="(ε, a|c|(a|c)|c|a)"]
-M2S52 -> M3S44 [label="(ge, ge)"]
-M2S52 -> M3S29 [label="(ge, ge)"]
-M2S52 -> M3S18 [label="((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))), (g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))))"]
-M2S52 -> M3S32 [label="(g, g)"]
-M2S52 -> M3S28 [label="(g, g)"]
-M2S52 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S52 -> M3S48 [label="(ge, ge)"]
-M2S52 -> M3S34 [label="(g, g)"]
-M2S52 -> M3S31 [label="(ε, ε)"]
-M2S52 -> M3S27 [label="(ε, ε)"]
-M2S52 -> M3S9 [label="(a, a)"]
-M2S52 -> M3S33 [label="(ε, ε)"]
-M2S52 -> M3S2 [label="(ε, ε)"]
-M2S52 -> M3S3 [label="(ε, ε)"]
-M2S52 -> M3S4 [label="(a, a)"]
-M2S52 -> M3S1 [label="(ε, ε)"]
-M2S39 -> M3S44 [label="(ge, ge)"]
-M2S39 -> M3S29 [label="(ge, ge)"]
-M2S39 -> M3S18 [label="((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))), (gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))"]
-M2S39 -> M3S32 [label="(g, g)"]
-M2S39 -> M3S28 [label="(g, g)"]
-M2S39 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S39 -> M3S48 [label="(ge, ge)"]
-M2S39 -> M3S34 [label="(g, g)"]
-M2S39 -> M3S31 [label="(ε, ε)"]
-M2S39 -> M3S27 [label="(ε, ε)"]
-M2S39 -> M3S9 [label="(a, a)"]
-M2S39 -> M3S33 [label="(ε, ε)"]
-M2S39 -> M3S2 [label="(ε, ε)"]
-M2S39 -> M3S3 [label="(ε, ε)"]
-M2S39 -> M3S4 [label="(a, a)"]
-M2S39 -> M3S1 [label="(ε, ε)"]
-M2S40 -> M3S44 [label="(ge, ge)"]
-M2S40 -> M3S29 [label="(ge, ge)"]
-M2S40 -> M3S18 [label="((gea)|(g(ea)|(ae))|((gea)|(age)), (gea)|(g(ea)|(ae))|((gea)|(age)))"]
-M2S40 -> M3S32 [label="(g, g)"]
-M2S40 -> M3S28 [label="(g, g)"]
-M2S40 -> M3S10 [label="((ga)|(ag), (ga)|(ag))"]
-M2S40 -> M3S31 [label="(ε, ε)"]
-M2S40 -> M3S27 [label="(ε, ε)"]
-M2S40 -> M3S9 [label="(a, a)"]
-M2S40 -> M3S2 [label="(ε, ε)"]
-M2S40 -> M3S3 [label="(ε, ε)"]
-M2S40 -> M3S4 [label="(a, a)"]
-M2S12 -> M3S18 [label="(ge, age)"]
-M2S12 -> M3S10 [label="(g, ag)"]
-M2S12 -> M3S9 [label="(ε, a)"]
-M2S12 -> M3S4 [label="(ε, a)"]
-M2S37 -> M3S18 [label="((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))), (g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))"]
-M2S37 -> M3S10 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))))"]
-M2S37 -> M3S44 [label="(ge, ge)"]
-M2S37 -> M3S29 [label="(ge, ge)"]
-M2S37 -> M3S32 [label="(g, g)"]
-M2S37 -> M3S28 [label="(g, g)"]
-M2S37 -> M3S48 [label="(ge, ge)"]
-M2S37 -> M3S34 [label="(g, g)"]
-M2S37 -> M3S9 [label="(a|c, a|c)"]
-M2S37 -> M3S31 [label="(ε, ε)"]
-M2S37 -> M3S27 [label="(ε, ε)"]
-M2S37 -> M3S33 [label="(ε, ε)"]
-M2S37 -> M3S4 [label="(a|c, a|c)"]
-M2S37 -> M3S2 [label="(ε, ε)"]
-M2S37 -> M3S3 [label="(ε, ε)"]
-M2S37 -> M3S1 [label="(ε, ε)"]
-M2S38 -> M3S18 [label="((gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))))), (gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))))))"]
-M2S38 -> M3S10 [label="((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg)))), (ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg)))))"]
-M2S38 -> M3S44 [label="(ge, ge)"]
-M2S38 -> M3S29 [label="(ge, ge)"]
-M2S38 -> M3S32 [label="(g, g)"]
-M2S38 -> M3S28 [label="(g, g)"]
-M2S38 -> M3S48 [label="(ge, ge)"]
-M2S38 -> M3S34 [label="(g, g)"]
-M2S38 -> M3S9 [label="(a|c, a|c)"]
-M2S38 -> M3S31 [label="(ε, ε)"]
-M2S38 -> M3S27 [label="(ε, ε)"]
-M2S38 -> M3S33 [label="(ε, ε)"]
-M2S38 -> M3S4 [label="(a|c, a|c)"]
-M2S38 -> M3S2 [label="(ε, ε)"]
-M2S38 -> M3S3 [label="(ε, ε)"]
-M2S38 -> M3S1 [label="(ε, ε)"]
-M2S11 -> M3S18 [label="(ge, age)"]
-M2S11 -> M3S10 [label="(g, ag)"]
-M2S11 -> M3S9 [label="(ε, a)"]
-M2S11 -> M3S4 [label="(ε, a)"]
-M2S36 -> M3S18 [label="((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))), (g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge)))|(g((ea)|(ae))|(ea|c)|(ea|c)|((ea)|(ae)|(ce)))|((g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|(cge))|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))))|(gea|c)|(gea|c)|(g(ea)|(ae)|(ce))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age)))|((gea)|((age)|(cge))))|((gea)|(g(ea)|(ae))|((gea)|(g(ea)|(ae))|((gea)|(age))|((gea)|(age))|((gea)|(age))|((gea)|((age)|(a|cge))|(cge)))))"]
-M2S36 -> M3S10 [label="((ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))), (ga|c)|((ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg)))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(cg))|(((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|((ag)|(cg)))|(((ga)|(ag))|(((ga)|(ag))|((ga)|(ag))|((ga)|(ag))|(ga|c)|(((ga)|(ag))|(cg))|(((ga)|(ag))|(cg))|((ag)|(a|cg))|(cg)))))"]
-M2S36 -> M3S44 [label="(ge, ge)"]
-M2S36 -> M3S29 [label="(ge, ge)"]
-M2S36 -> M3S32 [label="(g, g)"]
-M2S36 -> M3S28 [label="(g, g)"]
-M2S36 -> M3S48 [label="(ge, ge)"]
-M2S36 -> M3S34 [label="(g, g)"]
-M2S36 -> M3S9 [label="(a|c, a|c)"]
-M2S36 -> M3S31 [label="(ε, ε)"]
-M2S36 -> M3S27 [label="(ε, ε)"]
-M2S36 -> M3S33 [label="(ε, ε)"]
-M2S36 -> M3S4 [label="(a|c, a|c)"]
-M2S36 -> M3S2 [label="(ε, ε)"]
-M2S36 -> M3S3 [label="(ε, ε)"]
-M2S36 -> M3S1 [label="(ε, ε)"]
+M0S0 -> M1S4 [label="(ε, ε)"]
+M0S0 -> M1S5 [label="(ε, ε)"]
+M0S0 -> M1S6 [label="(a, a)"]
+M1S1 -> M2S7 [label="(gfe, gfe)"]
+M1S1 -> M2S8 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S9 [label="((agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S10 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S11 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S12 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S13 [label="(ε, ε)"]
+M1S1 -> M2S14 [label="((age)|(gae), (age)|(gae))"]
+M1S1 -> M2S15 [label="(gfea, gfea)"]
+M1S1 -> M2S16 [label="((gfe)|c, (gfe)|c)"]
+M1S1 -> M2S17 [label="((agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S18 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S19 [label="(gf, gf)"]
+M1S1 -> M2S20 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S21 [label="(a, a)"]
+M1S1 -> M2S22 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S1 -> M2S23 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S24 [label="((agef)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S25 [label="(gfea, gfea)"]
+M1S1 -> M2S26 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S27 [label="((agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S28 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S29 [label="(gf, gf)"]
+M1S1 -> M2S30 [label="(a, a)"]
+M1S1 -> M2S31 [label="(g, g)"]
+M1S1 -> M2S32 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S1 -> M2S33 [label="(gfea, gfea)"]
+M1S1 -> M2S34 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S35 [label="((age)|(gae), (age)|(gae))"]
+M1S1 -> M2S36 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S1 -> M2S37 [label="(gfe, gfe)"]
+M1S1 -> M2S38 [label="((agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S39 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S40 [label="(gf, gf)"]
+M1S1 -> M2S41 [label="((agef)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S42 [label="(g, g)"]
+M1S1 -> M2S43 [label="((agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)), (agefe)|(gaefe)|(gfeae)|(g(aefe)|(feae)))"]
+M1S1 -> M2S44 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S45 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S46 [label="(gfe, gfe)"]
+M1S1 -> M2S47 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S48 [label="(a, a)"]
+M1S1 -> M2S49 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S1 -> M2S50 [label="(gf, gf)"]
+M1S1 -> M2S51 [label="((ag)|(ga), (ag)|(ga))"]
+M1S1 -> M2S52 [label="((agef)|(gaef)|(gfea)|(g(aef)|(fea)), (agef)|(gaef)|(gfea)|(g(aef)|(fea)))"]
+M1S1 -> M2S53 [label="(ε, ε)"]
+M1S1 -> M2S54 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S1 -> M2S55 [label="((age)|(gae), (age)|(gae))"]
+M1S1 -> M2S56 [label="((agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)), (agefea)|(gaefea)|(gfeaea)|(g(aefea)|(feaea)))"]
+M1S1 -> M2S57 [label="(gfea, gfea)"]
+M1S2 -> M2S8 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S2 -> M2S9 [label="((agefe)|(gaefe)|(gfeae), (agefe)|(gaefe)|(gfeae))"]
+M1S2 -> M2S10 [label="((ag)|(ga), (ag)|(ga))"]
+M1S2 -> M2S11 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S2 -> M2S12 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S2 -> M2S13 [label="(ε, ε)"]
+M1S2 -> M2S14 [label="((age)|(gae), (age)|(gae))"]
+M1S2 -> M2S15 [label="(gfea, gfea)"]
+M1S2 -> M2S16 [label="((gfe)|c, (gfe)|c)"]
+M1S2 -> M2S17 [label="((agefe)|(gaefe)|(gfeae), (agefe)|(gaefe)|(gfeae))"]
+M1S2 -> M2S18 [label="((ag)|(ga), (ag)|(ga))"]
+M1S2 -> M2S20 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S2 -> M2S22 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S2 -> M2S23 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S2 -> M2S24 [label="((agef)|(gaef)|(gfea), (agef)|(gaef)|(gfea))"]
+M1S2 -> M2S26 [label="((ag)|(ga), (ag)|(ga))"]
+M1S2 -> M2S27 [label="((agefea)|(gaefea)|(gfeaea), (agefea)|(gaefea)|(gfeaea))"]
+M1S2 -> M2S28 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S2 -> M2S29 [label="(gf, gf)"]
+M1S2 -> M2S30 [label="(a, a)"]
+M1S2 -> M2S32 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S2 -> M2S33 [label="(gfea, gfea)"]
+M1S2 -> M2S34 [label="((ag)|(ga), (ag)|(ga))"]
+M1S2 -> M2S35 [label="((age)|(gae), (age)|(gae))"]
+M1S2 -> M2S36 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S2 -> M2S38 [label="((agefea)|(gaefea)|(gfeaea), (agefea)|(gaefea)|(gfeaea))"]
+M1S2 -> M2S39 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S2 -> M2S41 [label="((agef)|(gaef)|(gfea), (agef)|(gaef)|(gfea))"]
+M1S2 -> M2S42 [label="(g, g)"]
+M1S2 -> M2S43 [label="((agefe)|(gaefe)|(gfeae), (agefe)|(gaefe)|(gfeae))"]
+M1S2 -> M2S44 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S2 -> M2S45 [label="((ag)|(ga), (ag)|(ga))"]
+M1S2 -> M2S46 [label="(gfe, gfe)"]
+M1S2 -> M2S47 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S2 -> M2S48 [label="(a, a)"]
+M1S2 -> M2S49 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S2 -> M2S50 [label="(gf, gf)"]
+M1S2 -> M2S52 [label="((agef)|(gaef)|(gfea), (agef)|(gaef)|(gfea))"]
+M1S2 -> M2S54 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S2 -> M2S55 [label="((age)|(gae), (age)|(gae))"]
+M1S2 -> M2S56 [label="((agefea)|(gaefea)|(gfeaea), (agefea)|(gaefea)|(gfeaea))"]
+M1S3 -> M2S8 [label="(gefea, agefea)"]
+M1S3 -> M2S9 [label="(gefe, agefe)"]
+M1S3 -> M2S11 [label="(gef, agef)"]
+M1S3 -> M2S14 [label="(ge, age)"]
+M1S3 -> M2S17 [label="(gefe, agefe)"]
+M1S3 -> M2S20 [label="(gef, agef)"]
+M1S3 -> M2S22 [label="(gea, agea)"]
+M1S3 -> M2S23 [label="(gefea, agefea)"]
+M1S3 -> M2S26 [label="(g, ag)"]
+M1S3 -> M2S27 [label="(gefea, agefea)"]
+M1S3 -> M2S28 [label="(gefe, agefe)"]
+M1S3 -> M2S32 [label="(gea, agea)"]
+M1S3 -> M2S34 [label="(g, ag)"]
+M1S3 -> M2S38 [label="(gefea, agefea)"]
+M1S3 -> M2S39 [label="(gefe, agefe)"]
+M1S3 -> M2S41 [label="(gef, agef)"]
+M1S3 -> M2S45 [label="(g, ag)"]
+M1S3 -> M2S47 [label="(gefea, agefea)"]
+M1S3 -> M2S48 [label="(ε, a)"]
+M1S3 -> M2S49 [label="(gea, agea)"]
+M1S3 -> M2S52 [label="(gef, agef)"]
+M1S3 -> M2S55 [label="(ge, age)"]
+M1S3 -> M2S56 [label="(gefea, agefea)"]
+M1S3 -> M2S58 [label="(ε, a)"]
+M1S4 -> M2S7 [label="(gfe, gfe)"]
+M1S4 -> M2S8 [label="((agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S9 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S10 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S11 [label="((agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef
+)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef
+)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S12 [label="((agefe)|(ace)|(a(gefe)|(ce))|(cae)|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)|((a(gefe)|(ce))|(agefe)|((a
+gefe)|(ace)|(cae))|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(a(gefe)|(ce))|(cae)|((agefe)|(ace)|(cae))|(gaefe)|(gfeae)|((a(gefe)|(ce))|(agefe)|((a
+gefe)|(ace)|(cae))|(gaefe)|(gfeae)|(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S13 [label="(ε, ε)"]
+M1S4 -> M2S14 [label="((age)|(gae), (age)|(gae))"]
+M1S4 -> M2S15 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S4 -> M2S16 [label="((gfe)|c, (gfe)|c)"]
+M1S4 -> M2S17 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S18 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S19 [label="(gf, gf)"]
+M1S4 -> M2S20 [label="((agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef
+)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(a(gef)|c)|(a(gef)|c)|(ca)|((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(gaef)|(gfea)|(((a(gef
+)|c)|(agef)|(agef)|(agef)|(ca))|(a(gef)|c)|(agef)|(gaef)|(gfea)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S21 [label="(a, a)"]
+M1S4 -> M2S22 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S4 -> M2S23 [label="((agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S24 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S25 [label="(gfea, gfea)"]
+M1S4 -> M2S26 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S27 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S28 [label="((agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(ga
+efe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|
+(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(ga
+efe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|
+(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S29 [label="(gf, gf)"]
+M1S4 -> M2S30 [label="(a, a)"]
+M1S4 -> M2S31 [label="(g, g)"]
+M1S4 -> M2S32 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S4 -> M2S33 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S4 -> M2S34 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S35 [label="((age)|(gae), (age)|(gae))"]
+M1S4 -> M2S36 [label="((((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea), (((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea))"]
+M1S4 -> M2S37 [label="(gfe, gfe)"]
+M1S4 -> M2S38 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S39 [label="((agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(ga
+efe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|
+(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(a(gefe)|(ce))|(a(gefe)|(ce))|(cae)|((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(ga
+efe)|(gfeae)|(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(a(gefe)|(ce))|(agefe)|(gaefe)|(gfeae)|
+(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S40 [label="(gf, gf)"]
+M1S4 -> M2S41 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S42 [label="(g, g)"]
+M1S4 -> M2S43 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)), (agefe)|(ace)|(cae)|(gaefe)|(gfeae)|((agefe)|(gaefe)|(gfeae))|(g(aefe)|(feae)))"]
+M1S4 -> M2S44 [label="((agef)|(ac)|(a(gef)|c)|(ca)|((agef)|(ac)|(ca))|(gaef)|(gfea)|((a(gef)|c)|(agef)|((agef)|(ac)|(ca))|(
+gaef)|(gfea)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(a(gef)|c)|(ca)|((agef)|(ac)|(ca))|(gaef)|(gfea)|((a(gef)|c)|(agef)|((agef)|(ac)|(ca))|(
+gaef)|(gfea)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S45 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S46 [label="((gfe)|c, (gfe)|c)"]
+M1S4 -> M2S47 [label="((agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(a(gefea)|(cea))|(a(gefea)|(cea))|(caea)|((a(gefea)|(cea))|(agefea)|(agefea)|(agefea
+)|(caea))|(gaefea)|(gfeaea)|(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(a(gefea)|(cea))|(
+agefea)|(gaefea)|(gfeaea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S48 [label="(a, a)"]
+M1S4 -> M2S49 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S4 -> M2S50 [label="(gf, gf)"]
+M1S4 -> M2S51 [label="((ag)|(ga), (ag)|(ga))"]
+M1S4 -> M2S52 [label="((agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)), (agef)|(ac)|(ca)|(gaef)|(gfea)|((agef)|(gaef)|(gfea))|(g(aef)|(fea)))"]
+M1S4 -> M2S53 [label="(ε, ε)"]
+M1S4 -> M2S54 [label="((((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea), (((ac)|(ca))|(gfea))|(ac)|(ca)|(gfea))"]
+M1S4 -> M2S55 [label="((age)|(gae), (age)|(gae))"]
+M1S4 -> M2S56 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea)|((agefea)|(gaefea)|(gfeaea))|(g(aefea)|(feaea)))"]
+M1S4 -> M2S57 [label="(gfea, gfea)"]
+M1S4 -> M2S58 [label="(a, a)"]
+M1S4 -> M2S59 [label="(a, a)"]
+M1S4 -> M2S60 [label="(ε, ε)"]
+M1S4 -> M2S61 [label="(ε, ε)"]
+M1S4 -> M2S62 [label="(a, a)"]
+M1S5 -> M2S8 [label="(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea), ((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea))"]
+M1S5 -> M2S9 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S5 -> M2S10 [label="((ag)|(ga), (ag)|(ga))"]
+M1S5 -> M2S11 [label="(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea), ((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea))"]
+M1S5 -> M2S12 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S5 -> M2S13 [label="(ε, ε)"]
+M1S5 -> M2S14 [label="((age)|(gae), (age)|(gae))"]
+M1S5 -> M2S15 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S5 -> M2S16 [label="((gfe)|c, (gfe)|c)"]
+M1S5 -> M2S17 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S5 -> M2S18 [label="((ag)|(ga), (ag)|(ga))"]
+M1S5 -> M2S20 [label="(((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea), ((a(gef)|c)|(agef)|(agef)|(agef)|(ca))|(agef)|(ac)|(a(gef)|c)|(ca)|(gaef)|(gfea)|(gfea))"]
+M1S5 -> M2S22 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S5 -> M2S23 [label="(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea), ((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea))"]
+M1S5 -> M2S24 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S5 -> M2S26 [label="((ag)|(ga), (ag)|(ga))"]
+M1S5 -> M2S27 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S5 -> M2S28 [label="(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(g
+feae), ((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(g
+feae))"]
+M1S5 -> M2S29 [label="(gf, gf)"]
+M1S5 -> M2S30 [label="(a, a)"]
+M1S5 -> M2S32 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S5 -> M2S33 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S5 -> M2S34 [label="((ag)|(ga), (ag)|(ga))"]
+M1S5 -> M2S35 [label="((age)|(gae), (age)|(gae))"]
+M1S5 -> M2S36 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S5 -> M2S38 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S5 -> M2S39 [label="(((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(g
+feae), ((a(gefe)|(ce))|(agefe)|(agefe)|(agefe)|(cae))|(agefe)|(ace)|(a(gefe)|(ce))|(cae)|(gaefe)|(gfeae)|(g
+feae))"]
+M1S5 -> M2S41 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S5 -> M2S42 [label="(g, g)"]
+M1S5 -> M2S43 [label="((agefe)|(ace)|(cae)|(gaefe)|(gfeae), (agefe)|(ace)|(cae)|(gaefe)|(gfeae))"]
+M1S5 -> M2S44 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S5 -> M2S45 [label="((ag)|(ga), (ag)|(ga))"]
+M1S5 -> M2S46 [label="((gfe)|c, (gfe)|c)"]
+M1S5 -> M2S47 [label="(((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea), ((a(gefea)|(cea))|(agefea)|(agefea)|(agefea)|(caea))|(agefea)|(acea)|(a(gefea)|(cea))|(caea)|(gaefea
+)|(gfeaea)|(gfeaea))"]
+M1S5 -> M2S48 [label="(a, a)"]
+M1S5 -> M2S49 [label="((agea)|(gaea), (agea)|(gaea))"]
+M1S5 -> M2S50 [label="(gf, gf)"]
+M1S5 -> M2S52 [label="((agef)|(ac)|(ca)|(gaef)|(gfea), (agef)|(ac)|(ca)|(gaef)|(gfea))"]
+M1S5 -> M2S54 [label="((ac)|(ca)|(gfea), (ac)|(ca)|(gfea))"]
+M1S5 -> M2S55 [label="((age)|(gae), (age)|(gae))"]
+M1S5 -> M2S56 [label="((agefea)|(acea)|(caea)|(gaefea)|(gfeaea), (agefea)|(acea)|(caea)|(gaefea)|(gfeaea))"]
+M1S5 -> M2S58 [label="(a, a)"]
+M1S5 -> M2S59 [label="(a, a)"]
+M1S5 -> M2S61 [label="(ε, ε)"]
+M1S6 -> M2S8 [label="(gefea, agefea)"]
+M1S6 -> M2S9 [label="(gefe, agefe)"]
+M1S6 -> M2S11 [label="(gef, agef)"]
+M1S6 -> M2S14 [label="(ge, age)"]
+M1S6 -> M2S17 [label="(gefe, agefe)"]
+M1S6 -> M2S20 [label="(gef, agef)"]
+M1S6 -> M2S22 [label="(gea, agea)"]
+M1S6 -> M2S23 [label="(gefea, agefea)"]
+M1S6 -> M2S26 [label="(g, ag)"]
+M1S6 -> M2S27 [label="(gefea, agefea)"]
+M1S6 -> M2S28 [label="(gefe, agefe)"]
+M1S6 -> M2S32 [label="(gea, agea)"]
+M1S6 -> M2S34 [label="(g, ag)"]
+M1S6 -> M2S38 [label="(gefea, agefea)"]
+M1S6 -> M2S39 [label="(gefe, agefe)"]
+M1S6 -> M2S41 [label="(gef, agef)"]
+M1S6 -> M2S45 [label="(g, ag)"]
+M1S6 -> M2S47 [label="(gefea, agefea)"]
+M1S6 -> M2S48 [label="(ε, a)"]
+M1S6 -> M2S49 [label="(gea, agea)"]
+M1S6 -> M2S52 [label="(gef, agef)"]
+M1S6 -> M2S55 [label="(ge, age)"]
+M1S6 -> M2S56 [label="(gefea, agefea)"]
 }

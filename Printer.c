@@ -1,5 +1,18 @@
 #include "header.h"
 
+void fprintRegex(FILE * file, Regex * r) {
+    if (r->regex[0] == '\0') {
+        fprintf(file, "%lc", eps);
+        return;
+    }
+    unsigned int point = 0;
+    while (point+100 < r->strlen) {
+        fprintf(file, "%.100s\n", r->regex+point);
+        point += 100;
+    }
+    fprintf(file, "%s", r->regex+point);
+}
+
 INLINE(char* stateName(BehState *s, bool showObs)) {
     unsigned int j, v;
     char* nome = malloc(30), *puntatore = nome;
@@ -57,16 +70,21 @@ void printDES(BehState * attuale, bool testuale) {
         file = fopen(nomeFileDot, "w");
         fprintf(file, "digraph \"%s\" {\nnode [style=filled fillcolor=white] compound=true\n", inputDES);
     }
-    for (c=components[i=0]; i<ncomp; c=(i<ncomp ? components[++i] : c)){
+    for (c=components[i=0]; i<ncomp; c=components[++i]){
         int nT = c->nTrans;
         if (testuale) printf(MSG_COMP_DESCRIPTION, c->id, c->nStates, attuale->componentStatus[c->intId], nT);
-        else fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#FFEEEE\"node [shape=doublecircle]; C%d_%d;\nnode [shape=circle];\n", c->id, c->id, attuale->componentStatus[c->intId]);
+        else {
+            fprintf(file, "subgraph cluster%hd {\nstyle=\"rounded,filled\" label=\"C%hd\" color=\"#FFEEEE\"node [shape=doublecircle]; C%hds%hd [label=%hd];\nnode [shape=circle];\n", c->intId, c->id, c->intId, attuale->componentStatus[c->intId], attuale->componentStatus[c->intId]);
+            for (j=0; j<c->nStates; j++)
+                if (j != attuale->componentStatus[c->intId]) fprintf(file, "C%hds%hd [label=%hd]; ", c->intId, j, j);
+            fprintf(file, "\n");
+        }
         Trans *t;
         if (nT == 0) continue;
-        for (t=c->transitions[j=0]; j<nT; t=(j<nT ? c->transitions[++j] : t)) {
+        for (t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
             if (testuale) printf(MSG_TRANS_DESCRIPTION, t->id, t->from, t->to, t->obs, t->fault);
             else {
-                fprintf(file, "C%d_%d -> C%d_%d [label=\"t%d", c->id, t->from, c->id, t->to, t->id);
+                fprintf(file, "C%hds%hd -> C%hds%hd [label=\"t%hd", c->intId, t->from, c->intId, t->to, t->id);
                 if (t->obs>0) fprintf(file, "O%hu", t->obs);
                 if (t->fault>0 && t->fault<=25) fprintf(file, "%c", 96 + t->fault);
                 else if (t->fault>25) fprintf(file, "R%hu", t->fault);
@@ -91,19 +109,19 @@ void printDES(BehState * attuale, bool testuale) {
             if (attuale->linkContent[l->intId] == VUOTO) printf(MSG_LINK_DESCRIPTION1, l->id, l->from->id, l->to->id);
             else printf(MSG_LINK_DESCRIPTION2, l->id, attuale->linkContent[l->intId], l->from->id, l->to->id);
         else {
-            fprintf(file, "C%d_0 -> C%d_0 [", l->from->id, l->to->id);
-            if (l->from != l->to) fprintf(file, "ltail=cluster%d lhead=cluster%d ", l->from->id, l->to->id);
-            if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "label=\"L%d{}\"];\n", l->id);
-            else fprintf(file, "label=\"L%d{e%d}\"];\n", l->id, attuale->linkContent[l->intId]);
+            fprintf(file, "C%hds0 -> C%hds0 [", l->from->intId, l->to->intId);
+            if (l->from != l->to) fprintf(file, "ltail=cluster%hd lhead=cluster%hd ", l->from->intId, l->to->intId);
+            if (attuale->linkContent[l->intId] == VUOTO) fprintf(file, "label=\"L%hd\"];\n", l->id);
+            else fprintf(file, "label=\"L%hd{e%hd}\"];\n", l->id, attuale->linkContent[l->intId]);
         }
     if (testuale)
         printf(MSG_END_STATE_DESC, (attuale->flags & FLAG_FINAL) == FLAG_FINAL ? MSG_YES : MSG_NO);
     else {
         fprintf(file, "}\n");
         fclose(file);
-        sprintf(nomeFileSvg, "%s.svg", inputDES);
+        sprintf(nomeFileSvg, "%s.%s", inputDES, outGraphType);
         char * command = malloc(30+strlenInputDES*2);
-        sprintf(command, "dot -Tsvg -o %s %s", nomeFileSvg, nomeFileDot);
+        sprintf(command, "dot -T%s -o %s %s", outGraphType, nomeFileSvg, nomeFileDot);
         launchDot(command);
     }
 }
@@ -162,9 +180,9 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     else {
         fprintf(file, "}");
         fclose(file);
-        sprintf(nomeFileSvg, "%s_SC.svg", inputDES);
+        sprintf(nomeFileSvg, "%s_SC.%s", inputDES, outGraphType);
         char * command = malloc(35+strlenInputDES*2);
-        sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+        sprintf(command, "dot -T%s -o \"%s\" \"%s\"", outGraphType, nomeFileSvg, nomeFileDot);
         launchDot(command);
         if (rename) {
             printf(MSG_SOBSTITUTION_LIST);
@@ -183,9 +201,9 @@ void printExplainer(Explainer * exp) {
     char * command = malloc(44+strlenInputDES*2);
     if (exp->maps) sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
     else sprintf(nomeFileDot, "%s_PEX.dot", inputDES);
-    if (exp->maps) sprintf(nomeFileSvg, "%s_EXP.svg", inputDES);
-    else sprintf(nomeFileSvg, "%s_PEX.svg", inputDES);
-    sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+    if (exp->maps) sprintf(nomeFileSvg, "%s_EXP.%s", inputDES, outGraphType);
+    else sprintf(nomeFileSvg, "%s_PEX.%s", inputDES, outGraphType);
+    sprintf(command, "dot -T%s -o \"%s\" \"%s\"", outGraphType, nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"EXP%s\" {\nnode [style=filled fillcolor=white]\n", inputDES);
     FaultSpace * fault;
@@ -231,14 +249,14 @@ void printExplainer(Explainer * exp) {
             if (t->from == exp->faults[j]) fromId=j;
             if (t->to == exp->faults[j]) toId=j;
         }
-        if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d",
+        if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d ",
             fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
-        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%hu",
+        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%hu ",
             fromId, t->fromStateId, toId, t->toStateId, t->obs);
-        if (t->fault>0 && t->fault<=25) fprintf(file, "%c", 96 + t->fault);
-        else if (t->fault>25) fprintf(file, "R%hu", t->fault);
-        if (t->regex->regex[0] == '\0') fprintf(file, " %lc\"]\n", eps);
-        else fprintf(file, " %s\"]\n", t->regex->regex);
+        if (t->fault>0 && t->fault<=25) fprintf(file, "%c ", 96 + t->fault);
+        else if (t->fault>25) fprintf(file, "R%hu ", t->fault);
+        fprintRegex(file, t->regex);
+        fprintf(file, "\"]\n");
     }
     fprintf(file, "}\n");
     fclose(file);
@@ -257,16 +275,17 @@ void printMonitoring(Monitoring * m, Explainer *exp, bool diagnoserStyle) {
     char nomeFileDot[strlenInputDES+9], nomeFileSvg[strlenInputDES+9];
     char * command = malloc(44+strlenInputDES*2);
     sprintf(nomeFileDot, "%s_MON.dot", inputDES);
-    sprintf(nomeFileSvg, "%s_MON.svg", inputDES);
-    sprintf(command, "dot -Tsvg -o \"%s\" \"%s\"", nomeFileSvg, nomeFileDot);
+    sprintf(nomeFileSvg, "%s_MON.%s", inputDES, outGraphType);
+    sprintf(command, "dot -T%s -o \"%s\" \"%s\"", outGraphType, nomeFileSvg, nomeFileDot);
     FILE * file = fopen(nomeFileDot, "w");
     fprintf(file ,"digraph \"MON%s\" {\nrankdir=LR\nnode [style=filled fillcolor=white]\n", inputDES);
     MonitorState * mu;
     char *style = diagnoserStyle ? "FFF0DD" : "FFF9DD";
     for (mu=m->mu[i=0]; i<m->length; mu=m->mu[++i]) {
         fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" color=\"#%s\" node [style=\"rounded,filled\" shape=box fillcolor=\"#FFFFFF\"]\n", i, style);
-        if (mu->lmu->regex[0] == '\0') fprintf(file, "label=ε\n");
-        else fprintf(file, "label=\"%s\"\n", mu->lmu->regex);
+        fprintf(file, "label=\"");
+        fprintRegex(file, mu->lmu);
+        fprintf(file, "\"\n");
         for (j=0; j<mu->nExpStates; j++) {
             temp = findInExplainer(exp, mu->expStates[j]);
             fprintf(file, "M%dS%d [label=%d];\n", i, temp, temp);
@@ -277,10 +296,11 @@ void printMonitoring(Monitoring * m, Explainer *exp, bool diagnoserStyle) {
         MonitorTrans *arc;
         if (mu->nArcs>0) {
             for (arc=mu->arcs[j=0]; j<mu->nArcs; arc=mu->arcs[++j]) {
-                char *l = arc->l->regex, *lp = arc->lp->regex;
-                if (l[0] == '\0') l = "ε";
-                if (lp[0] == '\0') lp = "ε";
-                fprintf(file, "M%dS%d -> M%dS%d [label=\"(%s, %s)\"]\n", i, findInExplainer(exp, arc->from), i+1, findInExplainer(exp, arc->to), l, lp);
+                fprintf(file, "M%dS%d -> M%dS%d [label=\"(", i, findInExplainer(exp, arc->from), i+1, findInExplainer(exp, arc->to));
+                fprintRegex(file, arc->l);
+                fprintf(file, ", ");
+                fprintRegex(file, arc->lp);
+                fprintf(file, ")\"]\n");
             }
         }
     }

@@ -3,15 +3,16 @@
 const unsigned short eps = L'ε', mu = L'μ';
 double m_pi;
 
-Regex* empty;
+char outGraphType[6] = "svg";
 unsigned int strlenInputDES;
 unsigned long long seed;
 char * inputDES = "";
 char * comBuf = "";
-char dot = '\0';
+char dot = 'n';
 bool benchmark = false;
 struct timeval beginT, endT;
 clock_t beginC;
+Regex* empty;
 
 char getCommand(void) {
     char com;
@@ -28,7 +29,7 @@ static void beforeExit(int signo) {
     signal(SIGINT, beforeExit);
 }
 
-bool loadInputDes(void) {
+bool loadInputDes(bool print) {
     FILE* file = fopen(inputDES, "r");
     if (file == NULL) printf(MSG_NO_FILE, inputDES);
     else {
@@ -37,7 +38,7 @@ bool loadInputDes(void) {
         parseDES(file);
         fclose(file);
         endTimer
-        printf(MSG_PARS_DONE);
+        if (print) printf(MSG_PARS_DONE);
         if (dot!='n') {
             BehState * tmp = generateBehState(NULL, NULL);
             printDES(tmp, dot != INPUT_Y);
@@ -109,7 +110,7 @@ void menu(void) {
     BehSpace *b = NULL;
     Explainer *explainer = NULL; 
     bool doneSomething = true;
-    if (in) in = loadInputDes();
+    if (in) in = loadInputDes(false);
     while (true) {
         bool allow_c = in & !exp & !diag,
             allow_o = in & !exp & !diag,
@@ -141,6 +142,10 @@ void menu(void) {
         if (op == 's') {
             printf(MSG_DOT);
             dot = getCommand();
+            if (dot == INPUT_Y) {
+                printf(MSG_GRAPH_FORMAT, outGraphType);
+                scanf("%5s", outGraphType);
+            }
             printf(MSG_BENCH);
             benchmark = getCommand() == INPUT_Y;
         }
@@ -149,7 +154,7 @@ void menu(void) {
             inputDES = malloc(100);
             scanf("%99s", inputDES);
             strlenInputDES = strlen(inputDES);
-            in = loadInputDes();
+            in = loadInputDes(true);
         }
         else if (op == 'k' && allow_i) {
             in = true;
@@ -389,15 +394,14 @@ int main(int argc, char *argv[]) {
                 case 'c': 
                     if (optind < argc-1) comBuf = argv[++optind];
                     break;
+                case 'T':
+                    strncpy(outGraphType, argv[++optind], 5);
+                    break;
             }   
         }
     }
     doC11(if (!changedStdOut) setbuf(stdout, NULL);)
     printf(LOGO);
-    if (dot == '\0') {
-        printf(MSG_DOT);
-        dot = getCommand();
-    }
     
     empty = emptyRegex(0);
     menu();

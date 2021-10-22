@@ -1,46 +1,50 @@
 digraph "input/icp" {
 node [style=filled fillcolor=white] compound=true
-subgraph cluster1 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C1_0;
+subgraph cluster0 {
+style="rounded,filled" label="C1" color="#FFEEEE"node [shape=doublecircle]; C0s0 [label=0];
 node [shape=circle];
-C1_0 -> C1_1 [label="t1"];
-C1_0 -> C1_1 [label="t2"];
-C1_1 -> C1_0 [label="t3"];
-C1_0 -> C1_1 [label="t13"];
-C1_0 -> C1_1 [label="t15"];
-C1_0 -> C1_1 [label="t17"];
+C0s1 [label=1]; 
+C0s0 -> C0s1 [label="t1"];
+C0s0 -> C0s1 [label="t2"];
+C0s1 -> C0s0 [label="t3"];
+C0s0 -> C0s1 [label="t13"];
+C0s0 -> C0s1 [label="t15"];
+C0s0 -> C0s1 [label="t17"];
+}
+subgraph cluster1 {
+style="rounded,filled" label="C2" color="#FFEEEE"node [shape=doublecircle]; C1s0 [label=0];
+node [shape=circle];
+C1s1 [label=1]; 
+C1s1 -> C1s0 [label="t4O1a"];
+C1s0 -> C1s1 [label="t5"];
+C1s0 -> C1s1 [label="t12"];
 }
 subgraph cluster2 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
+style="rounded,filled" label="C3" color="#FFEEEE"node [shape=doublecircle]; C2s0 [label=0];
 node [shape=circle];
-C2_1 -> C2_0 [label="t4O1a"];
-C2_0 -> C2_1 [label="t5"];
-C2_0 -> C2_1 [label="t12"];
+C2s1 [label=1]; 
+C2s1 -> C2s0 [label="t6"];
+C2s0 -> C2s1 [label="t7"];
+C2s1 -> C2s1 [label="t8"];
+C2s0 -> C2s1 [label="t11"];
 }
 subgraph cluster3 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C3_0;
+style="rounded,filled" label="C4" color="#FFEEEE"node [shape=doublecircle]; C3s0 [label=0];
 node [shape=circle];
-C3_1 -> C3_0 [label="t6"];
-C3_0 -> C3_1 [label="t7"];
-C3_1 -> C3_1 [label="t8"];
-C3_0 -> C3_1 [label="t11"];
+C3s1 [label=1]; C3s2 [label=2]; 
+C3s0 -> C3s1 [label="t9"];
+C3s0 -> C3s2 [label="t10"];
+C3s1 -> C3s1 [label="t14"];
+C3s1 -> C3s0 [label="t16"];
+C3s0 -> C3s1 [label="t18"];
 }
-subgraph cluster4 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C4_0;
-node [shape=circle];
-C4_0 -> C4_1 [label="t9"];
-C4_0 -> C4_2 [label="t10"];
-C4_1 -> C4_1 [label="t14"];
-C4_1 -> C4_0 [label="t16"];
-C4_0 -> C4_1 [label="t18"];
-}
-C3_0 -> C1_0 [ltail=cluster3 lhead=cluster1 label="L1{}"];
-C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L2{}"];
-C2_0 -> C1_0 [ltail=cluster2 lhead=cluster1 label="L3{}"];
-C4_0 -> C1_0 [ltail=cluster4 lhead=cluster1 label="L5{}"];
-C4_0 -> C2_0 [ltail=cluster4 lhead=cluster2 label="L6{}"];
-C4_0 -> C3_0 [ltail=cluster4 lhead=cluster3 label="L7{}"];
-C1_0 -> C4_0 [ltail=cluster1 lhead=cluster4 label="L8{}"];
-C2_0 -> C4_0 [ltail=cluster2 lhead=cluster4 label="L9{}"];
-C3_0 -> C4_0 [ltail=cluster3 lhead=cluster4 label="L10{}"];
+C2s0 -> C0s0 [ltail=cluster2 lhead=cluster0 label="L1"];
+C1s0 -> C2s0 [ltail=cluster1 lhead=cluster2 label="L2"];
+C1s0 -> C0s0 [ltail=cluster1 lhead=cluster0 label="L3"];
+C3s0 -> C0s0 [ltail=cluster3 lhead=cluster0 label="L5"];
+C3s0 -> C1s0 [ltail=cluster3 lhead=cluster1 label="L6"];
+C3s0 -> C2s0 [ltail=cluster3 lhead=cluster2 label="L7"];
+C0s0 -> C3s0 [ltail=cluster0 lhead=cluster3 label="L8"];
+C1s0 -> C3s0 [ltail=cluster1 lhead=cluster3 label="L9"];
+C2s0 -> C3s0 [ltail=cluster2 lhead=cluster3 label="L10"];
 }

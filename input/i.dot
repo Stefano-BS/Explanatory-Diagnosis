@@ -1,26 +1,29 @@
 digraph "input/i" {
 node [style=filled fillcolor=white] compound=true
-subgraph cluster1 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C1_0;
+subgraph cluster0 {
+style="rounded,filled" label="C1" color="#FFEEEE"node [shape=doublecircle]; C0s0 [label=0];
 node [shape=circle];
-C1_0 -> C1_1 [label="t1a"];
-C1_0 -> C1_1 [label="t2"];
-C1_1 -> C1_0 [label="t3"];
+C0s1 [label=1]; 
+C0s0 -> C0s1 [label="t1a"];
+C0s0 -> C0s1 [label="t2"];
+C0s1 -> C0s0 [label="t3"];
+}
+subgraph cluster1 {
+style="rounded,filled" label="C2" color="#FFEEEE"node [shape=doublecircle]; C1s0 [label=0];
+node [shape=circle];
+C1s1 [label=1]; 
+C1s1 -> C1s0 [label="t4O2"];
+C1s0 -> C1s1 [label="t5O1"];
 }
 subgraph cluster2 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C2_0;
+style="rounded,filled" label="C3" color="#FFEEEE"node [shape=doublecircle]; C2s0 [label=0];
 node [shape=circle];
-C2_1 -> C2_0 [label="t4O2"];
-C2_0 -> C2_1 [label="t5O1"];
+C2s1 [label=1]; 
+C2s1 -> C2s0 [label="t6"];
+C2s0 -> C2s1 [label="t7"];
+C2s1 -> C2s1 [label="t8c"];
 }
-subgraph cluster3 {
-style="rounded,filled" color="#FFEEEE"node [shape=doublecircle]; C3_0;
-node [shape=circle];
-C3_1 -> C3_0 [label="t6"];
-C3_0 -> C3_1 [label="t7"];
-C3_1 -> C3_1 [label="t8c"];
-}
-C3_0 -> C1_0 [ltail=cluster3 lhead=cluster1 label="L1{}"];
-C2_0 -> C3_0 [ltail=cluster2 lhead=cluster3 label="L2{}"];
-C2_0 -> C1_0 [ltail=cluster2 lhead=cluster1 label="L3{}"];
+C2s0 -> C0s0 [ltail=cluster2 lhead=cluster0 label="L1"];
+C1s0 -> C2s0 [ltail=cluster1 lhead=cluster2 label="L2"];
+C1s0 -> C0s0 [ltail=cluster1 lhead=cluster0 label="L3"];
 }

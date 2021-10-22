@@ -20,6 +20,7 @@ The command line executable can be called with args (none of them is required, f
 - -c *commands*: pass commands (within following arg)
 - --stdin *filename*: substitutes standard input with your file. Why using this instead of -c? Commands arg is suitable for making user interaction faster with a repetitive task, while stdin substitution is the key for a fully automated use (and that's te only way to pass observation inputs)
 - --stdout *filename*: substitutes standard output with your file
+- -T type: output format for Graphviz (defaults to svg)
 - *filename*: your DES' description file
 
 Outputs will be placed in the same folder as your DES file, with the same filename followed by _SC for Behavioral Space graphs, _EXP for Explainer graphs, _PEX for Partial Explainer graphs, and _MON for Monitoring Trace graphs. All graphs are saved as svg.

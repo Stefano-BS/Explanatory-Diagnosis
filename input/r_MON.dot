@@ -8,60 +8,82 @@ M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(aa*ca+ba*|a+ba*a|(a+b))|(aa*c((a*aba*a|(ab))|ba*a)|(a*aba*)|ba*)"
-M1S2 [label=2];
+label="(aa*c(a*ab)|(a*ba)a*|(a*ab)|(a*ba)a*|(a*b))|(aa*ca+ba*|a+ba*a|(a+b))"
 M1S1 [label=1];
+M1S2 [label=2];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*|a+ba*a|(a+b))|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)((a*aba*a|(ab))|ba*a)|(a*aba*)|ba*)"
-M2S2 [label=2];
+label="((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*ab)|(a*ba)a*|(a*b))|((aa*c(a*ab)|(a*ba
+)a*|(a*b)c)|(aa*ca+ba*c)a+ba*|a+ba*a|(a+b))"
 M2S1 [label=1];
+M2S2 [label=2];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*|a+ba*a|(a+b))|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)((a*aba*a|(ab))|ba*a)|(a*aba*)|ba*)"
-M3S2 [label=2];
+label="(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+b
+a*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*ab)|(a*ba)a*|(a*b))|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c
+)(a*ab)|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*|a+ba*a|(a+b))"
 M3S1 [label=1];
+M3S2 [label=2];
 }
 subgraph cluster4 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*|a+ba*a|(a+b))|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)((a*aba*a|(ab))|ba*a)|(a*aba*)|ba*)"
-M4S2 [label=2];
+label="((((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+
+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*
+b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*ab)|(a*ba)a*|
+(a*b))|((((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|
+(aa*ca+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)
+|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+ba*|a+ba*a|(a+b))"
 M4S1 [label=1];
+M4S2 [label=2];
 }
 subgraph cluster5 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*|a+ba*a|(a+b))|(((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)((a*aba*a|(ab))|ba*a)|(a*aba*)|ba*)"
-M5S2 [label=2];
+label="(((((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca
++ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a
+*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((((aa*c(a*ab
+)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*a|(
+a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|((
+aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*a)?|a*|(a*ab)|(a*ba)a*|(a*b)|
+(a*ab)|(a*ba)a*)|(((((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)
+a*|(a*b)c)|(aa*ca+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(
+a*ab)|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a
+*|(a*b)c)|((((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)
+c)|(aa*ca+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*
+ab)|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+ba*c)a+?|a+ba*a|(a+b)
+|a+ba*)"
 M5S1 [label=1];
+M5S2 [label=2];
 }
-subgraph cluster6 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+?|a+ba*a|(a+b)|a+ba*)|((((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*a)?|(a*aba*a|(ab))|ba*a|(a*aba*)|ba*)"
-M6S2 [label=2];
-M6S1 [label=1];
-}
-M0S0 -> M1S2 [label="(aa*, aa*c)"]
 M0S0 -> M1S1 [label="(aa*, aa*c)"]
+M0S0 -> M1S2 [label="(aa*, aa*c)"]
+M1S1 -> M2S1 [label="((a*ab)|(a*ba)a*, aa*c(a*ab)|(a*ba)a*c)"]
+M1S1 -> M2S2 [label="((a*ab)|(a*ba)a*|(a*b), aa*c(a*ab)|(a*ba)a*|(a*b)c)"]
 M1S2 -> M2S2 [label="(a+ba*, aa*ca+ba*c)"]
 M1S2 -> M2S1 [label="(a+ba*a|(a+b), aa*ca+ba*a|(a+b)c)"]
-M1S1 -> M2S1 [label="((a*aba*a|(ab))|ba*a, aa*c(a*aba*a|(ab))|ba*ac)"]
-M1S1 -> M2S2 [label="((a*aba*)|ba*, aa*c(a*aba*)|ba*c)"]
-M2S2 -> M3S2 [label="(a+ba*, (aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)"]
-M2S2 -> M3S1 [label="(a+ba*a|(a+b), (aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)"]
-M2S1 -> M3S1 [label="((a*aba*a|(ab))|ba*a, (aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)"]
-M2S1 -> M3S2 [label="((a*aba*)|ba*, (aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)"]
-M3S2 -> M4S2 [label="(a+ba*, ((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)"]
-M3S2 -> M4S1 [label="(a+ba*a|(a+b), ((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)"]
-M3S1 -> M4S1 [label="((a*aba*a|(ab))|ba*a, ((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)"]
-M3S1 -> M4S2 [label="((a*aba*)|ba*, ((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)"]
-M4S2 -> M5S2 [label="(a+ba*, (((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)"]
-M4S2 -> M5S1 [label="(a+ba*a|(a+b), (((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)"]
-M4S1 -> M5S1 [label="((a*aba*a|(ab))|ba*a, (((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)"]
-M4S1 -> M5S2 [label="((a*aba*)|ba*, (((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)"]
-M5S2 -> M6S2 [label="(a+ba*, ((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)"]
-M5S2 -> M6S1 [label="(a+ba*a|(a+b), ((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)"]
-M5S1 -> M6S1 [label="((a*aba*a|(ab))|ba*a, ((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)"]
-M5S1 -> M6S2 [label="((a*aba*)|ba*, ((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|((((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)a+ba*a|(a+b)c)|(((aa*ca+ba*c)|(aa*c(a*aba*)|ba*c)a+ba*a|(a+b)c)|((aa*ca+ba*a|(a+b)c)|(aa*c(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*a|(ab))|ba*ac)(a*aba*)|ba*c)"]
+M2S1 -> M3S1 [label="((a*ab)|(a*ba)a*, (aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)"]
+M2S1 -> M3S2 [label="((a*ab)|(a*ba)a*|(a*b), (aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)"]
+M2S2 -> M3S2 [label="(a+ba*, (aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)"]
+M2S2 -> M3S1 [label="(a+ba*a|(a+b), (aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*a|(a+b)c)"]
+M3S1 -> M4S1 [label="((a*ab)|(a*ba)a*, ((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba
+*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)"]
+M3S1 -> M4S2 [label="((a*ab)|(a*ba)a*|(a*b), ((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba
+*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)"]
+M3S2 -> M4S2 [label="(a+ba*, ((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa
+*ca+ba*c)a+ba*c)a+ba*c)"]
+M3S2 -> M4S1 [label="(a+ba*a|(a+b), ((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa
+*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)"]
+M4S1 -> M5S1 [label="((a*ab)|(a*ba)a*, (((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+b
+a*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b
+)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)"]
+M4S1 -> M5S2 [label="((a*ab)|(a*ba)a*|(a*b), (((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+b
+a*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b
+)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)"]
+M4S2 -> M5S2 [label="(a+ba*, (((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+b
+a*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a
+*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+ba*c)"]
+M4S2 -> M5S1 [label="(a+ba*a|(a+b), (((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a*c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+b
+a*c)a+ba*a|(a+b)c)(a*ab)|(a*ba)a*|(a*b)c)|(((aa*c(a*ab)|(a*ba)a*c)|(aa*ca+ba*a|(a+b)c)(a*ab)|(a*ba)a
+*|(a*b)c)|((aa*c(a*ab)|(a*ba)a*|(a*b)c)|(aa*ca+ba*c)a+ba*c)a+ba*c)a+ba*a|(a+b)c)"]
 }

@@ -20,123 +20,23 @@ subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
 label="(fr)|(rf)|(rf?)"
 M3S1 [label=1];
-M3S6 [label=6];
 M3S3 [label=3];
+M3S4 [label=4];
 }
 subgraph cluster4 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((fr)|(rf)(fr)?|r)|r"
+label="((fr)|(rf)r?|f|(fr)|(frf))|r"
 M4S2 [label=2];
-M4S4 [label=4];
-}
-subgraph cluster5 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf?)|(rfrf)"
-M5S1 [label=1];
-M5S6 [label=6];
-M5S3 [label=3];
-M5S5 [label=5];
-}
-subgraph cluster6 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)(fr)?|r)|(((fr)|(rf)r)|(rfr))"
-M6S2 [label=2];
-M6S4 [label=4];
-}
-subgraph cluster7 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf?)|(((fr)|(rf)r)|(rfr)frf)"
-M7S1 [label=1];
-M7S6 [label=6];
-M7S3 [label=3];
-M7S5 [label=5];
-}
-subgraph cluster8 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)(fr)?|r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr))"
-M8S2 [label=2];
-M8S4 [label=4];
-}
-subgraph cluster9 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf?)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)"
-M9S1 [label=1];
-M9S6 [label=6];
-M9S3 [label=3];
-M9S5 [label=5];
-}
-subgraph cluster10 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)(fr)?|r)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr))"
-M10S2 [label=2];
-M10S4 [label=4];
-}
-subgraph cluster11 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)fr)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf?)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)frf)"
-M11S1 [label=1];
-M11S6 [label=6];
-M11S3 [label=3];
-M11S5 [label=5];
-}
-subgraph cluster12 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)fr)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)frf)(fr)?|r|f|(fr)|(frf))|((((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)r)|(((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)fr))"
-M12S2 [label=2];
-M12S4 [label=4];
+M4S5 [label=5];
 }
 M0S0 -> M1S1 [label="(ε, ε)"]
 M1S1 -> M2S2 [label="(ε, ε)"]
 M2S2 -> M3S1 [label="(fr, fr)"]
-M2S2 -> M3S6 [label="(ε, ε)"]
-M2S2 -> M3S3 [label="(r, r)"]
+M2S2 -> M3S3 [label="(ε, ε)"]
+M2S2 -> M3S4 [label="(r, r)"]
 M3S1 -> M4S2 [label="(ε, fr)"]
-M3S6 -> M4S2 [label="(rf, rf)"]
-M3S6 -> M4S4 [label="(r, r)"]
-M3S3 -> M4S2 [label="(f, rf)"]
-M3S3 -> M4S4 [label="(ε, r)"]
-M4S2 -> M5S1 [label="(fr, (fr)|(rf)fr)"]
-M4S2 -> M5S6 [label="(ε, (fr)|(rf))"]
-M4S2 -> M5S3 [label="(r, (fr)|(rf)r)"]
-M4S4 -> M5S5 [label="(ε, r)"]
-M5S1 -> M6S2 [label="(ε, (fr)|(rf)fr)"]
-M5S6 -> M6S2 [label="(rf, (fr)|(rf)rf)"]
-M5S6 -> M6S4 [label="(r, (fr)|(rf)r)"]
-M5S3 -> M6S2 [label="(f, (fr)|(rf)rf)"]
-M5S3 -> M6S4 [label="(ε, (fr)|(rf)r)"]
-M5S5 -> M6S2 [label="(frf, rfrf)"]
-M5S5 -> M6S4 [label="(fr, rfr)"]
-M6S2 -> M7S1 [label="(fr, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)"]
-M6S2 -> M7S6 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf))"]
-M6S2 -> M7S3 [label="(r, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
-M6S4 -> M7S5 [label="(ε, ((fr)|(rf)r)|(rfr))"]
-M7S1 -> M8S2 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)"]
-M7S6 -> M8S2 [label="(rf, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)"]
-M7S6 -> M8S4 [label="(r, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
-M7S3 -> M8S2 [label="(f, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)"]
-M7S3 -> M8S4 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
-M7S5 -> M8S2 [label="(frf, ((fr)|(rf)r)|(rfr)frf)"]
-M7S5 -> M8S4 [label="(fr, ((fr)|(rf)r)|(rfr)fr)"]
-M8S2 -> M9S1 [label="(fr, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)"]
-M8S2 -> M9S6 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf))"]
-M8S2 -> M9S3 [label="(r, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)"]
-M8S4 -> M9S5 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr))"]
-M9S1 -> M10S2 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)"]
-M9S6 -> M10S2 [label="(rf, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)"]
-M9S6 -> M10S4 [label="(r, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)"]
-M9S3 -> M10S2 [label="(f, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)"]
-M9S3 -> M10S4 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)"]
-M9S5 -> M10S2 [label="(frf, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)"]
-M9S5 -> M10S4 [label="(fr, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)"]
-M10S2 -> M11S1 [label="(fr, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)fr)"]
-M10S2 -> M11S6 [label="(ε, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf))"]
-M10S2 -> M11S3 [label="(r, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)r)"]
-M10S4 -> M11S5 [label="(ε, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr))"]
-M11S1 -> M12S2 [label="(ε, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)fr)"]
-M11S6 -> M12S2 [label="(rf, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf)"]
-M11S6 -> M12S4 [label="(r, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)r)"]
-M11S3 -> M12S2 [label="(f, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)rf)"]
-M11S3 -> M12S4 [label="(ε, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)frf)r)"]
-M11S5 -> M12S2 [label="(frf, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)frf)"]
-M11S5 -> M12S4 [label="(fr, ((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)fr)fr)"]
+M3S3 -> M4S2 [label="(rf, rf)"]
+M3S3 -> M4S5 [label="(r, r)"]
+M3S4 -> M4S2 [label="(f, rf)"]
+M3S4 -> M4S5 [label="(ε, r)"]
 }

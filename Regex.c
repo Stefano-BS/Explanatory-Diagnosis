@@ -130,8 +130,8 @@ void regexPrint(Regex * d, unsigned int solLen, char * format, Regex * s1, Regex
 }
 
 void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
-    unsigned int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0; //int strl1 = strlen(s1->regex), strl2 = strlen(s2->regex), strl3 = 0;
-    if (s3 != NULL) strl3 = s3->strlen; //strl3 = strlen(s3->regex);
+    unsigned int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0;
+    if (s3 != NULL) strl3 = s3->strlen;
     bool streq12 = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;
 
     debugif(DEBUG_REGEX, {
