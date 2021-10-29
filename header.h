@@ -22,9 +22,16 @@
 #define ACAPO           -10
 #define REGEX           4U
 #define REGEXLEVER      1.6
+#define HASH_NO         1U
+#define HASH_XT         11U
+#define HASH_TN         43U
+#define HASH_XS         89U
 #define HASH_SM         181U
 #define HASH_MD         773U
 #define HASH_LG         2971U
+#define HASH_XL         7043U
+#define HASH_HG         25889U
+#define HASH_XH         95063U
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -36,6 +43,9 @@
 #define DEBUG_DIAG          1 << 5
 
 #define beginTimer                  gettimeofday(&beginT, NULL); beginC = clock();
+#define foreachst(b, code)          for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]){while (sl) {code;sl=sl->next;}}
+#define foreachstb(b)               for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]){while (sl) {
+#define foreachstc                  ;sl=sl->next;}}
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    for(struct ltrans *lnode=from; lnode!=NULL; lnode = lnode->next)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
@@ -79,12 +89,8 @@ typedef struct {
         struct faultspace *tempFault;
         struct tList * next;
     } **tList;
-    /*struct sList {
-        struct behstate *s;
-        struct sList * next;
-    } **sList;*/
     unsigned int length;
-} BehSpaceCatalog;
+} BehTransCatalog;
 
 // DISCRETE EVENT SYSTEM
 typedef struct {
@@ -127,8 +133,11 @@ struct ltrans {
 };
 
 typedef struct {
-    BehState **RESTRICT states;
-    unsigned int sizeofS, nStates, nTrans;
+    struct sList {
+        struct behstate *s;
+        struct sList * next;
+    } **sMap;
+    unsigned int nStates, nTrans, hashLen;
     bool containsFinalStates;
 } BehSpace;
 
@@ -190,12 +199,13 @@ extern unsigned long long seed;
 extern char outGraphType[6];
 extern char * inputDES;
 extern unsigned int strlenInputDES;
+extern unsigned int bucketId;               // Ovverride to local scope when in use inside threads
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
 extern Regex* empty;
 extern const unsigned short eps, mu;
-extern BehSpaceCatalog catalog;
+extern BehTransCatalog catalog;
 
 // DataStructures.c
 Component * newComponent(void);
@@ -203,13 +213,17 @@ Link* linkById(short);
 Component* compById(short);
 void netAlloc(unsigned short, unsigned short);
 void alloc1(void *, char);
-unsigned int hashBehState(BehState *);
-bool behTransCompareTo(BehTrans *, BehTrans *);
-bool behStateCompareTo(BehState *, BehState *);
+unsigned int hashBehState(unsigned int, BehState *);
+bool behTransCompareTo(BehTrans *, BehTrans *, bool, bool);
+bool behStateCompareTo(BehState *, BehState *, bool, bool);
+void initCatalogue(void);
+BehState * catalogInsertState(BehSpace *, BehState *, bool);
+BehState * stateById(BehSpace *, int);
 BehSpace * newBehSpace(void);
 BehState * generateBehState(short *, short *);
 void removeBehState(BehSpace *, BehState *);
 void freeBehState(BehState *);
+void freeCatalogue(void);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
 void freeBehSpace(BehSpace *);
 void freeMonitoring(Monitoring *);

@@ -5,21 +5,26 @@ Trans *stubTrans;
 INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     if (mode) {
         if (b->nStates>2) return false;
-        foreachdecl(lt, b->states[0]->transitions) {
-            debugif(DEBUG_DIAG, printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker))
-            foreachdecl(lt2, lt->next)
-                if (lt->t->marker != 0 && lt->t->marker == lt2->t->marker)
-                    return false;
-        }
+        unsigned int bucketId;
+        foreachst(b,
+            if (sl->s->id == 0)
+                foreachdecl(lt, sl->s->transitions) {
+                    debugif(DEBUG_DIAG, printlog("from %d to %d mark %d\n",lt->t->from->id, lt->t->to->id, lt->t->marker))
+                    foreachdecl(lt2, lt->next)
+                        if (lt->t->marker != 0 && lt->t->marker == lt2->t->marker)
+                            return false;
+            }
+        )
         return true;
     }
     else return b->nTrans<=1;
 }
 
 INLINE(bool collapseSeries(BehSpace * b, int* markerMap, unsigned int nMarker, char mode)) {
-    unsigned int i;
     bool ret = false;
-    for (BehState * stemp = b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {
+    unsigned int bucketId;
+    foreachstb(b)
+        BehState * stemp = sl->s;
         BehTrans *tentra, *tesce;
         if (stemp->transitions != NULL && stemp->transitions->next != NULL && stemp->transitions->next->next == NULL &&
         (((tesce = stemp->transitions->t)->from == stemp && (tentra = stemp->transitions->next->t)->to == stemp)
@@ -40,29 +45,32 @@ INLINE(bool collapseSeries(BehSpace * b, int* markerMap, unsigned int nMarker, c
             b->nTrans++;
             struct ltrans *nuovaTr = calloc(1, sizeof(struct ltrans));
             nuovaTr->t = nt;
-            struct ltrans *templtrans = b->states[tentra->from->id]->transitions;
-            b->states[tentra->from->id]->transitions = nuovaTr;
-            b->states[tentra->from->id]->transitions->next = templtrans;
+            struct ltrans *templtrans = tentra->from->transitions;
+            tentra->from->transitions = nuovaTr;
+            tentra->from->transitions->next = templtrans;
             if (tentra->from != tesce->to) {
-                templtrans = b->states[tesce->to->id]->transitions;
+                templtrans = tesce->to->transitions;
                 nuovaTr = calloc(1, sizeof(struct ltrans));
                 nuovaTr->t = nt;
-                b->states[tesce->to->id]->transitions = nuovaTr;
-                b->states[tesce->to->id]->transitions->next = templtrans;
+                tesce->to->transitions = nuovaTr;
+                tesce->to->transitions->next = templtrans;
             }
             freeRegex(tesce->regex);
-            memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+            memcpy(markerMap+stemp->id, markerMap+stemp->id+1, (nMarker - stemp->id)*sizeof(int));
             removeBehState(b, stemp);
             ret = true;
+            sl = b->sMap[bucketId];
+            continue;
         }
-    }
+    foreachstc
     return ret;
 }
 
 INLINE(bool collapseParallels(BehSpace * b, char mode)) {
+    unsigned int bucketId;
     bool ret = false;
-    unsigned int i;
-    for (BehState * stemp=b->states[i=0]; i<b->nStates; stemp=b->states[++i]) {       // Collasso gruppi di transitions che condividono partenze e arrivi in una
+    foreachstb(b)                              // Collasso gruppi di transitions che condividono partenze e arrivi in una
+        BehState* stemp = sl->s;
         foreachdecl(trans1, stemp->transitions) {
             struct ltrans *trans2, *nodoPrecedente = NULL;
             foreachtr(trans2, stemp->transitions) {
@@ -99,21 +107,24 @@ INLINE(bool collapseParallels(BehSpace * b, char mode)) {
             }
             // if (ret) break;
         }
-    }
+    foreachstc
     return ret;
 }
 
 INLINE(bool closeLoop(BehSpace * b, int* markerMap, unsigned int nMarker, char mode)) {
+    unsigned int bucketId;
     bool ret = false;
-    unsigned int i;
-    for (BehState* stemp=b->states[i=1]; i<b->nStates-1; stemp=b->states[++i]) {
+    foreachstb(b)
+        BehState * stemp = sl->s;
         BehTrans * autoTransizione = NULL;
-        foreachdecl(trans, stemp->transitions)
-            if (trans->t->to == trans->t->from) {
-                autoTransizione = trans->t;
-                break;
-            }
-        foreachdecl(trans1, stemp->transitions) {                                   // Transizione entrante
+        if (stemp->id != 0 && (unsigned) stemp->id+1 != b->nStates) {
+            foreachdecl(trans, stemp->transitions)
+                if (trans->t->to == trans->t->from) {
+                    autoTransizione = trans->t;
+                    break;
+                }
+        }
+        foreachdecl(trans1, stemp->transitions) {                               // Transizione entrante
             if (trans1->t->to == stemp && trans1->t->from != stemp) {           // In trans1 c'è una entrante nel nodo      
                 foreachdecl(trans2, stemp->transitions) {                       // Transizione uscente
                     if (trans2->t->from == stemp && trans2->t->to != stemp) {   // In trans2 c'è una uscente dal nodo
@@ -152,85 +163,83 @@ INLINE(bool closeLoop(BehSpace * b, int* markerMap, unsigned int nMarker, char m
         }
         if (ret) {
             if (mode) {
-                debugif(DEBUG_DIAG, printlog("Cut %d\n", markerMap[i]))
-                memcpy(markerMap+i, markerMap+i+1, (nMarker - i)*sizeof(int));
+                debugif(DEBUG_DIAG, printlog("Cut %d\n", markerMap[stemp->id]))
+                memcpy(markerMap+stemp->id, markerMap+stemp->id+1, (nMarker - stemp->id)*sizeof(int));
             }
             foreachdecl(trans, stemp->transitions)
                 freeRegex(trans->t->regex);
             removeBehState(b, stemp);
-            break;
+            return ret;
         }
-    }
+    foreachstc
     return ret;
 }
 
 Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     if (mode != 2 && !b->containsFinalStates) return NULL;
-    unsigned int i=0, j=0, nMarker = b->nStates+2;
-    int markerMap[nMarker], k;
+    unsigned int i=0, nMarker = b->nStates+2, bucketId;
+    int markerMap[nMarker];
     if (mode==2){
         for (; i<nMarker; i++) 
             markerMap[i] = i; // Including α and ω
     }
     else if (mode==1) {
         markerMap[0] = 0;
-        for (; i<b->nStates; i++) 
-            markerMap[i+1] = (b->states[i]->flags & FLAG_FINAL)*(i+1);
+        foreachst(b,
+            markerMap[sl->s->id+1] = (sl->s->flags & FLAG_FINAL)*(sl->s->id+1);
+        );
         markerMap[nMarker-1] = 0;
     }
     Regex ** ret = calloc(mode? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
     
     stubTrans = calloc(1, sizeof(Trans));
-    for (stemp=b->states[k=((int)b->nStates)-1]; k>=0; stemp=b->states[--k])          // New initial state α
-        stemp->id++;
-    alloc1(b, 's');
-    memmove(b->states+1, b->states, b->nStates*sizeof(BehState*));
-    b->nStates++;
+    foreachst(b, sl->s->id++)                                            // New initial state α
     stemp = calloc(1, sizeof(BehState));
-    b->states[0] = stemp;
+    catalogInsertState(b, stemp, false);
     stemp->id = 0;
     BehTrans * nuovaTr = calloc(1, sizeof(BehTrans));
     nuovaTr->from = stemp;
-    nuovaTr->to = b->states[1];
+    BehState * exInitial;
+    foreachst(b, if (sl->s->id == 1) exInitial = sl->s;)
+    nuovaTr->to = exInitial;
     nuovaTr->t = stubTrans;
     nuovaTr->regex = emptyRegex(0);
     stemp->transitions = calloc(1, sizeof(struct ltrans));
     stemp->transitions->t = nuovaTr;
-    struct ltrans *vecchiaTesta = b->states[1]->transitions;
-    b->states[1]->transitions = calloc(1, sizeof(struct ltrans));
-    b->states[1]->transitions->t = nuovaTr;
-    b->states[1]->transitions->next = vecchiaTesta;
+    struct ltrans *vecchiaTesta = exInitial->transitions;
+    exInitial->transitions = calloc(1, sizeof(struct ltrans));
+    exInitial->transitions->t = nuovaTr;
+    exInitial->transitions->next = vecchiaTesta;
     b->nTrans++;
 
-    alloc1(b, 's');
     BehState * fine = calloc(1, sizeof(BehState));                              // New final state ω
     fine->id = b->nStates;
     fine->flags = FLAG_FINAL;
-    for (stemp = b->states[i=1]; i<b->nStates; stemp=b->states[++i]) {          // Transitions from ex final states/all states to ω
-        if (mode==2 || (stemp->flags & FLAG_FINAL)) {
+    foreachst(b,                                                  // Transitions from ex final states/all states to ω
+        if (sl->s->id != 0 && (mode==2 || (sl->s->flags & FLAG_FINAL))) {
             BehTrans * trFinale = calloc(1, sizeof(BehTrans));
-            trFinale->from = stemp;
+            trFinale->from = sl->s;
             trFinale->to = fine;
             trFinale->t = stubTrans;
             trFinale->regex = emptyRegex(0);
-            struct ltrans *vecchiaTesta = stemp->transitions;
-            stemp->transitions = calloc(1, sizeof(struct ltrans));
-            stemp->transitions->t = trFinale;
-            stemp->transitions->next = vecchiaTesta;
+            struct ltrans *vecchiaTesta = sl->s->transitions;
+            sl->s->transitions = calloc(1, sizeof(struct ltrans));
+            sl->s->transitions->t = trFinale;
+            sl->s->transitions->next = vecchiaTesta;
             vecchiaTesta = fine->transitions;
             fine->transitions = calloc(1, sizeof(struct ltrans));
             fine->transitions->t = trFinale;
             fine->transitions->next = vecchiaTesta;
             b->nTrans++;
-            stemp->flags &= !FLAG_FINAL;
+            sl->s->flags &= !FLAG_FINAL;
         }
-    }
-    b->states[b->nStates++] = fine;
+    )
+    catalogInsertState(b, fine, false);
 
-    for (stemp=b->states[j=0]; j<b->nStates; stemp=b->states[++j]) {           // Singleton regex making
-        foreachdecl(trans, stemp->transitions) {
-            if (trans->t->from == stemp) {
+    foreachst(b,                                                        // Singleton regex making
+        foreachdecl(trans, sl->s->transitions) {
+            if (trans->t->from == sl->s) {
                 trans->t->regex = emptyRegex(0);
                 if (trans->t->t->fault >0) {
                     regexCompile(trans->t->regex, trans->t->t->fault);
@@ -238,17 +247,22 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
                 }
             }
         }
-    }
+    )
     
     debugif(DEBUG_DIAG, printlog("Entering reduction cycle\n"));
     while (!exitCondition(b, mode))
         if (!collapseSeries(b, markerMap, nMarker, mode))
             if (!collapseParallels(b, mode))
                 closeLoop(b, markerMap, nMarker, mode);
-    if (mode)
-        foreachdecl(lt, b->states[0]->transitions) {
+    
+    foreachst(b,
+            if (sl->s->id == 0) {exInitial = sl->s; goto breakfor;})
+    breakfor:
+    if (mode) {
+        foreachdecl(lt, exInitial->transitions) {
             if (lt->t->marker != 0) ret[lt->t->marker-1] = lt->t->regex;
         }
-    else ret[0] = b->states[0]->transitions->t->regex;
+    }
+    else ret[0] = exInitial->transitions->t->regex;
     return ret;
 }

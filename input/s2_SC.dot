@@ -1,26 +1,26 @@
 digraph "SCinput/s2" {
-node [style=filled fillcolor="#FFEEEE"]; R00_Le ;
-node [fillcolor="#FFFFFF"]; R10_L1 ;
-node [style=filled fillcolor="#FFEEEE"]; R11_Le ;
-node [fillcolor="#FFFFFF"]; R01_L2 ;
-node [style=filled fillcolor="#FFEEEE"]; R01_Le ;
-node [fillcolor="#FFFFFF"]; R11_L1 ;
-node [style=filled fillcolor="#FFEEEE"]; R10_Le ;
-node [fillcolor="#FFFFFF"]; R00_L2 ;
-R00_Le -> R00_L2 [label=t3a]
-R00_Le -> R10_L1 [label=t1O1]
-R10_L1 -> R10_Le [label=t7j]
-R10_L1 -> R11_Le [label=t5O2]
-R11_Le -> R11_L1 [label=t4b]
-R11_Le -> R01_L2 [label=t2O1]
-R01_L2 -> R01_Le [label=t8k]
-R01_L2 -> R00_Le [label=t6O2]
-R01_Le -> R01_L2 [label=t3a]
-R01_Le -> R11_L1 [label=t1O1]
-R11_L1 -> R10_Le [label=t12O2m]
-R11_L1 -> R11_Le [label=t10O2]
-R10_Le -> R10_L1 [label=t4b]
-R10_Le -> R00_L2 [label=t2O1]
-R00_L2 -> R01_Le [label=t11O2l]
-R00_L2 -> R00_Le [label=t9O2]
+node [style=filled fillcolor="#FFEEEE"]; S6 ;
+node [fillcolor="#FFFFFF"]; S1 ;
+node [style=filled fillcolor="#FFEEEE"]; S2 ;
+node [fillcolor="#FFFFFF"]; S5 ;
+node [style=filled fillcolor="#FFEEEE"]; S0 ;
+node [fillcolor="#FFFFFF"]; S7 ;
+node [style=filled fillcolor="#FFEEEE"]; S4 ;
+node [fillcolor="#FFFFFF"]; S3 ;
+S6 -> S1 [label=t4b]
+S6 -> S7 [label=t2O1]
+S1 -> S6 [label=t7j]
+S1 -> S2 [label=t5O2]
+S2 -> S5 [label=t4b]
+S2 -> S3 [label=t2O1]
+S5 -> S6 [label=t12O2m]
+S5 -> S2 [label=t10O2]
+S0 -> S7 [label=t3a]
+S0 -> S1 [label=t1O1]
+S7 -> S4 [label=t11O2l]
+S7 -> S0 [label=t9O2]
+S4 -> S3 [label=t3a]
+S4 -> S5 [label=t1O1]
+S3 -> S4 [label=t8k]
+S3 -> S0 [label=t6O2]
 }

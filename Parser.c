@@ -170,8 +170,8 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
             nuovo->id = b->nStates;
             nuovo->flags = dbc;
             nuovo->obsIndex = oss;
-            alloc1(b, 's');
-            b->states[b->nStates++] = nuovo;
+            catalogInsertState(b, nuovo, false);
+            b->nStates++;
             fscanf(file, "%s", buffer); // Simbolo ;
         }
         while (true) {
@@ -179,14 +179,14 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
             unsigned int j;
             for (i=0; i<b->nStates; i++)
                 if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                    statoDa = b->states[i]; 
+                    statoDa = stateById(b, i); 
                     break;
                 }
             fscanf(file, "%s", buffer); // Simbolo ->
             fscanf(file, "%s", buffer);
             for (i=0; i<b->nStates; i++)
                 if (strcmp(nomeStatiTrovati[i], buffer) == 0) {
-                    statoA = b->states[i]; 
+                    statoA = stateById(b, i); 
                     break;
                 }
             
@@ -235,8 +235,8 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
             BehState * nuovo = generateBehState(NULL, NULL);
             nuovo->id = b->nStates;
             nuovo->flags = dbc;
-            alloc1(b, 's');
-            b->states[b->nStates++] = nuovo;
+            catalogInsertState(b, nuovo, false);
+            b->nStates++;
             fscanf(file, "%s", buffer); // Simbolo ;
         }
         while (true) {
@@ -260,18 +260,18 @@ BehSpace * parseBehSpace(FILE * file, bool semplificata, unsigned short* loss) {
             
             BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
             nuovaTransRete->regex = NULL;
-            nuovaTransRete->to = b->states[idA];
-            nuovaTransRete->from = b->states[idDa];
+            nuovaTransRete->to = stateById(b, idA);
+            nuovaTransRete->from = stateById(b, idDa);
             nuovaTransRete->t = t;
             struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
-            nuovaLTr->next = b->states[idDa]->transitions;
-            b->states[idDa]->transitions = nuovaLTr;
+            nuovaLTr->next = nuovaTransRete->from->transitions;
+            nuovaTransRete->from->transitions = nuovaLTr;
             if (idA != idDa) {
                 nuovaLTr = calloc(1, sizeof(struct ltrans));
                 nuovaLTr->t = nuovaTransRete;
-                nuovaLTr->next = b->states[idA]->transitions;
-                b->states[idA]->transitions = nuovaLTr;
+                nuovaLTr->next = nuovaTransRete->to->transitions;
+                nuovaTransRete->to->transitions = nuovaLTr;
             }
             b->nTrans++;
 

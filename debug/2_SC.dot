@@ -1,15 +1,7 @@
 digraph "SCdebug/2" {
-node [fillcolor="#FFFFFF"]; R11_Le3 ;
-node [fillcolor="#FFFFFF"]; R00_Lee ;
-node [style=filled fillcolor="#FFEEEE"]; R10_Lee ;
-node [fillcolor="#FFFFFF"]; R00_Le3 ;
-node [style=filled fillcolor="#FFEEEE"]; R11_Lee ;
-node [fillcolor="#FFFFFF"]; R01_Le3 ;
-node [style=filled fillcolor="#FFEEEE"]; R01_Lee ;
-R11_Le3 -> R10_Lee [label=t4]
-R11_Le3 -> R11_Lee [label=t5R2]
-R10_Lee -> R00_Le3 [label=t2R1]
-R11_Lee -> R01_Le3 [label=t2R1]
-R01_Le3 -> R00_Lee [label=t4]
-R01_Le3 -> R01_Lee [label=t5R2]
+node [fillcolor="#FFFFFF"]; S2 ;
+node [fillcolor="#FFFFFF"]; S0 ;
+node [fillcolor="#FFFFFF"]; S1 ;
+S0 -> S2 [label=t4]
+S0 -> S1 [label=t5f]
 }

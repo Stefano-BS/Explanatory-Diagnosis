@@ -34,11 +34,11 @@ edge[color=darkgray fontcolor=darkgray]
 node [shape=octagon width=0.3 height=0.3]; C4S0 [label=""];
 }
 C0S1 -> C0S0 [style=dashed arrowhead=vee label="O2 a"]
-C0S1 -> C1S0 [style=dashed arrowhead=vee label="O2l a"]
+C0S1 -> C1S0 [style=dashed arrowhead=vee label="O2 l a"]
 C1S1 -> C0S0 [style=dashed arrowhead=vee label="O2 a(ka)*"]
 C0S0 -> C2S0 [style=dashed arrowhead=vee label="O1 ε"]
 C1S0 -> C3S0 [style=dashed arrowhead=vee label="O1 (a(ka)*k)?"]
 C2S1 -> C4S0 [style=dashed arrowhead=vee label="O1 j(bj)*"]
-C4S0 -> C1S0 [style=dashed arrowhead=vee label="O2l ε"]
+C4S0 -> C1S0 [style=dashed arrowhead=vee label="O2 l ε"]
 C4S0 -> C0S0 [style=dashed arrowhead=vee label="O2 ε"]
 }

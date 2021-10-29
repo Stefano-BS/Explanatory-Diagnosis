@@ -1,9 +1,11 @@
 digraph "SCdebug/6" {
-node [fillcolor="#FFFFFF"]; R11_L2e ;
-node [fillcolor="#FFFFFF"]; R01_L23 ;
-node [fillcolor="#FFFFFF"]; R00_L2e ;
-node [fillcolor="#FFFFFF"]; R01_L2e ;
-R11_L2e -> R01_L23 [label=t2R1]
-R01_L23 -> R00_L2e [label=t4]
-R01_L23 -> R01_L2e [label=t5R2]
+node [fillcolor="#FFFFFF"]; S0 ;
+node [fillcolor="#FFFFFF"]; S3 ;
+node [fillcolor="#FFFFFF"]; S2 ;
+node [fillcolor="#FFFFFF"]; S1 ;
+node [fillcolor="#FFFFFF"]; S4 ;
+S0 -> S4 [label=t5f]
+S1 -> S2 [label=t4]
+S1 -> S3 [label=t5f]
+S4 -> S1 [label=t2r]
 }

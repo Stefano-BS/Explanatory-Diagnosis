@@ -5,6 +5,7 @@ double m_pi;
 
 char outGraphType[6] = "svg";
 unsigned int strlenInputDES;
+unsigned int bucketId;
 unsigned long long seed;
 char * inputDES = "";
 char * comBuf = "";
@@ -241,13 +242,14 @@ void menu(void) {
                 }
                 else printf("%lc\n", eps);
                 freeBehSpace(b);
+                freeCatalogue();
                 b = NULL;
                 sc = false;
             )
             endTimer
         }
         else if (allow_fg && (op=='f' || op=='g')) {
-            if (b != NULL) {freeBehSpace(b); b=NULL;}
+            if (b != NULL) {freeBehSpace(b); b=NULL; freeCatalogue();}
             printf(MSG_DOT_INPUT);
             char nomeFileSC[100];
             scanf("%99s", nomeFileSC);
@@ -316,9 +318,7 @@ void menu(void) {
             printf(MSG_OBS);
             while (true) {
                 interruptable(
-                    bool mask[b->nStates];
-                    memset(mask, true, b->nStates);
-                    BehSpace * duplicated = dup(b, mask, false, NULL);
+                    BehSpace * duplicated = dup(b, NULL, false, NULL);
                     prune(duplicated);
                     Regex ** diagnosis = diagnostics(duplicated, 0);
                     endTimer

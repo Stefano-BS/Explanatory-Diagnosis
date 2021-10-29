@@ -1,3 +1,15 @@
 digraph "SCdebug/4" {
-node [fillcolor="#FFFFFF"]; R10_Le3 ;
+node [fillcolor="#FFFFFF"]; S0 ;
+node [style=filled fillcolor="#FFEEEE"]; S6 ;
+node [style=filled fillcolor="#FFEEEE"]; S1 ;
+node [fillcolor="#FFFFFF"]; S5 ;
+node [style=filled fillcolor="#FFEEEE"]; S4 ;
+node [fillcolor="#FFFFFF"]; S3 ;
+node [style=filled fillcolor="#FFEEEE"]; S2 ;
+S0 -> S2 [label=t4]
+S0 -> S4 [label=t5f]
+S5 -> S6 [label=t5f]
+S5 -> S1 [label=t4]
+S4 -> S5 [label=t2r]
+S2 -> S3 [label=t2r]
 }

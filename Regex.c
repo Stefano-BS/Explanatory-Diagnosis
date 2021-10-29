@@ -44,7 +44,7 @@ Regex * regexCpy(Regex *RESTRICT src) {
 void regexCompile(Regex * r, unsigned short fault) {
     if (fault>25) {
         sprintf(r->regex, ",%hu", fault);
-        r->strlen = 1+(unsigned int)ceilf(log10f((float)(fault+1)));;
+        r->strlen = 1+(unsigned int)ceilf(log10f((float)(fault+1)));
     }
     else {r->regex[0] = 96 + fault;
         r->regex[1] = 0;

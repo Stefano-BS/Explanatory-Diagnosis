@@ -17,7 +17,7 @@ Explainer * makeExplainer(BehSpace *b, bool diagnoser) {
             ExplTrans *nt = calloc(1, sizeof(ExplTrans));
             nt->from = currentFault;
             nt->fromStateId = exp->maps[i]->idMapFromOrigin[currentTr->from->id];
-            currentFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
+            stateById(currentFault->b, nt->fromStateId)->flags |= FLAG_SILENT_FINAL;
             nt->toStateId = currentTr->to->id;
 
             FaultSpace * f;                                                     // Finding reference to destination fault space,
@@ -42,7 +42,7 @@ Explainer * makeExplainer(BehSpace *b, bool diagnoser) {
             char filename[100];
             strcpy(filename, inputDES);
             sprintf(inputDES, "debug/%d", i);
-            printBehSpace(currentFault->b, false, false, false);
+            printBehSpace(currentFault->b, true, false, false);
             strcpy(inputDES, filename);
             int nStates = currentFault->b->nStates;
             printlog("Fault space %d having %d states\n", i, nStates);
@@ -60,42 +60,29 @@ Explainer * makeExplainer(BehSpace *b, bool diagnoser) {
 Explainer * makeLazyExplainer(Explainer *exp, BehState* base, bool diagnoser) {
     if (exp == NULL) {
         exp = calloc(1, sizeof(Explainer));
-        unsigned int i, j, behSizeEsteem=0;
-        for (Component *c=components[i=0]; i<ncomp; c=components[++i]) {
-            behSizeEsteem += c->nStates;
-            behSizeEsteem += c->nTrans;
-            for (Trans * t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j]) {
-                if (t->nOutgoingEvents==0) behSizeEsteem++;
-                if (t->idIncomingEvent==VUOTO) behSizeEsteem++;
-                if (t->nOutgoingEvents<2) behSizeEsteem++;
-                if (t->obs==0) behSizeEsteem++;
-            }
-        }
-        catalog.length = behSizeEsteem<50 ? HASH_SM : behSizeEsteem < 100 ? HASH_MD : HASH_LG;
-        printlog("Hash: %u\n", catalog.length);
-        catalog.tList = calloc(catalog.length+1, sizeof(struct tList*));
+        initCatalogue();
     }
     alloc1(exp, 'f');                                           // Build the fault space rooted in base
     FaultSpace * newFault = makeLazyFaultSpace(exp, base, diagnoser);
     debugif(DEBUG_MON, printlog("Placing fault %p in position %d\n", newFault, exp->nFaultSpaces);)
     exp->faults[exp->nFaultSpaces++] = newFault;
     // Deal with transitions: save them right away with wild pointers, or keep a list of them?
-    int hash = hashBehState(base);
+    int hash = hashBehState(newFault->b->hashLen, base);
     struct tList * pt = catalog.tList[hash], *before=NULL;      // In this bucket are (also) BehTrans going to this fault space
     debugif(DEBUG_MON, printlog("Looking for BehTrans in bucket %d\n", hash);)
     while (pt != NULL) {
         debugif(DEBUG_MON, printlog("Compare %p w %p\n", pt->t->to, base);)
-        if (behStateCompareTo(pt->t->to, base)) {
+        if (behStateCompareTo(pt->t->to, base, false, false)) {
             ExplTrans *nt = calloc(1, sizeof(ExplTrans));
             nt->to = newFault;
             nt->from = pt->tempFault;
             nt->obs = pt->t->t->obs;
             nt->fault = pt->t->t->fault;
             nt->fromStateId = pt->t->from->id;
-            pt->tempFault->b->states[nt->fromStateId]->flags |= FLAG_SILENT_FINAL;
+            stateById(pt->tempFault->b, nt->fromStateId)->flags |= FLAG_SILENT_FINAL;
             nt->toStateId = 0;
             for (unsigned int k=0; k<nt->from->b->nStates; k++)
-                if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
+                if (behStateCompareTo(pt->t->from, stateById(nt->from->b, k), false, false)) {
                     nt->regex = nt->from->diagnosis[k];
                     break;
                 }
@@ -124,10 +111,10 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base, bool diagnoser) {
         nt->obs = pt->t->t->obs;
         nt->fault = pt->t->t->fault;
         nt->fromStateId = pt->t->from->id;
-        newFault->b->states[pt->t->from->id]->flags |= FLAG_SILENT_FINAL;
+        stateById(newFault->b, nt->fromStateId)->flags |= FLAG_SILENT_FINAL;
         nt->toStateId = 0;
         for (unsigned int k=0; k<nt->from->b->nStates; k++)
-            if (behStateCompareTo(pt->t->from, nt->from->b->states[k])) {
+            if (behStateCompareTo(pt->t->from, stateById(nt->from->b, k), false, false)) {
                 nt->regex = nt->from->diagnosis[k];
                 break;
             }
@@ -154,13 +141,12 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs, boo
         NEXT: pt = catalog.tList[i];
         while (pt != NULL) {
             if (fault==pt->tempFault && pt->t->t->obs == obs) {
-                unsigned int j;
-                for (BehState *x=fault->b->states[j=0]; j<fault->b->nStates; x=fault->b->states[++j]) {
-                    if (behStateCompareTo(x, pt->t->from)) {
+                foreachst(fault->b, 
+                    if (behStateCompareTo(sl->s, pt->t->from, false, false)) {
                         makeLazyExplainer(exp, pt->t->to, diagnoser); // Not removing here the tList record because it will be removed inside makeLazyExplainer
                         goto NEXT;
                     }
-                }
+                )
             }
             pt = pt->next;
         }
@@ -321,13 +307,6 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
             buildFaultsReachedWithObs(exp, fault, obs[loss-1], diagnoser);
 
         debugif((DEBUG_MON | DEBUG_MEMCOH), expCoherenceTest(exp));
-        debugif(DEBUG_MON, for(unsigned int l=0; l<catalog.length; l++) {
-            struct tList * pt=catalog.tList[l];
-            while(pt) {
-                printlog("Bucket %d trans from state hash %d to %d\n", l, hashBehState(pt->t->from), hashBehState(pt->t->to));
-                pt = pt->next;
-            }
-        })
     }
     // Extend M by a node µ' based on the new observation o
     MonitorState *RESTRICT newmu = calloc(1, sizeof(MonitorState));
