@@ -131,7 +131,7 @@ void printDES(BehState * attuale, bool testuale) {
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
     unsigned int position=0, bucketId;
-    char* nomeSpazi[b->nStates], nomeFileDot[strlenInputDES+8], nomeFileSvg[strlenInputDES+8], *ret;
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenInputDES+8], nomeFileSvg[strlenInputDES+8], *ret=NULL;
     FILE * file;
     if (!toString) {
         sprintf(nomeFileDot, "%s_SC.dot", inputDES);
@@ -259,7 +259,7 @@ void printExplainer(Explainer * exp) {
     
     ExplTrans *t;
     for (t=exp->trans[i=0]; i<exp->nTrans; t=exp->trans[++i]) {
-        int fromId, toId;
+        int fromId=0, toId=0;
         for (unsigned int j=0; j<exp->nFaultSpaces; j++) {
             if (t->from == exp->faults[j]) fromId=j;
             if (t->to == exp->faults[j]) toId=j;

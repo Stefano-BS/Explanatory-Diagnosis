@@ -20,7 +20,7 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     else return b->nTrans<=1;
 }
 
-INLINE(bool collapseSeries(BehSpace * b, int* markerMap, unsigned int nMarker, char mode)) {
+INLINE(bool collapseSeries(BehSpace * b, unsigned int nMarker, char mode)) {
     bool ret = false;
     unsigned int bucketId;
     foreachstb(b)
@@ -36,10 +36,9 @@ INLINE(bool collapseSeries(BehSpace * b, int* markerMap, unsigned int nMarker, c
             nt->t = stubTrans;
             nt->regex = tentra->regex;  // To save CPU I'm making the new regex right into tentra's
             regexMake(tentra->regex, tesce->regex, tentra->regex, 'c', NULL);
-            if (mode && nt->to->id == ((int)b->nStates)-1) {
+            if (mode && nt->to->id == (int)nMarker-1) {
                 if (tesce->marker != 0) nt->marker = tesce->marker;
-                else nt->marker = markerMap[stemp->id];
-                debugif(DEBUG_DIAG, printlog("1: Cut %d Marked t from %d to %d with %d\n", markerMap[stemp->id], markerMap[nt->from->id], markerMap[nt->to->id], nt->marker))
+                else nt->marker = stemp->id;
             }
 
             b->nTrans++;
@@ -56,8 +55,7 @@ INLINE(bool collapseSeries(BehSpace * b, int* markerMap, unsigned int nMarker, c
                 tesce->to->transitions->next = templtrans;
             }
             freeRegex(tesce->regex);
-            memcpy(markerMap+stemp->id, markerMap+stemp->id+1, (nMarker - stemp->id)*sizeof(int));
-            removeBehState(b, stemp);
+            removeBehState(b, stemp, false);
             ret = true;
             sl = b->sMap[bucketId];
             continue;
@@ -111,13 +109,13 @@ INLINE(bool collapseParallels(BehSpace * b, char mode)) {
     return ret;
 }
 
-INLINE(bool closeLoop(BehSpace * b, int* markerMap, unsigned int nMarker, char mode)) {
+INLINE(bool closeLoop(BehSpace * b, unsigned int nMarker, char mode)) {
     unsigned int bucketId;
     bool ret = false;
     foreachstb(b)
         BehState * stemp = sl->s;
         BehTrans * autoTransizione = NULL;
-        if (stemp->id != 0 && (unsigned) stemp->id+1 != b->nStates) {
+        if (stemp->id != 0 && (unsigned) stemp->id+1 != nMarker) {
             foreachdecl(trans, stemp->transitions)
                 if (trans->t->to == trans->t->from) {
                     autoTransizione = trans->t;
@@ -151,24 +149,18 @@ INLINE(bool closeLoop(BehSpace * b, int* markerMap, unsigned int nMarker, char m
                         if (autoTransizione) regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'r', autoTransizione->regex);
                         else regexMake(trans1->t->regex, trans2->t->regex, nt->regex, 'c', NULL);
 
-                        if (mode && nt->to->id == ((int)b->nStates)-1) {
+                        if (mode && nt->to->id == (int)nMarker-1) {
                             if (trans2->t->marker != 0) nt->marker = trans2->t->marker;
-                            else nt->marker = markerMap[stemp->id];
-                            //nt->marker = markerMap[stemp->id];
-                            debugif(DEBUG_DIAG, printlog("2: Marked t from %d to %d w marker %d\n", markerMap[nt->from->id], markerMap[nt->to->id], nt->marker))
+                            else nt->marker = stemp->id;
                         }
                     }
                 }
             }
         }
         if (ret) {
-            if (mode) {
-                debugif(DEBUG_DIAG, printlog("Cut %d\n", markerMap[stemp->id]))
-                memcpy(markerMap+stemp->id, markerMap+stemp->id+1, (nMarker - stemp->id)*sizeof(int));
-            }
             foreachdecl(trans, stemp->transitions)
                 freeRegex(trans->t->regex);
-            removeBehState(b, stemp);
+            removeBehState(b, stemp, false);
             return ret;
         }
     foreachstc
@@ -177,19 +169,7 @@ INLINE(bool closeLoop(BehSpace * b, int* markerMap, unsigned int nMarker, char m
 
 Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     if (mode != 2 && !b->containsFinalStates) return NULL;
-    unsigned int i=0, nMarker = b->nStates+2, bucketId;
-    int markerMap[nMarker];
-    if (mode==2){
-        for (; i<nMarker; i++) 
-            markerMap[i] = i; // Including α and ω
-    }
-    else if (mode==1) {
-        markerMap[0] = 0;
-        foreachst(b,
-            markerMap[sl->s->id+1] = (sl->s->flags & FLAG_FINAL)*(sl->s->id+1);
-        );
-        markerMap[nMarker-1] = 0;
-    }
+    unsigned int nMarker = b->nStates+2, bucketId;
     Regex ** ret = calloc(mode? nMarker-2 : 1, sizeof(Regex*));
     BehState * stemp = NULL;
     
@@ -200,7 +180,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     stemp->id = 0;
     BehTrans * nuovaTr = calloc(1, sizeof(BehTrans));
     nuovaTr->from = stemp;
-    BehState * exInitial;
+    BehState * exInitial=NULL;
     foreachst(b, if (sl->s->id == 1) exInitial = sl->s;)
     nuovaTr->to = exInitial;
     nuovaTr->t = stubTrans;
@@ -251,9 +231,9 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     
     debugif(DEBUG_DIAG, printlog("Entering reduction cycle\n"));
     while (!exitCondition(b, mode))
-        if (!collapseSeries(b, markerMap, nMarker, mode))
+        if (!collapseSeries(b, nMarker, mode))
             if (!collapseParallels(b, mode))
-                closeLoop(b, markerMap, nMarker, mode);
+                closeLoop(b, nMarker, mode);
     
     foreachst(b,
             if (sl->s->id == 0) {exInitial = sl->s; goto breakfor;})

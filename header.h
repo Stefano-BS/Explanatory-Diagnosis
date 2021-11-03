@@ -211,6 +211,7 @@ extern BehTransCatalog catalog;
 Component * newComponent(void);
 Link* linkById(short);
 Component* compById(short);
+unsigned int BehSpaceSizeEsteem(void);
 void netAlloc(unsigned short, unsigned short);
 void alloc1(void *, char);
 unsigned int hashBehState(unsigned int, BehState *);
@@ -221,7 +222,7 @@ BehState * catalogInsertState(BehSpace *, BehState *, bool);
 BehState * stateById(BehSpace *, int);
 BehSpace * newBehSpace(void);
 BehState * generateBehState(short *, short *);
-void removeBehState(BehSpace *, BehState *);
+void removeBehState(BehSpace *, BehState *, bool);
 void freeBehState(BehState *);
 void freeCatalogue(void);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
@@ -232,7 +233,6 @@ void expCoherenceTest(Explainer *);
 void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
-BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
 void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
@@ -286,7 +286,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calcola una diagnosi a posteriori relativa ad un'osservazione\n"
     #define MSG_MENU_D "\td: Genera un "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Genera un "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Carica " ABBR_BEH " da file\n\tg: Carica " ABBR_BEH " da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
     #define MSG_MENU_N "\tn: Avvia processo di monitoraggio (senza conoscenza compilata)\n"
     #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra dell'"ABBR_EXP"/"ABBR_DIAG")\n"
@@ -371,7 +370,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calculate a posteriori diagnosis relative to an observation\n"
     #define MSG_MENU_D "\td: Generate "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Generate "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Load "ABBR_BEH" from file\n\tg: Load "ABBR_BEH" from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
     #define MSG_MENU_N "\tn: Start monitoring procedure (without compiled knowledge)\n"
     #define MSG_MENU_L "\tl: Start monitoring procedure (lazy "ABBR_EXP"/"ABBR_DIAG" compilation)\n"
@@ -456,7 +454,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calcula un diagnóstico a posteriori de una observación\n"
     #define MSG_MENU_D "\td: Generar un "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Generar un "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Cargar "ABBR_BEH" desde archivo\n\tg: Cargar "ABBR_BEH" desde archivo (estados renombrados)\n"
     #define MSG_MENU_M "\tm: Iniciar el proceso de monitoreo\n"
     #define MSG_MENU_N "\tn: Iniciar el proceso de monitoreo (sin conoscimiento compilado)\n"
     #define MSG_MENU_L "\tl: Iniciar el proceso de monitoreo (compilación perezosa del "ABBR_EXP" o "ABBR_DIAG")\n"

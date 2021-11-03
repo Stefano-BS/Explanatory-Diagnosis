@@ -14,29 +14,18 @@ M1S1 [label=1];
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
 label="(fr)?|r"
-M2S4 [label=4];
+M2S3 [label=3];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(fr)|(rf)|(rf?)"
+label="(fr)|(r?|(rf))|(rf?)"
 M3S1 [label=1];
-M3S5 [label=5];
+M3S4 [label=4];
 M3S2 [label=2];
 }
-subgraph cluster4 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((fr)|(rf)(frf)?|(fr)|f|r)|r"
-M4S4 [label=4];
-M4S3 [label=3];
-}
 M0S0 -> M1S1 [label="(ε, ε)"]
-M1S1 -> M2S4 [label="(ε, ε)"]
-M2S4 -> M3S1 [label="(fr, fr)"]
-M2S4 -> M3S5 [label="(ε, ε)"]
-M2S4 -> M3S2 [label="(r, r)"]
-M3S1 -> M4S4 [label="(ε, fr)"]
-M3S5 -> M4S4 [label="(rf, rf)"]
-M3S5 -> M4S3 [label="(r, r)"]
-M3S2 -> M4S4 [label="(f, rf)"]
-M3S2 -> M4S3 [label="(ε, r)"]
+M1S1 -> M2S3 [label="(ε, ε)"]
+M2S3 -> M3S1 [label="(fr, fr)"]
+M2S3 -> M3S4 [label="(ε, ε)"]
+M2S3 -> M3S2 [label="(r, r)"]
 }

@@ -115,7 +115,6 @@ void menu(void) {
     while (true) {
         bool allow_c = in & !exp & !diag,
             allow_o = in & !exp & !diag,
-            allow_fg = in & !exp & !diag,
             allow_e = in & sc & !exp & !diag,
             allow_m = in & sc & (exp | diag),
             allow_d = in & sc & !diag & !exp,
@@ -127,7 +126,6 @@ void menu(void) {
             printf(MSG_MENU_INTRO);
             if (allow_c) printf(MSG_MENU_C);
             if (allow_o) printf(MSG_MENU_O);
-            if (allow_fg) printf(MSG_MENU_FG);
             if (allow_e) printf(MSG_MENU_E);
             if (allow_m) printf(MSG_MENU_M);
             if (allow_d) printf(MSG_MENU_D);
@@ -247,25 +245,6 @@ void menu(void) {
                 sc = false;
             )
             endTimer
-        }
-        else if (allow_fg && (op=='f' || op=='g')) {
-            if (b != NULL) {freeBehSpace(b); b=NULL; freeCatalogue();}
-            printf(MSG_DOT_INPUT);
-            char nomeFileSC[100];
-            scanf("%99s", nomeFileSC);
-            FILE* fileSC = fopen(nomeFileSC, "r");
-            if (fileSC == NULL) {
-                printf(MSG_NO_FILE, nomeFileSC);
-                return;
-            }
-            beginTimer
-            unsigned short loss=0;
-            b = parseBehSpace(fileSC, op=='g', &loss);
-            fclose(fileSC);
-            endTimer
-            if (loss==0 && op=='f') printf(MSG_INPUT_NOT_OBSERVATION);
-            if (op=='g') printf(MSG_INPUT_UNKNOWN_TYPE);
-            sc = true;
         }
         else if (op=='e' && allow_e) {
             beginTimer

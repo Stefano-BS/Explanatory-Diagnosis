@@ -132,9 +132,10 @@ Link* linkById(short id) {
 INLINE(unsigned int hashBehState(unsigned int hashLen, BehState *s)) {
     if (hashLen<2) return 0;
     unsigned int hash = s->obsIndex+1;
-    for (int i=0; i<ncomp; i++) hash = ((hash << 3) + s->componentStatus[i]) % hashLen;
-    for (int i=0; i<nlink; i++) hash = ((hash << 3) + s->linkContent[i]+1) % hashLen;
-    return hash;
+    short * cs = s->componentStatus;
+    for (unsigned short i=0; i<ncomp; i++) hash = ((hash << 3) + cs[i]);
+    //for (unsigned short i=0; i<nlink; i++) hash = ((hash << 4) + s->linkContent[i]+1) % hashLen;
+    return hash % hashLen;
 }
 
 INLINE(bool behTransCompareTo(BehTrans * t1, BehTrans *t2, bool flags, bool obsIndex)) {
@@ -194,7 +195,7 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     return s;
 }
 
-void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
+void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob) {
     // Paragoni tra stati per puntatori a locazione di memoria, non per id
     int deleteId = delete->id;
     unsigned int bucketId, hash = delete->componentStatus ? hashBehState(b->hashLen, delete) : 0;
@@ -267,9 +268,10 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
         free(pt->next);
         pt->next = tmp;
     }
-    foreachst(b, 
-        if (sl->s->id>=deleteId) sl->s->id--;
-    )
+    if (idJob)
+        foreachst(b, 
+            if (sl->s->id>=deleteId) sl->s->id--;
+        )
 }
 
 void freeBehState(BehState *s) {
@@ -381,7 +383,7 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
 void freeBehSpace(BehSpace *b) {
     unsigned int bucketId;
     foreachst(b, 
-        removeBehState(b, sl->s);
+        removeBehState(b, sl->s, false);
         sl = b->sMap[bucketId];
         continue;
     );

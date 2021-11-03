@@ -1,15 +1,27 @@
 #include "header.h"
 
-bool *RESTRICT ok;
+unsigned int *RESTRICT ok;
 bool buildingTransCatalogue = false;
 
 FaultSpace * context = NULL;
 Explainer * expWorkingOn = NULL;
 BehTransCatalog catalog;
 
-BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RESTRICT obs, unsigned short loss) {
-    short * newComponentStatus = malloc(ncomp*sizeof(short));
-    short * newLinkContent = malloc(nlink*sizeof(short));
+BehState * calculateDestination(BehState *RESTRICT base, Trans *RESTRICT t, Component *RESTRICT c, int*RESTRICT obs, unsigned short loss, bool build) {
+    static short *tempCS, *tempLC;
+    if (tempCS == NULL) tempCS = malloc(ncomp*sizeof(short));
+    if (tempLC == NULL) tempLC = malloc(nlink*sizeof(short));
+    short * newComponentStatus, * newLinkContent;
+    if (build) {
+        newComponentStatus = malloc(ncomp*sizeof(short));
+        newLinkContent = malloc(nlink*sizeof(short));
+    }
+    else {
+        memcpy(tempLC, base->linkContent, nlink*sizeof(short));
+        memcpy(tempCS, base->componentStatus, ncomp*sizeof(short));
+        newComponentStatus = tempCS;
+        newLinkContent = tempLC;
+    }
     memcpy(newLinkContent, base->linkContent, nlink*sizeof(short));
     memcpy(newComponentStatus, base->componentStatus, ncomp*sizeof(short));
     if (t->idIncomingEvent != VUOTO)                                                // Incoming event consumption
@@ -27,7 +39,7 @@ BehState * calculateDestination(BehState *base, Trans * t, Component * c, int*RE
     return newState;
 }
 
-bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned short loss) {
+bool isTransEnabled(BehState *RESTRICT base, Component *RESTRICT c, Trans *RESTRICT t, int *RESTRICT obs, unsigned short loss) {
     unsigned int k;
     if ((base->componentStatus[c->intId] == t->from) &&                                             // Trans enabled if its from component is in the correct status
     (t->idIncomingEvent == VUOTO || t->idIncomingEvent == base->linkContent[t->linkIn->intId])) {   // Trans' incoming event okay
@@ -39,7 +51,7 @@ bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned s
                 return false;                                                                       // A Tr can consume an event in a link and immediately occupy it again
         if (buildingTransCatalogue && t->obs != 0) {
             BehTrans * nt = calloc(1, sizeof(BehTrans));
-            nt->to = calculateDestination(base, t, c, obs, loss);
+            nt->to = calculateDestination(base, t, c, obs, loss, true);
             nt->from = base;
             nt->t = t;
 
@@ -84,10 +96,9 @@ bool isTransEnabled(BehState *base, Component *c, Trans *t, int *obs, unsigned s
 bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehState *RESTRICT new, Trans *RESTRICT mezzo) {
     BehState * alredyPresent = catalogInsertState(b, new, true);
     if (alredyPresent != NULL) {
+        new->componentStatus = new->linkContent = NULL;
         freeBehState(new);
         new = alredyPresent;
-    }
-    if (alredyPresent != NULL) { // Già c'era lo stato, ma la transizione non è detto
         struct ltrans * trans = from->transitions;
         while (trans != NULL) {
             if (trans->t->to == new && trans->t->t->id == mezzo->id) return false;
@@ -95,21 +106,26 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehSt
         }
     } else { // Se lo stato è nuovo, ovviamente lo è anche la transizione che ci arriva
         new->id = b->nStates-1;
+        short * newComponentStatus = malloc(ncomp*sizeof(short));
+        short * newLinkContent = malloc(nlink*sizeof(short));
+        memcpy(newComponentStatus, new->componentStatus, ncomp*sizeof(short));
+        memcpy(newLinkContent, new->linkContent, nlink*sizeof(short));
+        new->componentStatus = newComponentStatus;
+        new->linkContent = newLinkContent;
     }
     if (mezzo != NULL) { // Lo stato iniziale, ad esempio ha NULL
         BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
         nuovaTransRete->to = new;
         nuovaTransRete->from = from;
         nuovaTransRete->t = mezzo;
-        nuovaTransRete->regex = NULL;
 
-        struct ltrans *nuovaLTr = calloc(1, sizeof(struct ltrans));
+        struct ltrans *nuovaLTr = malloc(sizeof(struct ltrans));
         nuovaLTr->t = nuovaTransRete;
         nuovaLTr->next = new->transitions;
         new->transitions = nuovaLTr;
         
         if (new != from) {
-            nuovaLTr = calloc(1, sizeof(struct ltrans));
+            nuovaLTr = malloc(sizeof(struct ltrans));
             nuovaLTr->t = nuovaTransRete;
             nuovaLTr->next = from->transitions;
             from->transitions = nuovaLTr;
@@ -122,15 +138,12 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehSt
 }
 
 void generateBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT base, int*RESTRICT obs, unsigned short loss) {
-    Component *c;
     unsigned short i, j;
-    for (c=components[i=0]; i<ncomp;  c=components[++i]){
-        Trans *t;
+    for (Component * c=components[i=0]; i<ncomp;  c=components[++i]) {
         unsigned short nT = c->nTrans;
-        if (nT == 0) continue;
-        for (t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
-            if (isTransEnabled(base, c, t, obs, loss)) {                                // Checks okay, execution
-                BehState * newState = calculateDestination(base, t, c, obs, loss);
+        for (Trans *t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
+            if (isTransEnabled(base, c, t, obs, loss)) {
+                BehState * newState = calculateDestination(base, t, c, obs, loss, false);
                 if (enlargeBehavioralSpace(b, base, newState, t))                       // Let's insert the new BehState & BehTrans in the BehSpace
                     generateBehavioralSpace(b, newState, obs, loss);                    // If the BehSpace wasn't enlarged (state alredy present) we cut exploration, otherwise recursive call
             }
@@ -156,8 +169,8 @@ void pruneRec(BehState *RESTRICT s) { // Invocata esternamente solo a partire da
 }
 
 void prune(BehSpace *RESTRICT b) {
-    unsigned int i, bucketId;
-    ok = calloc(b->nStates, sizeof(bool));
+    unsigned int i, bucketId, len=b->nStates, current=0;
+    ok = calloc(len, sizeof(unsigned int));
     ok[0] = true;
     foreachst(b,
         if (sl->s->flags & FLAG_FINAL) pruneRec(sl->s);
@@ -166,14 +179,20 @@ void prune(BehSpace *RESTRICT b) {
     for (struct sList*sl=b->sMap[i=0]; i<b->hashLen; sl=b->sMap[++i]){
         while (sl) {
             if (!ok[sl->s->id]) {
-                memcpy(ok+sl->s->id, ok+sl->s->id+1, (b->nStates-sl->s->id-1)*sizeof(bool));
-                removeBehState(b, sl->s);
+                //memcpy(ok+sl->s->id, ok+sl->s->id+1, (b->nStates-sl->s->id-1)*sizeof(bool));
+                removeBehState(b, sl->s, false);
                 sl = b->sMap[i];
                 continue;
             }
             sl = sl->next;
         }
     }
+    unsigned int *okPt = ok;
+    for (i=0; i<len; i++) {
+        *okPt = *okPt? current++ : 0;
+        okPt++;
+    }
+    foreachst(b, sl->s->id = ok[sl->s->id])
     free(ok);
 }
 
@@ -184,12 +203,12 @@ void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
     bool firstShot=true;
     unsigned int bucketId;
     foreachst(f->b, 
-        if (onlyFinals && !(sl->s->flags & FLAG_FINAL)) continue;
+        if (onlyFinals && !(sl->s->flags & FLAG_FINAL)) {sl = sl->next; continue;}
         if (firstShot) {
             firstShot = false;
             if (f->diagnosis[sl->s->id] != NULL && f->diagnosis[sl->s->id]->strlen>0) {
                 regexMake(empty, f->diagnosis[sl->s->id], f->alternativeOfDiagnoses, 'c', NULL);
-                continue;
+                sl = sl->next; continue;
             }
         }
         if (f->diagnosis[sl->s->id] != NULL && f->diagnosis[sl->s->id]->regex != NULL)
@@ -221,7 +240,7 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     map->exitStates = malloc(b->nTrans*sizeof(int));
     memset(map->exitStates, -1, b->nStates*sizeof(int));
 
-    bool *ok = calloc(b->nStates, sizeof(bool));  // MAY I USE idMapFromOrigin instead?
+    bool *ok = calloc(b->nStates, sizeof(bool));
     faultSpaceExtend(base, map->exitStates, obsTrs, ok); // state ids and transitions refer to the original space, not a dup copy
     ret->b = dup(b, ok, true, &map->idMapFromOrigin);
     free(ok);
@@ -229,14 +248,12 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     BehState *r;
     foreachstb(ret->b) // make base its inital state
         r = sl->s;
-        if (//k!=0 //&& base->obsIndex == r->obsIndex
-        memcmp(base->linkContent, r->linkContent, nlink*sizeof(short)) == 0
-        && memcmp(base->componentStatus, r->componentStatus, ncomp*sizeof(short)) == 0) {
+        if (behStateCompareTo(base, r, false, false)) {
             if (r->id == 0) break;
             k = r->id;                          // update ids
             stateById(ret->b, 0)->id = k;
             r->id = 0;
-            int tempId, swap1, swap2;           // swap id map
+            int tempId, swap1=0, swap2=0;           // swap id map
             for (unsigned int index=0; index<b->nStates; index++) {
                 if (map->idMapFromOrigin[index]==0) swap1=index;
                 if (map->idMapFromOrigin[index]==(int)k) swap2=index;
