@@ -1,0 +1,19 @@
+digraph "SCdebug/47" {
+node [fillcolor="#FFFFFF"]; S5 ;
+node [fillcolor="#FFFFFF"]; S0 ;
+node [style=filled fillcolor="#FFEEEE"]; S6 ;
+node [fillcolor="#FFFFFF"]; S4 ;
+node [fillcolor="#FFFFFF"]; S2 ;
+node [style=filled fillcolor="#FFEEEE"]; S1 ;
+node [fillcolor="#FFFFFF"]; S3 ;
+S5 -> S6 [label=t2]
+S5 -> S6 [label=t17]
+S0 -> S1 [label=t2]
+S0 -> S1 [label=t17]
+S0 -> S5 [label=t12]
+S4 -> S5 [label=t3]
+S2 -> S3 [label=t6]
+S1 -> S6 [label=t12]
+S1 -> S2 [label=t5]
+S3 -> S4 [label=t7]
+}

@@ -94,7 +94,7 @@ bool isTransEnabled(BehState *RESTRICT base, Component *RESTRICT c, Trans *RESTR
 }
 
 bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehState *RESTRICT new, Trans *RESTRICT mezzo) {
-    BehState * alredyPresent = catalogInsertState(b, new, true);
+    BehState * alredyPresent = insertState(b, new, true);
     if (alredyPresent != NULL) {
         new->componentStatus = new->linkContent = NULL;
         freeBehState(new);
@@ -104,7 +104,7 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehSt
             if (trans->t->to == new && trans->t->t->id == mezzo->id) return false;
             trans = trans->next;
         }
-    } else { // Se lo stato è nuovo, ovviamente lo è anche la transizione che ci arriva
+    } else {
         new->id = b->nStates-1;
         short * newComponentStatus = malloc(ncomp*sizeof(short));
         short * newLinkContent = malloc(nlink*sizeof(short));
@@ -112,8 +112,9 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehSt
         memcpy(newLinkContent, new->linkContent, nlink*sizeof(short));
         new->componentStatus = newComponentStatus;
         new->linkContent = newLinkContent;
+        b->containsFinalStates |= (new->flags & FLAG_FINAL);
     }
-    if (mezzo != NULL) { // Lo stato iniziale, ad esempio ha NULL
+    if (mezzo != NULL) { // Initial state has NULL
         BehTrans * nuovaTransRete = calloc(1, sizeof(BehTrans));
         nuovaTransRete->to = new;
         nuovaTransRete->from = from;
@@ -133,7 +134,6 @@ bool enlargeBehavioralSpace(BehSpace *RESTRICT b, BehState *RESTRICT from, BehSt
 
         b->nTrans++;
     }
-    b->containsFinalStates |= (new->flags & FLAG_FINAL);
     return alredyPresent == NULL;
 }
 
@@ -202,7 +202,7 @@ void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
     f->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*f->b->nTrans/5);
     bool firstShot=true;
     unsigned int bucketId;
-    foreachst(f->b, 
+    foreachst(f->b,
         if (onlyFinals && !(sl->s->flags & FLAG_FINAL)) {sl = sl->next; continue;}
         if (firstShot) {
             firstShot = false;
@@ -359,6 +359,7 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base, bool diagno
 }
 
 BehSpace * uncompiledMonitoring(BehSpace * b, int * obs, unsigned short loss) {
+    unsigned int bucketId;
     foreachst(b, sl->s->flags &= !FLAG_FINAL;)
     foreachst(b, generateBehavioralSpace(b, sl->s, obs, loss);)
     if (loss) prune(b);

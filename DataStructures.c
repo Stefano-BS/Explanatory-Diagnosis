@@ -29,12 +29,12 @@ unsigned int BehSpaceSizeEsteem(void) {
             if (t->obs==0) behSizeEsteem++;
         }
     }
-    return behSizeEsteem<30 ? HASH_XS : behSizeEsteem<50 ? HASH_SM : behSizeEsteem < 100 ? HASH_MD : behSizeEsteem<130 ? HASH_LG : behSizeEsteem<160 ? HASH_XL : behSizeEsteem<200 ? HASH_HG : HASH_XH;
+    return hashlen(behSizeEsteem);
 }
 
 BehSpace * newBehSpace(void) {
     BehSpace* b = calloc(1, sizeof(BehSpace));
-    b->hashLen = BehSpaceSizeEsteem();
+    b->hashLen = HASH_NO;
     b->sMap = calloc(b->hashLen, sizeof(struct sList*));
     if (b->sMap==NULL) printf(MSG_MEMERR);
     return b;
@@ -156,14 +156,45 @@ void initCatalogue(void) {
     catalog.tList = calloc(catalog.length+1, sizeof(struct tList*));
 }
 
+void resizeBehSpace(BehSpace * b) {
+    unsigned int ns = b->nStates,
+    newSize = hashlen(ns);
+    if (newSize <= b->hashLen) return;
+    debugif(DEBUG_MEMCOH, printlog("Resize BehSpace %c (%p) from %d to %d on %d states\n", 'A'+(char)((unsigned long long)b%25), b, b->hashLen, newSize, ns));
+    BehSpace* new = calloc(1, sizeof(BehSpace));
+    new->sMap = calloc(newSize, sizeof(struct sList*));
+    new->hashLen = newSize;
+    if (new->sMap==NULL) printf(MSG_MEMERR);
+    unsigned int bucketId;
+    foreachst(b, insertState(new, sl->s, false));
+    struct sList * pt;
+    for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]) {
+        while (sl) {
+            pt=sl->next;
+            free(sl);
+            sl = pt;
+        }
+    }
+    free(b->sMap);
+    b->sMap = new->sMap;
+    b->hashLen = newSize;
+    debugif(DEBUG_MEMCOH, behCoherenceTest(b))
+    free(new);
+}
+
 // If the state was alredy present, returns a pointer to it
-BehState * catalogInsertState(BehSpace * b, BehState * s, bool controls) {
+BehState * insertState(BehSpace * b, BehState * s, bool controls) {
     unsigned int hash = s->componentStatus ? hashBehState(b->hashLen, s) : 0;
     struct sList * pt = b->sMap[hash];
     if (controls) {
         while (pt != NULL) {
             if (behStateCompareTo(pt->s, s, false, true)) return pt->s;
             pt = pt->next;
+        }
+        unsigned int ns = b->nStates;
+        if (b->hashLen < (hashlen(ns))) {
+            resizeBehSpace(b);
+            hash = s->componentStatus ? hashBehState(b->hashLen, s) : 0;
         }
         pt = b->sMap[hash];
     }
@@ -196,27 +227,22 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
 }
 
 void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob) {
-    // Paragoni tra stati per puntatori a locazione di memoria, non per id
     int deleteId = delete->id;
     unsigned int bucketId, hash = delete->componentStatus ? hashBehState(b->hashLen, delete) : 0;
     struct ltrans * temp, *trans, *transPrima, *temp2;
     temp = delete->transitions;
     trans = transPrima = temp2 = NULL;
     
-    while (temp != NULL) { // Ciclo di rimozione di doppioni
-        trans = temp->next;
-        transPrima = trans;
-        while (trans != NULL) {
+    foreachtr(temp, temp) {
+        transPrima = temp;
+        foreachtr(trans, temp->next) {
             if (trans->t == temp->t) {
-                temp2 = transPrima;
                 transPrima->next = trans->next;
                 free(trans);
-                trans = temp2;
+                trans = transPrima;
             }
             transPrima = trans;
-            trans = trans->next;
         }
-        temp = temp->next;
     }
 
     temp = delete->transitions;
@@ -225,9 +251,8 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)
         BehState  *eliminaAncheDa = NULL;
 
         if (tr->from != delete && tr->to != delete)
-            printf(MSG_STATE_ANOMALY, deleteId); // Situazione anomala, ma non importa, qui
+            printf(MSG_STATE_ANOMALY, deleteId); // Weird
         else {
-            eliminaAncheDa = NULL;
             if (tr->from == delete && tr->to != delete) eliminaAncheDa = tr->to;
             else if (tr->from != delete && tr->to == delete) eliminaAncheDa = tr->from;
 
@@ -246,28 +271,25 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)
             }
             b->nTrans--;
             free(tr);
-            temp->t = NULL;
         }
         temp = temp->next;
         free(delete->transitions);
         delete->transitions = temp;
     }
 
-    b->nStates--;
     struct sList * pt = b->sMap[hash], *tmp;
-    if (pt->next == NULL || pt->s == delete) {
-        freeBehState(delete);
-        tmp = pt->next;
+    if (pt->s == delete) {
+        b->sMap[hash] = pt->next;
         free(pt);
-        b->sMap[hash] = tmp;
     }
     else {
         while (pt->next->s != delete) pt = pt->next;
-        freeBehState(delete);
         tmp = pt->next->next;
         free(pt->next);
         pt->next = tmp;
     }
+    freeBehState(delete);
+    b->nStates--;
     if (idJob)
         foreachst(b, 
             if (sl->s->id>=deleteId) sl->s->id--;
@@ -321,8 +343,8 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
     }
     
     BehSpace *dup = calloc(1, sizeof(BehSpace));
-    dup->hashLen = ns<5? HASH_NO : ns<20 ? HASH_XT : ns<60? HASH_TN : ns<120? HASH_XS : ns<220? HASH_SM : ns<1000? HASH_MD : ns<4000? HASH_LG : ns<10000? HASH_XL : ns<35000? HASH_HG : HASH_XH;
-    dup->sMap = calloc(b->hashLen, sizeof(struct sList*));
+    dup->hashLen = hashlen(ns);
+    dup->sMap = calloc(dup->hashLen, sizeof(struct sList*));
 
     BehState * new, *s;
     unsigned int bucketId;
@@ -338,7 +360,7 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
             new->flags = s->flags;
             new->obsIndex = s->obsIndex;
             new->id = (*map)[s->id];
-            catalogInsertState(dup, new, false);
+            insertState(dup, new, false);
             struct ltrans *trans = s->transitions;
             struct ltrans *temp;
             while (trans != NULL) {     // Transition list copy...
@@ -423,7 +445,7 @@ void freeMonitoring(Monitoring *RESTRICT mon) {
 
 void behCoherenceTest(BehSpace *b){
     BehState *s;
-    printf(MSG_MEMTEST1, b->nStates, b->nTrans);
+    printf(MSG_MEMTEST1, b->nStates, b->nTrans, b->hashLen);
     unsigned int bucketId;
     foreachst(b, 
         s = sl->s;

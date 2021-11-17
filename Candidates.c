@@ -176,7 +176,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     stubTrans = calloc(1, sizeof(Trans));
     foreachst(b, sl->s->id++)                                            // New initial state α
     stemp = calloc(1, sizeof(BehState));
-    catalogInsertState(b, stemp, false);
+    insertState(b, stemp, false);
     stemp->id = 0;
     BehTrans * nuovaTr = calloc(1, sizeof(BehTrans));
     nuovaTr->from = stemp;
@@ -215,7 +215,7 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
             sl->s->flags &= !FLAG_FINAL;
         }
     )
-    catalogInsertState(b, fine, false);
+    insertState(b, fine, false);
 
     foreachst(b,                                                        // Singleton regex making
         foreachdecl(trans, sl->s->transitions) {
@@ -230,10 +230,12 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
     )
     
     debugif(DEBUG_DIAG, printlog("Entering reduction cycle\n"));
-    while (!exitCondition(b, mode))
+    while (!exitCondition(b, mode)) {
+        debugif(DEBUG_DIAG, printlog("NS: %d NT: %d\n", b->nStates, b->nTrans));
         if (!collapseSeries(b, nMarker, mode))
             if (!collapseParallels(b, mode))
                 closeLoop(b, nMarker, mode);
+    }
     
     foreachst(b,
             if (sl->s->id == 0) {exInitial = sl->s; goto breakfor;})

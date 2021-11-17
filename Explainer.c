@@ -67,7 +67,7 @@ Explainer * makeLazyExplainer(Explainer *exp, BehState* base, bool diagnoser) {
     debugif(DEBUG_MON, printlog("Placing fault %p in position %d\n", newFault, exp->nFaultSpaces);)
     exp->faults[exp->nFaultSpaces++] = newFault;
     // Deal with transitions: save them right away with wild pointers, or keep a list of them?
-    int hash = hashBehState(newFault->b->hashLen, base);
+    int hash = hashBehState(catalog.length, base);
     struct tList * pt = catalog.tList[hash], *before=NULL;      // In this bucket are (also) BehTrans going to this fault space
     debugif(DEBUG_MON, printlog("Looking for BehTrans in bucket %d\n", hash);)
     while (pt != NULL) {
@@ -141,6 +141,7 @@ void buildFaultsReachedWithObs(Explainer * exp, FaultSpace * fault, int obs, boo
         NEXT: pt = catalog.tList[i];
         while (pt != NULL) {
             if (fault==pt->tempFault && pt->t->t->obs == obs) {
+                unsigned int bucketId;
                 foreachst(fault->b, 
                     if (behStateCompareTo(sl->s, pt->t->from, false, false)) {
                         makeLazyExplainer(exp, pt->t->to, diagnoser); // Not removing here the tList record because it will be removed inside makeLazyExplainer

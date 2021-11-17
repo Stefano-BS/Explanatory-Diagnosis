@@ -298,7 +298,7 @@ void menu(void) {
             while (true) {
                 interruptable(
                     BehSpace * duplicated = dup(b, NULL, false, NULL);
-                    prune(duplicated);
+                    // prune(duplicated);
                     Regex ** diagnosis = diagnostics(duplicated, 0);
                     endTimer
                     if (diagnosis) {
@@ -386,3 +386,5 @@ int main(int argc, char *argv[]) {
     menu();
 	return 0;
 }
+
+

@@ -25,13 +25,13 @@
 #define HASH_NO         1U
 #define HASH_XT         11U
 #define HASH_TN         43U
-#define HASH_XS         89U
-#define HASH_SM         181U
-#define HASH_MD         773U
-#define HASH_LG         2971U
-#define HASH_XL         7043U
-#define HASH_HG         25889U
-#define HASH_XH         95063U
+#define HASH_XS         181U
+#define HASH_SM         773U
+#define HASH_MD         2971U
+#define HASH_LG         7043U
+#define HASH_XL         25889U
+#define HASH_HG         95063U
+#define HASH_XH         500057U
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -49,6 +49,7 @@
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    for(struct ltrans *lnode=from; lnode!=NULL; lnode = lnode->next)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
+#define hashlen(ns)                 ns<5? HASH_NO : ns<21 ? HASH_XT : ns<80? HASH_TN : ns<350? HASH_XS : ns<1450? HASH_SM : ns<5000? HASH_MD : ns<12000? HASH_LG : ns<50000? HASH_XL : ns<180000? HASH_HG : HASH_XH
 #ifndef M_PI
     #define M_PI                    m_pi
 #endif
@@ -199,7 +200,7 @@ extern unsigned long long seed;
 extern char outGraphType[6];
 extern char * inputDES;
 extern unsigned int strlenInputDES;
-extern unsigned int bucketId;               // Ovverride to local scope when in use inside threads
+//extern unsigned int bucketId;               // Ovverride to local scope when in use inside threads or twice in a nested foreachst
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
@@ -218,7 +219,7 @@ unsigned int hashBehState(unsigned int, BehState *);
 bool behTransCompareTo(BehTrans *, BehTrans *, bool, bool);
 bool behStateCompareTo(BehState *, BehState *, bool, bool);
 void initCatalogue(void);
-BehState * catalogInsertState(BehSpace *, BehState *, bool);
+BehState * insertState(BehSpace *, BehState *, bool);
 BehState * stateById(BehSpace *, int);
 BehSpace * newBehSpace(void);
 BehState * generateBehState(short *, short *);
@@ -330,7 +331,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Errore: link con id %d non trovato\n"
     #define MSG_MEMERR "Errore di allocazione memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalia nello stato %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH ": %d stati e %d transizioni\n"
+    #define MSG_MEMTEST1 ABBR_BEH ": %d stati e %d transizioni, hashLen %d\n"
     #define MSG_MEMTEST2 "Lo stato %d non è coerente col proprio id %d\n"
     #define MSG_MEMTEST3 "Lo stato %d ha tr dall'id %d all'id %d\n"
     #define MSG_MEMTEST4 "Lo stato id %d, presso %p ha transizione che non punta a sé: "
@@ -414,7 +415,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: link with id %d not found\n"
     #define MSG_MEMERR "Unable to alloc memory!\n"
     #define MSG_STATE_ANOMALY "Anomaly in state %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH": %d states and %d transitions\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d states and %d transitions, hashLen %d\n"
     #define MSG_MEMTEST2 "State %d is not coherent with its id %d\n"
     #define MSG_MEMTEST3 "State %d has transition from id %d to id %d\n"
     #define MSG_MEMTEST4 "State id %d, located at %p has transition not pointing to itself: "
@@ -498,7 +499,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: enlace con id %d no encontrado\n"
     #define MSG_MEMERR "Error de asignación de memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalía en el estado %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH": %d estados y %d transiciones\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d estados y %d transiciones, hashLen %d\n"
     #define MSG_MEMTEST2 "El estado %d no es coherente con su identificador %d\n"
     #define MSG_MEMTEST3 "El estado %d tiene tr de id %d a id %d\n"
     #define MSG_MEMTEST4 "El estado id %d, cerca %p tiene una transición que no apunta a sí misma: "
