@@ -1,0 +1,35 @@
+digraph "SCinput/cina" {
+node [style=filled fillcolor="#FFEEEE"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [style=filled fillcolor="#FFEEEE"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [style=filled fillcolor="#FFEEEE"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [style=filled fillcolor="#FFEEEE"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+node [fillcolor="#FFFFFF"]; R-1536 ;
+R-1536 -> R-1536 [label=t2r]
+R-1536 -> R-1536 [label=t4]
+R-1536 -> R-1536 [label=t5f]
+R-1536 -> R-1536 [label=t2r]
+R-1536 -> R-1536 [label=t2r]
+R-1536 -> R-1536 [label=t3O3]
+R-1536 -> R-1536 [label=t4]
+R-1536 -> R-1536 [label=t5f]
+R-1536 -> R-1536 [label=t4]
+R-1536 -> R-1536 [label=t5f]
+R-1536 -> R-1536 [label=t3O3]
+R-1536 -> R-1536 [label=t1O2]
+R-1536 -> R-1536 [label=t3O3]
+R-1536 -> R-1536 [label=t2r]
+R-1536 -> R-1536 [label=t4]
+R-1536 -> R-1536 [label=t5f]
+R-1536 -> R-1536 [label=t3O3]
+R-1536 -> R-1536 [label=t1O2]
+}

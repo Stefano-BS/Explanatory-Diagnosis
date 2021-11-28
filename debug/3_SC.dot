@@ -1,7 +1,0 @@
-digraph "SCdebug/3" {
-node [fillcolor="#FFFFFF"]; R01_L23 ;
-node [fillcolor="#FFFFFF"]; R01_L2e ;
-node [fillcolor="#FFFFFF"]; R00_L2e ;
-R01_L23 -> R00_L2e [label=t4]
-R01_L23 -> R01_L2e [label=t5R2]
-}

@@ -22,9 +22,16 @@
 #define ACAPO           -10
 #define REGEX           4U
 #define REGEXLEVER      1.6
-#define HASH_SM         181U
-#define HASH_MD         773U
-#define HASH_LG         2971U
+#define HASH_NO         1U
+#define HASH_XT         11U
+#define HASH_TN         43U
+#define HASH_XS         181U
+#define HASH_SM         773U
+#define HASH_MD         2971U
+#define HASH_LG         7043U
+#define HASH_XL         25889U
+#define HASH_HG         95063U
+#define HASH_XH         500057U
 
 #define FLAG_FINAL          1
 #define FLAG_SILENT_FINAL   1 << 1
@@ -36,9 +43,13 @@
 #define DEBUG_DIAG          1 << 5
 
 #define beginTimer                  gettimeofday(&beginT, NULL); beginC = clock();
+#define foreachst(b, code)          for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]){while (sl) {code;sl=sl->next;}}
+#define foreachstb(b)               for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]){while (sl) {
+#define foreachstc                  ;sl=sl->next;}}
 #define foreachtr(lnode, from)      for(lnode=from; lnode!=NULL; lnode = lnode->next)
 #define foreachdecl(lnode, from)    for(struct ltrans *lnode=from; lnode!=NULL; lnode = lnode->next)
 #define interruptable(code)         signal(SIGINT, beforeExit); code signal(SIGINT, SIG_DFL);
+#define hashlen(ns)                 ns<5? HASH_NO : ns<21 ? HASH_XT : ns<80? HASH_TN : ns<350? HASH_XS : ns<1450? HASH_SM : ns<5000? HASH_MD : ns<12000? HASH_LG : ns<50000? HASH_XL : ns<180000? HASH_HG : HASH_XH
 #ifndef M_PI
     #define M_PI                    m_pi
 #endif
@@ -52,12 +63,16 @@
     #define debugif(mode, action)   if ((DEBUG_MODE & mode) == mode) action;
     #define ndebugif(...)
     #define INLINE(f)               f
+    #define O3(f)                   f
+    #define INLINEO3(f)             f
     #define RESTRICT
 #else
     #define printlog(...)
     #define debugif(...)
     #define ndebugif(mode, action)  if ((DEBUG_MODE & mode) == 0) action;
-    #define INLINE(f)               inline f __attribute__((always_inline)); inline f
+    #define INLINE(f)               f //inline f __attribute__((always_inline)); inline f
+    #define O3(f)                   f __attribute__((optimize("O3"))); f
+    #define INLINEO3(f)             f __attribute__((optimize("O3"))); f //inline f __attribute__((always_inline)) __attribute__((optimize("O3"))); inline f
     #define RESTRICT                restrict
     #define NDEBUG
 #endif
@@ -79,12 +94,8 @@ typedef struct {
         struct faultspace *tempFault;
         struct tList * next;
     } **tList;
-    /*struct sList {
-        struct behstate *s;
-        struct sList * next;
-    } **sList;*/
     unsigned int length;
-} BehSpaceCatalog;
+} BehTransCatalog;
 
 // DISCRETE EVENT SYSTEM
 typedef struct {
@@ -127,8 +138,11 @@ struct ltrans {
 };
 
 typedef struct {
-    BehState **RESTRICT states;
-    unsigned int sizeofS, nStates, nTrans;
+    struct sList {
+        struct behstate *s;
+        struct sList * next;
+    } **sMap;
+    unsigned int nStates, nTrans, hashLen;
     bool containsFinalStates;
 } BehSpace;
 
@@ -190,26 +204,32 @@ extern unsigned long long seed;
 extern char outGraphType[6];
 extern char * inputDES;
 extern unsigned int strlenInputDES;
+//extern unsigned int bucketId;               // Ovverride to local scope when in use inside threads or twice in a nested foreachst
 extern unsigned short nlink, ncomp;
 extern Component **RESTRICT components;
 extern Link **RESTRICT links;
 extern Regex* empty;
 extern const unsigned short eps, mu;
-extern BehSpaceCatalog catalog;
+extern BehTransCatalog catalog;
 
 // DataStructures.c
 Component * newComponent(void);
 Link* linkById(short);
 Component* compById(short);
+unsigned int BehSpaceSizeEsteem(void);
 void netAlloc(unsigned short, unsigned short);
 void alloc1(void *, char);
-unsigned int hashBehState(BehState *);
-bool behTransCompareTo(BehTrans *, BehTrans *);
-bool behStateCompareTo(BehState *, BehState *);
+unsigned int hashBehState(unsigned int, BehState *);
+bool behTransCompareTo(BehTrans *, BehTrans *, bool, bool);
+bool behStateCompareTo(BehState *, BehState *, bool, bool);
+void initCatalogue(void);
+BehState * insertState(BehSpace *, BehState *, bool) __attribute__((optimize("O3")));
+BehState * stateById(BehSpace *, int) __attribute__((optimize("O3")));
 BehSpace * newBehSpace(void);
-BehState * generateBehState(short *, short *);
-void removeBehState(BehSpace *, BehState *);
+BehState * generateBehState(short *, short *) __attribute__((optimize("O3")));
+void removeBehState(BehSpace *, BehState *, bool);
 void freeBehState(BehState *);
+void freeCatalogue(void);
 BehSpace * dup(BehSpace *, bool[], bool, int **);
 void freeBehSpace(BehSpace *);
 void freeMonitoring(Monitoring *);
@@ -218,7 +238,6 @@ void expCoherenceTest(Explainer *);
 void monitoringCoherenceTest(Monitoring *);
 // Parser.c
 void parseDES(FILE*);
-BehSpace * parseBehSpace(FILE *, bool, unsigned short*);
 void netMake(unsigned short, unsigned short, float, float, float, float, unsigned short, unsigned short, float, unsigned short);
 // Printer.c
 void printDES(BehState *, bool);
@@ -228,10 +247,10 @@ void printMonitoring(Monitoring *, Explainer *, bool);
 // SpaceMaker.c
 BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
 void prune(BehSpace *);
-FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool);
-FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool);
-FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool);
-BehSpace * uncompiledMonitoring(BehSpace *, int *, unsigned short);
+FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool) __attribute__((optimize("O3")));
+FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool) __attribute__((optimize("O3")));
+FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool) __attribute__((optimize("O3")));
+BehSpace * uncompiledMonitoring(BehSpace *, int *, unsigned short) __attribute__((optimize("O3")));
 // Regex.c
 void freeRegex(Regex *);
 Regex * emptyRegex(unsigned int);
@@ -272,7 +291,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calcola una diagnosi a posteriori relativa ad un'osservazione\n"
     #define MSG_MENU_D "\td: Genera un "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Genera un "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Carica " ABBR_BEH " da file\n\tg: Carica " ABBR_BEH " da file (stati rinominati)\n"
     #define MSG_MENU_M "\tm: Avvia processo di monitoraggio\n"
     #define MSG_MENU_N "\tn: Avvia processo di monitoraggio (senza conoscenza compilata)\n"
     #define MSG_MENU_L "\tl: Avvia processo di monitoraggio (compilazione pigra dell'"ABBR_EXP"/"ABBR_DIAG")\n"
@@ -317,7 +335,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Errore: link con id %d non trovato\n"
     #define MSG_MEMERR "Errore di allocazione memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalia nello stato %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH ": %d stati e %d transizioni\n"
+    #define MSG_MEMTEST1 ABBR_BEH ": %d stati e %d transizioni, hashLen %d\n"
     #define MSG_MEMTEST2 "Lo stato %d non è coerente col proprio id %d\n"
     #define MSG_MEMTEST3 "Lo stato %d ha tr dall'id %d all'id %d\n"
     #define MSG_MEMTEST4 "Lo stato id %d, presso %p ha transizione che non punta a sé: "
@@ -333,6 +351,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 "Stato di monitoraggio %d: %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
     #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
+    #define MSG_MEMTEST17 "Lo stato %d ha zero transizioni\n"
+    #define MSG_MEMTEST18 ABBR_BEH" ha informazione sbagliata riguardo la presenza di stati finali\n"
+    #define MSG_MEMTEST19 "Lo stato %d ha indice di osservazione maggiore di quello di uno stato finale\n"
+    #define MSG_MEMTEST20 ABBR_BEH" ha indice di osservazione massimo %d con quello dello stato finale di %d\n"
+    #define MSG_MEMTEST21 "Id impossibile! %d\n"
+    #define MSG_MEMTEST22 "Stato %d non presente!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
     #define MSG_MONITORING_RESULT "\n"ABBR_MON" (traccia delle diagnosi):\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
@@ -357,7 +381,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calculate a posteriori diagnosis relative to an observation\n"
     #define MSG_MENU_D "\td: Generate "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Generate "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Load "ABBR_BEH" from file\n\tg: Load "ABBR_BEH" from file (states renamed)\n"
     #define MSG_MENU_M "\tm: Start monitoring procedure\n"
     #define MSG_MENU_N "\tn: Start monitoring procedure (without compiled knowledge)\n"
     #define MSG_MENU_L "\tl: Start monitoring procedure (lazy "ABBR_EXP"/"ABBR_DIAG" compilation)\n"
@@ -402,7 +425,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: link with id %d not found\n"
     #define MSG_MEMERR "Unable to alloc memory!\n"
     #define MSG_STATE_ANOMALY "Anomaly in state %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH": %d states and %d transitions\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d states and %d transitions, hashLen %d\n"
     #define MSG_MEMTEST2 "State %d is not coherent with its id %d\n"
     #define MSG_MEMTEST3 "State %d has transition from id %d to id %d\n"
     #define MSG_MEMTEST4 "State id %d, located at %p has transition not pointing to itself: "
@@ -418,6 +441,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 ABBR_MON" State %d: %d fault spaces and %d transitions\n"
     #define MSG_MEMTEST15 "Found that in "ABBR_MON" State %d there's a fault state non exited by any arc\n"
     #define MSG_MEMTEST16 "Found that in "ABBR_MON" State %d there's a fault state not reached by any arc\n"
+    #define MSG_MEMTEST17 "State %d has zero transitions\n"
+    #define MSG_MEMTEST18 ABBR_BEH" has wrong information about final states presence\n"
+    #define MSG_MEMTEST19 "The state %d has obs index higher of final state's obs index\n"
+    #define MSG_MEMTEST20 ABBR_BEH" has maximum obs index of %d with index of final states %d\n"
+    #define MSG_MEMTEST21 "Impossible id! %d\n"
+    #define MSG_MEMTEST22 "State %d not present!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
@@ -442,7 +471,6 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MENU_O "\to: Calcula un diagnóstico a posteriori de una observación\n"
     #define MSG_MENU_D "\td: Generar un "ABBR_DIAG"\n"
     #define MSG_MENU_E "\te: Generar un "ABBR_EXP"\n"
-    #define MSG_MENU_FG "\tf: Cargar "ABBR_BEH" desde archivo\n\tg: Cargar "ABBR_BEH" desde archivo (estados renombrados)\n"
     #define MSG_MENU_M "\tm: Iniciar el proceso de monitoreo\n"
     #define MSG_MENU_N "\tn: Iniciar el proceso de monitoreo (sin conoscimiento compilado)\n"
     #define MSG_MENU_L "\tl: Iniciar el proceso de monitoreo (compilación perezosa del "ABBR_EXP" o "ABBR_DIAG")\n"
@@ -487,7 +515,7 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_LINK_NOT_FOUND "Error: enlace con id %d no encontrado\n"
     #define MSG_MEMERR "Error de asignación de memoria!\n"
     #define MSG_STATE_ANOMALY "Anomalía en el estado %d\n"
-    #define MSG_MEMTEST1 ABBR_BEH": %d estados y %d transiciones\n"
+    #define MSG_MEMTEST1 ABBR_BEH": %d estados y %d transiciones, hashLen %d\n"
     #define MSG_MEMTEST2 "El estado %d no es coherente con su identificador %d\n"
     #define MSG_MEMTEST3 "El estado %d tiene tr de id %d a id %d\n"
     #define MSG_MEMTEST4 "El estado id %d, cerca %p tiene una transición que no apunta a sí misma: "
@@ -503,6 +531,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 "Estado de monitoreo %d: %d cierres y %d transiciones\n"
     #define MSG_MEMTEST15 "Detectado en el estado de monitoreo %d un cierre sin arcos salientes\n"
     #define MSG_MEMTEST16 "Detectado en el estado de monitoreo %d un cierre sin arcos entrantes\n"
+    #define MSG_MEMTEST17 "El estado %d tiene cero transiciones\n"
+    #define MSG_MEMTEST18 ABBR_BEH" tiene información incorrecta sobre los estados finales\n"
+    #define MSG_MEMTEST19 "El estado %d tiene índice de observación major de lo de los estados finales\n"
+    #define MSG_MEMTEST20 ABBR_BEH" tiene índice de observación %d, mientras lo de los estados finales es %d\n"
+    #define MSG_MEMTEST21 "Id imposible! %d\n"
+    #define MSG_MEMTEST22 "Estado %d no presente!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "No se pudo encontrar un cierre objetivo de una transición\n"
     #define MSG_MONITORING_RESULT "\nTraza de diagnósticos:\n"
     #define MSG_NEXT_OBS "Proporcione la siguiente observación: "

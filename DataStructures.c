@@ -17,11 +17,26 @@ void netAlloc(unsigned short sComp, unsigned short sLink){
     if (components==NULL || sizeofTrComp==NULL || links==NULL) printf(MSG_MEMERR);
 }
 
+unsigned int BehSpaceSizeEsteem(void) {
+    unsigned int i, j, behSizeEsteem=0;
+    for (Component *c=components[i=0]; i<ncomp; c=components[++i]) {
+        behSizeEsteem += c->nStates;
+        behSizeEsteem += c->nTrans;
+        for (Trans * t=c->transitions[j=0]; j<c->nTrans; t=c->transitions[++j]) {
+            if (t->nOutgoingEvents==0) behSizeEsteem++;
+            if (t->idIncomingEvent==VUOTO) behSizeEsteem++;
+            if (t->nOutgoingEvents<2) behSizeEsteem++;
+            if (t->obs==0) behSizeEsteem++;
+        }
+    }
+    return hashlen(behSizeEsteem);
+}
+
 BehSpace * newBehSpace(void) {
     BehSpace* b = calloc(1, sizeof(BehSpace));
-    b->sizeofS=1;
-    b->states = malloc(b->sizeofS* sizeof(BehState*));
-    if (b->states==NULL) printf(MSG_MEMERR);
+    b->hashLen = HASH_NO;
+    b->sMap = calloc(b->hashLen, sizeof(struct sList*));
+    if (b->sMap==NULL) printf(MSG_MEMERR);
     return b;
 }
 
@@ -30,21 +45,10 @@ BehSpace * newBehSpace(void) {
     f: FaultSpace in an Explainer
     l: Link
     m: MonitorTrans in a MonitorState
-    s: BehState in BehSpace
     t: Trans in a Component
 */
 void alloc1(void *ptr, char o) {   // Call before inserting anything new in any of these structures
     switch (o) {
-        case 's': {
-            BehSpace * b = (BehSpace*) ptr;
-            if (b->nStates+1 > b->sizeofS) {
-                b->sizeofS *= 1.25;
-                b->sizeofS += 5;
-                BehState ** mem = realloc(b->states, b->sizeofS*sizeof(BehState*));
-                if (mem == NULL) printf(MSG_MEMERR);
-                else b->states = mem;
-            }
-        } break;
         case 'c': {
             if (ncomp+1 > sizeofCOMP) {
                 sizeofCOMP += 5;
@@ -125,27 +129,90 @@ Link* linkById(short id) {
     return NULL;
 }
 
-INLINE(unsigned int hashBehState(BehState *s)) {
-    unsigned int hash = 0;
-    for (int i=0; i<ncomp; i++) hash = ((hash << 3) + s->componentStatus[i]) % catalog.length;
-    for (int i=0; i<nlink; i++) hash = ((hash << 3) + s->linkContent[i]+1) % catalog.length;
-    return hash;
+INLINE(unsigned int hashBehState(unsigned int hashLen, BehState *s)) {
+    if (hashLen<2) return 0;
+    unsigned int hash = s->obsIndex+1;
+    short * cs = s->componentStatus;
+    for (unsigned short i=0; i<ncomp; i++) hash = ((hash << 3) + cs[i]);
+    //for (unsigned short i=0; i<nlink; i++) hash = ((hash << 4) + s->linkContent[i]+1) % hashLen;
+    return hash % hashLen;
 }
 
-INLINE(bool behTransCompareTo(BehTrans * t1, BehTrans *t2)) {
+INLINE(bool behTransCompareTo(BehTrans * t1, BehTrans *t2, bool flags, bool obsIndex)) {
     return  t1->marker == t2->marker && t1->t == t2->t
-            && behStateCompareTo(t1->from, t2->from) && behStateCompareTo(t1->to, t2->to);
+            && behStateCompareTo(t1->from, t2->from, flags, obsIndex) && behStateCompareTo(t1->to, t2->to, flags, obsIndex);
 }
 
-INLINE(bool behStateCompareTo(BehState * s1, BehState * s2)) {
-    return  // s1->flags == s2->flags && s1->obsIndex == s2->obsIndex &&
-            memcmp(s1->componentStatus, s2->componentStatus, ncomp*sizeof(short)) == 0
+INLINE(bool behStateCompareTo(BehState * s1, BehState * s2, bool flags, bool obsIndex)) {
+    if (flags && s1->flags != s2->flags) return false;
+    if (obsIndex && s1->obsIndex != s2->obsIndex) return false;
+    return  memcmp(s1->componentStatus, s2->componentStatus, ncomp*sizeof(short)) == 0
             && memcmp(s1->linkContent, s2->linkContent, nlink*sizeof(short)) == 0;
+}
+
+void initCatalogue(void) {
+    catalog.length = BehSpaceSizeEsteem();
+    printlog("Hash: %u\n", catalog.length);
+    catalog.tList = calloc(catalog.length+1, sizeof(struct tList*));
+}
+
+void resizeBehSpace(BehSpace * b) {
+    unsigned int ns = b->nStates,
+    newSize = hashlen(ns);
+    if (newSize <= b->hashLen) return;
+    debugif(DEBUG_MEMCOH, printlog("Resize BehSpace %c (%p) from %d to %d on %d states\n", 'A'+(char)((unsigned long long)b%25), b, b->hashLen, newSize, ns));
+    BehSpace* new = calloc(1, sizeof(BehSpace));
+    new->sMap = calloc(newSize, sizeof(struct sList*));
+    new->hashLen = newSize;
+    if (new->sMap==NULL) printf(MSG_MEMERR);
+    unsigned int bucketId;
+    foreachst(b, insertState(new, sl->s, false));
+    struct sList * pt;
+    for(struct sList*sl=b->sMap[bucketId=0];bucketId<b->hashLen;sl=b->sMap[++bucketId]) {
+        while (sl) {
+            pt=sl->next;
+            free(sl);
+            sl = pt;
+        }
+    }
+    free(b->sMap);
+    b->sMap = new->sMap;
+    b->hashLen = newSize;
+    debugif(DEBUG_MEMCOH, behCoherenceTest(b))
+    free(new);
+}
+
+// If the state was alredy present, returns a pointer to it
+BehState * insertState(BehSpace * b, BehState * s, bool controls) {
+    unsigned int hash = s->componentStatus ? hashBehState(b->hashLen, s) : 0;
+    struct sList * pt = b->sMap[hash];
+    if (controls) {
+        while (pt != NULL) {
+            if (behStateCompareTo(pt->s, s, false, true)) return pt->s;
+            pt = pt->next;
+        }
+        unsigned int ns = b->nStates;
+        if (b->hashLen < (hashlen(ns))) {
+            resizeBehSpace(b);
+            hash = s->componentStatus ? hashBehState(b->hashLen, s) : 0;
+        }
+        pt = b->sMap[hash];
+    }
+    b->sMap[hash] = malloc(sizeof(struct sList));
+    b->sMap[hash]->next = pt;
+    b->sMap[hash]->s = s;
+    b->nStates++;
+    return NULL;
+}
+
+BehState * stateById(BehSpace * b, int id) {
+    unsigned int bucketId;
+    foreachst(b, if (sl->s->id == id) return sl->s;)
+    return NULL;
 }
 
 BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT componentStatus) {
     BehState *s = calloc(1, sizeof(BehState));
-    s->id = VUOTO;
     if (linkContent != NULL) s->linkContent = linkContent; //memcpy(s->linkContent, linkContent, nlink*sizeof(short));
     else {
         s->linkContent = malloc(nlink*sizeof(short));
@@ -159,49 +226,41 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     return s;
 }
 
-void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
-    // Paragoni tra stati per puntatori a locazione di memoria, non per id
+O3(void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)) {
     int deleteId = delete->id;
-    struct ltrans * temp, *trans, *transPrima, *temp2;
-    temp = delete->transitions;
-    trans = transPrima = temp2 = NULL;
+    unsigned int bucketId, hash = delete->componentStatus ? hashBehState(b->hashLen, delete) : 0;
+    struct ltrans * temp, *trans, *transPrima;
     
-    while (temp != NULL) { // Ciclo di rimozione di doppioni
-        trans = temp->next;
-        transPrima = trans;
-        while (trans != NULL) {
+    foreachtr(temp, delete->transitions) {
+        transPrima = temp;
+        foreachtr(trans, temp->next) {
             if (trans->t == temp->t) {
-                temp2 = transPrima;
                 transPrima->next = trans->next;
                 free(trans);
-                trans = temp2;
+                trans = transPrima;
             }
             transPrima = trans;
-            trans = trans->next;
         }
-        temp = temp->next;
     }
 
-    temp = delete->transitions;
-    while (temp != NULL) {
-        BehTrans * tr = temp->t;
-        BehState  *eliminaAncheDa = NULL;
+    while (delete->transitions) {
+        BehTrans * tr = delete->transitions->t;
+        BehState * eliminaAncheDa = NULL;
 
         if (tr->from != delete && tr->to != delete)
-            printf(MSG_STATE_ANOMALY, deleteId); // Situazione anomala, ma non importa, qui
+            printf(MSG_STATE_ANOMALY, deleteId); // Weird
         else {
-            eliminaAncheDa = NULL;
             if (tr->from == delete && tr->to != delete) eliminaAncheDa = tr->to;
             else if (tr->from != delete && tr->to == delete) eliminaAncheDa = tr->from;
 
             if (eliminaAncheDa != NULL) {
-                transPrima = temp2 = NULL;
+                transPrima = temp = NULL;
                 for (trans = eliminaAncheDa->transitions; trans != NULL; trans = trans->next) {
                     if (trans->t == tr) {
-                        temp2 = trans->next;
+                        temp = trans->next;
                         free(trans);
-                        if (transPrima == NULL) eliminaAncheDa->transitions = temp2;
-                        else transPrima->next = temp2;
+                        if (transPrima == NULL) eliminaAncheDa->transitions = temp;
+                        else transPrima->next = temp;
                         break;
                     }
                     else transPrima = trans;
@@ -209,18 +268,29 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete) {
             }
             b->nTrans--;
             free(tr);
-            temp->t = NULL;
         }
-        temp = temp->next;
+        temp = delete->transitions->next;
         free(delete->transitions);
         delete->transitions = temp;
     }
+
+    struct sList * pt = b->sMap[hash], *tmp;
+    if (pt->s == delete) {
+        b->sMap[hash] = pt->next;
+        free(pt);
+    }
+    else {
+        while (pt->next->s != delete) pt = pt->next;
+        tmp = pt->next->next;
+        free(pt->next);
+        pt->next = tmp;
+    }
     freeBehState(delete);
-    
     b->nStates--;
-    memcpy(b->states+deleteId, b->states+deleteId+1, (b->nStates - deleteId)*sizeof(BehState*));
-    for (unsigned int i=0; i<b->nStates; i++)                                         // Abbasso l'id degli stati successivi
-        if (b->states[i]->id>=deleteId) b->states[i]->id--;
+    if (idJob)
+        foreachst(b, 
+            if (sl->s->id>=deleteId) sl->s->id--;
+        )
 }
 
 void freeBehState(BehState *s) {
@@ -230,74 +300,93 @@ void freeBehState(BehState *s) {
     free(s);
 }
 
+void freeCatalogue(void) {
+    void * tmp;
+    if (catalog.tList) {
+        for (unsigned int i = 0; i<catalog.length+1; i++) {
+            struct tList * pt = catalog.tList[i];
+            while (pt) {
+                tmp = pt->next;
+                free(pt);
+                pt = tmp;
+            }
+        }
+        free(catalog.tList);
+    }
+}
+
 /* Call like:
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false, NULL); */
-BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT map) {
+BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int** map) {
+    debugif(DEBUG_MEMCOH, behCoherenceTest(b));
     unsigned int i;
     int ns = 0;
+
     if (map == NULL) {
         int *temp = malloc(b->nStates*sizeof(int));
         map = &temp;
     }
-    //else *map = malloc(b->nStates*sizeof(int));
-    for (i=0; i<b->nStates; i++) {
-        (*map)[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
-        ns = mask[i] ? ns+1 : ns;
+    if (mask) {
+        for (i=0; i<b->nStates; i++) {
+            (*map)[i] = mask[i] ? ns : -1;     // Map: id->id from old to new space
+            ns = mask[i] ? ns+1 : ns;
+        }
+    } else {
+        ns = b->nStates;
+        for (i=0; i<b->nStates; i++) 
+            (*map)[i] = i;
     }
     
-    BehSpace *dup = calloc(1, sizeof(BehSpace));    // Not using newBehSpace since knowing in advance exact target size
-    dup->nStates = ns;                              // lets avoid realloc process and avoid wasting space
-    dup->sizeofS = ns;
-    dup->states = malloc(ns*sizeof(BehState *));
+    BehSpace *dup = calloc(1, sizeof(BehSpace));
+    dup->hashLen = hashlen(ns);
+    dup->sMap = calloc(dup->hashLen, sizeof(struct sList*));
 
-    BehState * s, * new;
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i])
-        if (mask[i]) {
-            dup->states[(*map)[i]] = calloc(1, sizeof(BehState));   // Preallocate states to have valid pointers
+    BehState * new, *s;
+    unsigned int bucketId;
+    foreachstb(b)
+        s = sl->s;
+        if (mask == NULL || mask[s->id]) {
+            new = calloc(1, sizeof(BehState));
             dup->containsFinalStates |= (s->flags & FLAG_FINAL);    // Calculate containing final states
-        }
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (mask[i]) {
-            new = dup->states[(*map)[i]];  // State information copy...
             new->linkContent = malloc(nlink*sizeof(short));
             new->componentStatus = malloc(ncomp*sizeof(short));
             memcpy(new->linkContent, s->linkContent, nlink*sizeof(short));
             memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(short));
             new->flags = s->flags;
             new->obsIndex = s->obsIndex;
-            new->id = (*map)[i];
-            struct ltrans *trans = s->transitions, *temp;
+            new->id = (*map)[s->id];
+            insertState(dup, new, false);
+            struct ltrans *trans = s->transitions;
+            struct ltrans *temp;
             while (trans != NULL) {     // Transition list copy...
                 BehTrans *t = trans->t;
                 if (!silence || t->t->obs == 0) {
-                    int mapA = (*map)[t->to->id], mapDa = (*map)[t->from->id]; 
+                    int mapA = (*map)[t->to->id];
+                    int mapDa = (*map)[t->from->id]; 
                     if (mapA != -1 && mapDa != -1) {
-                        struct ltrans *newList = calloc(1, sizeof(struct ltrans));
-                        temp = new->transitions;
-                        new->transitions = newList;
-                        newList->next = temp;
-                        if (new->id <= mapA && new->id <= mapDa) { // Alloc nt only once. Dislikes double autotransitions
+                        BehState * tDest = stateById(dup, mapA);
+                        BehState * tSrc = stateById(dup, mapDa);
+                        if (tDest && tSrc) {
                             BehTrans *nt = calloc(1, sizeof(BehTrans));
                             dup->nTrans++;
-                            newList->t = nt;
-                            nt->to = dup->states[mapA];
-                            nt->from = dup->states[mapDa];
+                            nt->to = tDest;
+                            nt->from = tSrc;
                             nt->t = t->t;
                             nt->regex = regexCpy(t->regex);
                             nt->marker = t->marker;
-                        }
-                        else {  // If execution goes here, it means the BehTrans has alredy been created, so we search for its pointer
-                            int idSt = mapA < mapDa ? mapA : mapDa;
-                            temp = dup->states[idSt]->transitions;
-                            while (temp != NULL) {
-                                if (temp->t->to->id == mapA && temp->t->from->id == mapDa
-                                && temp->t->t == t->t) {
-                                    newList->t = temp->t;
-                                    break;
-                                }
-                                temp = temp->next;
+                            struct ltrans *newList = calloc(1, sizeof(struct ltrans));
+                            newList->t = nt;
+                            temp = tSrc->transitions;
+                            tSrc->transitions = newList;
+                            newList->next = temp;
+                            if (tSrc != tDest) {
+                                struct ltrans *newList = calloc(1, sizeof(struct ltrans));
+                                newList->t = nt;
+                                temp = tDest->transitions;
+                                tDest->transitions = newList;
+                                newList->next = temp;
                             }
                         }
                     }
@@ -305,13 +394,19 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT ma
                 trans = trans->next;
             }
         }
-    }
+    foreachstc
+    debugif(DEBUG_MEMCOH, behCoherenceTest(dup));
     return dup;
 }
 
 void freeBehSpace(BehSpace *b) {
-    for (unsigned int i=0; i<b->nStates; i++)
-        removeBehState(b, b->states[i]);
+    unsigned int bucketId;
+    foreachst(b, 
+        removeBehState(b, sl->s, false);
+        sl = b->sMap[bucketId];
+        continue;
+    );
+    free(b->sMap);
     free(b);
 }
 
@@ -346,22 +441,35 @@ void freeMonitoring(Monitoring *RESTRICT mon) {
 }
 
 void behCoherenceTest(BehSpace *b){
-    unsigned int i;
     BehState *s;
-    printf(MSG_MEMTEST1, b->nStates, b->nTrans);
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
-        if (s->id != (int)i) printf(MSG_MEMTEST2, i, s->id);
+    printf(MSG_MEMTEST1, b->nStates, b->nTrans, b->hashLen);
+    unsigned int bucketId;
+    int obsIndex=-1, finalIndex=-1;
+    bool containsFinalStates = false, ok[b->nStates];
+    foreachst(b,
+        s = sl->s;
+        if ((unsigned)s->id < b->nStates) ok[s->id] = true;
+        else printf(MSG_MEMTEST21, s->id);
+        obsIndex = s->obsIndex>obsIndex ? s->obsIndex : obsIndex;
+        if (finalIndex<0 && (s->flags & FLAG_FINAL)) finalIndex = s->obsIndex;
+        if (finalIndex >= 0 && (s->flags & FLAG_FINAL) && s->obsIndex>finalIndex) printf(MSG_MEMTEST19, s->id);
+        containsFinalStates |= s->flags & FLAG_FINAL;
+        if (!s->transitions && b->nStates>1) printf(MSG_MEMTEST17, s->id);
         foreachdecl(lt, s->transitions) {
-            if (lt->t->to->id != (int)i && lt->t->from->id != (int)i)
-                printf(MSG_MEMTEST3, i, lt->t->from->id, lt->t->to->id);
+            if (lt->t->to->id != (int)s->id && lt->t->from->id != (int)s->id)
+                printf(MSG_MEMTEST3, s->id, lt->t->from->id, lt->t->to->id);
             if (lt->t->to != s && lt->t->from != s) {
-                printf(MSG_MEMTEST4, i, s);
+                printf(MSG_MEMTEST4, s->id, s);
                 printf(MSG_MEMTEST5, lt->t->from, lt->t->from->id, lt->t->to, lt->t->to->id);
                 printf(MSG_MEMTEST6, memcmp(lt->t->to, s, sizeof(BehState))==0);
                 printf(MSG_MEMTEST7, memcmp(lt->t->from, s, sizeof(BehState))==0);
             }
         }
-    }
+    )
+    if (b->containsFinalStates != containsFinalStates) printf(MSG_MEMTEST18);
+    if (obsIndex>finalIndex && obsIndex>0 && finalIndex>0) printf(MSG_MEMTEST20, obsIndex, finalIndex);
+    for (bucketId=0; bucketId<b->nStates; bucketId++)
+        if (!ok[bucketId]) printf(MSG_MEMTEST22, bucketId);
 }
 
 void expCoherenceTest(Explainer *exp){

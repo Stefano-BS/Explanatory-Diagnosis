@@ -17,21 +17,24 @@ INLINE(char* stateName(BehState *s, bool showObs)) {
     unsigned int j, v;
     char* nome = malloc(30), *puntatore = nome;
     sprintf(puntatore++, "R");
-    for (j=0; j<ncomp; j++) {
-        v = s->componentStatus[j];
-        sprintf(puntatore,"%d", v);
-        puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
-    }
-    sprintf(puntatore,"_L");
-    puntatore+=2;
-    for (j=0; j<nlink; j++)
-        if (s->linkContent[j] == VUOTO)
-            sprintf(puntatore++,"e");
-        else {
-            v = s->linkContent[j];
-            sprintf(puntatore, "%d", v);
+    if (s->componentStatus)
+        for (j=0; j<ncomp; j++) {
+            v = s->componentStatus[j];
+            sprintf(puntatore,"%d", v);
             puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
         }
+    sprintf(puntatore,"_L");
+    puntatore+=2;
+    if (s->linkContent) {
+        for (j=0; j<nlink; j++)
+            if (s->linkContent[j] == VUOTO)
+                sprintf(puntatore++,"e");
+            else {
+                v = s->linkContent[j];
+                sprintf(puntatore, "%d", v);
+                puntatore += v == 0 ? 1 : (int)ceilf(log10f(v+1));
+            }
+    }
     if (showObs) {
         sprintf(puntatore,"_O");
         puntatore+=2;
@@ -127,8 +130,8 @@ void printDES(BehState * attuale, bool testuale) {
 }
 
 char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
-    unsigned int i, position=0;
-    char* nomeSpazi[b->nStates], nomeFileDot[strlenInputDES+8], nomeFileSvg[strlenInputDES+8], *ret;
+    unsigned int position=0, bucketId;
+    char* nomeSpazi[b->nStates], nomeFileDot[strlenInputDES+8], nomeFileSvg[strlenInputDES+8], *ret=NULL;
     FILE * file;
     if (!toString) {
         sprintf(nomeFileDot, "%s_SC.dot", inputDES);
@@ -136,26 +139,37 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
         fprintf(file ,"digraph \"SC%s\" {\n", inputDES);
     }
     else ret = malloc((b->nStates+b->nTrans)*100);  // ARBITRARY LIMIT
-    for (i=0; i<b->nStates; i++) {
-        nomeSpazi[i] = stateName(b->states[i], showObs);
+
+    if (!toString && !rename) {
+        BehState * root = stateById(b, 0);
+        if (root->flags & FLAG_FINAL) fprintf(file, "node [style=filled fillcolor=\"#FFEEEE\"]; ");
+        else fprintf(file, "node [fillcolor=\"#FFFFFF\"]; ");
+        fprintf(file, "%s ;\n", stateName(root, showObs));
+    }
+    foreachst(b,
+        nomeSpazi[sl->s->id] = stateName(sl->s, showObs);
         if (toString) {
-            if (rename) sprintf(ret+position, "C%dS%d ;\n", toString, i);
-            else sprintf(ret+position, "%s ;\n", nomeSpazi[i]);
+            if (rename) sprintf(ret+position, "C%dS%d ;\n", toString, sl->s->id);
+            else sprintf(ret+position, "%s ;\n", nomeSpazi[sl->s->id]);
             position += strlen(ret+position);
         } else {
-            if (b->states[i]->flags & FLAG_FINAL) fprintf(file, "node [style=filled fillcolor=\"#FFEEEE\"]; ");
-            else fprintf(file, "node [fillcolor=\"#FFFFFF\"]; ");
-            if (rename) fprintf(file, "S%d ;\n", i);
-            else fprintf(file, "%s ;\n", nomeSpazi[i]);
+            if (!rename && sl->s->id==0);
+            else {
+                if (sl->s->flags & FLAG_FINAL) fprintf(file, "node [style=filled fillcolor=\"#FFEEEE\"]; ");
+                else fprintf(file, "node [fillcolor=\"#FFFFFF\"]; ");
+                if (rename) fprintf(file, "S%d ;\n", sl->s->id);
+                else fprintf(file, "%s ;\n", nomeSpazi[sl->s->id]);
+            }
         }
-    }
+    )
     BehState *s;
-    for (s=b->states[i=0]; i<b->nStates; s=b->states[++i]) {
+    foreachst(b,
+        s = sl->s;
         foreachdecl(trans, s->transitions) {
             if (trans->t->from == s) {
                 if (toString) {
-                    if (rename) sprintf(ret+position, "C%dS%d -> C%dS%d [label=t%d", toString, i, toString, trans->t->to->id, trans->t->t->id);
-                    else sprintf(ret+position, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
+                    if (rename) sprintf(ret+position, "C%dS%d -> C%dS%d [label=t%d", toString, s->id, toString, trans->t->to->id, trans->t->t->id);
+                    else sprintf(ret+position, "%s -> %s [label=t%d", nomeSpazi[s->id], nomeSpazi[trans->t->to->id], trans->t->t->id);
                     position += strlen(ret+position);
                     if (trans->t->t->obs>0) sprintf(ret+position, "O%hu", trans->t->t->obs);
                     position += strlen(ret+position);
@@ -165,8 +179,8 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
                     sprintf(ret+position, "]\n");
                     position += strlen(ret+position);
                 } else {
-                    if (rename) fprintf(file, "S%d -> S%d [label=t%d", i, trans->t->to->id, trans->t->t->id);
-                    else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[i], nomeSpazi[trans->t->to->id], trans->t->t->id);
+                    if (rename) fprintf(file, "S%d -> S%d [label=t%d", s->id, trans->t->to->id, trans->t->t->id);
+                    else fprintf(file, "%s -> %s [label=t%d", nomeSpazi[s->id], nomeSpazi[trans->t->to->id], trans->t->t->id);
                     if (trans->t->t->obs>0) fprintf(file, "O%hu", trans->t->t->obs);
                     if (trans->t->t->fault>0 && trans->t->t->fault<=25) fprintf(file, "%c", 96 + trans->t->t->fault);
                     else if (trans->t->t->fault>25) fprintf(file, "R%hu", trans->t->t->fault);
@@ -174,7 +188,7 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
                 }
             }
         }
-    }
+    )
     if (toString)
         sprintf(ret+position, "}\n");
     else {
@@ -186,17 +200,17 @@ char* printBehSpace(BehSpace *b, bool rename, bool showObs, int toString) {
         launchDot(command);
         if (rename) {
             printf(MSG_SOBSTITUTION_LIST);
-            for (i=0; i<b->nStates; i++)
+            for (unsigned int i=0; i<b->nStates; i++)
                 printf("%d: %s\n", i, nomeSpazi[i]);
         }
     }
-    for (i=0; i<b->nStates; i++)
+    for (unsigned i=0; i<b->nStates; i++)
         free(nomeSpazi[i]);
     return ret;
 }
 
 void printExplainer(Explainer * exp) {
-    unsigned int i, j;
+    unsigned int i, bucketId;
     char nomeFileDot[strlenInputDES+9], nomeFileSvg[strlenInputDES+9];
     char * command = malloc(44+strlenInputDES*2);
     if (exp->maps) sprintf(nomeFileDot, "%s_EXP.dot", inputDES);
@@ -211,8 +225,8 @@ void printExplainer(Explainer * exp) {
         fprintf(file, "subgraph cluster%d {\nstyle=\"rounded,filled\" label=\"C%d\" fontcolor=\"#B2CCBB\" color=\"#EAFFEE\"\nedge[color=darkgray fontcolor=darkgray]\n", i, i);
         //char * descBehSpace = stampaSpazioComportamentale(exp->faults[i]->b, true, i+1);
         //fprintf(file, "%s", descBehSpace);
-        for (j=0; j<fault->b->nStates; j++) {
-            char flags = fault->b->states[j]->flags;
+        foreachst(fault->b,
+            char flags = sl->s->flags;
             if (exp->maps) {
                 if ((flags & (FLAG_SILENT_FINAL | FLAG_FINAL)) == FLAG_SILENT_FINAL) fprintf(file, "node [shape=octagon]; ");
                 else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon]; ");
@@ -223,29 +237,30 @@ void printExplainer(Explainer * exp) {
                 else if ((flags & FLAG_FINAL) == FLAG_FINAL) fprintf(file, "node [shape=doubleoctagon width=0.3 height=0.3]; ");
                 else fprintf(file, "node [shape=circle width=0.3 height=0.3]; ");
             }
-            if (exp->maps) fprintf(file, "C%dS%d [label=%d];\n", i, exp->maps[i]->idMapToOrigin[j], exp->maps[i]->idMapToOrigin[j]);
-            else fprintf(file, "C%dS%d [label=\"\"];\n", i, j);
-        }
+            if (exp->maps) fprintf(file, "C%dS%d [label=%d];\n", i, exp->maps[i]->idMapToOrigin[sl->s->id], exp->maps[i]->idMapToOrigin[sl->s->id]);
+            else fprintf(file, "C%dS%d [label=\"\"];\n", i, sl->s->id);
+        )
         BehState *s;
-        for (s=fault->b->states[j=0]; j<fault->b->nStates; s=fault->b->states[++j]) {
+        foreachst(fault->b, 
+            s = sl->s;
             foreachdecl(trans, s->transitions) {
                 if (trans->t->from == s) {
-                    if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[j], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
-                    else fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, j, i, trans->t->to->id, trans->t->t->id);
+                    if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, exp->maps[i]->idMapToOrigin[sl->s->id], i, exp->maps[i]->idMapToOrigin[trans->t->to->id], trans->t->t->id);
+                    else fprintf(file, "C%dS%d -> C%dS%d [label=t%d", i, sl->s->id, i, trans->t->to->id, trans->t->t->id);
                     if (trans->t->t->obs>0) fprintf(file, "O%hu", trans->t->t->obs);
                     if (trans->t->t->fault>0 && trans->t->t->fault<=25) fprintf(file, "%c", 96 + trans->t->t->fault);
                     else if (trans->t->t->fault>25) fprintf(file, "R%hu", trans->t->t->fault);
                     fprintf(file, "]\n");
                 }
             }
-        }
+        )
         fprintf(file, "}\n");
     }
     
     ExplTrans *t;
     for (t=exp->trans[i=0]; i<exp->nTrans; t=exp->trans[++i]) {
-        int fromId, toId;
-        for (j=0; j<exp->nFaultSpaces; j++) {
+        int fromId=0, toId=0;
+        for (unsigned int j=0; j<exp->nFaultSpaces; j++) {
             if (t->from == exp->faults[j]) fromId=j;
             if (t->to == exp->faults[j]) toId=j;
         }

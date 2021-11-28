@@ -44,7 +44,7 @@ Regex * regexCpy(Regex *RESTRICT src) {
 void regexCompile(Regex * r, unsigned short fault) {
     if (fault>25) {
         sprintf(r->regex, ",%hu", fault);
-        r->strlen = 1+(unsigned int)ceilf(log10f((float)(fault+1)));;
+        r->strlen = 1+(unsigned int)ceilf(log10f((float)(fault+1)));
     }
     else {r->regex[0] = 96 + fault;
         r->regex[1] = 0;
@@ -83,7 +83,7 @@ bool altAredyPresent(Regex * haystack, Regex * needle) { // checks if s1==a|b|..
 }
 
 // This function is very delicate, and it is like that just to be stupid simple while avoiding buffer usage
-void regexPrint(Regex * d, unsigned int solLen, char * format, Regex * s1, Regex *s2) {
+O3(void regexPrint(Regex * d, unsigned int solLen, char * format, Regex * s1, Regex *s2)) {
     if (d->size <= solLen) {
         if (d->size == 0) {
             d->regex = malloc(solLen*REGEXLEVER);
@@ -129,7 +129,7 @@ void regexPrint(Regex * d, unsigned int solLen, char * format, Regex * s1, Regex
     d->regex[solLen] = '\0';
 }
 
-void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3) {
+O3(void regexMake(Regex* s1, Regex* s2, Regex* d, char op, Regex *s3)) {
     unsigned int strl1 = s1->strlen, strl2 = s2->strlen, strl3 = 0;
     if (s3 != NULL) strl3 = s3->strlen;
     bool streq12 = strl1==strl2 ? strcmp(s1->regex, s2->regex)==0 : false;

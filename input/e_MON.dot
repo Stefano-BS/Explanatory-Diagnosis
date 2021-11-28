@@ -3,40 +3,29 @@ rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label=ε
+label="ε"
 M0S0 [label=0];
 }
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label=ε
+label="ε"
 M1S1 [label=1];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
 label="(fr)?|r"
-M2S2 [label=2];
+M2S3 [label=3];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(fr)|(rf)|(rf?)"
+label="(fr)|(r?|(rf))|(rf?)"
 M3S1 [label=1];
-M3S3 [label=3];
 M3S4 [label=4];
-}
-subgraph cluster4 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="((fr)|(rf)r?|f|(fr)|(frf))|r"
-M4S2 [label=2];
-M4S5 [label=5];
+M3S2 [label=2];
 }
 M0S0 -> M1S1 [label="(ε, ε)"]
-M1S1 -> M2S2 [label="(ε, ε)"]
-M2S2 -> M3S1 [label="(fr, fr)"]
-M2S2 -> M3S3 [label="(ε, ε)"]
-M2S2 -> M3S4 [label="(r, r)"]
-M3S1 -> M4S2 [label="(ε, fr)"]
-M3S3 -> M4S2 [label="(rf, rf)"]
-M3S3 -> M4S5 [label="(r, r)"]
-M3S4 -> M4S2 [label="(f, rf)"]
-M3S4 -> M4S5 [label="(ε, r)"]
+M1S1 -> M2S3 [label="(ε, ε)"]
+M2S3 -> M3S1 [label="(fr, fr)"]
+M2S3 -> M3S4 [label="(ε, ε)"]
+M2S3 -> M3S2 [label="(r, r)"]
 }
