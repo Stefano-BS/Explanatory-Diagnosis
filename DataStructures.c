@@ -226,14 +226,12 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     return s;
 }
 
-void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob) {
+O3(void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)) {
     int deleteId = delete->id;
     unsigned int bucketId, hash = delete->componentStatus ? hashBehState(b->hashLen, delete) : 0;
-    struct ltrans * temp, *trans, *transPrima, *temp2;
-    temp = delete->transitions;
-    trans = transPrima = temp2 = NULL;
+    struct ltrans * temp, *trans, *transPrima;
     
-    foreachtr(temp, temp) {
+    foreachtr(temp, delete->transitions) {
         transPrima = temp;
         foreachtr(trans, temp->next) {
             if (trans->t == temp->t) {
@@ -245,10 +243,9 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)
         }
     }
 
-    temp = delete->transitions;
-    while (temp != NULL) {
-        BehTrans * tr = temp->t;
-        BehState  *eliminaAncheDa = NULL;
+    while (delete->transitions) {
+        BehTrans * tr = delete->transitions->t;
+        BehState * eliminaAncheDa = NULL;
 
         if (tr->from != delete && tr->to != delete)
             printf(MSG_STATE_ANOMALY, deleteId); // Weird
@@ -257,13 +254,13 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)
             else if (tr->from != delete && tr->to == delete) eliminaAncheDa = tr->from;
 
             if (eliminaAncheDa != NULL) {
-                transPrima = temp2 = NULL;
+                transPrima = temp = NULL;
                 for (trans = eliminaAncheDa->transitions; trans != NULL; trans = trans->next) {
                     if (trans->t == tr) {
-                        temp2 = trans->next;
+                        temp = trans->next;
                         free(trans);
-                        if (transPrima == NULL) eliminaAncheDa->transitions = temp2;
-                        else transPrima->next = temp2;
+                        if (transPrima == NULL) eliminaAncheDa->transitions = temp;
+                        else transPrima->next = temp;
                         break;
                     }
                     else transPrima = trans;
@@ -272,7 +269,7 @@ void removeBehState(BehSpace *RESTRICT b, BehState *RESTRICT delete, bool idJob)
             b->nTrans--;
             free(tr);
         }
-        temp = temp->next;
+        temp = delete->transitions->next;
         free(delete->transitions);
         delete->transitions = temp;
     }
@@ -322,7 +319,7 @@ void freeCatalogue(void) {
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false, NULL); */
-BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int**RESTRICT map) {
+BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int** map) {
     debugif(DEBUG_MEMCOH, behCoherenceTest(b));
     unsigned int i;
     int ns = 0;
@@ -447,8 +444,17 @@ void behCoherenceTest(BehSpace *b){
     BehState *s;
     printf(MSG_MEMTEST1, b->nStates, b->nTrans, b->hashLen);
     unsigned int bucketId;
-    foreachst(b, 
+    int obsIndex=-1, finalIndex=-1;
+    bool containsFinalStates = false, ok[b->nStates];
+    foreachst(b,
         s = sl->s;
+        if ((unsigned)s->id < b->nStates) ok[s->id] = true;
+        else printf(MSG_MEMTEST21, s->id);
+        obsIndex = s->obsIndex>obsIndex ? s->obsIndex : obsIndex;
+        if (finalIndex<0 && (s->flags & FLAG_FINAL)) finalIndex = s->obsIndex;
+        if (finalIndex >= 0 && (s->flags & FLAG_FINAL) && s->obsIndex>finalIndex) printf(MSG_MEMTEST19, s->id);
+        containsFinalStates |= s->flags & FLAG_FINAL;
+        if (!s->transitions && b->nStates>1) printf(MSG_MEMTEST17, s->id);
         foreachdecl(lt, s->transitions) {
             if (lt->t->to->id != (int)s->id && lt->t->from->id != (int)s->id)
                 printf(MSG_MEMTEST3, s->id, lt->t->from->id, lt->t->to->id);
@@ -460,6 +466,10 @@ void behCoherenceTest(BehSpace *b){
             }
         }
     )
+    if (b->containsFinalStates != containsFinalStates) printf(MSG_MEMTEST18);
+    if (obsIndex>finalIndex && obsIndex>0 && finalIndex>0) printf(MSG_MEMTEST20, obsIndex, finalIndex);
+    for (bucketId=0; bucketId<b->nStates; bucketId++)
+        if (!ok[bucketId]) printf(MSG_MEMTEST22, bucketId);
 }
 
 void expCoherenceTest(Explainer *exp){

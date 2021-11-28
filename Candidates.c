@@ -2,7 +2,7 @@
 
 Trans *stubTrans;
 
-INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
+INLINEO3(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     if (mode) {
         if (b->nStates>2) return false;
         unsigned int bucketId;
@@ -20,7 +20,7 @@ INLINE(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     else return b->nTrans<=1;
 }
 
-INLINE(bool collapseSeries(BehSpace * b, unsigned int nMarker, char mode)) {
+INLINEO3(bool collapseSeries(BehSpace * b, unsigned int nMarker, char mode)) {
     bool ret = false;
     unsigned int bucketId;
     foreachstb(b)
@@ -64,7 +64,7 @@ INLINE(bool collapseSeries(BehSpace * b, unsigned int nMarker, char mode)) {
     return ret;
 }
 
-INLINE(bool collapseParallels(BehSpace * b, char mode)) {
+INLINEO3(bool collapseParallels(BehSpace * b, char mode)) {
     unsigned int bucketId;
     bool ret = false;
     foreachstb(b)                              // Collasso gruppi di transitions che condividono partenze e arrivi in una
@@ -109,7 +109,7 @@ INLINE(bool collapseParallels(BehSpace * b, char mode)) {
     return ret;
 }
 
-INLINE(bool closeLoop(BehSpace * b, unsigned int nMarker, char mode)) {
+INLINEO3(bool closeLoop(BehSpace * b, unsigned int nMarker, char mode)) {
     unsigned int bucketId;
     bool ret = false;
     foreachstb(b)

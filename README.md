@@ -13,6 +13,7 @@ A note on command arguments: the program can both be compiled in **english**, **
 ### Usage
 The DES description format is a little bit obscure (I plan to evolve it in a future update), but, at least, the BNF and semantics description in [Automata (input) BNF and semantics](./Automata%20(input)%20BNF%20and%20semantics.txt) is formal and precise.
 The command line executable can be called with args (none of them is required, free order):
+- -a: auto mode: auto generates the observation trace durning a monitoring process (deterministic)
 - -b: benchmark mode, to print out an estimation of execution time of the main tasks
 - -d: output dot graphs
 - -t: output textual description of you DES (and no graphs)

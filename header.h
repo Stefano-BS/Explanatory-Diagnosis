@@ -63,12 +63,16 @@
     #define debugif(mode, action)   if ((DEBUG_MODE & mode) == mode) action;
     #define ndebugif(...)
     #define INLINE(f)               f
+    #define O3(f)                   f
+    #define INLINEO3(f)             f
     #define RESTRICT
 #else
     #define printlog(...)
     #define debugif(...)
     #define ndebugif(mode, action)  if ((DEBUG_MODE & mode) == 0) action;
-    #define INLINE(f)               inline f __attribute__((always_inline)); inline f
+    #define INLINE(f)               f //inline f __attribute__((always_inline)); inline f
+    #define O3(f)                   f __attribute__((optimize("O3"))); f
+    #define INLINEO3(f)             f __attribute__((optimize("O3"))); f //inline f __attribute__((always_inline)) __attribute__((optimize("O3"))); inline f
     #define RESTRICT                restrict
     #define NDEBUG
 #endif
@@ -219,10 +223,10 @@ unsigned int hashBehState(unsigned int, BehState *);
 bool behTransCompareTo(BehTrans *, BehTrans *, bool, bool);
 bool behStateCompareTo(BehState *, BehState *, bool, bool);
 void initCatalogue(void);
-BehState * insertState(BehSpace *, BehState *, bool);
-BehState * stateById(BehSpace *, int);
+BehState * insertState(BehSpace *, BehState *, bool) __attribute__((optimize("O3")));
+BehState * stateById(BehSpace *, int) __attribute__((optimize("O3")));
 BehSpace * newBehSpace(void);
-BehState * generateBehState(short *, short *);
+BehState * generateBehState(short *, short *) __attribute__((optimize("O3")));
 void removeBehState(BehSpace *, BehState *, bool);
 void freeBehState(BehState *);
 void freeCatalogue(void);
@@ -243,10 +247,10 @@ void printMonitoring(Monitoring *, Explainer *, bool);
 // SpaceMaker.c
 BehSpace * BehavioralSpace(BehState *, int *, unsigned short);
 void prune(BehSpace *);
-FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool);
-FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool);
-FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool);
-BehSpace * uncompiledMonitoring(BehSpace *, int *, unsigned short);
+FaultSpace * faultSpace(FaultSpaceMaps *, BehSpace *, BehState *, BehTrans **, bool) __attribute__((optimize("O3")));
+FaultSpace ** faultSpaces(FaultSpaceMaps ***, BehSpace *, unsigned int *, BehTrans ****, bool) __attribute__((optimize("O3")));
+FaultSpace * makeLazyFaultSpace(Explainer *, BehState *, bool) __attribute__((optimize("O3")));
+BehSpace * uncompiledMonitoring(BehSpace *, int *, unsigned short) __attribute__((optimize("O3")));
 // Regex.c
 void freeRegex(Regex *);
 Regex * emptyRegex(unsigned int);
@@ -347,6 +351,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 "Stato di monitoraggio %d: %d chiusure e %d transizioni\n"
     #define MSG_MEMTEST15 "Rilevata nello stato di monitoraggio %d una chiusura senza archi uscenti\n"
     #define MSG_MEMTEST16 "Rilevata nello stato di monitoraggio %d una chiusura senza archi entranti\n"
+    #define MSG_MEMTEST17 "Lo stato %d ha zero transizioni\n"
+    #define MSG_MEMTEST18 ABBR_BEH" ha informazione sbagliata riguardo la presenza di stati finali\n"
+    #define MSG_MEMTEST19 "Lo stato %d ha indice di osservazione maggiore di quello di uno stato finale\n"
+    #define MSG_MEMTEST20 ABBR_BEH" ha indice di osservazione massimo %d con quello dello stato finale di %d\n"
+    #define MSG_MEMTEST21 "Id impossibile! %d\n"
+    #define MSG_MEMTEST22 "Stato %d non presente!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Non è stato possibile trovare una chiusura di destinazione ad una transizione\n"
     #define MSG_MONITORING_RESULT "\n"ABBR_MON" (traccia delle diagnosi):\n"
     #define MSG_NEXT_OBS "Fornisca l'osservazione successiva: "
@@ -431,6 +441,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 ABBR_MON" State %d: %d fault spaces and %d transitions\n"
     #define MSG_MEMTEST15 "Found that in "ABBR_MON" State %d there's a fault state non exited by any arc\n"
     #define MSG_MEMTEST16 "Found that in "ABBR_MON" State %d there's a fault state not reached by any arc\n"
+    #define MSG_MEMTEST17 "State %d has zero transitions\n"
+    #define MSG_MEMTEST18 ABBR_BEH" has wrong information about final states presence\n"
+    #define MSG_MEMTEST19 "The state %d has obs index higher of final state's obs index\n"
+    #define MSG_MEMTEST20 ABBR_BEH" has maximum obs index of %d with index of final states %d\n"
+    #define MSG_MEMTEST21 "Impossible id! %d\n"
+    #define MSG_MEMTEST22 "State %d not present!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "Unable to find a fault space destination for a transition\n"
     #define MSG_MONITORING_RESULT "\nExplanation Trace:\n"
     #define MSG_NEXT_OBS "Provide next observation: "
@@ -515,6 +531,12 @@ Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, 
     #define MSG_MEMTEST14 "Estado de monitoreo %d: %d cierres y %d transiciones\n"
     #define MSG_MEMTEST15 "Detectado en el estado de monitoreo %d un cierre sin arcos salientes\n"
     #define MSG_MEMTEST16 "Detectado en el estado de monitoreo %d un cierre sin arcos entrantes\n"
+    #define MSG_MEMTEST17 "El estado %d tiene cero transiciones\n"
+    #define MSG_MEMTEST18 ABBR_BEH" tiene información incorrecta sobre los estados finales\n"
+    #define MSG_MEMTEST19 "El estado %d tiene índice de observación major de lo de los estados finales\n"
+    #define MSG_MEMTEST20 ABBR_BEH" tiene índice de observación %d, mientras lo de los estados finales es %d\n"
+    #define MSG_MEMTEST21 "Id imposible! %d\n"
+    #define MSG_MEMTEST22 "Estado %d no presente!\n"
     #define MSG_EXP_FAULT_NOT_FOUND "No se pudo encontrar un cierre objetivo de una transición\n"
     #define MSG_MONITORING_RESULT "\nTraza de diagnósticos:\n"
     #define MSG_NEXT_OBS "Proporcione la siguiente observación: "

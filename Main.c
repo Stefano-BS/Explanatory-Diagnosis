@@ -10,7 +10,7 @@ unsigned long long seed;
 char * inputDES = "";
 char * comBuf = "";
 char dot = 'n';
-bool benchmark = false;
+bool benchmark = false, autoMonitoring = false;
 struct timeval beginT, endT;
 clock_t beginC;
 Regex* empty;
@@ -82,15 +82,41 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
         })
 
         if (dot==INPUT_Y) printMonitoring(monitor, explainer, diagnoser);
-        printf(MSG_NEXT_OBS);
-        RETRY: scanf("%9s", digitazione);
-        oss = atoi(digitazione);
-        if (oss <= 0) goto RETRY;
+
         if (loss+1 > sizeofObs) {
             sizeofObs += 5;
             obs = realloc(obs, sizeofObs*sizeof(int));
         }
-        obs[loss++] = oss;
+        
+        if (autoMonitoring) {
+            obs[loss] = obs[loss-1];
+            unsigned int i, j;
+            bool encontrada = false;
+            for (i=0; i<catalog.length; i++)
+                if (catalog.tList[i]) {
+                    obs[loss] = catalog.tList[i]->t->t->obs;
+                    printf("O%d\n", catalog.tList[i]->t->t->obs);
+                    encontrada = true;
+                    break;
+                }
+            if (!encontrada) {
+                for (ExplTrans * tau=explainer->trans[i=0]; i<explainer->nTrans; tau=explainer->trans[++i])
+                    for (FaultSpace * f=monitor->mu[loss]->expStates[j=0]; j<monitor->mu[loss]->nExpStates; f=monitor->mu[loss]->expStates[++j])
+                        if (f == tau->from) {
+                            obs[loss] = tau->obs;
+                            printf("O%d\n", tau->obs);
+                            goto END;
+                        }
+            }
+            END: loss++;
+        }
+        else {
+            printf(MSG_NEXT_OBS);
+            RETRY: scanf("%9s", digitazione);
+            oss = atoi(digitazione);
+            if (oss <= 0) goto RETRY;
+            obs[loss++] = oss;
+        }
 
         interruptable({
             beginTimer
@@ -298,7 +324,7 @@ void menu(void) {
             while (true) {
                 interruptable(
                     BehSpace * duplicated = dup(b, NULL, false, NULL);
-                    // prune(duplicated);
+                    if (loss==0) prune(duplicated);
                     Regex ** diagnosis = diagnostics(duplicated, 0);
                     endTimer
                     if (diagnosis) {
@@ -370,6 +396,7 @@ int main(int argc, char *argv[]) {
                 case 't': dot = 't'; break;
                 case 'n': dot = 'n'; break;
                 case 'b': benchmark = true; break;
+                case 'a': autoMonitoring = true; break;
                 case 'c': 
                     if (optind < argc-1) comBuf = argv[++optind];
                     break;
@@ -386,5 +413,3 @@ int main(int argc, char *argv[]) {
     menu();
 	return 0;
 }
-
-

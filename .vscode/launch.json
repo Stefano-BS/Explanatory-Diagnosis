@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\SC.exe",
-            "args": ["-b"],
+            "args": ["-b", "-a"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
