@@ -7,7 +7,7 @@
             "args": [
                 "-xc",
                 "-std=c99",
-                "-D\"DEBUG_MODE=5\"",
+                "-D\"DEBUG_MODE=0\"",
                 "-D\"LANG='e'\"",
                 "-g",
                 "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c",

@@ -159,8 +159,9 @@ INLINE(bool linkExists(Link *lk)) {
 }
 
 INLINE(void setTransAttributes(Trans * nt, float obsRatio, float faultRatio, unsigned short obsGamma, unsigned short faultGamma)) {
-    if (faultRatio>0 && faultGamma>0) nt->fault = ((float)rand())/RAND_MAX < faultRatio ? rand() % faultGamma+1 : 0; else nt->fault = 0;
-    if (obsRatio>0 && obsGamma>0) nt->obs = ((float)rand())/RAND_MAX < obsRatio ? rand() % obsGamma+1 : 0; else nt->obs = 0;
+    int rand1 = rand(), rand2 = rand(), rand3 = rand(), rand4 = rand();
+    if (faultRatio>0 && faultGamma>0) nt->fault = ((float)rand1)/RAND_MAX < faultRatio ? rand2 % faultGamma+1 : 0; else nt->fault = 0;
+    if (obsRatio>0 && obsGamma>0) nt->obs = ((float)rand3)/RAND_MAX < obsRatio ? rand4 % obsGamma+1 : 0; else nt->obs = 0;
     nt->idIncomingEvent = VUOTO;
     nt->linkIn = NULL;
     nt->sizeofOE = 0;

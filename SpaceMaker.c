@@ -218,18 +218,20 @@ void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
     freeBehSpace(duplicated);
 }
 
-void faultSpaceExtend(BehState *RESTRICT base, int *obsStates, BehTrans **obsTrs, bool *ok) {
-    ok[base->id] = true;
-    unsigned int i=0;
+void faultSpaceExtend(BehState *base, int *obsStates, BehTrans **obsTrs, bool *ok) {
     foreachdecl(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs != 0) {
-            while (obsStates[i] != -1) i++;
-            obsStates[i] = base->id;
-            obsTrs[i] = lt->t;
+            while (*obsStates != -1) {
+                obsStates++;
+                obsTrs++;
+            }
+            obsStates[0] = base->id;
+            obsTrs[0] = lt->t;
         }
+    ok[base->id] = true;
     foreachdecl(lt, base->transitions)
         if (lt->t->from == base && lt->t->t->obs == 0 && !ok[lt->t->to->id])
-            faultSpaceExtend(lt->t->to, obsStates+i, obsTrs+i, ok);
+            faultSpaceExtend(lt->t->to, obsStates, obsTrs, ok);
 }
 
 FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehState *RESTRICT base, BehTrans **obsTrs, bool decorateOnlyFinals) {
@@ -237,7 +239,8 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     map->idMapFromOrigin = calloc(b->nStates, sizeof(int));
     map->exitStates = malloc(b->nTrans*sizeof(int));
-    memset(map->exitStates, -1, b->nStates*sizeof(int));
+    //for (unsigned int i=0; i<b->nTrans; i++) map->exitStates[i]=-1;
+     memset(map->exitStates, -1, b->nTrans*sizeof(int));
 
     bool *ok = calloc(b->nStates, sizeof(bool));
     faultSpaceExtend(base, map->exitStates, obsTrs, ok); // state ids and transitions refer to the original space, not a dup copy

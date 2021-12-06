@@ -276,6 +276,7 @@ void menu(void) {
             beginTimer
             interruptable(
                 explainer = makeExplainer(b, false);
+                printf(MSG_EXP_COMPLETED, explainer->nFaultSpaces, explainer->nTrans);
                 freeBehSpace(b);
                 exp = true;
             )
@@ -286,6 +287,7 @@ void menu(void) {
             beginTimer
             interruptable(
                 explainer = makeExplainer(b, true);
+                printf(MSG_DIAG_COMPLETED, explainer->nFaultSpaces, explainer->nTrans);
                 freeBehSpace(b);
                 diag = true;
             )
