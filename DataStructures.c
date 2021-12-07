@@ -29,7 +29,7 @@ unsigned int BehSpaceSizeEsteem(void) {
             if (t->obs==0) behSizeEsteem++;
         }
     }
-    return hashlen(behSizeEsteem);
+    return hashlen(behSizeEsteem*behSizeEsteem);
 }
 
 BehSpace * newBehSpace(void) {

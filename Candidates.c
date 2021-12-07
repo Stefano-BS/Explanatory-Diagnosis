@@ -2,6 +2,25 @@
 
 Trans *stubTrans;
 
+void bt(BehSpace *b){
+    BehState *s;
+    unsigned int bucketId;
+    foreachstb(b)
+        s = sl->s;
+        if (!s->transitions && b->nStates>1) printf(MSG_MEMTEST17, s->id);
+        foreachdecl(lt, s->transitions) {
+            if (lt->t->to->id != (int)s->id && lt->t->from->id != (int)s->id)
+                printf(MSG_MEMTEST3, s->id, lt->t->from->id, lt->t->to->id);
+            if (lt->t->to != s && lt->t->from != s) {
+                printf(MSG_MEMTEST4, s->id, s);
+                printf(MSG_MEMTEST5, lt->t->from, lt->t->from->id, lt->t->to, lt->t->to->id);
+                printf(MSG_MEMTEST6, memcmp(lt->t->to, s, sizeof(BehState))==0);
+                printf(MSG_MEMTEST7, memcmp(lt->t->from, s, sizeof(BehState))==0);
+            }
+        }
+    foreachstc
+}
+
 INLINEO3(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     if (mode) {
         if (b->nStates>2) return false;
@@ -69,41 +88,47 @@ INLINEO3(bool collapseParallels(BehSpace * b, char mode)) {
     bool ret = false;
     foreachstb(b)                              // Collasso gruppi di transitions che condividono partenze e arrivi in una
         BehState* stemp = sl->s;
-        foreachdecl(trans1, stemp->transitions) {
-            struct ltrans *trans2, *nodoPrecedente = NULL;
-            foreachtr(trans2, stemp->transitions) {
-                if (trans1->t != trans2->t && trans1->t->from == trans2->t->from && trans1->t->to == trans2->t->to
-                && (!mode || (mode &&trans2->t->marker == trans1->t->marker))) {
-                    if (trans1->t->regex->strlen > trans2->t->regex->strlen) {
-                        regexMake(trans1->t->regex, trans2->t->regex, trans1->t->regex, 'a', NULL);
-                        freeRegex(trans2->t->regex);
+        foreachdecl(t1, stemp->transitions) {
+            struct ltrans *t2 = t1->next, *beforeT2 = t1;
+            while (t2) {
+                if (t1->t->from == t2->t->from && t1->t->to == t2->t->to
+                && (!mode || (mode && t2->t->marker == t1->t->marker))) {
+                    debugif(DEBUG_DIAG, if (mode) printlog("Removed t with mark %d\n", t2->t->marker))
+                    if (t1->t->regex->strlen >= t2->t->regex->strlen) {
+                        regexMake(t1->t->regex, t2->t->regex, t1->t->regex, 'a', NULL);
+                        freeRegex(t2->t->regex);
                     }
                     else {
-                        regexMake(trans2->t->regex, trans1->t->regex, trans2->t->regex, 'a', NULL);
-                        freeRegex(trans1->t->regex);
-                        trans1->t->regex = trans2->t->regex;
+                        regexMake(t2->t->regex, t1->t->regex, t2->t->regex, 'a', NULL);
+                        freeRegex(t1->t->regex);
+                        t1->t->regex = t2->t->regex;
                     }
-                    debugif(DEBUG_DIAG, printlog("Removed t with mark %d\n", trans2->t->marker))
-                    nodoPrecedente->next = trans2->next;
-                    BehState * nodopartenza = trans2->t->from == stemp ? trans2->t->to : trans2->t->from;
-                    struct ltrans *listaNelNodoDiPartenza = nodopartenza->transitions, *precedenteNelNodoDiPartenza = NULL;
-                    while (listaNelNodoDiPartenza != NULL) {
-                        if (listaNelNodoDiPartenza->t == trans2->t) {
-                            if (precedenteNelNodoDiPartenza == NULL) nodopartenza->transitions = listaNelNodoDiPartenza->next;
-                            else precedenteNelNodoDiPartenza->next = listaNelNodoDiPartenza->next;
-                            break;
+
+                    if (t1->t->from != t1->t->to) {
+                        BehState * state2 = t2->t->from == stemp ? t2->t->to : t2->t->from;
+                        struct ltrans *s2t = state2->transitions, *beforeS2t = NULL;
+                        while (s2t) {
+                            if (s2t->t == t2->t) {
+                                if (beforeS2t == NULL) state2->transitions = s2t->next;
+                                else beforeS2t->next = s2t->next;
+                                free(s2t);
+                                break;
+                            }
+                            beforeS2t = s2t;
+                            s2t = s2t->next;
                         }
-                        precedenteNelNodoDiPartenza = listaNelNodoDiPartenza;
-                        listaNelNodoDiPartenza = listaNelNodoDiPartenza->next;
                     }
-                    free(trans2->t);
+                    free(t2->t);
                     b->nTrans--;
                     ret = true;
-                    // break;
+                    beforeT2->next = t2->next;
+                    free(t2);
+                    t2 = beforeT2->next;
+                    continue;
                 }
-                nodoPrecedente = trans2;
+                beforeT2 = t2;
+                t2 = t2->next;
             }
-            // if (ret) break;
         }
     foreachstc
     return ret;
@@ -236,7 +261,6 @@ Regex** diagnostics(BehSpace *RESTRICT b, char mode) {
             if (!collapseParallels(b, mode))
                 closeLoop(b, nMarker, mode);
     }
-    
     foreachst(b,
             if (sl->s->id == 0) {exInitial = sl->s; goto breakfor;})
     breakfor:

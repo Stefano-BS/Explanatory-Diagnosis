@@ -239,8 +239,7 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
     FaultSpace * ret = calloc(1, sizeof(FaultSpace));
     map->idMapFromOrigin = calloc(b->nStates, sizeof(int));
     map->exitStates = malloc(b->nTrans*sizeof(int));
-    //for (unsigned int i=0; i<b->nTrans; i++) map->exitStates[i]=-1;
-     memset(map->exitStates, -1, b->nTrans*sizeof(int));
+    memset(map->exitStates, -1, b->nTrans*sizeof(int));
 
     bool *ok = calloc(b->nStates, sizeof(bool));
     faultSpaceExtend(base, map->exitStates, obsTrs, ok); // state ids and transitions refer to the original space, not a dup copy
@@ -366,7 +365,7 @@ BehSpace * uncompiledMonitoring(BehSpace * b, int * obs, unsigned short loss) {
     b->containsFinalStates = false;
     BEGINNING: bucketId=0;
     foreachst(b,
-        unsigned hd = b->hashLen;
+        unsigned int hd = b->hashLen;
         if (sl->s->obsIndex == loss-1) {
             generateBehavioralSpace(b, sl->s, obs, loss);
             if (hd != b->hashLen) goto BEGINNING;
