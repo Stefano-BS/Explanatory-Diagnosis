@@ -10,7 +10,7 @@
                 "-D\"DEBUG_MODE=0\"",
                 "-D\"LANG='e'\"",
                 "-g",
-                "${fileDirname}\\header.h", "${fileDirname}\\Explainer.c", "${fileDirname}\\SpaceMaker.c",
+                "${fileDirname}\\Explainer.c", "${fileDirname}\\Monitoring.c", "${fileDirname}\\SpaceMaker.c",
                 "${fileDirname}\\Candidates.c", "${fileDirname}\\Printer.c", "${fileDirname}\\Parser.c",
                 "${fileDirname}\\DataStructures.c", "${fileDirname}\\Regex.c", "${fileDirname}\\Main.c",
                 "-o",

@@ -7,7 +7,7 @@ FaultSpace * context = NULL;
 Explainer * expWorkingOn = NULL;
 BehTransCatalog catalog;
 
-O3(BehState * calculateDestination(BehState *RESTRICT base, Trans *RESTRICT t, Component *RESTRICT c, int*RESTRICT obs, unsigned short loss, bool build)) {
+O3(BehState * calculateDestination(BehState *RESTRICT base, Trans *RESTRICT t, Component *RESTRICT c, int*RESTRICT obs, unsigned short loss, bool build, char finalStategy)) {
     static short *tempCS, *tempLC;
     if (tempCS == NULL) tempCS = malloc(ncomp*sizeof(short));
     if (tempLC == NULL) tempLC = malloc(nlink*sizeof(short));
@@ -29,17 +29,18 @@ O3(BehState * calculateDestination(BehState *RESTRICT base, Trans *RESTRICT t, C
     newComponentStatus[c->intId] = t->to;                                           // New active state
     for (unsigned short k=0; k<t->nOutgoingEvents; k++)                             // Outgoing event placement
         newLinkContent[t->linkOut[k]->intId] = t->idOutgoingEvents[k];
-    BehState * newState = generateBehState(newLinkContent, newComponentStatus);     // BehState build
+    BehState * newState = generateBehState(newLinkContent, newComponentStatus, finalStategy);
     newState->obsIndex = base->obsIndex;
     if (loss>0 && obs[loss-1]!=-1) {                                                // Linear observation advancement
         if (base->obsIndex<loss && t->obs > 0 && t->obs == obs[base->obsIndex])
             newState->obsIndex++;
-        newState->flags &= !FLAG_FINAL | (newState->obsIndex == loss);
+        if (finalStategy == 0) newState->flags &= !FLAG_FINAL | (newState->obsIndex == loss);
+        else if (finalStategy == 1) newState->flags = newState->obsIndex == loss ? FLAG_FINAL : 0;
     }
     return newState;
 }
 
-O3(bool isTransEnabled(BehState *RESTRICT base, Component *RESTRICT c, Trans *RESTRICT t, int *RESTRICT obs, unsigned short loss)) {
+O3(bool isTransEnabled(BehState *RESTRICT base, Component *RESTRICT c, Trans *RESTRICT t, int *RESTRICT obs, unsigned short loss, char finalStategy)) {
     unsigned int k;
     if ((base->componentStatus[c->intId] == t->from) &&                                             // Trans enabled if its from component is in the correct status
     (t->idIncomingEvent == VUOTO || t->idIncomingEvent == base->linkContent[t->linkIn->intId])) {   // Trans' incoming event okay
@@ -51,7 +52,7 @@ O3(bool isTransEnabled(BehState *RESTRICT base, Component *RESTRICT c, Trans *RE
                 return false;                                                                       // A Tr can consume an event in a link and immediately occupy it again
         if (buildingTransCatalogue && t->obs != 0) {
             BehTrans * nt = calloc(1, sizeof(BehTrans));
-            nt->to = calculateDestination(base, t, c, obs, loss, true);
+            nt->to = calculateDestination(base, t, c, obs, loss, true, finalStategy);
             nt->from = base;
             nt->t = t;
 
@@ -137,26 +138,26 @@ O3(bool enlargeBehavioralSpace(BehSpace * b, BehState * from, BehState * new, Tr
     return alredyPresent == NULL;
 }
 
-O3(void generateBehavioralSpace(BehSpace *b, BehState *base, int*RESTRICT obs, unsigned short loss)) {
+O3(void generateBehavioralSpace(BehSpace *b, BehState *base, int*RESTRICT obs, unsigned short loss, char finalStategy)) {
     unsigned short i, j;
     for (Component * c=components[i=0]; i<ncomp;  c=components[++i]) {
         unsigned short nT = c->nTrans;
         for (Trans *t=c->transitions[j=0]; j<nT; t=c->transitions[++j]) {
-            if (isTransEnabled(base, c, t, obs, loss)) {
-                BehState * newState = calculateDestination(base, t, c, obs, loss, false);
+            if (isTransEnabled(base, c, t, obs, loss, finalStategy)) {
+                BehState * newState = calculateDestination(base, t, c, obs, loss, false, finalStategy);
                 if (enlargeBehavioralSpace(b, base, newState, t))                       // Let's insert the new BehState & BehTrans in the BehSpace
-                    generateBehavioralSpace(b, newState, obs, loss);                    // If the BehSpace wasn't enlarged (state alredy present) we cut exploration, otherwise recursive call
+                    generateBehavioralSpace(b, newState, obs, loss, finalStategy);      // If the BehSpace wasn't enlarged (state alredy present) we cut exploration, otherwise recursive call
             }
         }
     }
 }
 
-BehSpace * BehavioralSpace(BehState * src, int * obs, unsigned short loss) {
+BehSpace * BehavioralSpace(BehState * src, int * obs, unsigned short loss, char finalStategy) {
     BehSpace * b = newBehSpace();
-    if (src == NULL) src = generateBehState(NULL, NULL);
+    if (src == NULL) src = generateBehState(NULL, NULL, 0);
     if (loss > 0) src->flags &= !FLAG_FINAL;
     enlargeBehavioralSpace(b, NULL, src, NULL);
-    generateBehavioralSpace(b, src, obs, loss);
+    generateBehavioralSpace(b, src, obs, loss, finalStategy);
     return b;
 }
 
@@ -196,7 +197,7 @@ O3(void prune(BehSpace *RESTRICT b)) {
 }
 
 void decorateFaultSpace(FaultSpace * f, bool onlyFinals) {
-    BehSpace *duplicated = dup(f->b, NULL, false, NULL);
+    BehSpace *duplicated = dup(f->b, NULL, false, NULL, true);
     f->diagnosis = diagnostics(duplicated, 2);
     f->alternativeOfDiagnoses = emptyRegex(REGEX+REGEX*f->b->nTrans/5);
     bool firstShot=true;
@@ -243,7 +244,7 @@ FaultSpace * faultSpace(FaultSpaceMaps *RESTRICT map, BehSpace *RESTRICT b, BehS
 
     bool *ok = calloc(b->nStates, sizeof(bool));
     faultSpaceExtend(base, map->exitStates, obsTrs, ok); // state ids and transitions refer to the original space, not a dup copy
-    ret->b = dup(b, ok, true, &map->idMapFromOrigin);
+    ret->b = dup(b, ok, true, &map->idMapFromOrigin, false);
     free(ok);
 
     BehState *r;
@@ -351,7 +352,7 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base, bool diagno
     buildingTransCatalogue = true;
     ret->b = newBehSpace();
     enlargeBehavioralSpace(ret->b, NULL, base, NULL);
-    generateBehavioralSpace(ret->b, base, fakeObs, 1);  // FakeObs will prevent from expanding in any observable direction
+    generateBehavioralSpace(ret->b, base, fakeObs, 1, diagnoser? 0 : 2);  // FakeObs will prevent from expanding in any observable direction
     decorateFaultSpace(ret, diagnoser);
     context = NULL;
     expWorkingOn = NULL;
@@ -359,25 +360,18 @@ FaultSpace * makeLazyFaultSpace(Explainer * expCtx, BehState * base, bool diagno
     return ret;
 }
 
-BehSpace * uncompiledMonitoring(BehSpace * b, int * obs, unsigned short loss) {
-    unsigned int bucketId;
+BehSpace * uncompiledMonitoring(BehSpace * b, int * obs, unsigned short loss, bool posteriori) {
+    unsigned int bucketId, initialNStates = b->nStates;
     foreachst(b, sl->s->flags = 0;)
     b->containsFinalStates = false;
     BEGINNING: bucketId=0;
     foreachst(b,
         unsigned int hd = b->hashLen;
         if (sl->s->obsIndex == loss-1) {
-            generateBehavioralSpace(b, sl->s, obs, loss);
+            generateBehavioralSpace(b, sl->s, obs, loss, !posteriori);
             if (hd != b->hashLen) goto BEGINNING;
         }
     )
-    if (loss==0) {
-        foreachst(b,
-            sl->s->flags = FLAG_FINAL;
-            for (unsigned short j=0; j<nlink; j++)
-                sl->s->flags &= (sl->s->linkContent[j] == VUOTO);
-        )
-    }
-    else if (b->containsFinalStates) prune(b);
+    if (initialNStates == b->nStates) prune(b);
     return b;
 }

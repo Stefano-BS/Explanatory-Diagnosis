@@ -2,25 +2,6 @@
 
 Trans *stubTrans;
 
-void bt(BehSpace *b){
-    BehState *s;
-    unsigned int bucketId;
-    foreachstb(b)
-        s = sl->s;
-        if (!s->transitions && b->nStates>1) printf(MSG_MEMTEST17, s->id);
-        foreachdecl(lt, s->transitions) {
-            if (lt->t->to->id != (int)s->id && lt->t->from->id != (int)s->id)
-                printf(MSG_MEMTEST3, s->id, lt->t->from->id, lt->t->to->id);
-            if (lt->t->to != s && lt->t->from != s) {
-                printf(MSG_MEMTEST4, s->id, s);
-                printf(MSG_MEMTEST5, lt->t->from, lt->t->from->id, lt->t->to, lt->t->to->id);
-                printf(MSG_MEMTEST6, memcmp(lt->t->to, s, sizeof(BehState))==0);
-                printf(MSG_MEMTEST7, memcmp(lt->t->from, s, sizeof(BehState))==0);
-            }
-        }
-    foreachstc
-}
-
 INLINEO3(bool exitCondition(BehSpace *RESTRICT b, char mode)) {
     if (mode) {
         if (b->nStates>2) return false;

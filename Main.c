@@ -41,7 +41,7 @@ bool loadInputDes(bool print) {
         endTimer
         if (print) printf(MSG_PARS_DONE);
         if (dot!='n') {
-            BehState * tmp = generateBehState(NULL, NULL);
+            BehState * tmp = generateBehState(NULL, NULL, 0);
             printDES(tmp, dot != INPUT_Y);
             freeBehState(tmp);
         }
@@ -198,7 +198,7 @@ void menu(void) {
                 strlenInputDES = 18;
                 inputDES = malloc(19);
                 sprintf(inputDES, "gen/Seed%llu", seed);
-                BehState * tmp = generateBehState(NULL, NULL);
+                BehState * tmp = generateBehState(NULL, NULL, 0);
                 printDES(tmp, dot != INPUT_Y);
                 freeBehState(tmp);
             }
@@ -207,7 +207,7 @@ void menu(void) {
             printf(MSG_GEN_SC);
             if (b != NULL) {freeBehSpace(b); b=NULL;}
             beginTimer
-            interruptable(b = BehavioralSpace(NULL, NULL, 0);)
+            interruptable(b = BehavioralSpace(NULL, NULL, 0, 0);)
             endTimer
             printf(MSG_POTA);
             doPrune = getCommand();
@@ -234,7 +234,7 @@ void menu(void) {
             int * obs = impostaDatiOsservazione(&loss);
             printf(MSG_GEN_SC);
             beginTimer
-            interruptable(b = BehavioralSpace(NULL, obs, loss);)
+            interruptable(b = BehavioralSpace(NULL, obs, loss, 0);)
             free(obs);
             sc = true;
             endTimer
@@ -305,7 +305,7 @@ void menu(void) {
             exp = choice == INPUT_Y;
             diag = !exp;
             if (b != NULL) {freeBehSpace(b); b=NULL;}
-            explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL), diag);
+            explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL, 0), diag);
             Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true, diag);
             driveMonitoring(explainer, monitor, true, diag);
             if (dot==INPUT_Y) {
@@ -315,18 +315,26 @@ void menu(void) {
         }
         else if (op=='n' && allow_n) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
+            printf(MSG_UNCOMP_CHOICE);
+            char choice = getCommand();
             sc = false;
             beginTimer
             int fakeObs[1] = {-1};
-            b = BehavioralSpace(generateBehState(NULL, NULL), fakeObs, 1);
+            b = BehavioralSpace(generateBehState(NULL, NULL, 0), fakeObs, 1, 2);
+            foreachst(b,
+                sl->s->flags = FLAG_FINAL;
+                if (choice == INPUT_Y)
+                    for (unsigned short j=0; j<nlink; j++)
+                        sl->s->flags &= (sl->s->linkContent[j] == VUOTO);
+            )
             char digitazione[10];
             int oss, *obs=NULL, sizeofObs=0;
             unsigned short loss = 0;
             printf(MSG_OBS);
             while (true) {
                 interruptable(
-                    BehSpace * duplicated = dup(b, NULL, false, NULL);
-                    if (loss==0) prune(duplicated);
+                    BehSpace * duplicated = dup(b, NULL, false, NULL, true);
+                    prune(duplicated);
                     Regex ** diagnosis = diagnostics(duplicated, 0);
                     endTimer
                     if (diagnosis) {
@@ -359,8 +367,9 @@ void menu(void) {
                 obs[loss++] = oss;
                 interruptable({
                     beginTimer
-                    b = uncompiledMonitoring(b, obs, loss);
+                    b = uncompiledMonitoring(b, obs, loss, choice == INPUT_Y);
                 })
+                if (b->nStates<2) break;
             }
             printf(MSG_IMPOSSIBLE_OBS);
             freeBehSpace(b);

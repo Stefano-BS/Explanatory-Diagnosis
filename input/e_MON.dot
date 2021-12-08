@@ -9,23 +9,108 @@ M0S0 [label=0];
 subgraph cluster1 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
 label="ε"
-M1S1 [label=1];
+M1S6 [label=6];
 }
 subgraph cluster2 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
 label="(fr)?|r"
-M2S3 [label=3];
+M2S4 [label=4];
 }
 subgraph cluster3 {
 style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="(fr)|(r?|(rf))|(rf?)"
-M3S1 [label=1];
-M3S4 [label=4];
+label="(fr)|(rf)|(rf?)"
+M3S6 [label=6];
 M3S2 [label=2];
+M3S5 [label=5];
 }
-M0S0 -> M1S1 [label="(ε, ε)"]
-M1S1 -> M2S3 [label="(ε, ε)"]
-M2S3 -> M3S1 [label="(fr, fr)"]
-M2S3 -> M3S4 [label="(ε, ε)"]
-M2S3 -> M3S2 [label="(r, r)"]
+subgraph cluster4 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((fr)|(rf)(fr)?|r)|r"
+M4S4 [label=4];
+M4S1 [label=1];
+}
+subgraph cluster5 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf?)|(rfrf)"
+M5S6 [label=6];
+M5S2 [label=2];
+M5S5 [label=5];
+M5S3 [label=3];
+}
+subgraph cluster6 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)(fr)?|r)|(((fr)|(rf)r)|(rfr))"
+M6S4 [label=4];
+M6S1 [label=1];
+}
+subgraph cluster7 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfr
+f)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf?)|(((fr)|(rf)r)|(rfr)frf)"
+M7S6 [label=6];
+M7S2 [label=2];
+M7S5 [label=5];
+M7S3 [label=3];
+}
+subgraph cluster8 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rf
+rf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)(fr)?|r)|((((fr)|
+(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr))"
+M8S4 [label=4];
+M8S1 [label=1];
+}
+subgraph cluster9 {
+style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rf
+rf)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)|((((fr)|(rf)f
+r)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)
+|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)(rf)?)|((((fr)|(rf)fr)|((fr)|(
+rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)fr)|(
+(fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)rf?)|((((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)
+|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr)f?|(fr)|r|(frf))"
+M9S6 [label=6];
+M9S2 [label=2];
+M9S5 [label=5];
+M9S3 [label=3];
+}
+M0S0 -> M1S6 [label="(ε, ε)"]
+M1S6 -> M2S4 [label="(ε, ε)"]
+M2S4 -> M3S6 [label="(fr, fr)"]
+M2S4 -> M3S2 [label="(ε, ε)"]
+M2S4 -> M3S5 [label="(r, r)"]
+M3S6 -> M4S4 [label="(ε, fr)"]
+M3S2 -> M4S4 [label="(rf, rf)"]
+M3S2 -> M4S1 [label="(r, r)"]
+M3S5 -> M4S4 [label="(f, rf)"]
+M3S5 -> M4S1 [label="(ε, r)"]
+M4S4 -> M5S6 [label="(fr, (fr)|(rf)fr)"]
+M4S4 -> M5S2 [label="(ε, (fr)|(rf))"]
+M4S4 -> M5S5 [label="(r, (fr)|(rf)r)"]
+M4S1 -> M5S3 [label="(ε, r)"]
+M5S6 -> M6S4 [label="(ε, (fr)|(rf)fr)"]
+M5S2 -> M6S4 [label="(rf, (fr)|(rf)rf)"]
+M5S2 -> M6S1 [label="(r, (fr)|(rf)r)"]
+M5S5 -> M6S4 [label="(f, (fr)|(rf)rf)"]
+M5S5 -> M6S1 [label="(ε, (fr)|(rf)r)"]
+M5S3 -> M6S4 [label="(frf, rfrf)"]
+M5S3 -> M6S1 [label="(fr, rfr)"]
+M6S4 -> M7S6 [label="(fr, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)"]
+M6S4 -> M7S2 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf))"]
+M6S4 -> M7S5 [label="(r, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
+M6S1 -> M7S3 [label="(ε, ((fr)|(rf)r)|(rfr))"]
+M7S6 -> M8S4 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)"]
+M7S2 -> M8S4 [label="(rf, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)"]
+M7S2 -> M8S1 [label="(r, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
+M7S5 -> M8S4 [label="(f, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)"]
+M7S5 -> M8S1 [label="(ε, ((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)"]
+M7S3 -> M8S4 [label="(frf, ((fr)|(rf)r)|(rfr)frf)"]
+M7S3 -> M8S1 [label="(fr, ((fr)|(rf)r)|(rfr)fr)"]
+M8S4 -> M9S6 [label="(fr, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfr
+f)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)fr)"]
+M8S4 -> M9S2 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfr
+f)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf))"]
+M8S4 -> M9S5 [label="(r, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)fr)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfr
+f)rf)|(((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)rf)|(((fr)|(rf)r)|(rfr)frf)r)"]
+M8S1 -> M9S3 [label="(ε, (((fr)|(rf)fr)|((fr)|(rf)rf)|((fr)|(rf)rf)|(rfrf)r)|(((fr)|(rf)r)|(rfr)fr))"]
 }

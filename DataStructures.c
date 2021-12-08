@@ -211,7 +211,7 @@ BehState * stateById(BehSpace * b, int id) {
     return NULL;
 }
 
-BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT componentStatus) {
+BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT componentStatus, char finalStrategy) {
     BehState *s = calloc(1, sizeof(BehState));
     if (linkContent != NULL) s->linkContent = linkContent; //memcpy(s->linkContent, linkContent, nlink*sizeof(short));
     else {
@@ -220,9 +220,11 @@ BehState * generateBehState(short *RESTRICT linkContent, short *RESTRICT compone
     }
     if (componentStatus != NULL) s->componentStatus = componentStatus; //memcpy(s->componentStatus, componentStatus, ncomp*sizeof(short));
     else s->componentStatus = calloc(ncomp, sizeof(short));
-    s->flags = FLAG_FINAL;
-    for (unsigned short i=0; i<nlink; i++)
-        s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
+    if (finalStrategy == 0) {
+        s->flags = FLAG_FINAL;
+        for (unsigned short i=0; i<nlink; i++)
+            s->flags &= (s->linkContent[i] == VUOTO); // Works because there are no other flags set
+    }
     return s;
 }
 
@@ -319,7 +321,7 @@ void freeCatalogue(void) {
     bool mask[b->nStates];
     memset(mask, true, b->nStates);
     BehSpace * duplicated = dup(b, mask, false, NULL); */
-BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int** map) {
+BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int** map, bool noArrays) {
     debugif(DEBUG_MEMCOH, behCoherenceTest(b));
     unsigned int i;
     int ns = 0;
@@ -350,10 +352,12 @@ BehSpace * dup(BehSpace *RESTRICT b, bool mask[], bool silence, int** map) {
         if (mask == NULL || mask[s->id]) {
             new = calloc(1, sizeof(BehState));
             dup->containsFinalStates |= (s->flags & FLAG_FINAL);    // Calculate containing final states
-            new->linkContent = malloc(nlink*sizeof(short));
-            new->componentStatus = malloc(ncomp*sizeof(short));
-            memcpy(new->linkContent, s->linkContent, nlink*sizeof(short));
-            memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(short));
+            if (!noArrays) {
+                new->linkContent = malloc(nlink*sizeof(short));
+                new->componentStatus = malloc(ncomp*sizeof(short));
+                memcpy(new->linkContent, s->linkContent, nlink*sizeof(short));
+                memcpy(new->componentStatus, s->componentStatus, ncomp*sizeof(short));
+            }
             new->flags = s->flags;
             new->obsIndex = s->obsIndex;
             new->id = (*map)[s->id];
