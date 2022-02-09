@@ -73,6 +73,7 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
     int oss, *obs=NULL, sizeofObs=0;
     unsigned short loss = 0;
     while (true) {
+	    debugif(DEBUG_MON, printf(ABBR_EXP": Closures: %d, Transitions: %d\n", explainer->nFaultSpaces, explainer->nTrans);)
         interruptable({
             if (!diagnoser) printf(MSG_MONITORING_RESULT);
             unsigned short i = diagnoser ? loss : 0;
@@ -81,7 +82,10 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
                 else printf("%lc%d:\t%.5000s\n", mu, i, monitor->mu[i]->lmu->regex);
         })
 
-        if (dot==INPUT_Y) printMonitoring(monitor, explainer, diagnoser);
+        if (dot==INPUT_Y) {
+                printMonitoring(monitor, explainer, diagnoser);
+                printExplainer(explainer);
+            }
 
         if (loss+1 > sizeofObs) {
             sizeofObs += 5;
@@ -308,10 +312,7 @@ void menu(void) {
             explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL, 0), diag);
             Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true, diag);
             driveMonitoring(explainer, monitor, true, diag);
-            if (dot==INPUT_Y) {
-                printExplainer(explainer);
-                printf(MSG_LAZY_EXPLAINER_DIFFERENCES);
-            }
+            if (dot==INPUT_Y) printf(MSG_LAZY_EXPLAINER_DIFFERENCES);
         }
         else if (op=='n' && allow_n) {
             if (b != NULL) {freeBehSpace(b); b=NULL;}
@@ -348,7 +349,7 @@ void menu(void) {
                     freeBehSpace(duplicated);
                     debugif(DEBUG_MON, 
                         if (diagnosis && diagnosis[0]->regex[0] != '\0') {
-                            BehSpace* sp = BehavioralSpace(NULL, loss ? obs : fakeObs, loss ? loss : 1);
+                            BehSpace* sp = BehavioralSpace(NULL, loss ? obs : fakeObs, loss ? loss : 1, 0);
                             prune(sp);
                             Regex ** diag2 = diagnostics(sp, 0);
                             char * diag = diag2? diag2[0]->regex : "";
@@ -375,6 +376,27 @@ void menu(void) {
             freeBehSpace(b);
             b = NULL;
             free(obs);
+        }
+        else if(op=='M') {
+            Regex c;
+            printf("Regex: %lu (min 20)\n", sizeof(Regex));
+            printf("%ld %ld %ld %ld %ld %ld\n", (long)&c-(long)&c.size, (long)&c-(long)&c.strlen, (long)&c-(long)&c.bracketed, (long)&c-(long)&c.concrete, (long)&c-(long)&c.brkBrk4Alt, (long)&c-(long)&c.altDecomposable);
+            printf("BehTransCatalog: %lu (min 12)\n", sizeof(BehTransCatalog));
+            printf("Link: %lu (min 20)\n", sizeof(Link));
+            printf("Trans: %lu (min 40)\n", sizeof(Trans));
+            printf("Component: %lu (min 16)\n", sizeof(Component));
+            printf("BehState: %lu (min 31)\n", sizeof(BehState));
+            printf("BehTrans: %lu (min 36)\n", sizeof(BehTrans));
+            printf("ltrans: %lu (min 16)\n", sizeof(struct ltrans));
+            printf("BehSpace: %lu (min 21)\n", sizeof(BehSpace));
+            printf("FaultSpaceMaps: %lu (min 24)\n", sizeof(FaultSpaceMaps));
+            printf("FaultSpace: %lu (min 24)\n", sizeof(FaultSpace));
+            printf("ExplTrans: %lu (min 36)\n", sizeof(ExplTrans));
+            printf("Explainer: %lu (min 40)\n", sizeof(Explainer));
+            printf("MonitorTrans: %lu (min 32)\n", sizeof(MonitorTrans));
+            printf("MonitorState: %lu (min 46)\n", sizeof(MonitorState));
+            printf("Monitoring: %lu (min 10)\n", sizeof(Monitoring));
+            printf("FaultSpaceParams: %lu (min 41)\n", sizeof(struct FaultSpaceParams));
         }
         else {
             printf("\a");
@@ -419,7 +441,7 @@ int main(int argc, char *argv[]) {
     }
     doC11(if (!changedStdOut) setbuf(stdout, NULL);)
     printf(LOGO);
-    
+
     empty = emptyRegex(0);
     menu();
 	return 0;

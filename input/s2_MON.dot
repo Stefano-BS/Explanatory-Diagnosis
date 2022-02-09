@@ -2,26 +2,38 @@ digraph "MONinput/s2" {
 rankdir=LR
 node [style=filled fillcolor=white]
 subgraph cluster0 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="a"
+style="rounded,filled" color="#FFF0DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="ε"
 M0S0 [label=0];
 }
 subgraph cluster1 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="a"
+style="rounded,filled" color="#FFF0DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="al(ak)*"
+M1S7 [label=7];
 M1S0 [label=0];
 }
 subgraph cluster2 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="aj(bj)*"
+style="rounded,filled" color="#FFF0DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="(al(ak)*)|(a(jb)*j)"
+M2S3 [label=3];
 M2S2 [label=2];
 }
 subgraph cluster3 {
-style="rounded,filled" color="#FFF9DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
-label="aj(bj)*"
-M3S4 [label=4];
+style="rounded,filled" color="#FFF0DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="a(jb)*j"
+M3S5 [label=5];
 }
+subgraph cluster4 {
+style="rounded,filled" color="#FFF0DD" node [style="rounded,filled" shape=box fillcolor="#FFFFFF"]
+label="a(jb)*jl(ak)*"
+M4S7 [label=7];
+M4S0 [label=0];
+}
+M0S0 -> M1S7 [label="(a, al)"]
 M0S0 -> M1S0 [label="(a, a)"]
+M1S7 -> M2S3 [label="((ak)*, al(ak)*)"]
 M1S0 -> M2S2 [label="(ε, a)"]
-M2S2 -> M3S4 [label="(j(bj)*, aj(bj)*)"]
+M2S2 -> M3S5 [label="((jb)*j, a(jb)*j)"]
+M3S5 -> M4S7 [label="(ε, a(jb)*jl)"]
+M3S5 -> M4S0 [label="(ε, a(jb)*j)"]
 }

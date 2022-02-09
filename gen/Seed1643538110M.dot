@@ -1,0 +1,20 @@
+digraph "gen/Seed1643538110M" {
+node [style=filled fillcolor=white] compound=true;
+style="rounded,filled" node [shape=doublecircle]; C0s0 [label=0]; C0s3 [label=3];
+node [shape=circle];
+C0s1 [label=1]; C0s2 [label=2]; C0s4 [label=4]; C0s5 [label=5]; C0s6 [label=6]; C0s7 [label=7]; C0s8 [label=8]; 
+C0s0 -> C0s7 [label=" a"];
+C0s0 -> C0s5 [label=" b"];
+C0s0 -> C0s4 [label=" c"];
+C0s7 -> C0s1 [label=" d"];
+C0s4 -> C0s6 [label=" a"];
+C0s4 -> C0s2 [label=" d"];
+C0s2 -> C0s8 [label=" e"];
+C0s6 -> C0s3 [label=" b"];
+C0s0 -> C0s0 [label=" f"];
+C0s1 -> C0s1 [label=" c"];
+C0s5 -> C0s5 [label=" b"];
+C0s5 -> C0s6 [label=" e"];
+C0s0 -> C0s1 [label=" d"];
+C0s1 -> C0s5 [label=" b"];
+}

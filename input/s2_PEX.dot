@@ -3,25 +3,25 @@ node [style=filled fillcolor=white]
 subgraph cluster0 {
 style="rounded,filled" label="C0" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon width=0.3 height=0.3]; C0S0 [label=""];
 node [shape=octagon width=0.3 height=0.3]; C0S1 [label=""];
+node [shape=doubleoctagon width=0.3 height=0.3]; C0S0 [label=""];
 C0S0 -> C0S1 [label=t3a]
 }
 subgraph cluster1 {
 style="rounded,filled" label="C1" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon width=0.3 height=0.3]; C1S0 [label=""];
 node [shape=octagon width=0.3 height=0.3]; C1S1 [label=""];
-C1S0 -> C1S1 [label=t3a]
+node [shape=octagon width=0.3 height=0.3]; C1S0 [label=""];
 C1S1 -> C1S0 [label=t8k]
+C1S0 -> C1S1 [label=t3a]
 }
 subgraph cluster2 {
 style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
+node [shape=octagon width=0.3 height=0.3]; C2S1 [label=""];
 node [shape=circle width=0.3 height=0.3]; C2S0 [label=""];
-node [shape=doubleoctagon width=0.3 height=0.3]; C2S1 [label=""];
-C2S0 -> C2S1 [label=t7j]
 C2S1 -> C2S0 [label=t4b]
+C2S0 -> C2S1 [label=t7j]
 }
 subgraph cluster3 {
 style="rounded,filled" label="C3" fontcolor="#B2CCBB" color="#EAFFEE"

@@ -18,60 +18,60 @@ C1S6 -> C1S1 [label=t4b]
 subgraph cluster2 {
 style="rounded,filled" label="C2" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon]; C2S2 [label=2];
-node [shape=octagon]; C2S5 [label=5];
-C2S2 -> C2S5 [label=t4b]
+node [shape=octagon]; C2S1 [label=1];
+node [shape=doubleoctagon]; C2S6 [label=6];
+C2S1 -> C2S6 [label=t7j]
+C2S6 -> C2S1 [label=t4b]
 }
 subgraph cluster3 {
 style="rounded,filled" label="C3" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C3S3 [label=3];
-node [shape=doubleoctagon]; C3S4 [label=4];
-C3S3 -> C3S4 [label=t8k]
-C3S4 -> C3S3 [label=t3a]
+node [shape=octagon]; C3S5 [label=5];
 }
 subgraph cluster4 {
 style="rounded,filled" label="C4" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon]; C4S4 [label=4];
-node [shape=octagon]; C4S3 [label=3];
-C4S4 -> C4S3 [label=t3a]
-C4S3 -> C4S4 [label=t8k]
+node [shape=doubleoctagon]; C4S2 [label=2];
+node [shape=octagon]; C4S5 [label=5];
+C4S2 -> C4S5 [label=t4b]
 }
 subgraph cluster5 {
 style="rounded,filled" label="C5" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C5S5 [label=5];
+node [shape=octagon]; C5S7 [label=7];
 }
 subgraph cluster6 {
 style="rounded,filled" label="C6" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=doubleoctagon]; C6S6 [label=6];
-node [shape=octagon]; C6S1 [label=1];
-C6S6 -> C6S1 [label=t4b]
-C6S1 -> C6S6 [label=t7j]
+node [shape=doubleoctagon]; C6S4 [label=4];
+node [shape=octagon]; C6S3 [label=3];
+C6S4 -> C6S3 [label=t3a]
+C6S3 -> C6S4 [label=t8k]
 }
 subgraph cluster7 {
 style="rounded,filled" label="C7" fontcolor="#B2CCBB" color="#EAFFEE"
 edge[color=darkgray fontcolor=darkgray]
-node [shape=octagon]; C7S7 [label=7];
+node [shape=doubleoctagon]; C7S4 [label=4];
+node [shape=octagon]; C7S3 [label=3];
+C7S4 -> C7S3 [label=t3a]
+C7S3 -> C7S4 [label=t8k]
 }
-C0S0 -> C1S1 [style=dashed arrowhead=vee label="O1 ε"]
-C0S7 -> C4S4 [style=dashed arrowhead=vee label="O2 l a"]
+C0S0 -> C2S1 [style=dashed arrowhead=vee label="O1 ε"]
+C0S7 -> C7S4 [style=dashed arrowhead=vee label="O2 l a"]
 C0S7 -> C0S0 [style=dashed arrowhead=vee label="O2 a"]
-C1S1 -> C2S2 [style=dashed arrowhead=vee label="O2 (j(bj)*b)?"]
-C1S6 -> C7S7 [style=dashed arrowhead=vee label="O1 j(bj)*"]
-C2S2 -> C3S3 [style=dashed arrowhead=vee label="O1 ε"]
-C2S5 -> C6S6 [style=dashed arrowhead=vee label="O2 m b"]
-C2S5 -> C2S2 [style=dashed arrowhead=vee label="O2 b"]
-C3S3 -> C0S0 [style=dashed arrowhead=vee label="O2 (k(ak)*a)?"]
-C3S4 -> C5S5 [style=dashed arrowhead=vee label="O1 k(ak)*"]
-C4S4 -> C5S5 [style=dashed arrowhead=vee label="O1 (a(ka)*k)?"]
-C4S3 -> C0S0 [style=dashed arrowhead=vee label="O2 a(ka)*"]
-C5S5 -> C6S6 [style=dashed arrowhead=vee label="O2 m ε"]
-C5S5 -> C2S2 [style=dashed arrowhead=vee label="O2 ε"]
-C6S6 -> C7S7 [style=dashed arrowhead=vee label="O1 (b(jb)*j)?"]
-C6S1 -> C2S2 [style=dashed arrowhead=vee label="O2 b(jb)*"]
-C7S7 -> C4S4 [style=dashed arrowhead=vee label="O2 l ε"]
-C7S7 -> C0S0 [style=dashed arrowhead=vee label="O2 ε"]
+C1S6 -> C5S7 [style=dashed arrowhead=vee label="O1 (b(jb)*j)?"]
+C1S1 -> C4S2 [style=dashed arrowhead=vee label="O2 b(jb)*"]
+C2S1 -> C4S2 [style=dashed arrowhead=vee label="O2 (jb)*"]
+C2S6 -> C5S7 [style=dashed arrowhead=vee label="O1 (jb)*j"]
+C3S5 -> C1S6 [style=dashed arrowhead=vee label="O2 m ε"]
+C3S5 -> C4S2 [style=dashed arrowhead=vee label="O2 ε"]
+C4S2 -> C6S3 [style=dashed arrowhead=vee label="O1 ε"]
+C4S5 -> C1S6 [style=dashed arrowhead=vee label="O2 m b"]
+C4S5 -> C4S2 [style=dashed arrowhead=vee label="O2 b"]
+C5S7 -> C7S4 [style=dashed arrowhead=vee label="O2 l ε"]
+C5S7 -> C0S0 [style=dashed arrowhead=vee label="O2 ε"]
+C6S3 -> C0S0 [style=dashed arrowhead=vee label="O2 (k(ak)*a)?"]
+C6S4 -> C3S5 [style=dashed arrowhead=vee label="O1 k(ak)*"]
+C7S4 -> C3S5 [style=dashed arrowhead=vee label="O1 (ak)*"]
+C7S3 -> C0S0 [style=dashed arrowhead=vee label="O2 (ak)*a"]
 }
