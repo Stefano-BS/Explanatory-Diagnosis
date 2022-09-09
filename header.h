@@ -272,4 +272,4 @@ Explainer * makeLazyExplainer(Explainer *, BehState *, bool);
 void buildFaultsReachedWithObs(Explainer *, FaultSpace *, int, bool);
 
 // Monitoring.c
-Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, bool, bool);
+Monitoring* explanationEngine(Explainer *, Monitoring *, int *, unsigned short, bool, bool, bool);

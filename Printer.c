@@ -258,21 +258,22 @@ void printExplainer(Explainer * exp) {
     }
     
     ExplTrans *t;
-    for (t=exp->trans[i=0]; i<exp->nTrans; t=exp->trans[++i]) {
-        int fromId=0, toId=0;
-        for (unsigned int j=0; j<exp->nFaultSpaces; j++) {
-            if (t->from == exp->faults[j]) fromId=j;
-            if (t->to == exp->faults[j]) toId=j;
+    if (exp->trans)
+        for (t=exp->trans[i=0]; i<exp->nTrans; t=exp->trans[++i]) {
+            int fromId=0, toId=0;
+            for (unsigned int j=0; j<exp->nFaultSpaces; j++) {
+                if (t->from == exp->faults[j]) fromId=j;
+                if (t->to == exp->faults[j]) toId=j;
+            }
+            if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d ",
+                fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
+            else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%hu ",
+                fromId, t->fromStateId, toId, t->toStateId, t->obs);
+            if (t->fault>0 && t->fault<=25) fprintf(file, "%c ", 96 + t->fault);
+            else if (t->fault>25) fprintf(file, "R%hu ", t->fault);
+            fprintRegex(file, t->regex);
+            fprintf(file, "\"]\n");
         }
-        if (exp->maps) fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%d ",
-            fromId, exp->maps[fromId]->idMapToOrigin[t->fromStateId], toId, t->toStateId, t->obs);
-        else fprintf(file, "C%dS%d -> C%dS%d [style=dashed arrowhead=vee label=\"O%hu ",
-            fromId, t->fromStateId, toId, t->toStateId, t->obs);
-        if (t->fault>0 && t->fault<=25) fprintf(file, "%c ", 96 + t->fault);
-        else if (t->fault>25) fprintf(file, "R%hu ", t->fault);
-        fprintRegex(file, t->regex);
-        fprintf(file, "\"]\n");
-    }
     fprintf(file, "}\n");
     fclose(file);
     launchDot(command);

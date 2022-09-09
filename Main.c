@@ -68,7 +68,7 @@ int* impostaDatiOsservazione(unsigned short *loss) {
     return obs;
 }
 
-void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool diagnoser) {
+void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool diagnoser, bool disablePruning) {
     char digitazione[10];
     int oss, *obs=NULL, sizeofObs=0;
     unsigned short loss = 0;
@@ -124,7 +124,7 @@ void driveMonitoring(Explainer * explainer, Monitoring *monitor, bool lazy, bool
 
         interruptable({
             beginTimer
-            Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy, diagnoser);
+            Monitoring * updatedMonitor = explanationEngine(explainer, monitor, obs, loss, lazy, diagnoser, disablePruning);
             if (updatedMonitor == NULL) break;
             monitor = updatedMonitor;
             endTimer
@@ -299,8 +299,10 @@ void menu(void) {
             if (dot==INPUT_Y) printExplainer(explainer);
         }
         else if (op=='m' && allow_m) {
-            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, false, diag);
-            driveMonitoring(explainer, monitor, false, diag);
+            printf(MSG_DISABLE_PRUNING);
+            char choice = getCommand();
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, false, diag, choice == INPUT_Y);
+            driveMonitoring(explainer, monitor, false, diag, choice == INPUT_Y);
         }
         else if (op=='l' && allow_l) {
             printf(MSG_LAZY_DIAG_EXP);
@@ -310,8 +312,10 @@ void menu(void) {
             diag = !exp;
             if (b != NULL) {freeBehSpace(b); b=NULL;}
             explainer = makeLazyExplainer(NULL, generateBehState(NULL, NULL, 0), diag);
-            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true, diag);
-            driveMonitoring(explainer, monitor, true, diag);
+            printf(MSG_DISABLE_PRUNING);
+            choice = getCommand();
+            Monitoring * monitor = explanationEngine(explainer, NULL, NULL, 0, true, diag, choice == INPUT_Y);
+            driveMonitoring(explainer, monitor, true, diag, choice == INPUT_Y);
             if (dot==INPUT_Y) printf(MSG_LAZY_EXPLAINER_DIFFERENCES);
         }
         else if (op=='n' && allow_n) {

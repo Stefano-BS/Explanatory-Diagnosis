@@ -138,7 +138,7 @@ void pruneMonitoring(Monitoring * monitor) {
     free(ok);
 }
 
-Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, unsigned short loss, bool lazy, bool diagnoser) {
+Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT monitor, int *RESTRICT obs, unsigned short loss, bool lazy, bool diagnoser, bool disablePruning) {
     assert((monitor == NULL && loss == 0) || (monitor->length == loss));
     if (monitor == NULL || loss==0) return initializeMonitoring(exp);
     // Extend O by the new observation o
@@ -239,7 +239,7 @@ Monitoring* explanationEngine(Explainer *RESTRICT exp, Monitoring *RESTRICT moni
     //      µ ← the node preceding µ in M
     //      X ← the set of states in µ that are not exited by any arc
     // end while
-    if (!diagnoser) pruneMonitoring(monitor);
+    if (!disablePruning && !diagnoser) pruneMonitoring(monitor);
     debugif(DEBUG_MEMCOH, monitoringCoherenceTest(monitor))
     // Update L(µ) in E based on Def. 7
     if (!diagnoser)
