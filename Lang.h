@@ -99,6 +99,7 @@
     #define MSG_IMPOSSIBLE_OBS "L'ultima osservazione fornita non è coerente con le strutture dati\n"
     #define MSG_LAZY_DIAG_EXP ABBR_EXP" pigro (s) o "ABBR_DIAG" pigro (n)? "
     #define MSG_UNCOMP_CHOICE "Approccio a posteriori (s) o approccio basato su monitoraggio (n)? "
+    #define MSG_DISABLE_PRUNING "Disabilitare la potatura? "
     #define MSG_LAZY_EXPLAINER_DIFFERENCES ABBR_EXP"/"ABBR_DIAG" parziale stampato. Potrebbe mostrare, rispetto al "ABBR_EXP"/"ABBR_DIAG" completo, più stati e transizioni (interni alle chiusure) a causa dell'impossibile potatura.\n"
     #define MSG_BEFORE_EXIT "\a\nTerminare? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTempo: %lfs, Tempo CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
@@ -192,6 +193,7 @@
     #define MSG_IMPOSSIBLE_OBS "The last observation provided is not coherent with the actual data structures\n"
     #define MSG_LAZY_DIAG_EXP "Lazy "ABBR_EXP" (y) or lazy "ABBR_DIAG" (n)? "
     #define MSG_UNCOMP_CHOICE "A posteriori approach (y) or monitoring based approach (n)? "
+    #define MSG_DISABLE_PRUNING "Disable pruning? "
     #define MSG_LAZY_EXPLAINER_DIFFERENCES "Lazy "ABBR_EXP"/"ABBR_DIAG" printed. Note that it may contain (in comparison to the full "ABBR_EXP"/"ABBR_DIAG") more states and transitions (within fault spaces) due to unfeasible pruning.\n"
     #define MSG_BEFORE_EXIT "\a\nExit? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTime: %lfs, CPU time: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
@@ -285,6 +287,7 @@
     #define MSG_LAZY_DIAG_EXP ABBR_EXP" perezoso (s) o "ABBR_DIAG" perezoso (n)? "
     #define MSG_UNCOMP_CHOICE "Enfoque restrospectivo (s) o basado en el monitoreo (n)? "
     #define MSG_IMPOSSIBLE_OBS "La última observación dada no es consistente con las estructuras de datos\n"
+    #define MSG_DISABLE_PRUNING "Desactivar potas? "
     #define MSG_LAZY_EXPLAINER_DIFFERENCES ABBR_EXP"/"ABBR_DIAG" parcial impreso. Podría mostrar, en comparación con el "ABBR_EXP"/"ABBR_DIAG" completo, más estados y transiciones (internas a los cierres) debido a la poda imposible.\n"
     #define MSG_BEFORE_EXIT "\a\nInterrumpir? "
     #define endTimer if (benchmark) {gettimeofday(&endT, NULL); printf("\tTiempo: %lfs, Tiempo de CPU: %fs\n", (double)(endT.tv_sec-beginT.tv_sec)+((double)(endT.tv_usec-beginT.tv_usec))/1000000, ((float)(clock() - beginC))/CLOCKS_PER_SEC);}
